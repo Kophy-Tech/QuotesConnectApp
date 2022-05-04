@@ -22,7 +22,7 @@ const App= () => {
   <>
    <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#fff" translucent={true} />
      <NavigationContainer>
-        < MainStack />
+        <MainStack/>
     </NavigationContainer>
   </>
     
