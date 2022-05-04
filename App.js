@@ -1,36 +1,23 @@
 
 
 import React from 'react';
-
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
+import MainStack from './src/Navigation/MainStack/Mainstack';
 
 
 
 const App= () => {
  
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'light-content' } />
-   <Text> Welcome To QuotesConnect</Text>
-    </SafeAreaView>
+   
+    <>
+      <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#fff" translucent={true} />
+     <NavigationContainer>
+        <MainStack />
+        </NavigationContainer>
+    </>
   );
 };
 
-const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center'
-  }
-});
+
 
 export default App;
