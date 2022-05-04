@@ -10,7 +10,7 @@ const Splash = ({navigation}) => {
         <AppBar backgroundColor={COLOR.whiteColor} type={"dark-content"}/>
       <Image
         source={IMAGE.splash_icon}
-        style={{width: WP('52'), height: HP('12')}}
+        style={{width: WP("70%"), height: HP('12')}}
         resizeMode="cover"
       />
     </View>
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLOR.whiteColor,
+    width:WP('100%')
   },
 });
 
