@@ -13,7 +13,7 @@ function AuthStack() {
         headerShown: false,
       }}
     >
-          <Stack.Screen name="screenone" component={ScreenOne} />
+     <Stack.Screen name="screenone" component={ScreenOne} />
     </Stack.Navigator>
   );
 }
