@@ -1,3 +1,4 @@
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthStack from '../AuthStack/AuthStack';
 
@@ -9,7 +10,7 @@ function MainStack() {
     return (
         <Stack.Navigator
             screenOptions={{
-              headerShown:"none"
+              headerShown:false,
             }}
         >
             <Stack.Screen name="Auth" component={AuthStack} />
