@@ -1,7 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import AuthStack from '../AuthStack/AuthStack';
 import Splash from '../../Pages/Splash';
+import Onboarding from '../../Pages/Onboarding';
+import AuthStack from '../AuthStack/AuthStack';
+import Login from '../../Pages/Auth/Login';
 
 const Stack = createStackNavigator();
 
@@ -11,7 +13,8 @@ function MainStack() {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Splash" component={Splash} />
+      {/* <Stack.Screen name="Splash" component={Splash} /> */}
+      {/* <Stack.Screen name="Onboarding" component={Onboarding} /> */}
       <Stack.Screen name="Auth" component={AuthStack} />
     </Stack.Navigator>
   );
