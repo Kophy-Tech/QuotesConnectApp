@@ -7,9 +7,7 @@ const Black = ' #000000';
 
 export {
     BgColor,
-   
     White,
- 
     Black,
   
 

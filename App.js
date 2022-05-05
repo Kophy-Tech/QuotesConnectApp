@@ -13,7 +13,7 @@ import {
  
 } from 'react-native';
 import MainStack from './src/Navigation/MainStack/Mainstack';
-
+import { NativeBaseProvider} from 'native-base';
 
 
 const App= () => {
@@ -21,8 +21,10 @@ const App= () => {
   return (
   <>
      <NavigationContainer>
-        <MainStack/>
-    </NavigationContainer>
+        <NativeBaseProvider>
+          <MainStack />
+        </NativeBaseProvider>
+    </NavigationContainer> 
   </>
     
  
