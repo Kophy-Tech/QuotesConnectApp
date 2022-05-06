@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { commonStyles } from '../Styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import JobHistory from '../../Pages/Jobs/JobHistory/JobHistory';
+import Job from '../../Pages/Jobs/Job/Job';
 
 
 const Stack = createStackNavigator();
@@ -45,18 +45,18 @@ const BottomStackNavigation = () => {
     }}
       
     >
-      <Tab.Screen name="jobhistrory" component={JobHistory} 
+      <Tab.Screen name="job" component={Job} 
       options={{
         headerShown: false,
         tabBarIcon:({focused})=>{
      return(
-       <View style={{ alignItems: 'center', justifyContent: 'center', top: 3 }}>
-         <Image source={require('../../Assets/Images/bottom1.png')}
+       <View style={{ alignItems: 'center', justifyContent: 'center', top: 1 }}>
+         <Image source={require('../../Assets/Images/Vector.png')}
            resizeMode='contain'
            style={{
-             width: 50,
-             height: 50,
-             tintColor: focused ? 'black' : 'white'
+             width: 30,
+             height: 30,
+             tintColor: focused ? '#bdb9b7' : '#fff'
            }}
          />
     
@@ -71,13 +71,16 @@ const BottomStackNavigation = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => {
             return (
-              <View style={{ alignItems: 'center', justifyContent: 'center', top: 3 }}>
-                <Image source={require('../../Assets/Images/bottom1.png')}
+              <View style={{ alignItems: 'center', justifyContent: 'center', top: 1 }}>
+                <Image source={require('../../Assets/Images/Group2.png')}
                   resizeMode='contain'
                   style={{
-                    width: 50,
-                    height: 50,
-                    tintColor: focused ? 'black' : 'white'
+                    width: 30,
+                    height: 30,
+                    tintColor: focused ? '#bdb9b7' : '#fff'
+
+
+
 
 
                   }}
@@ -95,13 +98,15 @@ const BottomStackNavigation = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => {
             return (
-              <View style={{ alignItems: 'center', justifyContent: 'center', top:3 }}>
-                <Image source={require('../../Assets/Images/bottom1.png')}
+              <View style={{ alignItems: 'center', justifyContent: 'center', top:1 }}>
+                <Image source={require('../../Assets/Images/Group1.png')}
                   resizeMode='contain'
                   style={{
-                    width: 50,
-                    height: 50,
-                    tintColor: focused ? 'black' : 'white'
+                    width: 30,
+                    height: 30,
+                    tintColor: focused ? '#bdb9b7' : '#fff'
+
+
 
 
                   }}
@@ -118,13 +123,16 @@ const BottomStackNavigation = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => {
             return (
-              <View style={{ alignItems: 'center', justifyContent: 'center', top: 3}}>
-                <Image source={require('../../Assets/Images/bottom1.png')}
+              <View style={{ alignItems: 'center', justifyContent: 'center', top:1}}>
+                <Image source={require('../../Assets/Images/Group.png')}
                   resizeMode='contain'
                   style={{
-                    width: 50,
-                    height: 50,
-                    tintColor: focused ? 'black' : 'white'
+                    width: 30,
+                    height: 30,
+                    tintColor: focused ? '#bdb9b7' : '#fff'
+
+
+
 
 
                   }}
