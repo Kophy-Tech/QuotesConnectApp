@@ -5,7 +5,7 @@ import BottomStack from '../BottomStack/BottomStack';
 
 import Splash from '../../Pages/Splash';
 import Onboarding from '../../Pages/Onboarding';
-import AuthStack from '../AuthStack/AuthStack';
+ 
 
 
 const Stack = createStackNavigator();
@@ -19,9 +19,9 @@ function MainStack() {
       }}>
     
 
-      <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen name="Onboarding" component={Onboarding} />
-      <Stack.Screen name="Auth" component={AuthStack} />
+      {/* <Stack.Screen name="Splash" component={Splash} /> */}
+      {/* <Stack.Screen name="Onboarding" component={Onboarding} /> */}
+      {/* <Stack.Screen name="Auth" component={AuthStack} /> */}
       <Stack.Screen name="bottomStack" component={BottomStack} />
 
     </Stack.Navigator>

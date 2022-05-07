@@ -1,8 +1,11 @@
-import { StyleSheet, Text, View, ScrollView} from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native'
 import React from 'react'
-import { BgColor, bgColor1, ColorText } from '../Utils/Colors'
+import { BgColor, bgColor1, ColorText } from '../Utils/Colors';
+import { useNavigation } from '@react-navigation/native';
+
 const JobHistory = () => {
-   
+    const navigation = useNavigation();
+
   return (
   <>
           <View style={styles.tableContainer}>
@@ -17,7 +20,10 @@ const JobHistory = () => {
                       <Text style={styles.textLineItem}>Address</Text>
                   </View>
               </View>
-              <View style={styles.tableRow}>
+              < TouchableOpacity style={styles.tableRow}
+                  onPress={() => navigation.navigate('editjob')}
+
+              >
                   <View style={styles.tableColumnRegular}>
                       <Text style={styles.textLineItem1}>2204</Text>
                   </View>
@@ -29,7 +35,7 @@ const JobHistory = () => {
                           Zip code: 85001</Text>
                   </View>
 
-              </View>
+              </ TouchableOpacity>
               <View style={styles.tableRow}>
                   <View style={styles.tableColumnRegular}>
                       <Text style={styles.textLineItem1}>2204</Text>

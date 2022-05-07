@@ -5,7 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { commonStyles } from '../Styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Job from '../../Pages/Jobs/Job/Job';
-
+import EditJob from '../../Pages/Jobs/Job/EditJob';
+import BackIcon from '../../component/BacKIcon';
+import { COLOR, WP, HP } from '../../Utils/theme';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -20,6 +22,13 @@ function BottomStack() {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen name="editjob" component={EditJob}
+        options={{
+          title: <Text style={{color:COLOR.BgColor, fontSize:WP(6), lineHeight:HP(5)}}>Edit Job</Text>,
+          headerLeft: () => <BackIcon/>,
+          headerTitleAlign: 'center',
+        }} 
       />
     </Stack.Navigator>
   );

@@ -8,14 +8,18 @@ import React from 'react'
 import Header from '../../../component/Header'
 import { HStack, Text, Box,Flex, Input } from "native-base";
 import Icon from 'react-native-vector-icons/EvilIcons';
-import ButtonH from '../ButtonH';
+import ButtonH from '../../../component/ButtonH';
 import { BgColor } from '../../../Utils/Colors';
 import JobHistory from '../../../component/JobHistory';
 import JobCreate from '../../../component/JobCreate';
+import AppBar from '../../../component/AppBar';
+import { COLOR } from '../../../Utils/theme';
+
 const Job = () => {
    const [index, setIdex] = React.useState(true)
     return (
         < SafeAreaView style={{ flex: 1, marginBottom:80 }}>
+            <AppBar type="black" backgroundColor={COLOR.whiteColor} />
 
 
             <Header />
@@ -73,7 +77,9 @@ const Job = () => {
             </Box>
 
             {
-                index &&<ScrollView>
+                index &&<ScrollView
+                    showsVerticalScrollIndicator={false}
+                >
                     <Box px="6" pt="5">
 
                         <JobHistory />
