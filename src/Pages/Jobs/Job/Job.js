@@ -1,19 +1,19 @@
 import {
-    StyleSheet, View, TouchableWithoutFeedback, Keyboard,
-    TouchableOpacity,
+    StyleSheet,
     SafeAreaView,
     ScrollView
 } from 'react-native'
 import React from 'react'
 import Header from '../../../component/Header'
-import { HStack, Text, Box,Flex, Input } from "native-base";
-import Icon from 'react-native-vector-icons/EvilIcons';
+import {  Text, Box,Flex } from "native-base";
+
 import ButtonH from '../../../component/ButtonH';
 import { BgColor } from '../../../Utils/Colors';
 import JobHistory from '../../../component/JobHistory';
 import JobCreate from '../../../component/JobCreate';
 import AppBar from '../../../component/AppBar';
 import { COLOR } from '../../../Utils/theme';
+import InputSearch from '../../../component/InputSearch';
 
 const Job = () => {
    const [index, setIdex] = React.useState(true)
@@ -25,20 +25,7 @@ const Job = () => {
             <Header />
             <Box px="6">
                 <Box>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                        <Input w="100%" InputLeftElement={
-                            <Icon
-                                name="search"
-                                size={25}
-                                color="black"
-
-
-                            />
-                        } placeholder="Search"
-                            _focus={{ borderColor: 'black', backgroundColor: 'transparent' }} //? focus here left to implement.
-                        />
-                    </TouchableWithoutFeedback>
-
+           < InputSearch />
                 </Box>
 
                 <Flex direction="row" mt="4" justifyContent="space-between">

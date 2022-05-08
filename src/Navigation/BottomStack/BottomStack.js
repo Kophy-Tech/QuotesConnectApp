@@ -8,9 +8,11 @@ import Job from '../../Pages/Jobs/Job/Job';
 import EditJob from '../../Pages/Jobs/Job/EditJob';
 import BackIcon from '../../component/BacKIcon';
 import { COLOR, WP, HP } from '../../Utils/theme';
+import MaterialManagement from '../../Pages/MaterialManagement/MaterialManagement';
+import Rfq from '../../Pages/RFQ/Rfq';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator(); 
 function BottomStack() {
   return (
     <Stack.Navigator
@@ -74,7 +76,7 @@ const BottomStackNavigation = () => {
         }
       }}
       />
-      <Tab.Screen name="Settings" component={SettingsScreen}
+      <Tab.Screen name="rfq" component={Rfq}
       
         options={{
           headerShown: false,
@@ -126,7 +128,7 @@ const BottomStackNavigation = () => {
           }
         }}
       />
-      <Tab.Screen name="Settings2" component={SettingsScreen}
+      <Tab.Screen name="material" component={MaterialManagement}
 
         options={{
           headerShown: false,

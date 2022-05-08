@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard, } from 'react-native'
+import {  Text,  TouchableWithoutFeedback, Keyboard, } from 'react-native'
 import React from 'react'
-import { HStack, Box, Flex, Input } from "native-base";
-import { HP, WP, COLOR } from '../Utils/theme';
+import {  Input } from "native-base";
+import { WP, COLOR } from '../Utils/theme';
 
 const InputForm = ({
     title,
@@ -22,7 +22,7 @@ const InputForm = ({
                       borderWidth: WP(0.2),
                       padding: WP(3),
                       borderColor: borderColor,
-                      borderRadius: WP(1),
+                      borderRadius: WP(2),
 
                   }}
                   value={value}
@@ -44,4 +44,3 @@ const InputForm = ({
 
 export default InputForm
 
-const styles = StyleSheet.create({})

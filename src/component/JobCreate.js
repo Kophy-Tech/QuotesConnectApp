@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard, } from 'react-native'
+import { StyleSheet, Text, } from 'react-native'
 import React from 'react'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { HStack, Box, Flex, Input } from "native-base";
+import {  Box, } from "native-base";
 import FormCustomButton from './FormCustomButton';
 import { HP, WP, COLOR } from '../Utils/theme';
 import InputForm from './Input';
