@@ -56,6 +56,8 @@ export const IMAGE = {
   intro_2: require('../Assets/Images/intro_2.png'),
   intro_3: require('../Assets/Images/intro_3.png'),
   intro_4: require('../Assets/Images/intro_4.png'),
+  company_logo: require('../Assets/Images/company_logo.png'),
+  FileInput:require('../Assets/Images/FileInput.png'),
 };
 
 //FONT SIZES USED IN APP

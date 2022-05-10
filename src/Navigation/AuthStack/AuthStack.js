@@ -18,7 +18,7 @@ function AuthStack() {
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
       <Stack.Screen name="Otp" component={Otp} />
       <Stack.Screen name="ConfirmPassword" component={ConfirmPassword} />
-      <Stack.Screen name="Welcom" component={Welcome} />
+      <Stack.Screen name="Welcome" component={Welcome} />
     </Stack.Navigator>
   );
 }

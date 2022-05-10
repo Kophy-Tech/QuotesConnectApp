@@ -7,6 +7,7 @@ const AppBar = ({type, backgroundColor, hidden}) => {
       barStyle={type == 'light' ? 'light-content' : 'dark-content'}
       backgroundColor={backgroundColor}
       hidden={hidden}
+      networkActivityIndicatorVisible={true}
     />
   );
 };

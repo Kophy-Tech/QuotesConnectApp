@@ -13,17 +13,18 @@ import {
  
 } from 'react-native';
 import MainStack from './src/Navigation/MainStack/Mainstack';
-
+import { NativeBaseProvider} from 'native-base';
 
 
 const App= () => {
  
   return (
   <>
-   <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#fff" translucent={true} />
      <NavigationContainer>
-        <MainStack/>
-    </NavigationContainer>
+        <NativeBaseProvider>
+          <MainStack />
+        </NativeBaseProvider>
+    </NavigationContainer> 
   </>
     
  

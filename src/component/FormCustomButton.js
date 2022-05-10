@@ -30,6 +30,7 @@ const FormCustomButton = ({
   fontSize,
   borderWidth,
   borderColor,
+borderRadius
 }) => {
   return (
     <React.Fragment>
@@ -38,10 +39,12 @@ const FormCustomButton = ({
         style={{
           backgroundColor: backgroundColor,
           padding: WP(4),
-          borderRadius: WP(3),
+          borderRadius: WP(borderRadius ?borderRadius: 3),
           borderWidth: borderWidth,
           borderColor:borderColor,
-          top:WP(4)
+          top:WP(4),
+       
+         
         }}
         disabled={disabled}>
         <Text
@@ -50,6 +53,8 @@ const FormCustomButton = ({
             color: textColor,
             textAlign: 'center',
             fontWeight: fontWeight,
+            
+            
            
             
           }}>
