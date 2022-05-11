@@ -8,10 +8,14 @@ import CustomTextArea from './TextArea';
 import { ColorText } from '../Utils/Colors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DateInputForm from './DateInputForm';
+import { useNavigation } from '@react-navigation/native';
+import moment from 'moment';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const CreateRfq = () => {
+    const navigation = useNavigation();
+
     const [date1, setDate1] = React.useState(new Date());
     const [date2, setDate2] = React.useState(new Date());
 
@@ -31,6 +35,9 @@ const CreateRfq = () => {
 
         setDate2(currentDate);
     };
+    const formateDate1 = moment(date1).format('DD-MM-YYYY'); 
+    const formateDate2 = moment(date2).format('DD-MM-YYYY'); 
+
   return (
       <KeyboardAwareScrollView
           style={styles._mainContainer}
@@ -44,7 +51,7 @@ const CreateRfq = () => {
           <Box mb="2">
               <DateInputForm
                   title="Creation Date"
-                  value={date1.toLocaleString()}
+                  value={formateDate1}
                   borderColor={COLOR.BgColor}
                  onPress={()=> setShowDate1(true)}
 
@@ -60,7 +67,7 @@ const CreateRfq = () => {
           <Box mb="2">
               <DateInputForm
                   title="Due Date"
-                  value={date1.toLocaleString()}
+                  value={formateDate2}
                   borderColor={COLOR.BgColor}
                   onPress={() => setShowDate2(true)}
 
@@ -98,6 +105,7 @@ const CreateRfq = () => {
                   btnTitle="Next"
                   backgroundColor={COLOR.BgColor}
                   textColor={COLOR.whiteColor}
+                  onPress={() => navigation.navigate('requestforrfq')}  
               />
           </Box>
 

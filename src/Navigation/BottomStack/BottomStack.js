@@ -10,6 +10,8 @@ import BackIcon from '../../component/BacKIcon';
 import { COLOR, WP, HP } from '../../Utils/theme';
 import MaterialManagement from '../../Pages/MaterialManagement/MaterialManagement';
 import Rfq from '../../Pages/RFQ/Rfq';
+import SelectVendors from '../../Pages/RFQ/SelectVendors';
+import RequestForRfq from '../../Pages/RFQ/RequestForRfq';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator(); 
@@ -31,6 +33,21 @@ function BottomStack() {
           headerLeft: () => <BackIcon/>,
           headerTitleAlign: 'center',
         }} 
+      />
+
+      <Stack.Screen name="selectvendors" component={SelectVendors}
+        options={{
+          title: <Text style={{ color: COLOR.BgColor, fontSize: WP(6), lineHeight: HP(5) }}>Select Vendors</Text>,
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen name="requestforrfq" component={RequestForRfq}
+        options={{
+          title: <Text style={{ color: COLOR.BgColor, fontSize: WP(6), lineHeight: HP(5) }}>Request For RFQ</Text>,
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
       />
     </Stack.Navigator>
   );
@@ -56,28 +73,30 @@ const BottomStackNavigation = () => {
     }}
       
     >
-      <Tab.Screen name="job" component={Job} 
-      options={{
-        headerShown: false,
-        tabBarIcon:({focused})=>{
-     return(
-       <View style={{ alignItems: 'center', justifyContent: 'center', top: 1 }}>
-         <Image source={require('../../Assets/Images/Vector.png')}
-           resizeMode='contain'
-           style={{
-             width: 30,
-             height: 30,
-             tintColor: focused ? '#bdb9b7' : '#fff'
-           }}
-         />
-    
-       </View>
-     )
-        }
-      }}
-      />
+   
       <Tab.Screen name="rfq" component={Rfq}
       
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: 'center', justifyContent: 'center', top: 1 }}>
+                <Image source={require('../../Assets/Images/Vector.png')}
+                  resizeMode='contain'
+                  style={{
+                    width: 30,
+                    height: 30,
+                    tintColor: focused ? '#bdb9b7' : '#fff'
+                  }}
+                />
+               
+
+              </View>
+            )
+          }
+        }}
+      />
+      <Tab.Screen name="job" component={Job}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
@@ -89,11 +108,6 @@ const BottomStackNavigation = () => {
                     width: 30,
                     height: 30,
                     tintColor: focused ? '#bdb9b7' : '#fff'
-
-
-
-
-
                   }}
                 />
 
@@ -116,10 +130,6 @@ const BottomStackNavigation = () => {
                     width: 30,
                     height: 30,
                     tintColor: focused ? '#bdb9b7' : '#fff'
-
-
-
-
                   }}
                 />
 

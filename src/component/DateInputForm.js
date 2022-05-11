@@ -5,11 +5,11 @@ import React from 'react'
 import { Input } from "native-base";
 import { WP, COLOR } from '../Utils/theme';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import moment from 'moment';
+import moment from 'moment';
 const DateInputForm = ({
     title,
     value,
-    borderColor,
+    borderColor, 
     onPress,
     rest,
  
@@ -27,10 +27,11 @@ const DateInputForm = ({
                         width: '100%',
                         borderRadius: WP(2),
 
+
                     }}
                 >
                     <Input
-  
+   style={{fontSize:18}}
                         w="100%"
                         value={value}
                         editable={false}
