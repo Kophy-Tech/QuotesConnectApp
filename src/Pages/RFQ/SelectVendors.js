@@ -36,7 +36,7 @@ const SelectVendors = () => {
                       placeholder=""
                       borderColor={COLOR.BgColor}
                       borderWidth={WP(0.3)}
-                      btnTitle="Next"
+                      btnTitle="Create"
                       backgroundColor={COLOR.BgColor}
                       textColor={COLOR.whiteColor}
                   />
