@@ -29,6 +29,7 @@ export const TAB_ICON_SIZE = 6;
 
 export const COLOR = {
    BgColor :'#5080FA',
+   green:"#2EB66E",
   whiteColor: '#ffffff',
   primary: '#F88255',
   primaryOrange: '#E3562A',
@@ -58,6 +59,7 @@ export const IMAGE = {
   intro_4: require('../Assets/Images/intro_4.png'),
   company_logo: require('../Assets/Images/company_logo.png'),
   FileInput:require('../Assets/Images/FileInput.png'),
+  plus:require('../Assets/Images/plus.png'),
 };
 
 //FONT SIZES USED IN APP
