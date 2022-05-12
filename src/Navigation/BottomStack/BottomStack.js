@@ -13,6 +13,8 @@ import Rfq from '../../Pages/RFQ/Rfq';
 import SelectVendors from '../../Pages/RFQ/SelectVendors';
 import RequestForRfq from '../../Pages/RFQ/RequestForRfq';
 import Vendors from '../../Pages/Vendor/Vendors';
+import Notification from '../../Pages/Jobs/Notification';
+import Profile from '../../Pages/Jobs/Profile';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator(); 
@@ -46,6 +48,20 @@ function BottomStack() {
       <Stack.Screen name="requestforrfq" component={RequestForRfq}
         options={{
           title: <Text style={{ color: COLOR.BgColor, fontSize: WP(6), lineHeight: HP(5) }}>Request For RFQ</Text>,
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen name="notification" component={Notification}
+        options={{
+          title: <Text style={{ color: COLOR.BgColor, fontSize: WP(6), lineHeight: HP(5) }}>Notification</Text>,
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen name="profile" component={Profile}
+        options={{
+          title: <Text style={{ color: COLOR.BgColor, fontSize: WP(6), lineHeight: HP(5) }}>Edit Profile</Text>,
           headerLeft: () => <BackIcon />,
           headerTitleAlign: 'center',
         }}
