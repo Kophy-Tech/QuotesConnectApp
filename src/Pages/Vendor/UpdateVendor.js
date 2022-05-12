@@ -13,35 +13,7 @@ const UpdateVendor = () => {
       contentContainerStyle={{paddingBottom: WP(65)}}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
-      <Header />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          top: WP(4.6),
-        }}>
-        <View>
-          <FormCustomButton
-            btnTitle="View History"
-            backgroundColor={COLOR.BgColor}
-            textColor={COLOR.whiteColor}
-            borderRadius={2}
-          />
-        </View>
-
-        <View>
-          <FormCustomButton
-            btnTitle="Create New"
-            backgroundColor={COLOR.whiteColor}
-            textColor={COLOR.blackColor}
-            borderWidth={WP(0.1)}
-            borderColor={COLOR.BgColor}
-            borderRadius={2}
-          />
-        </View>
-      </View>
-
+     
       <View style={styles.vendorInputContainer}>
         <Text
           style={{

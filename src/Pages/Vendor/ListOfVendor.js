@@ -7,9 +7,10 @@ import {
   ScrollView,
   FlatList,
   Image,
+  TouchableOpacity
 } from 'react-native';
-import Table from 'react-native-simple-table';
-import {COLOR, IMAGE, WP} from '../../Utils/theme';
+import { BgColor, bgColor1, ColorText } from '../../Utils/Colors';
+
 
 const DATA = [
   {
@@ -61,60 +62,78 @@ const DATA = [
 
 const ListOfVendor = () => {
   return (
-    <View style={{top: WP(3), width: WP(96), left: WP(3)}}>
-      <ScrollView horizontal={true}>
-        {DATA.map(item => (
-          <>
-            <View style={styles.box}>
-              <Text style={styles.boxTextHeader}>{item.title}</Text>
-              <View
-                style={{
-                  backgroundColor: 'white',
-                  flex: 1,
-                  flexDirection: 'column',
-                }}>
-                <Text>{item.company_name}</Text>
-              </View>
-            </View>
-          </>
-        ))}
+    < >
+      <ScrollView style={styles.tableContainer} showsHorizontalScrollIndicator={true}>
+     
+
       </ScrollView>
-    </View>
+    </>
   );
 };
 
 export default ListOfVendor;
 
 const styles = StyleSheet.create({
-  container: {
-    ...Platform.select({
-      ios: {
-        paddingTop: 20,
-      },
-      android: {},
-    }),
+  tableContainer: {
+  //  flexDirection:'column'
   },
-  title: {
-    fontSize: 18,
-    padding: 10,
-    textAlign: 'center',
-  },
-  jadwal: {
-    marginLeft: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    position: 'absolute',
-    top: WP(3),
-  },
-  box: {
-    height: WP(12),
-    width: WP(35),
-    borderRadius: 10,
-
+  tableColumnRegular: {
     flex: 1,
+
+    justifyContent: 'center',
+
+    alignSelf: 'stretch',
+
+
+
   },
-  boxTextHeader: {
-    color: COLOR.whiteColor,
-    backgroundColor: '#327fe3',
+  tableColumnRegular2: {
+    flex: 1.8,
+
+    justifyContent: 'center',
+
+    alignSelf: 'stretch',
+
+
+
   },
+  tableColumnHeader: {
+
+    flexDirection: "row",
+    justifyContent: 'center',
+
+    backgroundColor: BgColor,
+    borderRadius: 10,
+    height: 62,
+
+  },
+  textLineItem: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: '#fff',
+    textAlign: 'center',
+    lineHeight: 18,
+    fontFamily: 'sans-serif'
+  },
+  textLineItem1: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: ColorText,
+    textAlign: 'center',
+    lineHeight: 18,
+    fontFamily: 'sans-serif',
+
+  },
+  tableRow: {
+    flexDirection: "row",
+    justifyContent: 'center',
+    backgroundColor: bgColor1,
+    height: 100,
+    marginBottom: 2
+
+
+  },
+
+
+ 
 });

@@ -12,6 +12,7 @@ import MaterialManagement from '../../Pages/MaterialManagement/MaterialManagemen
 import Rfq from '../../Pages/RFQ/Rfq';
 import SelectVendors from '../../Pages/RFQ/SelectVendors';
 import RequestForRfq from '../../Pages/RFQ/RequestForRfq';
+import Vendors from '../../Pages/Vendor/Vendors';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator(); 
@@ -117,7 +118,7 @@ const BottomStackNavigation = () => {
         }}
       />
 
-      <Tab.Screen name="Settings1" component={SettingsScreen}
+      <Tab.Screen name="vendors" component={Vendors}
 
         options={{
           headerShown: false,
@@ -180,20 +181,3 @@ const styles = StyleSheet.create({
     elevation:5
   }
 })
-const SettingsScreen =()=>{
-  return(
-    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-      <Text>SettingsScreen</Text>
-    </View>
-  )
-}
-
-
-
-const HomeScreen = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>HomeScreen</Text>
-    </View>
-  )
-}

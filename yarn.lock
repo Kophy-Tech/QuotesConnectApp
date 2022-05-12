@@ -6522,6 +6522,11 @@ react-native-screens@~3.10.1:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-simple-table@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-simple-table/-/react-native-simple-table-0.0.3.tgz#5bb37337078d0043a5b4ee862b44173bb36a1fff"
+  integrity sha512-U5b6KXqsCxOgwqm26Ej4G3T3gCch4BV3micK/WYFjMENW33fh/DmoTfr11Gwb92/FDToH8dzuNY/peA0oEbkjQ==
+
 react-native-svg@^12.3.0:
   version "12.3.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.3.0.tgz#40f657c5d1ee366df23f3ec8dae76fd276b86248"
@@ -6529,6 +6534,11 @@ react-native-svg@^12.3.0:
   dependencies:
     css-select "^4.2.1"
     css-tree "^1.0.0-alpha.39"
+
+react-native-table-component@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-table-component/-/react-native-table-component-1.2.2.tgz#1c9bdcd8f1fd7edf10d1e93ebc3b7877ecd74def"
+  integrity sha512-7bbsi5431iWcjj3toASh8lFHGi6AG/+MTd4M7GuksXKxx/CFs/Qwv1Ys7D2wgyuYKe3hxWNfSVrteFj0tOYXYw==
 
 react-native-vector-icons@^9.0.0, react-native-vector-icons@^9.1.0:
   version "9.1.0"

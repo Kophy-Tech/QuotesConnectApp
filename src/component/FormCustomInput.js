@@ -22,7 +22,7 @@ const FormCustomInput = ({
           styles._labelText,
           {
             top: labelTextTop,
-            fontWeight: 'bold',
+            fontWeight: '400',
             color: labelText ? labelText : COLOR.blackColor,
           },
         ]}>
@@ -31,7 +31,7 @@ const FormCustomInput = ({
       <View>
         <TextInput
           style={{
-            borderWidth: WP(0.4),
+            borderWidth: WP(0.3),
             padding: WP(3),
             borderColor: inputBorderColor,
             borderRadius: WP(1),
