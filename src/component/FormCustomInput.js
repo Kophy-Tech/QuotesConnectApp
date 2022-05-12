@@ -12,14 +12,19 @@ const FormCustomInput = ({
   keyboardType,
   labelTextTop,
   fontWeight,
-  inputBorderColor
+  inputBorderColor,
+  labelText,
 }) => {
   return (
     <View style={styles._mainContainer}>
       <Text
         style={[
           styles._labelText,
-          {top: labelTextTop, fontWeight: "bold"},
+          {
+            top: labelTextTop,
+            fontWeight: 'bold',
+            color: labelText ? labelText : COLOR.blackColor,
+          },
         ]}>
         {lablelText}
       </Text>
@@ -30,7 +35,6 @@ const FormCustomInput = ({
             padding: WP(3),
             borderColor: inputBorderColor,
             borderRadius: WP(1),
-            
           }}
           value={value}
           onChangeText={onChangeText}
@@ -38,7 +42,7 @@ const FormCustomInput = ({
           onFocus={onFocus}
           keyboardType={keyboardType}
           placeholderTextColor={COLOR.blackColor}
-          placeholderStyle={{fontSize:"bold"}}
+          placeholderStyle={{fontSize: 'bold'}}
         />
       </View>
     </View>
@@ -55,15 +59,14 @@ const styles = StyleSheet.create({
   _labelText: {
     paddingBottom: WP(4),
     fontWeight: '600',
-    color: COLOR.blackColor,
+
     left: WP(1),
-    fontSize:WP(4.5)
+    fontSize: WP(4.5),
   },
   _textInputStyle: {
     borderWidth: WP(0.4),
     padding: WP(4),
     borderColor: COLOR.BgColor,
     borderRadius: WP(3),
-    
   },
 });

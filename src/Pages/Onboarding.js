@@ -166,13 +166,14 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     zIndex: 1,
     backgroundColor: COLOR.whiteColor,
-    padding: WP('4%'),
-    paddingHorizontal: WP('35.5%'),
+    padding: WP('3%'),
+    paddingHorizontal: WP('30.5%'),
     borderRadius: WP('2'),
     alignSelf: 'center',
+   
   },
   _nextText: {
-    fontSize: WP('3'),
+    fontSize: WP(5),
     color: COLOR.BgColor,
     fontWeight: 'bold',
   },
