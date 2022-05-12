@@ -54,7 +54,7 @@ const Vendors = () => {
               </Flex>
           </Box>
           <Box px="6" pt="3">
-              <ListOfVendor />
+<CreateVendor/>
 
           </Box>
      </SafeAreaView>
