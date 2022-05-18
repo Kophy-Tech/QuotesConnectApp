@@ -66,6 +66,7 @@ const ListOfVendor = () => {
       <ScrollView style={styles.tableContainer} showsHorizontalScrollIndicator={true}>
      
 
+
       </ScrollView>
     </>
   );
