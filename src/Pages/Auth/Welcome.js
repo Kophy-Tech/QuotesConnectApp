@@ -5,15 +5,70 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormCustomInput from '../../component/FormCustomInput';
 import FormCustomButton from '../../component/FormCustomButton';
 import PasswordInput from '../../component/PasswordInput';
+import {useDispatch, useSelector} from 'react-redux';
+import Validator from 'validatorjs';
+import en from 'validatorjs/src/lang/en';
+import {ErrorDisplay} from '../../Utils/util';
+import {register} from '../../Redux/Slice/AuthSlice';
+Validator.setMessages('en', en);
 
-const Welcome = () => {
+const Welcome = (props) => {
+  const dispatch = useDispatch();
+  const {isError, isLoading, message} = useSelector(state => state.auth);
+  console.log(isLoading, 'llllllllllllll');
+  const [errors, setError] = useState({});
+  const [value, setValues] = useState({
+    email: '',
+    password: '',
+    fullname: '',
+  });
+
+  console.log(value, 'error');
+  console.log(errors.fullname, 'error');
+
+  const handleInputChange = (inputName, inputValue) => {
+    setValues({
+      ...value,
+      [inputName]: inputValue,
+    });
+  };
+
+  const onSubmit = async () => {
+    console.log('submit');
+    const passwordRegex =
+      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+    Validator.register(
+      'strict',
+      value => passwordRegex.test(value),
+      'password must contain at least one  letter, number and a special character',
+    );
+    let rules = {
+      fullname: 'required',
+      email: 'required|email',
+      password: 'required|strict',
+    };
+
+    let validation = new Validator(value, rules, {
+      'required.fullname': 'The Full Name field is required.',
+      'required.email': 'The Email field is required.',
+      'required.password': 'The Password field is required.',
+    });
+
+    if (validation.fails()) {
+      setError(validation.errors.all());
+    } else {
+      dispatch(register(value));
+    }
+  };
+
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -46,31 +101,54 @@ const Welcome = () => {
           Create an account to continue
         </Text>
       </View>
+      {/*  */}
 
       <View style={styles._formInputContainer}>
         <FormCustomInput
           placeholder="Full Name"
           inputBorderColor={COLOR.BgColor}
+          onChangeText={value => handleInputChange('fullname', value)}
         />
-        <FormCustomInput placeholder="Email" inputBorderColor={COLOR.BgColor} />
         <FormCustomInput
+          placeholder="Email"
+          inputBorderColor={COLOR.BgColor}
+          onChangeText={value => handleInputChange('email', value)}
+        />
+        <PasswordInput
           placeholder="Password"
           inputBorderColor={COLOR.BgColor}
+          onChangeText={value => handleInputChange('password', value)}
         />
+
+        {/* Error */}
+
+        <View>
+          <Text>{ErrorDisplay(errors)}</Text>
+          <Text style={{color: 'red', textAlign: 'center'}}>{message}</Text>
+        </View>
+
         <FormCustomButton
+          onPress={() => onSubmit()}
           backgroundColor={COLOR.BgColor}
-          btnTitle={'Create Account'}
+          btnTitle={
+            isLoading ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              'Create Account'
+            )
+          }
           textColor={COLOR.whiteColor}
         />
-       <View style={{top:WP(8)}}>
-       <FormCustomButton
-          backgroundColor={COLOR.whiteColor}
-          btnTitle={'Login'}
-          textColor={COLOR.BgColor}
-          borderColor={COLOR.BgColor}
-          borderWidth={0.4}
-        />
-       </View>
+        <View style={{top: WP(8)}}>
+          <FormCustomButton
+            backgroundColor={COLOR.whiteColor}
+            btnTitle={'Login'}
+            textColor={COLOR.BgColor}
+            borderColor={COLOR.BgColor}
+            borderWidth={0.4}
+            onPress={() => props.navigation.navigate("Login")}
+          />
+        </View>
       </View>
     </KeyboardAwareScrollView>
   );

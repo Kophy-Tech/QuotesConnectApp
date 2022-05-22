@@ -6,13 +6,54 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormCustomInput from '../../component/FormCustomInput';
 import FormCustomButton from '../../component/FormCustomButton';
+import {login} from '../../Redux/Slice/AuthSlice';
+import {useDispatch} from 'react-redux';
+import Validator from 'validatorjs';
+import en from 'validatorjs/src/lang/en';
+import PasswordInput from '../../component/PasswordInput';
 
-const Login = () => {
+Validator.setMessages('en', en);
+
+const Login = (props) => {
+  const dispatch = useDispatch();
+  const [errors, setError] = useState({});
+  const [value, setValues] = useState({
+    email: '',
+    password: '',
+  });
+
+ 
+  const handleInputChange = (inputName, inputValue) => {
+    setValues({
+      ...value,
+      [inputName]: inputValue,
+    });
+  };
+
+  const onSubmit = async () => {
+    console.log('submit');
+    let rules = {
+      email: 'required|email',
+      password: 'required',
+    };
+
+    let validation = new Validator(value, rules, {
+      'required.email': 'The Email field is required.',
+      'required.password': 'The Password field is required.',
+    });
+
+    if (validation.fails()) {
+      setError(validation.errors.all());
+    } else {
+      dispatch(login(value));
+    }
+  };
+
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -50,15 +91,19 @@ const Login = () => {
           <FormCustomInput
             placeholder="Email"
             inputBorderColor={COLOR.BgColor}
+            name="email"
+            onChangeText={value => handleInputChange('email', value)}
           />
 
-          <FormCustomInput
+          <PasswordInput
             placeholder="Password"
             inputBorderColor={COLOR.BgColor}
+            name="password"
+            onChangeText={value => handleInputChange('password', value)}
           />
 
           <FormCustomButton
-            placeholder="Password"
+            onPress={() => onSubmit()}
             inputBorderColor={COLOR.BgColor}
             btnTitle="Login"
             backgroundColor={COLOR.BgColor}
@@ -70,12 +115,13 @@ const Login = () => {
       <TouchableOpacity>
         <Text style={styles._forgot}>Forgot Password</Text>
       </TouchableOpacity>
-      <View style={{top: WP(39), width: WP(90), left:WP(7)}}>
+      <View style={{top: WP(39), width: WP(90), left: WP(7)}}>
         <FormCustomButton
           placeholder="Password"
           borderColor={COLOR.BgColor}
           borderWidth={WP(0.3)}
           btnTitle="Create Account"
+          onPress={() => props.navigation.navigate("Welcome")}
           backgroundColor={COLOR.whiteColor}
           textColor={COLOR.BgColor}
         />

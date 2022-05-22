@@ -1,1 +1,1 @@
-export  const baseUrl = 'http://localhost:8000/api/';
+export  const baseUrl = 'https://demo-server-quotesconnect.herokuapp.com/api/v1.1/client'

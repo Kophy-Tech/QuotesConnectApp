@@ -18,8 +18,8 @@ function MainStack() {
     
       {/* <Stack.Screen name="Splash" component={Splash} /> */}
       {/* <Stack.Screen name="Onboarding" component={Onboarding} /> */}
-      {/* <Stack.Screen name="Auth" component={AuthStack} /> */}
-      <Stack.Screen name="bottomStack" component={BottomStack} />
+      <Stack.Screen name="Auth" component={AuthStack} />
+      {/* <Stack.Screen name="bottomStack" component={BottomStack} /> */}
     </Stack.Navigator>
   );
 }

@@ -111,3 +111,5 @@ export const ONBOARD_DATA = [
     nextBtn: 'Let’s Explore',
   },
 ];
+
+
