@@ -16,11 +16,14 @@ import {useDispatch} from 'react-redux';
 import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
 import PasswordInput from '../../component/PasswordInput';
+import { useNavigation } from '@react-navigation/native';
 
 Validator.setMessages('en', en);
 
 const Login = (props) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const [errors, setError] = useState({});
   const [value, setValues] = useState({
     email: '',
@@ -50,7 +53,12 @@ const Login = (props) => {
     if (validation.fails()) {
       setError(validation.errors.all());
     } else {
-      dispatch(login(value));
+      dispatch(login(value)).unwrap().then(()=>{
+        navigation.navigate('bottomStack', {
+          screen: 'rfq',
+         
+        });
+      });
     }
   };
 
