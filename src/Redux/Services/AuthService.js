@@ -16,6 +16,7 @@ const login = (userData) => {
     return axios
         .post(API_URL + "login", userData)
         .then((response) => {
+            console.log(response, 'response')
             if (response.data) {
                 AsyncStorage.setItem("user", JSON.stringify(response.data));
             }

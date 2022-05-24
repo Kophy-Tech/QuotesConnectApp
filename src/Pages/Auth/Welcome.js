@@ -146,7 +146,7 @@ const Welcome = (props) => {
             textColor={COLOR.BgColor}
             borderColor={COLOR.BgColor}
             borderWidth={0.4}
-            onPress={() => props.navigation.navigate("Login")}
+            e
           />
         </View>
       </View>
