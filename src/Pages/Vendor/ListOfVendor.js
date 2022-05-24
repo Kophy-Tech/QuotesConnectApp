@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     lineHeight: 18,
-    fontFamily: 'sans-serif'
+    
   },
   textLineItem1: {
     fontSize: 15,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     color: ColorText,
     textAlign: 'center',
     lineHeight: 18,
-    fontFamily: 'sans-serif',
+   
 
   },
   tableRow: {

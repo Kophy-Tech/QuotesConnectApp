@@ -56,16 +56,12 @@ const MaterialManagement = () => {
           </Box>
 
           {
-              index && <ScrollView
-                  showsVerticalScrollIndicator={false}
-              >
-                  <Box px="6" pt="3">
+              index && <ViewMaterial />
+            //   <Box px="6" pt="3">
 
-                      <ViewMaterial />
+            //       <ViewMaterial />
 
-                  </Box>
-
-              </ScrollView>
+            //   </Box>
           }
        
           {
@@ -87,7 +83,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 18,
         fontStyle: 'normal',
-        fontFamily: 'General Sans'
+      
     }
 
 })

@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         lineHeight: 19,
         fontStyle: 'normal',
-        fontFamily: 'General Sans',
+      
         paddingTop:14,
         color:ColorText
 
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 19,
         fontStyle: 'normal',
-        fontFamily: 'General Sans',
+       
         color: '#86929D',
      justifyContent:'flex-end',
      alignItems:'flex-end',

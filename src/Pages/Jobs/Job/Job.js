@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 18,
         fontStyle: 'normal',
-        fontFamily: 'General Sans'
+     
     },
     JobContainer:{
         paddingTop:40

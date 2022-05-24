@@ -6,6 +6,7 @@ import { WP, COLOR } from '../Utils/theme';
 const CustomTextArea = ({
     title,
     value,
+    name,
     onChangeText,
     keyboardType,
     borderColor,
@@ -28,7 +29,7 @@ const CustomTextArea = ({
                     }}
                     value={value}
                     onChangeText={onChangeText}
-
+name={name}
                     onFocus={onFocus}
                     keyboardType={keyboardType}
                     placeholderTextColor={COLOR.blackColor}

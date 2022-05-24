@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from '../Slice/AuthSlice'
+import materialReducer from '../Slice/materialSlice'
+
 
 
 
 const reducer = {
-    auth: authReducer
+    auth: authReducer,
+    material: materialReducer
 
 }
 

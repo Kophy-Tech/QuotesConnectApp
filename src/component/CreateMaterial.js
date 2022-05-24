@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Alert } from 'react-native'
 import React from 'react'
 import { HP, WP, COLOR } from '../Utils/theme'
 import InputForm from './Input';
@@ -7,9 +7,48 @@ import FormCustomButton from './FormCustomButton';
 import CustomTextArea from './TextArea';
 import { ColorText } from '../Utils/Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
+import { postMaterial } from '../Redux/Slice/materialSlice';
+import {useSelector, useDispatch } from 'react-redux';
+import { Spinner } from "native-base";
 
 const CreateMaterial = () => {
+
+    const auth = useSelector((auth)=> auth.auth.user.token)
+    const dispatch = useDispatch()
+    // console.log(auth, 'aaaaaaaa');
+    const [value, setValues] = React.useState({
+        name: '',
+        description: '',
+    });
+
+
+
+    const handleInputChange = (inputName, inputValue) => {
+        setValues({
+            ...value,
+            [inputName]: inputValue,
+        });
+    };
+
+const subMaterials=()=>{
+    const dataMaterial = { value, auth}
+    // console.log(dataMaterial, 'dataMaterial');
+ if (!value.name) {
+   Alert.alert('Material name is required')  
+ } 
+ else if(!value.description){
+     Alert.alert('Material description is required')  
+
+ }
+ else {
+     dispatch(postMaterial(dataMaterial))
+
+ }
+
+
+}
+
+    // console.log(value)
   return (
       <KeyboardAwareScrollView
           style={styles._mainContainer}
@@ -24,16 +63,20 @@ const CreateMaterial = () => {
           <Box mb="2">
               <InputForm
                   title="Primary Category Name"
-                  value=''
+                  value={value.name}
+                  name='name'
                   borderColor={COLOR.BgColor}
+                  onChangeText={value => handleInputChange('name', value)}
               />
               <Text style={styles.subText}>name of the project you want to create</Text>
           </Box>
           <Box mb="2">
               <CustomTextArea
                   title="Sub Item Description"
-                  value=''
+                  value={value.description}
+                  name="description"
                   borderColor={COLOR.BgColor}
+                  onChangeText={value => handleInputChange('description', value)}
               />
           </Box>
 
@@ -46,6 +89,7 @@ const CreateMaterial = () => {
                   btnTitle="Create"
                   backgroundColor={COLOR.BgColor}
                   textColor={COLOR.whiteColor}
+                  onPress={subMaterials}
               />
           </Box>
       </KeyboardAwareScrollView>
