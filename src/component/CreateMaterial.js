@@ -9,11 +9,11 @@ import { ColorText } from '../Utils/Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { postMaterial } from '../Redux/Slice/materialSlice';
 import {useSelector, useDispatch } from 'react-redux';
-import { Spinner } from "native-base";
 
-const CreateMaterial = () => {
 
-    const auth = useSelector((auth)=> auth.auth.user.token)
+const CreateMaterial = ({ setIdex}) => {
+
+    const auth = useSelector((auth)=> auth.auth.user)
     const dispatch = useDispatch()
     // console.log(auth, 'aaaaaaaa');
     const [value, setValues] = React.useState({
@@ -29,9 +29,11 @@ const CreateMaterial = () => {
             [inputName]: inputValue,
         });
     };
-
+    const token = auth?.token
+    console.log(token, 'ttttttt');
 const subMaterials=()=>{
-    const dataMaterial = { value, auth}
+    const dataMaterial = { value, token
+}
     // console.log(dataMaterial, 'dataMaterial');
  if (!value.name) {
    Alert.alert('Material name is required')  
@@ -41,7 +43,15 @@ const subMaterials=()=>{
 
  }
  else {
-     dispatch(postMaterial(dataMaterial))
+     dispatch(postMaterial(dataMaterial)).unwrap().then(()=>{
+         setValues({
+             name: '',
+             description: '',
+         })
+         setIdex(true)
+     }).catch((err)=>{
+console.log(err)
+     })
 
  }
 

@@ -15,10 +15,10 @@ const getMaterialService = (token) => {
 
 
 const postMaterialService = (data) => {
-    const { value, auth } = data
-    console.log( value,auth, ' vaaaaaa' )
+    const { value, token } = data
+    console.log(value, token, ' vaaaaaa' )
     return axios
-        .post(API_URL + "material", value,{ headers: { "Authorization":`${auth}` } })
+        .post(API_URL + "material", value, { headers: { "Authorization": `${token}` } })
         .then((response) => {
             console.log(response, 'response')
          

@@ -57,16 +57,14 @@ const MaterialManagement = () => {
 
           {
               index && <ViewMaterial />
-            //   <Box px="6" pt="3">
-
-            //       <ViewMaterial />
-
-            //   </Box>
+          
           }
        
           {
               !index && <Box px="6" pt="3">
-                  <CreateMaterial />
+                  <CreateMaterial 
+                      setIdex={setIdex}
+                  />
 
               </Box>
           }

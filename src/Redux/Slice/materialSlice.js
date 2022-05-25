@@ -8,7 +8,7 @@ export const getMaterial = createAsyncThunk(
     async (token, thunkAPI) => {
         try {
             const response = await MaterialService.getMaterialService(token);
-            console.log(response.data, 'response')
+            // console.log(response.data, 'response')
             return response.data;
         } catch (error) {
             console.log(error, 'from getmmaterial');
@@ -68,6 +68,7 @@ const materialSlice = createSlice({
         [postMaterial.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            console.log(action.payload.data, 'ressssssf');
             state.material.push(action.payload.data);
         },
         [postMaterial.rejected]: (state, action) => {
