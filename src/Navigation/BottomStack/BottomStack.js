@@ -94,7 +94,7 @@ const BottomStackNavigation = () => {
       
     >
    
-      {/* <Tab.Screen name="rfq" component={Rfq}
+<Tab.Screen name="rfq" component={Rfq}
       
         options={{
           headerShown: false,
@@ -135,7 +135,7 @@ const BottomStackNavigation = () => {
             )
           }
         }}
-      /> */}
+      /> 
 
       <Tab.Screen name="vendors" component={VendorStack}
 
@@ -158,7 +158,7 @@ const BottomStackNavigation = () => {
           }
         }}
       />
-      {/* <Tab.Screen name="material" component={MaterialManagement}
+      <Tab.Screen name="material" component={MaterialManagement}
 
         options={{
           headerShown: false,
@@ -183,7 +183,7 @@ const BottomStackNavigation = () => {
             )
           }
         }}
-      /> */}
+      /> 
     </Tab.Navigator>
   )
 }

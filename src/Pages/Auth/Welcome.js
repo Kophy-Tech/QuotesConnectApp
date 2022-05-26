@@ -20,10 +20,10 @@ import {ErrorDisplay} from '../../Utils/util';
 import {register} from '../../Redux/Slice/AuthSlice';
 Validator.setMessages('en', en);
 
-const Welcome = (props) => {
+const Welcome = props => {
   const dispatch = useDispatch();
   const {isError, isLoading, message} = useSelector(state => state.auth);
-  console.log(isLoading, 'llllllllllllll');
+
   const [errors, setError] = useState({});
   const [value, setValues] = useState({
     email: '',
@@ -122,10 +122,12 @@ const Welcome = (props) => {
 
         {/* Error */}
 
-        <View>
-          <Text>{ErrorDisplay(errors)}</Text>
-          <Text style={{color: 'red', textAlign: 'center'}}>{message}</Text>
-        </View>
+        {Object.keys(errors).length > 0 && (
+          <View>
+            <Text>{ErrorDisplay(errors)}</Text>
+            <Text style={{color: 'red', textAlign: 'center'}}>{message}</Text>
+          </View>
+        )}
 
         <FormCustomButton
           onPress={() => onSubmit()}
@@ -139,14 +141,14 @@ const Welcome = (props) => {
           }
           textColor={COLOR.whiteColor}
         />
-        <View style={{top: WP(8)}}>
+        <View style={{top: WP(8), marginVertical: WP(3)}}>
           <FormCustomButton
             backgroundColor={COLOR.whiteColor}
             btnTitle={'Login'}
             textColor={COLOR.BgColor}
             borderColor={COLOR.BgColor}
             borderWidth={0.4}
-            e
+            onPress={() => props.navigation.navigate('Login')}
           />
         </View>
       </View>

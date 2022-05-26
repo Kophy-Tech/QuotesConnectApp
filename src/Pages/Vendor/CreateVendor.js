@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../component/Header';
@@ -19,10 +20,12 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {useSelector, useDispatch} from 'react-redux';
 
 Validator.setMessages('en', en);
-const CreateVendor = () => {
+const CreateVendor = props => {
   const [errors, setError] = useState({});
   console.log(errors);
   const [document, setDocument] = useState({});
+  const {isLoading} = useSelector(state => state.vendor);
+  console.log(isLoading, 'loading');
   const dispatch = useDispatch();
 
   const [value, setValues] = useState({
@@ -38,17 +41,8 @@ const CreateVendor = () => {
 
   console.log(value, 'value');
 
-  const {
-    name,
-    street,
-    city,
-    zip_code,
-    sales_rep,
-    telephone,
-    email,
-    image,
-    state,
-  } = value;
+  const {name, street, city, zip_code, sales_rep, telephone, email, state} =
+    value;
 
   const handleInputChange = (inputName, inputValue) => {
     setValues({
@@ -69,7 +63,6 @@ const CreateVendor = () => {
   //
   // }
   const onSubmit = async () => {
-    console.log('submit');
     let rules = {
       name: 'required',
       street: 'required',
@@ -82,48 +75,34 @@ const CreateVendor = () => {
     };
 
     let validation = new Validator(value, rules, {
-      'required.name': 'The Email field is required.',
+      'required.name': 'The name field is required.',
       'required.street': 'The Street field is required.',
       'required.city': 'The city field is required.',
-      'required.zip_code': 'The zip_code field is required.',
+      'required.zip_code': 'The zip code field is required.',
       'required.sales_rep': 'The sales representative field is required.',
       'required.telephone': 'The telephone field is required.',
       'required.email': 'The email field is required.',
       'required.state': 'The state field is required.',
       // 'required.image': 'The image field is required.',
     });
-    // let bodyFormData = new FormData();
-    // bodyFormData.append('name', name);
-    // bodyFormData.append('street', name);
-    // bodyFormData.append('city', name);
-    // bodyFormData.append('sales_rep', name);
-    // bodyFormData.append('state', name);
-    // bodyFormData.append('telephone',"08067031917");
-    // bodyFormData.append('sales_rep', name);
-    // bodyFormData.append('email', 'omidiora@gmail.com');
-    // bodyFormData.append('zip_code', '101010');
-    // dispatch(CreateVendorAction(bodyFormData));
-    dispatch(
-      CreateVendorAction({
-        logo: image.path,
-        name: name,
-        description: city,
-        sales_rep: sales_rep,
-        telephone: telephone,
-        emails: email,
-        state: state,
-        street: street,
-        city: city,
-        zip_code: zip_code,
-      }),
-    );
-    // if (validation.fails()) {
-    //   setError(validation.errors.all());
-    // } else {
-    //   dispatch(
-
-    //   );
-    // }
+    if (validation.fails()) {
+      setError(validation.errors.all());
+    } else {
+      dispatch(
+        CreateVendorAction({
+          logo: document.path,
+          name: name,
+          description: city,
+          sales_rep: sales_rep,
+          telephone: telephone,
+          emails: email,
+          state: state,
+          street: street,
+          city: city,
+          zip_code: zip_code,
+        }),
+      );
+    }
   };
 
   return (
@@ -142,17 +121,24 @@ const CreateVendor = () => {
         }}>
         <View style={{width: WP(48), height: HP(20)}}>
           <FormCustomButton
-            backgroundColor={COLOR.whiteColor}
-            borderWidth={0.5}
-            btnTitle="Create Vendor"
+            // backgroundColor={COLOR.whiteColor}
+            backgroundColor={COLOR.BgColor}
+            btnTitle="View History"
             borderColor={COLOR.deepBlue}
+            textColor={COLOR.whiteColor}
+            borderRadius={1}
+            onPress={() => props.navigation.goBack()}
           />
         </View>
+
         <View style={{width: WP(43), left: WP(2)}}>
           <FormCustomButton
-            backgroundColor={COLOR.BgColor}
             btnTitle="Create Vendor"
-            textColor={COLOR.whiteColor}
+            backgroundColor={COLOR.whiteColor}
+            borderColor={COLOR.BgColor}
+            borderWidth={0.5}
+            borderRadius={1}
+            textColor={COLOR.BgColor}
           />
         </View>
       </View>
@@ -202,7 +188,7 @@ const CreateVendor = () => {
             onChangeText={value => handleInputChange('state', value)}
           />
           <FormCustomInput
-            lablelText="Zip  Code"
+            lablelText="Zip  Code*"
             inputBorderColor={COLOR.BgColor}
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
@@ -249,8 +235,8 @@ const CreateVendor = () => {
                   left: WP(4),
                   top: WP(6),
                   width: WP(80),
-                  height: WP(50),
-                  marginVertical: WP(3),
+                  height: WP(30),
+                
                 }}
               />
             </TouchableOpacity>
@@ -259,12 +245,23 @@ const CreateVendor = () => {
 
         <View style={{top: WP(13)}}>
           <FormCustomButton
-            btnTitle="Create"
+            btnTitle={isLoading ? <ActivityIndicator color="#fff" /> : 'Create'}
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
             onPress={() => onSubmit()}
           />
         </View>
+      </View>
+
+      <View style={styles.errorContainer}>
+        <Text style={styles.error}>{errors.name}</Text>
+        <Text style={styles.error}>{errors.street}</Text>
+        <Text style={styles.error}>{errors.city}</Text>
+        <Text style={styles.error}>{errors.state}</Text>
+        <Text style={styles.error}>{errors.telephone}</Text>
+        <Text style={styles.error}>{errors.zip_code}</Text>
+        <Text style={styles.error}>{errors.sales_rep}</Text>
+        <Text style={styles.error}>{errors.email}</Text>
       </View>
     </KeyboardAwareScrollView>
   );
@@ -281,5 +278,12 @@ const styles = StyleSheet.create({
     top: WP(-25),
     width: WP(90),
     left: WP(3),
+  },
+  errorContainer: {
+    top: HP(2),
+    alignSelf: 'center',
+  },
+  error: {
+    color: 'red',
   },
 });

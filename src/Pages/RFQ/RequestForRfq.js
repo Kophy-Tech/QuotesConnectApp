@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 18,
         fontStyle: 'normal',
-        fontFamily: 'General Sans'
+     
     },
     addButtonContainer:{
         marginVertical:30,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         lineHeight: 15,
-        fontFamily: 'sans-serif'
+    
     },
    
     tableRow: {

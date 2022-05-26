@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
@@ -16,22 +17,25 @@ import {useDispatch, useSelector} from 'react-redux';
 import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
 import PasswordInput from '../../component/PasswordInput';
-import { CreateVendorAction } from '../../Redux/Slice/VendorSlice';
+import {CreateVendorAction} from '../../Redux/Slice/VendorSlice';
+import {useNavigation} from '@react-navigation/native';
 
 Validator.setMessages('en', en);
 
-const Login = (props) => {
+const Login = props => {
   const dispatch = useDispatch();
-  const name=useSelector(state=>state);
-  console.log(name , 'list')
   const [document, setDocument] = useState({});
+  const navigation = useNavigation();
+
+  const loading = useSelector(state => state?.auth?.isLoading);
+  console.log(loading, 'lloading');
+
   const [errors, setError] = useState({});
   const [value, setValues] = useState({
     email: '',
     password: '',
   });
 
- 
   const handleInputChange = (inputName, inputValue) => {
     setValues({
       ...value,
@@ -39,10 +43,6 @@ const Login = (props) => {
     });
   };
 
-  useEffect(() => {
-   dispatch(CreateVendorAction())
-  }, [])
-  
   const onSubmit = async () => {
     console.log('submit');
     let rules = {
@@ -58,8 +58,23 @@ const Login = (props) => {
     if (validation.fails()) {
       setError(validation.errors.all());
     } else {
-      dispatch(login(value));
-    
+      dispatch(login(value))
+        .unwrap()
+        .then(() => {
+          navigation.navigate('bottomStack', {
+            screen: 'rfq',
+          });
+        })
+        .catch(rejectedValueOrSerializedError => {
+          console.log(rejectedValueOrSerializedError, 'rejecteddd');
+          if (typeof rejectedValueOrSerializedError == 'object') {
+            Object.keys(rejectedValueOrSerializedError).map(error => {
+              setError(...rejectedValueOrSerializedError[error]);
+            });
+          }
+
+          // handle error here
+        });
     }
   };
 
@@ -104,33 +119,49 @@ const Login = (props) => {
             onChangeText={value => handleInputChange('email', value)}
           />
 
-          <PasswordInput
-            placeholder="Password"
-            inputBorderColor={COLOR.BgColor}
-            name="password"
-            onChangeText={value => handleInputChange('password', value)}
-          />
+          <View style={{bottom: WP(8)}}>
+            <PasswordInput
+              placeholder="Password"
+              inputBorderColor={COLOR.BgColor}
+              name="password"
+              onChangeText={value => handleInputChange('password', value)}
+            />
+          </View>
+          <View style={styles.errorContainer}>
+            <Text style={styles.error}>{errors?.email}</Text>
+            <Text style={styles.error}>{errors?.password}</Text>
+            <Text style={styles.error}>{errors?.msg}</Text>
+          </View>
 
           <FormCustomButton
             onPress={() => onSubmit()}
             inputBorderColor={COLOR.BgColor}
-            btnTitle="Login"
+            btnTitle={
+              loading ? <ActivityIndicator small color="#fff" /> : 'Login'
+            }
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
           />
         </View>
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ResetPassword')}
+        style={{top: WP(-12), width: WP(90), left: WP(7)}}>
         <Text style={styles._forgot}>Forgot Password</Text>
       </TouchableOpacity>
+
+      {/*  */}
+
+      <Text style={[styles.error,{ textAlign:'center'}]}>{errors?.msg}</Text>
+
       <View style={{top: WP(39), width: WP(90), left: WP(7)}}>
         <FormCustomButton
           placeholder="Password"
           borderColor={COLOR.BgColor}
           borderWidth={WP(0.3)}
           btnTitle="Create Account"
-          onPress={() => props.navigation.navigate("Welcome")}
+          onPress={() => props.navigation.navigate('Welcome')}
           backgroundColor={COLOR.whiteColor}
           textColor={COLOR.BgColor}
         />
@@ -164,7 +195,14 @@ const styles = StyleSheet.create({
   _forgot: {
     textAlign: 'center',
     fontSize: HP(2),
-    top: WP(36),
+    top: WP(29),
     color: COLOR.blackColor,
+  },
+  errorContainer: {
+    top: HP(-6),
+    alignSelf: 'center',
+  },
+  error: {
+    color: 'red',
   },
 });

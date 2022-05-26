@@ -13,7 +13,7 @@ function VendorStack() {
       screenOptions={{
         headerShown: false,
       }}>
-      {/* <Stack.Screen name="ListOfVendor" component={ListOfVendor} />  */}
+       <Stack.Screen name="ListOfVendor" component={ListOfVendor} />  
       <Stack.Screen name="CreateVendor" component={CreateVendor} />
       {/* <Stack.Screen name="UpdateVendor" component={UpdateVendor} />  */}
     </Stack.Navigator>

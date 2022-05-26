@@ -1,103 +1,82 @@
 
-import React from 'react'
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import { BgColor, bgColor1, ColorText } from '../Utils/Colors';
+import React, {  useState, useLayoutEffect } from 'react'
+import {  Text } from 'react-native';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getMaterial } from '../Redux/Slice/materialSlice';
+import Loading from './Loading';
+import CustomFlatList from './CustomFlatList';
+import { Stack, Alert, IconButton, HStack, VStack, CloseIcon,  Center } from "native-base";
+
+
 
 const ViewMaterial = () => {
+
+    const auth = useSelector((auth) => auth.auth.user)
+    const dispatch = useDispatch()
+    const {isLoading, message} = useSelector((material) => material.material)
+    const material = useSelector((material) => material.material.material)
+  
+      const [error, setError] = useState(false);
+const token = auth?.token
+// console.log(token, 'ttttttt');
+    useLayoutEffect(() => {
+        dispatch(getMaterial(token))
+     .unwrap().then((res)=>{
+        //  console.log(res, 'res');
+         
+     }).catch((err)=>{
+       
+        if(err){
+            setError(true)
+        }
+      
+
+        
+     })
+    }, [dispatch])
+    // console.log(materialPost, 'materialPost');
+// console.log(material, 'material');
+
+
+    if (isLoading === true && error===false){
+        return <>
+            <Loading />
+        </>
+    }
+    else if (isLoading === false && error === true){
+        return <Center style={{flex:1, position:'relative'}}>
+            <Stack space={3} w="85%" maxW="400"  style={{ position:'absolute' ,bottom:0}}>
+              <Alert w="100%" status='error'>
+                        <VStack space={2} flexShrink={1} w="100%">
+                            <HStack flexShrink={1} space={2} justifyContent="space-between">
+                                <HStack space={2} flexShrink={1}>
+                                    <Alert.Icon mt="1" />
+                                    <Text fontSize="md" color="coolGray.800">
+                                    {message}
+                                    </Text>
+                                </HStack>
+                                <IconButton
+                                onPress={() => setError(false)}
+                                variant="unstyled" _focus={{
+                                    borderWidth: 0
+                                }} icon={<CloseIcon size="3" />} _icon={{
+                                    color: "coolGray.600"
+                                }} />
+                            </HStack>
+                        </VStack>
+                    </Alert>
+              
+            </Stack>
+        </Center>
+
+    }
   return (
       <>
-          <View style={styles.tableContainer}>
-              <View style={styles.tableColumnHeader}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem}>Category Name</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular2}>
-                      <Text style={[styles.textLineItem, {
-                         fontSize:13
-                      }]}>Sub Item Description</Text>
-                  </View>
-                 
-              </View>
-              < TouchableOpacity style={styles.tableRow}
-                
-              >
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>Laptop</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular2}>
-                      <Text style={styles.textLineItem1}>Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquamt, consectetur adipiscing </Text>
-                  </View>
-                 
-
-              </ TouchableOpacity>
-             
-          </View>
+          <CustomFlatList itemData={material}/>
+          
       </>
   )
 }
 
 export default ViewMaterial
-
-const styles = StyleSheet.create({
-    tableContainer: {
-        flex: 1,
-    },
-    tableColumnRegular: {
-        flex: 1,
-
-        justifyContent: 'center',
-
-        alignSelf: 'stretch',
-
-
-
-    },
-    tableColumnRegular2: {
-        flex: 1.8,
-
-        justifyContent: 'center',
-
-        alignSelf: 'stretch',
-
-
-
-    },
-    tableColumnHeader: {
-
-        flexDirection: "row",
-        justifyContent: 'center',
-
-        backgroundColor: BgColor,
-        borderRadius: 10,
-        height: 62,
-
-    },
-    textLineItem: {
-        fontSize: 15,
-        fontWeight: '400',
-        color: '#fff',
-        textAlign: 'center',
-        lineHeight: 18,
-        fontFamily: 'sans-serif'
-    },
-    textLineItem1: {
-        fontSize: 15,
-        fontWeight: '400',
-        color: ColorText,
-        textAlign: 'center',
-        lineHeight: 18,
-        fontFamily: 'sans-serif',
-
-    },
-    tableRow: {
-        flexDirection: "row",
-        justifyContent: 'center',
-        backgroundColor: bgColor1,
-        height: 100,
-        marginBottom: 2
-
-
-    },
-
-
-})

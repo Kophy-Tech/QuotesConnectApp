@@ -1,5 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { Spinner } from "native-base";
+import { useSelector, useDispatch } from 'react-redux';
+
 import {
   COLOR,
   IMAGE,
@@ -16,11 +19,7 @@ import {
 } from '../Utils/theme';
 const FormCustomButton = ({
 
-  // textColor=The button text color
-  // backgroundColor : the button backgroundColor.
-  // onPress : function(event),
-  
-  
+
   textColor ,
   backgroundColor,
   fontWeight,
@@ -32,6 +31,11 @@ const FormCustomButton = ({
   borderColor,
 borderRadius
 }) => {
+
+  const loading = useSelector((material) => material.material.isLoading)
+  const loadingJob = useSelector((job) => job.job.isLoading)
+
+// console.log(loading);
   return (
     <React.Fragment>
       <TouchableOpacity
@@ -47,19 +51,20 @@ borderRadius
          
         }}
         disabled={disabled}>
-        <Text
+        {loading || loadingJob ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
           style={{
             fontSize: WP(4.5),
             color: textColor,
             textAlign: 'center',
             fontWeight: fontWeight,
-            
-            
-           
-            
+
+
+
+
           }}>
           {btnTitle}
-        </Text>
+        </Text>}
+      
       </TouchableOpacity>
     </React.Fragment>
   );

@@ -99,7 +99,7 @@ container:{
         color: '#fff',
         textAlign: 'center',
         lineHeight: 18,
-        fontFamily: 'sans-serif'
+     
     },
     textLineItem1: {
         fontSize: 15,
@@ -107,8 +107,7 @@ container:{
         color: ColorText,
         textAlign: 'center',
         lineHeight: 18,
-        fontFamily: 'sans-serif',
-
+     
     },
     tableRow: {
         flexDirection: "row",

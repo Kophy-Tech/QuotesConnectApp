@@ -5,14 +5,77 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormCustomInput from '../../component/FormCustomInput';
 import FormCustomButton from '../../component/FormCustomButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {ResetPasswordAction} from '../../Redux/Slice/AuthSlice';
+import Validator from 'validatorjs';
+import en from 'validatorjs/src/lang/en';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ResetPassword = () => {
+Validator.setMessages('en', en);
+const ResetPassword = ({navigation}) => {
+  const loading = useSelector(state => state?.auth?.isLoading);
+  console.log(loading, 'loading');
+  const dispatch = useDispatch();
+  const [document, setDocument] = useState({});
+  const [errors, setError] = useState({});
+  const [value, setValues] = useState({
+    email: '',
+  });
+  console.log(value, 'error');
+
+  const handleInputChange = (inputName, inputValue) => {
+    setValues({
+      ...value,
+      [inputName]: inputValue,
+    });
+  };
+
+  const onSubmit = async () => {
+    await AsyncStorage.setItem('userEmail', value?.email);
+    let rules = {
+      email: 'required|email',
+    };
+
+    let validation = new Validator(value, rules, {
+      'required.email': 'The Email field is required.',
+    });
+
+    if (validation.fails()) {
+      setError(validation.errors.all());
+    } else {
+      console.log(value?.email, 'vvvvvvvvvlaue');
+
+      dispatch(ResetPasswordAction(value))
+        .unwrap()
+        .then(originalPromiseResult => {
+          navigation.navigate('OtpReset');
+        })
+        .catch(rejectedValueOrSerializedError => {
+          if (typeof rejectedValueOrSerializedError == 'object') {
+            Object.keys(rejectedValueOrSerializedError).map(error => {
+              setError(...rejectedValueOrSerializedError[error]);
+            });
+          }
+
+          // handle error here
+        });
+      // dispatch(login(value))
+      //   .unwrap()
+      //   .then(() => {
+      //     navigation.navigate('bottomStack', {
+      //       screen: 'rfq',
+      //     });
+      //   });
+    }
+  };
+
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -41,15 +104,27 @@ const ResetPassword = () => {
             placeholder="Email"
             inputBorderColor={COLOR.BgColor}
             lablelText={'Email'}
+            onChangeText={value => handleInputChange('email', value)}
           />
 
-         
           <FormCustomButton
             inputBorderColor={COLOR.BgColor}
-            btnTitle="Send OTP"
+            btnTitle={
+              loading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                'Send OTP'
+              )
+            }
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
+            onPress={() => onSubmit()}
           />
+
+          <View style={styles.errorContainer}>
+            <Text style={styles.error}>{errors?.email}</Text>
+            <Text style={styles.error}>{errors?.msg}</Text>
+          </View>
         </View>
       </View>
     </KeyboardAwareScrollView>
@@ -77,12 +152,19 @@ const styles = StyleSheet.create({
     top: HP(14),
     left: WP(7),
     height: HP(30),
-    marginVertical:WP(3)
+    marginVertical: WP(3),
   },
   _forgot: {
     textAlign: 'center',
     fontSize: HP(2),
     top: WP(36),
     color: COLOR.blackColor,
+  },
+  errorContainer: {
+    top: HP(6),
+    alignSelf: 'center',
+  },
+  error: {
+    color: 'red',
   },
 });

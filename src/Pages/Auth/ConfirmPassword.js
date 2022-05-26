@@ -12,8 +12,34 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormCustomInput from '../../component/FormCustomInput';
 import FormCustomButton from '../../component/FormCustomButton';
 import PasswordInput from '../../component/PasswordInput';
+import {useDispatch, useSelector} from 'react-redux';
+import Validator from 'validatorjs';
+import en from 'validatorjs/src/lang/en';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ConfirmPassword = () => {
+const ConfirmPassword = ({navigation}) => {
+  const onSubmit = async () => {
+    console.log('submit');
+    let rules = {
+      password: 'required',
+    };
+
+    let validation = new Validator(value, rules, {
+      'required.email': 'The Email field is required.',
+      'required.password': 'The Password field is required.',
+    });
+
+    if (validation.fails()) {
+      setError(validation.errors.all());
+    } else {
+      dispatch(login(value))
+        .unwrap()
+        .then(() => {
+          navigation.navigate('Login');
+        });
+    }
+  };
+
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}

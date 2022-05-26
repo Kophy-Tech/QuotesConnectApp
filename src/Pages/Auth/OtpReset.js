@@ -5,8 +5,9 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormCustomInput from '../../component/FormCustomInput';
@@ -18,15 +19,57 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  OtpResetPassword,
+  ResetPasswordAction,
+} from '../../Redux/Slice/AuthSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Otp = () => {
-  const CELL_COUNT = 5;
+const OtpReset = () => {
+  const loading = useSelector(state => state?.auth?.isLoadingOtp);
+  const loadingSubmit = useSelector(state => state?.auth?.isLoading);
+  const [error, setError] = useState('');
+  console.log(loading, 'loaxding');
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState('');
+  const CELL_COUNT = 6;
   const [value, setValue] = React.useState('');
+
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
+  //  "email":"bimagroupmail@gmail.com",
+  // "token":"998975",
+  // "type":"email"
+
+  const setEmailValue = async () => {
+    await AsyncStorage.getItem('userEmail').then(value => {
+      setEmail(value);
+    });
+  };
+
+  React.useEffect(() => {
+    setEmailValue();
+  }, []);
+
+  const onSubmit = () => {
+    dispatch(OtpResetPassword({email: email, token: value, type: 'email'}))
+      .unwrap()
+      .then(() => {
+        navigation.navigate('ResetPassword');
+      })
+      .catch(err => {
+        setError('Invalid Token....');
+      });
+  };
+
+  const ResentOtp = () => {
+    dispatch(ResetPasswordAction({email: email}));
+  };
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -44,7 +87,7 @@ const Otp = () => {
             fontSize: WP(6),
             marginVertical: HP(3),
           }}>
-          Enter Otp
+          Reset Password
         </Text>
       </View>
 
@@ -77,23 +120,36 @@ const Otp = () => {
           backgroundColor={COLOR.BgColor}
           btnTitle={'Submit'}
           textColor={COLOR.whiteColor}
+          onPress={() => onSubmit()}
+          disabled={value.length < 6 ? true : false}
         />
       </View>
 
       <View style={styles._buttonContainer}>
         <FormCustomButton
           backgroundColor={COLOR.whiteColor}
-          btnTitle={'Re-Send OTP'}
+          btnTitle={
+            loading ? (
+              <ActivityIndicator size="small" color="#000" />
+            ) : (
+              'Re-Send OTP'
+            )
+          }
           textColor={COLOR.BgColor}
           borderWidth={WP(0.3)}
           borderColor={COLOR.BgColor}
+          onPress={() => ResentOtp()}
+          //  ResentOtp
         />
+      </View>
+      <View style={styles.errorContainer}>
+        <Text style={styles.error}>{error}</Text>
       </View>
     </KeyboardAwareScrollView>
   );
 };
 
-export default Otp;
+export default OtpReset;
 
 const styles = StyleSheet.create({
   _mainContainer: {
@@ -146,5 +202,12 @@ const styles = StyleSheet.create({
     width: WP(90),
     left: WP(3),
     marginVertical: WP(3),
+  },
+  errorContainer: {
+    top: HP(10),
+    alignSelf: 'center',
+  },
+  error: {
+    color: 'red',
   },
 });

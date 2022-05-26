@@ -22,20 +22,31 @@ const login = userData => {
   });
 };
 
-const CreateVendorApi = vendorData => {
-  console.log(vendorData, 'vendor data omidiora');
-  return instance.post('/vendor', vendorData).then(response => {
-    console.log(response, 'response');
+const reset_password_api = email => {
+  return instance.post('/client/reset/mail', email).then(response => {
+    console.log(response, 'reset password');
+  });
+};
+
+const reset_password_otp = email => {
+  return instance.post('/client/confirmation/token', email).then(response => {
+    console.log(response, 'reset password');
+  });
+};
+
+// // auth/reset_password
+const getVendorApi = userData => {
+  return instance.get('/vendor/all-vendors').then(response => {
+    console.log(response, 'response vendor');
 
     return response.data;
   });
 };
 
-const getVendorApi = userData => {
-  return instance.get('/vendor').then(response => {
-    console.log(response, 'response');
-    if (response) {
-    }
+const CreateVendorApi = vendorData => {
+  console.log(vendorData, 'vendor data omidiora');
+  return instance.post('/vendor', vendorData).then(response => {
+    getVendorApi();
     return response.data;
   });
 };
@@ -58,7 +69,10 @@ const AuthService = {
   register,
   login,
   logout,
+  reset_password_api,
   CreateVendorApi,
+  reset_password_otp,
+  getVendorApi,
 };
 
 export default AuthService;

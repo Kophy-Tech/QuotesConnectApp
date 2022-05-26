@@ -1,167 +1,76 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native'
-import React from 'react'
-import { BgColor, bgColor1, ColorText } from '../Utils/Colors';
-import { useNavigation } from '@react-navigation/native';
+import { Text} from 'react-native'
+import React, { useState, useLayoutEffect } from 'react'
 
-const JobHistory = () => {
-    const navigation = useNavigation();
 
+import { useSelector, useDispatch } from 'react-redux';
+import Loading from './Loading';
+import { getJob } from '../Redux/Slice/JobSlice';
+import { Stack, Alert, IconButton, HStack, VStack, CloseIcon, Center } from "native-base";
+import CustomJobFlatList from './CustomJobFlat';
+
+const JobHistory = ({ navigation}) => {
+
+    const auth = useSelector((auth) => auth.auth.user)
+    const dispatch = useDispatch()
+  
+    const { isLoading, message } = useSelector((job) => job.job)
+    const job = useSelector((job) => job.job.job)
+
+    const [error, setError] = useState(false);
+    const token = auth?.token
+
+    useLayoutEffect(() => {
+        dispatch(getJob(token))
+            .unwrap().then((res) => {
+                //  console.log(res, 'res');
+
+            }).catch((err) => {
+
+                if (err) {
+                    setError(true)
+                }
+
+
+
+            })
+    }, [dispatch])
+    if (isLoading === true && error === false) {
+        return <>
+            <Loading />
+        </>
+    }
+    else if (isLoading === false && error === true) {
+        return <Center style={{ flex: 1, position: 'relative' }}>
+            <Stack space={3} w="85%" maxW="400" style={{ position: 'absolute', bottom: 0 }}>
+                <Alert w="100%" status='error'>
+                    <VStack space={2} flexShrink={1} w="100%">
+                        <HStack flexShrink={1} space={2} justifyContent="space-between">
+                            <HStack space={2} flexShrink={1}>
+                                <Alert.Icon mt="1" />
+                                <Text fontSize="md" color="coolGray.800">
+                                    {message}
+                                </Text>
+                            </HStack>
+                            <IconButton
+                                onPress={() => setError(false)}
+                                variant="unstyled" _focus={{
+                                    borderWidth: 0
+                                }} icon={<CloseIcon size="3" />} _icon={{
+                                    color: "coolGray.600"
+                                }} />
+                        </HStack>
+                    </VStack>
+                </Alert>
+
+            </Stack>
+        </Center>
+
+    }
   return (
   <>
-          <View style={styles.tableContainer}>
-              <View style={styles.tableColumnHeader}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem}>Project No.</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem}>Project Name</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem}>Address</Text>
-                  </View>
-              </View>
-              < TouchableOpacity style={styles.tableRow}
-                  onPress={() => navigation.navigate('editjob')}
-
-              >
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>2204</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>Ram</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>City :Phoenix, state:Arizona,
-                          Zip code: 85001</Text>
-                  </View>
-
-              </ TouchableOpacity>
-              <View style={styles.tableRow}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>2204</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>Ram</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>City :Phoenix, state:Arizona,
-                          Zip code: 85001</Text>
-                  </View>
-
-              </View>
-              <View style={styles.tableRow}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>2204</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>Ram</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>City :Phoenix, state:Arizona,
-                          Zip code: 85001</Text>
-                  </View>
-
-              </View>
-              <View style={styles.tableRow}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>2204</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>Ram</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>City :Phoenix, state:Arizona,
-                          Zip code: 85001</Text>
-                  </View>
-
-              </View>
-              <View style={styles.tableRow}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>2204</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>Ram</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>City :Phoenix, state:Arizona,
-                          Zip code: 85001</Text>
-                  </View>
-
-              </View>
-
-              <View style={styles.tableRow}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>2205</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>Ram</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItem1}>City :Phoenix, state:Arizona,
-                          Zip code: 85001</Text>
-                  </View>
-
-              </View>
-          </View>
+          <CustomJobFlatList itemData={job} navigation={navigation}/>
   </>
   )
 }
 
 export default JobHistory
-
-const styles = StyleSheet.create({
-    container: {
-     
-    },
-
-    tableContainer: {
-        flex: 1,
-    },
-    tableColumnRegular: {
-        flex: 1,
-      
-        justifyContent:'center',
-    
-        alignSelf: 'stretch',
-    
-
-        
-    },
-    tableColumnHeader: {
-    
-        flexDirection: "row",
-      justifyContent:'center',
-   
-      backgroundColor:BgColor,
-        borderRadius: 10,
-        height: 62,
-      
-    },
-    textLineItem:{
-        fontSize:15,
-        fontWeight:'400',
-        color:'#fff',
-        textAlign:'center',
-        lineHeight:18,
-        fontFamily:'sans-serif'
-    },
-    textLineItem1: {
-        fontSize: 15,
-        fontWeight: '400',
-        color: ColorText,
-        textAlign: 'center',
-        lineHeight: 18,
-        fontFamily: 'sans-serif',
-        
-    },
-    tableRow: {
-        flexDirection: "row",
-        justifyContent: 'center',
-        backgroundColor: bgColor1,
-        height: 100,
-        marginBottom:2
-      
-
-    },
-  
-});
