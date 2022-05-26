@@ -30,10 +30,10 @@ const postJobService = (data) => {
 
 
 const deleteJobService = (data) => {
-    const { id, token } = data
-    // console.log(value, token, ' vaaaaaa')
+    const { _id, token } = data
+    console.log(_id, token, ' vaaaaaa')
     return axios
-        .delete(API_URL + `material${id}`, value, { headers: { "Authorization": `${token}` } })
+        .delete(API_URL + `material/${_id}`, value, { headers: { "Authorization": `${token}` } })
         .then((response) => {
             console.log(response, 'response')
 

@@ -8,6 +8,7 @@ import ButtonH from '../../../component/ButtonH';
 import { bgColor2, bgColor3 } from '../../../Utils/Colors';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { deleteJob } from '../../../Redux/Slice/JobSlice';
 
 
 const EditJob = ({route}) => {
@@ -26,9 +27,9 @@ const EditJob = ({route}) => {
       ...value,
       [inputName]: inputValue,
     });
-    const token = auth?.token
   };
 
+  const token = auth?.token
 
   const updateJob = () => {
     const dataJob = {
@@ -59,11 +60,7 @@ const EditJob = ({route}) => {
 
         if (res.status === 'Created') {
           Alert.alert(`${res.msg}`)
-          setValues({
-            name: '',
-            description: '',
-          })
-          setIdex(true)
+         
         }
         console.log(res.status);
       }).catch((err) => {
@@ -75,25 +72,21 @@ const EditJob = ({route}) => {
 
 
   }
-  const deleteJob =()=>{
+  const deleteJobPost =()=>{
     const {_id} =value
     const dataJob = {
       _id, token
     }
     console.log(dataJob);
-    dispatch(postJob(dataJob)).unwrap().then((res) => {
+    dispatch(deleteJob(dataJob)).unwrap().then((res) => {
 
       if (res.status === 'Created') {
         Alert.alert(`${res.msg}`)
-        setValues({
-          name: '',
-          description: '',
-        })
-        setIdex(true)
+     
       }
       console.log(res.status);
     }).catch((err) => {
-      console.log(err)
+      // console.log(err)
       Alert.alert(`${err}`)
     })
   }
@@ -244,6 +237,7 @@ console.log(value);
 
 
                 }}
+                onPress={deleteJobPost}
               >
                 <Text
                   style={[styles.butttonText, { color: COLOR.BgColor }]}

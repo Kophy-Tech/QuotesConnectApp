@@ -52,12 +52,12 @@ export const updateJob = createAsyncThunk('job/updatejob', async (data, thunkAPI
 
 
 
-export const deleteJob = createAsyncThunk('job/updatejob', async (data, thunkAPI) => {
+export const deleteJob = createAsyncThunk('job/deletejob', async (data, thunkAPI) => {
     try {
 
-        return await JobService.updateJobService(data);
+        return await JobService.deleteJobService(data);
     } catch (error) {
-        console.log(error, 'error');
+        // console.log(error, 'error');
         const { message } = error;
         // console.log(error.response.data || message)
 
