@@ -31,11 +31,12 @@ const postJobService = (data) => {
 
 const deleteJobService = (data) => {
     const { _id, token } = data
-    console.log(_id, token, ' vaaaaaa')
+    // console.log(_id, token, ' vaaaaaa')
+    // console.log(API_URL + `job/${_id}`);
     return axios
-        .delete(API_URL + `material/${_id}`, value, { headers: { "Authorization": `${token}` } })
+        .delete(API_URL + `job/${_id}`, { headers: { "Authorization": `${token}` } })
         .then((response) => {
-            console.log(response, 'response')
+            // console.log(response, 'response')
 
 
             return response.data;
@@ -44,12 +45,14 @@ const deleteJobService = (data) => {
 
 
 const updateJobService = (data) => {
-    const { id, value, token } = data
-    // console.log(value, token, ' vaaaaaa')
+    const { _id, updatedData, token } = data
+    // console.log(_id,updatedData, token, ' updatedJobService')
+    // console.log(API_URL + `job/${_id}`);
+
     return axios
-        .update(API_URL + `material${id}`, value, { headers: { "Authorization": `${token}` } })
+        .put(API_URL + `job/${_id}`, updatedData, { headers: { "Authorization": `${token}` } })
         .then((response) => {
-            console.log(response, 'response')
+            // console.log(response, 'response')
 
 
             return response.data;
