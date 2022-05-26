@@ -15,7 +15,7 @@ import AppBar from '../../../component/AppBar';
 import { COLOR } from '../../../Utils/theme';
 import InputSearch from '../../../component/InputSearch';
 
-const Job = () => {
+const Job = ({navigation}) => {
    const [index, setIdex] = React.useState(true)
     return (
         < SafeAreaView style={{ flex: 1, marginBottom:80 }}>
@@ -64,19 +64,11 @@ const Job = () => {
             </Box>
 
             {
-                index &&<ScrollView
-                    showsVerticalScrollIndicator={false}
-                >
-                    <Box px="6" pt="5">
-
-                        <JobHistory />
-                    </Box>
-
-                </ScrollView>
+                index && <JobHistory navigation={navigation}/>
             }
   {
                 !index && <Box px="6" pt="5">
-                    <JobCreate/>
+                    <JobCreate setIdex={setIdex}/>
                 </Box>
   }
         </ SafeAreaView>

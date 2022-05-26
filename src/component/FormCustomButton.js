@@ -37,6 +37,8 @@ borderRadius
 }) => {
 
   const loading = useSelector((material) => material.material.isLoading)
+  const loadingJob = useSelector((job) => job.job.isLoading)
+
 // console.log(loading);
   return (
     <React.Fragment>
@@ -53,7 +55,7 @@ borderRadius
          
         }}
         disabled={disabled}>
-        {loading ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
+        {loading || loadingJob ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
           style={{
             fontSize: WP(4.5),
             color: textColor,

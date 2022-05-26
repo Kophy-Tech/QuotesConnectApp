@@ -13,8 +13,10 @@ export const getMaterial = createAsyncThunk(
         } catch (error) {
             console.log(error, 'from getmmaterial');
             const { message } = error;
+            // console.log(error.response.data.error[0].msg, 'from getmmaterial');
+
             // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-            return thunkAPI.rejectWithValue(error.response.data || message);
+            return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
         }
     },
 );
@@ -30,7 +32,7 @@ export const postMaterial = createAsyncThunk('material/postmaterial', async (dat
 
         // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
 
-        return thunkAPI.rejectWithValue(error.response.data || message);
+        return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
     }
 });
 
@@ -47,6 +49,9 @@ const initialState = {
 const materialSlice = createSlice({
     name: 'material',
     initialState,
+   
+     
+  
     extraReducers: {
         [getMaterial.pending]: (state, action) => {
             state.isLoading = true;

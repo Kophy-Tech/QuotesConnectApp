@@ -6,7 +6,7 @@ const API_URL = `${otherUrl}/`
 
 const getMaterialService = (token) => {
     // console.log(token, 'token')
-    return axios.get(API_URL + "material",  { headers: { "Authorization": `${token}` } }).then((response)=>{
+    return axios.get(API_URL + "material/all-materials",  { headers: { "Authorization": `${token}` } }).then((response)=>{
         return response.data;
     });
 };

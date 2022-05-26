@@ -30,7 +30,7 @@ const CreateMaterial = ({ setIdex}) => {
         });
     };
     const token = auth?.token
-    console.log(token, 'ttttttt');
+    // console.log(token, 'ttttttt');
 const subMaterials=()=>{
     const dataMaterial = { value, token
 }
@@ -43,14 +43,20 @@ const subMaterials=()=>{
 
  }
  else {
-     dispatch(postMaterial(dataMaterial)).unwrap().then(()=>{
-         setValues({
-             name: '',
-             description: '',
-         })
-         setIdex(true)
+     dispatch(postMaterial(dataMaterial)).unwrap().then((res)=>{
+    
+        if(res.status==='Created'){
+            Alert.alert(`${res.msg}`)
+            setValues({
+                name: '',
+                description: '',
+            })
+            setIdex(true)
+        }
+        console.log(res.status);
      }).catch((err)=>{
 console.log(err)
+Alert.alert(`${err}`)
      })
 
  }

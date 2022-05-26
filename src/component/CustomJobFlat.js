@@ -1,8 +1,8 @@
-
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
-import { BgColor, bgColor1, ColorText } from '../Utils/Colors';
+import { useNavigation } from '@react-navigation/native';
 
+import { BgColor, bgColor1, ColorText } from '../Utils/Colors';
 
 
 const HeaderComponent = () => {
@@ -10,30 +10,16 @@ const HeaderComponent = () => {
         <>
             <View style={styles.tableColumnHeader}>
                 <View style={styles.tableColumnRegular}>
-                    <Text style={styles.textLineItem}>Category Name</Text>
+                    <Text style={styles.textLineItem}>Project No.</Text>
                 </View>
-                <View style={styles.tableColumnRegular2}>
-                    <Text style={[styles.textLineItem3, {
-                        fontSize: 13
-                    }]}>Sub Item Description</Text>
+                <View style={styles.tableColumnRegular}>
+                    <Text style={styles.textLineItem}>Project Name</Text>
                 </View>
-
+                <View style={styles.tableColumnRegular}>
+                    <Text style={styles.textLineItem}>State</Text>
+                </View>
             </View>
         </>
-    )
-}
-
-const renderItem = ({ item }) => {
-    return (
-        <View style={styles.tableRow}>
-            <View style={styles.tableColumnRegular}>
-                <Text style={styles.textLineItem1}>{item?.name}</Text>
-            </View>
-            <View style={styles.tableColumnRegular2}>
-                <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>
-
-            </View>
-        </View>
     )
 }
 const EmptyContainer = () => {
@@ -56,12 +42,38 @@ const EmptyContainer = () => {
     </View>
 }
 
-const CustomFlatList = ({itemData}) => {
-    // const keyExtractor = (item) => item.id;
-    // console.log(itemData, 'itemData');
-    // const renderItemMemo = ({ item }) => <RenderItem item={item}  />
+
+// { itemParams: item }
+const CustomJobFlatList = ({ itemData,navigation }) => {
+    const renderItem = ({ item }) => <Item item={item} onItemPress={NavigationPress} />
+    const NavigationPress = (item) => {
+
+
+        navigation.navigate('editjob', {itemParams: item})
+    };
+    const Item = ({ item, onItemPress }) => {
+
+        return (
+            < TouchableOpacity style={styles.tableRow}
+                onPress={() => onItemPress(item)}
+            >
+                <View style={styles.tableColumnRegular}>
+                    <Text style={styles.textLineItem1}>{item.project_id}</Text>
+                </View>
+                <View style={styles.tableColumnRegular}>
+                    <Text style={styles.textLineItem3}>{item.name}</Text>
+                </View>
+                <View style={styles.tableColumnRegular}>
+                    <Text style={styles.textLineItem1}>{item.state}</Text>
+                </View>
+
+            </ TouchableOpacity>
+        )
+    }
+
   return (
-  <>
+      <>
+         
           <FlatList
               data={itemData}
               renderItem={renderItem}
@@ -73,26 +85,17 @@ const CustomFlatList = ({itemData}) => {
               contentContainerStyle={{ paddingHorizontal: 22, paddingVertical: 9 }}
           />
 
-  </>
+       
+      </>
   )
 }
 
-export default CustomFlatList
+export default CustomJobFlatList
 
 const styles = StyleSheet.create({
-
+ 
     tableColumnRegular: {
         flex: 1,
-
-        justifyContent: 'center',
-
-        // alignSelf: 'stretch',
-
-paddingRight:10
-
-    },
-    tableColumnRegular2: {
-        flex: 1.8,
 
         justifyContent: 'center',
 
@@ -119,45 +122,33 @@ paddingRight:10
         lineHeight: 18,
 
     },
+    textLineItem1: {
+        fontSize: 15,
+        fontWeight: '400',
+        color: ColorText,
+        textAlign: 'center',
+        lineHeight: 18,
+
+
+    },
     textLineItem3: {
         fontSize: 15,
         fontWeight: '400',
-        color: '#fff',
-        textAlign: 'left',
-        lineHeight: 18,
-
-    },
-    textLineItem1: {
-        fontSize: 13,
-        fontWeight: '400',
         color: ColorText,
-        textAlign: 'left',
+        textAlign: 'center',
         lineHeight: 18,
-        fontFamily: 'sans-serif',
-       
+        textTransform:'capitalize'
 
-    },
-    textLineItem2: {
-        fontSize: 15,
-        fontWeight: '400',
-        color: ColorText,
-        textAlign: 'left',
-        lineHeight: 18,
-        fontFamily: 'sans-serif',
 
     },
     tableRow: {
         flexDirection: "row",
-        // justifyContent: 'left',
+        justifyContent: 'center',
         backgroundColor: bgColor1,
-        height: 60,
-        marginBottom: 2,
-        padding: 5
-
-
+        height: 100,
+        marginBottom: 2
 
 
     },
 
-
-})
+});
