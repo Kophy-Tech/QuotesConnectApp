@@ -150,7 +150,7 @@ paddingRight:10
         flexDirection: "row",
         // justifyContent: 'left',
         backgroundColor: bgColor1,
-        height: 60,
+        height: 80,
         marginBottom: 2,
         padding: 5
 

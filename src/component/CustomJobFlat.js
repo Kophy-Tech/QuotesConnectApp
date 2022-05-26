@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'center',
         backgroundColor: bgColor1,
-        height: 100,
+        height: 80,
         marginBottom: 2
 
 
