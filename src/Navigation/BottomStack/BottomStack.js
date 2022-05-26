@@ -15,6 +15,7 @@ import RequestForRfq from '../../Pages/RFQ/RequestForRfq';
 import Vendors from '../../Pages/Vendor/Vendors';
 import Notification from '../../Pages/Jobs/Notification';
 import Profile from '../../Pages/Jobs/Profile';
+import VendorStack from '../VendorStack/VendorStack';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator(); 
@@ -24,6 +25,7 @@ function BottomStack() {
       screenOptions={{
         headerShown: true,
       }}
+      initialRouteName="vendors"
     >
       <Stack.Screen name="Bottom" component={BottomStackNavigation} 
         options={{
@@ -45,6 +47,7 @@ function BottomStack() {
           headerTitleAlign: 'center',
         }}
       />
+
       <Stack.Screen name="requestforrfq" component={RequestForRfq}
         options={{
           title: <Text style={{ color: COLOR.BgColor, fontSize: WP(6), lineHeight: HP(5) }}>Request For RFQ</Text>,
@@ -91,7 +94,7 @@ const BottomStackNavigation = () => {
       
     >
    
-      <Tab.Screen name="rfq" component={Rfq}
+      {/* <Tab.Screen name="rfq" component={Rfq}
       
         options={{
           headerShown: false,
@@ -132,9 +135,9 @@ const BottomStackNavigation = () => {
             )
           }
         }}
-      />
+      /> */}
 
-      <Tab.Screen name="vendors" component={Vendors}
+      <Tab.Screen name="vendors" component={VendorStack}
 
         options={{
           headerShown: false,
@@ -155,7 +158,7 @@ const BottomStackNavigation = () => {
           }
         }}
       />
-      <Tab.Screen name="material" component={MaterialManagement}
+      {/* <Tab.Screen name="material" component={MaterialManagement}
 
         options={{
           headerShown: false,
@@ -180,7 +183,7 @@ const BottomStackNavigation = () => {
             )
           }
         }}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }

@@ -35,6 +35,8 @@ const FormCustomInput = ({
             padding: WP(3),
             borderColor: inputBorderColor,
             borderRadius: WP(1),
+            marginVertical:HP(1),
+            
           }}
           value={value}
           onChangeText={onChangeText}

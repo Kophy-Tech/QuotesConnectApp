@@ -12,15 +12,19 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormCustomInput from '../../component/FormCustomInput';
 import FormCustomButton from '../../component/FormCustomButton';
 import {login} from '../../Redux/Slice/AuthSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
 import PasswordInput from '../../component/PasswordInput';
+import { CreateVendorAction } from '../../Redux/Slice/VendorSlice';
 
 Validator.setMessages('en', en);
 
 const Login = (props) => {
   const dispatch = useDispatch();
+  const name=useSelector(state=>state);
+  console.log(name , 'list')
+  const [document, setDocument] = useState({});
   const [errors, setError] = useState({});
   const [value, setValues] = useState({
     email: '',
@@ -35,6 +39,10 @@ const Login = (props) => {
     });
   };
 
+  useEffect(() => {
+   dispatch(CreateVendorAction())
+  }, [])
+  
   const onSubmit = async () => {
     console.log('submit');
     let rules = {
@@ -51,6 +59,7 @@ const Login = (props) => {
       setError(validation.errors.all());
     } else {
       dispatch(login(value));
+    
     }
   };
 
