@@ -19,11 +19,7 @@ import {
 } from '../Utils/theme';
 const FormCustomButton = ({
 
-  // textColor=The button text color
-  // backgroundColor : the button backgroundColor.
-  // onPress : function(event),
-  
-  
+
   textColor ,
   backgroundColor,
   fontWeight,

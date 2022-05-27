@@ -26,7 +26,7 @@ import {
 } from '../../Redux/Slice/AuthSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Otp = ({navigation}) => {
+const OtpReset = () => {
   const loading = useSelector(state => state?.auth?.isLoadingOtp);
   const loadingSubmit = useSelector(state => state?.auth?.isLoading);
   const [error, setError] = useState('');
@@ -60,9 +60,10 @@ const Otp = ({navigation}) => {
     dispatch(OtpResetPassword({email: email, token: value, type: 'email'}))
       .unwrap()
       .then(() => {
-        navigation.navigate('bottomStack', {
-          screen: 'rfq',
-        });
+        navigation.navigate('ResetPassword');
+      })
+      .catch(err => {
+        setError('Invalid Token....');
       });
   };
 
@@ -86,7 +87,7 @@ const Otp = ({navigation}) => {
             fontSize: WP(6),
             marginVertical: HP(3),
           }}>
-          Enter Your Otp
+          Reset Password
         </Text>
       </View>
 
@@ -148,7 +149,7 @@ const Otp = ({navigation}) => {
   );
 };
 
-export default Otp;
+export default OtpReset;
 
 const styles = StyleSheet.create({
   _mainContainer: {

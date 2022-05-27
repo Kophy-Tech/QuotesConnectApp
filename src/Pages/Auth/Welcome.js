@@ -18,12 +18,13 @@ import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
 import {ErrorDisplay} from '../../Utils/util';
 import {register} from '../../Redux/Slice/AuthSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 Validator.setMessages('en', en);
 
-const Welcome = (props) => {
+const Welcome = props => {
   const dispatch = useDispatch();
   const {isError, isLoading, message} = useSelector(state => state.auth);
-  console.log(isLoading, 'llllllllllllll');
+
   const [errors, setError] = useState({});
   const [value, setValues] = useState({
     email: '',
@@ -65,7 +66,22 @@ const Welcome = (props) => {
     if (validation.fails()) {
       setError(validation.errors.all());
     } else {
-      dispatch(register(value));
+      await AsyncStorage.setItem('userEmail', value?.email);
+      dispatch(register(value))
+        .unwrap()
+        .then(() => {
+          props.navigation.navigate('Otp')
+        })
+        .catch(rejectedValueOrSerializedError => {
+          console.log(rejectedValueOrSerializedError, 'rejecteddd');
+          if (typeof rejectedValueOrSerializedError == 'object') {
+            Object.keys(rejectedValueOrSerializedError).map(error => {
+              setError(...rejectedValueOrSerializedError[error]);
+            });
+          }
+
+          // handle error here
+        });
     }
   };
 
@@ -122,10 +138,12 @@ const Welcome = (props) => {
 
         {/* Error */}
 
-        <View>
-          <Text>{ErrorDisplay(errors)}</Text>
-          <Text style={{color: 'red', textAlign: 'center'}}>{message}</Text>
-        </View>
+        {Object.keys(errors).length > 0 && (
+          <View>
+            <Text>{ErrorDisplay(errors)}</Text>
+            <Text style={{color: 'red', textAlign: 'center'}}>{message}</Text>
+          </View>
+        )}
 
         <FormCustomButton
           onPress={() => onSubmit()}
@@ -139,14 +157,14 @@ const Welcome = (props) => {
           }
           textColor={COLOR.whiteColor}
         />
-        <View style={{top: WP(8)}}>
+        <View style={{top: WP(8), marginVertical: WP(3)}}>
           <FormCustomButton
             backgroundColor={COLOR.whiteColor}
             btnTitle={'Login'}
             textColor={COLOR.BgColor}
             borderColor={COLOR.BgColor}
             borderWidth={0.4}
-            e
+            onPress={() => props.navigation.navigate('Login')}
           />
         </View>
       </View>

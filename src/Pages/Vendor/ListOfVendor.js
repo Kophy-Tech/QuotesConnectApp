@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -7,76 +7,113 @@ import {
   ScrollView,
   FlatList,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
-import { BgColor, bgColor1, ColorText } from '../../Utils/Colors';
+import {BgColor, bgColor1, ColorText} from '../../Utils/Colors';
+import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  CreateVendorAction,
+  getVendorAction,
+} from '../../Redux/Slice/VendorSlice';
+import {COLOR, HP, WP} from '../../Utils/theme';
+import Header from '../../component/Header';
+import FormCustomButton from '../../component/FormCustomButton';
 
+const ListOfVendor = props => {
+  const dispatch = useDispatch();
 
-const DATA = [
-  {
-    title: 'Company Logo',
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    company_logo: require('../../Assets/Images/company_logo.png'),
-    company_name: 'Badlam',
-    sales_rep: 'Ajani Ben Dara',
-    email: 'Ajani Ben Dara',
-    phone: '08070730720730',
-  },
-  {
-    title: 'Company Name',
-    id: 'bd7aea-c1b1-46c2-aed5-3ad53abb28ba',
-    company_logo: require('../../Assets/Images/company_logo.png'),
-    company_name: 'Badlam',
-    sales_rep: 'Ajani Ben Dara',
-    email: 'Ajani Ben Dara',
-    phone: '08070730720730',
-  },
-  {
-    title: 'Sale Representative',
-    id: 'bd7acbe1-46c2-aed5-3ad53abb28ba',
-    company_logo: require('../../Assets/Images/company_logo.png'),
-    company_name: 'Badlam',
-    sales_rep: 'Ajani Ben Dara',
-    email: 'Ajani Ben Dara',
-    phone: '08070730720730',
-  },
-  {
-    title: 'Email',
-    id: 'bd7acbea-c1b1-46c2-a-3ad53abb28ba',
-    company_logo: require('../../Assets/Images/company_logo.png'),
-    company_name: 'Badlam',
-    sales_rep: 'Ajani Ben Dara',
-    email: 'Ajani Ben Dara',
-    phone: '08070730720730',
-  },
-  {
-    title: 'Phone Number',
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53a8ba',
-    company_logo: require('../../Assets/Images/company_logo.png'),
-    company_name: 'Badlam',
-    sales_rep: 'Ajani Ben Dara',
-    email: 'Ajani Ben Dara',
-    phone: '08070730720730',
-  },
-];
+  const listOfVendor = useSelector(
+    state =>
+      state?.vendor?.data?.map(data => {
+        return {
+          logo: (
+            <Image
+              source={{
+                uri:
+                  data?.logo ||
+                  'https://cdn-icons.flaticon.com/png/512/552/premium/552848.png?token=exp=1653588554~hmac=1e41d49a052d54034096fae003df35be',
+              }}
+              style={{
+                width: 33,
+                height: 33,
+                left: 3,
+                resizeMode: 'cover',
+                marginVertical: WP(3),
+              }}
+            />
+          ),
 
-const ListOfVendor = () => {
+          name: data.name,
+          phone: data.telephone,
+        };
+      }) || [],
+  );
+  console.log(listOfVendor, 'listofvorend');
+
+  const vendors = listOfVendor.map(o => Object.keys(o).map(k => o[k]));
+
+  console.log(listOfVendor, 'list');
+  const TableHeader = ['Company Logo', 'Company Name', 'Phone Number'];
+  const WidthTable = [40, 40, 70];
+  const TableData = useState([]);
+
+  useEffect(() => {
+    dispatch(getVendorAction());
+  }, []);
+
   return (
-    < >
-      <ScrollView style={styles.tableContainer} showsHorizontalScrollIndicator={true}>
-     
+    <View style={styles.container}>
+      <Header />
+      <View style={{flexDirection: 'row', paddingBottom: WP(10)}}>
+        <View style={{width: WP(48), height: HP(7.2)}}>
+          <FormCustomButton
+            backgroundColor={COLOR.whiteColor}
+            borderWidth={0.5}
+            btnTitle="View History"
+            borderColor={COLOR.deepBlue}
+            borderRadius={1}
+          />
+        </View>
+        <View style={{width: WP(43), left: WP(2), height: HP(7.2)}}>
+          <FormCustomButton
+            backgroundColor={COLOR.BgColor}
+            btnTitle="Create Vendor"
+            textColor={COLOR.whiteColor}
+            onPress={() => props.navigation.navigate('CreateVendor')}
+            borderRadius={1}
+          />
+        </View>
+      </View>
 
+      <View>
+        <Table borderStyle={{borderColor: 'black'}}>
+          <Row data={TableHeader} style={styles.head} textStyle={styles.text} />
 
-      </ScrollView>
-    </>
+          {vendors.map((rowData, index) => (
+            <TableWrapper key={index} style={styles.row}>
+              {rowData.map((cellData, cellIndex) => (
+                <Cell key={cellIndex} data={cellData} />
+              ))}
+            </TableWrapper>
+          ))}
+        </Table>
+      </View>
+    </View>
   );
 };
 
 export default ListOfVendor;
 
 const styles = StyleSheet.create({
+  container: {flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff'},
+  head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2)},
+  text: {margin: 6, color: '#fff'},
+  row: {flexDirection: 'row', backgroundColor: '#F7FCFB'},
+  btn: {width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2},
+  btnText: {textAlign: 'center', color: '#fff'},
   tableContainer: {
-  //  flexDirection:'column'
+    //  flexDirection:'column'
   },
   tableColumnRegular: {
     flex: 1,
@@ -84,9 +121,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
     alignSelf: 'stretch',
-
-
-
   },
   tableColumnRegular2: {
     flex: 1.8,
@@ -94,19 +128,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
     alignSelf: 'stretch',
-
-
-
   },
   tableColumnHeader: {
-
-    flexDirection: "row",
+    flexDirection: 'row',
     justifyContent: 'center',
 
     backgroundColor: BgColor,
     borderRadius: 10,
     height: 62,
-
   },
   textLineItem: {
     fontSize: 15,
@@ -114,7 +143,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     lineHeight: 18,
-    
   },
   textLineItem1: {
     fontSize: 15,
@@ -122,19 +150,12 @@ const styles = StyleSheet.create({
     color: ColorText,
     textAlign: 'center',
     lineHeight: 18,
-   
-
   },
   tableRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: bgColor1,
     height: 100,
-    marginBottom: 2
-
-
+    marginBottom: 2,
   },
-
-
- 
 });

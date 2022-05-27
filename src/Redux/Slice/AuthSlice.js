@@ -9,7 +9,7 @@ export const register = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await AuthService.register(userData);
-      console.log(response, 'response')
+      console.log(response, 'response');
       return response.data;
     } catch (error) {
       console.log(error, 'from register');
@@ -34,16 +34,74 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   }
 });
 
+export const ResetPasswordAction = createAsyncThunk(
+  'auth/reset_password',
+  async (user, thunkAPI) => {
+    try {
+      return await AuthService.reset_password_api(user);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      // console.log(error.response.data || message)
+
+      // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
+    }
+  },
+);
+
+export const OtpResetPassword = createAsyncThunk(
+  'auth/otp_password',
+  async (user, thunkAPI) => {
+    try {
+      return await AuthService.reset_password_otp(user);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      return thunkAPI.rejectWithValue(error.response.data || message);
+    }
+  },
+);
+
+export const getUserInfoAction = createAsyncThunk(
+  'auth/reset_password',
+  async (user, thunkAPI) => {
+    try {
+      return await AuthService.GetUserInfoApi(user);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
+    }
+  },
+);
+
+export const confirmOtp = createAsyncThunk(
+  'auth/reset_password',
+  async (user, thunkAPI) => {
+    try {
+      return await AuthService.GetUserInfoApi(user);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
+    }
+  },
+);
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await AuthService.logout();
 });
 
 const initialState = {
-  user:  null,
+  user: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: '',
+  isLoadingOtp: false,
+  userInfo:{}
 };
 
 const authSlice = createSlice({
@@ -61,7 +119,7 @@ const authSlice = createSlice({
     [register.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.message = "Something went wrong. try again";
+      state.message = 'Something went wrong. try again';
       state.user = null;
     },
     [login.pending]: (state, action) => {
@@ -80,6 +138,55 @@ const authSlice = createSlice({
     },
     [logout.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
+      state.user = null;
+    },
+
+    // ResetPasswordAction
+    [ResetPasswordAction.pending]: (state, action) => {
+      state.isLoading = true;
+      state.isLoadingOtp = true;
+    },
+    [ResetPasswordAction.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.user = action.payload;
+      state.isLoadingOtp = false;
+    },
+    [ResetPasswordAction.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.user = null;
+      state.isLoadingOtp = false;
+    },
+
+    [OtpResetPassword.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [OtpResetPassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.user = action.payload;
+    },
+    [OtpResetPassword.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.user = null;
+    },
+
+    [getUserInfoAction.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [getUserInfoAction.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.userInfo= action.payload;
+    },
+    [getUserInfoAction.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
       state.user = null;
     },
   },
