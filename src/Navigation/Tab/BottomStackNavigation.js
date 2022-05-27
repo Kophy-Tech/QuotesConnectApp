@@ -29,7 +29,7 @@ const BottomStackNavigation = () => {
         name="rfq"
         component={Rfq}
         options={{
-          tabBarStyle: { display: "none" },
+          // tabBarStyle: { display: "none" },
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return (
@@ -89,7 +89,7 @@ const BottomStackNavigation = () => {
         name="vendors"
         component={VendorStack}
         options={{
-          tabBarStyle: { display: "none" },
+          // tabBarStyle: { display: "none" },
           headerShown: false,
           tabBarIcon: ({focused, color}) => {
             return (

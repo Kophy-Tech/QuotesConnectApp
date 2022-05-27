@@ -16,6 +16,9 @@ import Vendors from '../../Pages/Vendor/Vendors';
 import Notification from '../../Pages/Jobs/Notification';
 import Profile from '../../Pages/Jobs/Profile';
 import VendorStack from '../VendorStack/VendorStack';
+import JobCreate from '../../component/JobCreate';
+import CreateMaterial from '../../component/CreateMaterial';
+
 // SimpleLineIcons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -75,7 +78,42 @@ function BottomStack() {
           headerTitleAlign: 'center',
         }}
       />
-
+      <Stack.Screen
+        name="jobcreate"
+        component={JobCreate}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+             Create Job
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="creatematerial"
+        component={CreateMaterial}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Create Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
       <Stack.Screen
         name="requestforrfq"
         component={RequestForRfq}

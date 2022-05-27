@@ -7,11 +7,14 @@ import { HP, WP, COLOR } from '../Utils/theme';
 import InputForm from './Input';
 import { useSelector, useDispatch } from 'react-redux';
 import { postJob } from '../Redux/Slice/JobSlice';
+import { useNavigation } from '@react-navigation/native';
 
-const JobCreate = ({ setIdex}) => {
+const JobCreate = () => {
 
   const auth = useSelector((auth) => auth.auth.user)
   const dispatch = useDispatch()
+  const navigation = useNavigation();
+
 
   const [value, setValues] = React.useState({
     name: '',
@@ -63,7 +66,7 @@ const JobCreate = ({ setIdex}) => {
             name: '',
             description: '',
           })
-          setIdex(true)
+          navigation.goBack()
         }
         console.log(res.status);
       }).catch((err) => {
@@ -79,83 +82,83 @@ const JobCreate = ({ setIdex}) => {
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
-      contentContainerStyle={{ paddingBottom: WP(65) }}
+      contentContainerStyle={{ paddingBottom: WP(35) }}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
+      <Box px="6" pt="5">
+        <Box mb="2">
+          <InputForm
+            title="Project Name"
+            value={value.name}
+            borderColor={COLOR.BgColor}
+            name="name"
+            onChangeText={value => handleInputChange('name', value)}
 
-      <Box my="4">
-        <Text style={styles.heading}>Create New Job</Text>
+          />
+        </Box>
+
+
+        <Box mb="2">
+          <Text style={styles.address}>Address</Text>
+        </Box>
+        <Box mb="2">
+          <InputForm
+            title="State"
+            value={value.state}
+            onChangeText={value => handleInputChange('state', value)}
+            name="state"
+            borderColor={COLOR.BgColor}
+
+          />
+        </Box>
+
+        <Box mb="2">
+          <InputForm
+            title="City"
+            value={value.city}
+            onChangeText={value => handleInputChange('city', value)}
+            name="city"
+            borderColor={COLOR.BgColor}
+          />
+        </Box>
+        <Box mb="2">
+          <InputForm
+            title="Street"
+            borderColor={COLOR.BgColor}
+            name="street"
+
+            value={value.street}
+            onChangeText={value => handleInputChange('street', value)}
+
+
+          />
+        </Box>
+
+
+        <Box mb="2">
+          <InputForm
+            title="Zip Code"
+            value={value.zip_code}
+            onChangeText={value => handleInputChange('zip_code', value)}
+            name="zip_code"
+            borderColor={COLOR.BgColor}
+          />
+        </Box>
+
+        <Box mb="2">
+          <FormCustomButton
+            placeholder=""
+            borderColor={COLOR.BgColor}
+            borderWidth={WP(0.3)}
+            btnTitle="Create"
+            backgroundColor={COLOR.BgColor}
+            textColor={COLOR.whiteColor}
+            onPress={subJob}
+          />
+        </Box>
       </Box>
-      <Box mb="2">
-        <InputForm
-          title="Project Name"
-          value={value.name}
-          borderColor={COLOR.BgColor}
-          name="name"
-          onChangeText={value => handleInputChange('name', value)}
-
-        />
-      </Box>
-
-     
-      <Box mb="2">
-        <Text style={styles.address}>Address</Text>
-      </Box>
-      <Box mb="2">
-        <InputForm
-          title="State"
-          value={value.state}
-          onChangeText={value => handleInputChange('state', value)}
-          name="state"
-          borderColor={COLOR.BgColor}
-
-        />
-      </Box> 
-
-      <Box mb="2">
-        <InputForm
-          title="City"
-          value={value.city}
-          onChangeText={value => handleInputChange('city', value)}
-          name="city"
-          borderColor={COLOR.BgColor}
-        />
-      </Box>   
-      <Box mb="2">
-        <InputForm
-          title="Street"
-          borderColor={COLOR.BgColor}
-          name="street"
-
-          value={value.street}
-          onChangeText={value => handleInputChange('street', value)}
-
-
-        />
-      </Box>
-   
-     
-       <Box mb="2">
-        <InputForm
-          title="Zip Code"
-          value={value.zip_code}
-          onChangeText={value => handleInputChange('zip_code', value)}
-name="zip_code"
-          borderColor={COLOR.BgColor}
-        />
-      </Box>
-
-      <Box mb="2">
-        <FormCustomButton
-          placeholder=""
-          borderColor={COLOR.BgColor}
-          borderWidth={WP(0.3)}
-          btnTitle="Create"
-          backgroundColor={COLOR.BgColor}
-          textColor={COLOR.whiteColor}
-          onPress={subJob}
-        />
-      </Box>
+    
+    
       </KeyboardAwareScrollView>
   )
 }
