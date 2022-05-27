@@ -118,48 +118,12 @@ const CreateVendor = props => {
       contentContainerStyle={{paddingBottom: WP(65)}}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
-      <Header />
+    
 
-      <View
-        style={{
-          flexDirection: 'row',
-          paddingBottom: WP(10),
-          justifyContent: 'center',
-        }}>
-        <View style={{width: WP(48), height: HP(20)}}>
-          <FormCustomButton
-            // backgroundColor={COLOR.whiteColor}
-            backgroundColor={COLOR.BgColor}
-            btnTitle="View History"
-            borderColor={COLOR.deepBlue}
-            textColor={COLOR.whiteColor}
-            borderRadius={1}
-            onPress={() => props.navigation.goBack()}
-          />
-        </View>
-
-        <View style={{width: WP(43), left: WP(2)}}>
-          <FormCustomButton
-            btnTitle="Create Vendor"
-            backgroundColor={COLOR.whiteColor}
-            borderColor={COLOR.BgColor}
-            borderWidth={0.5}
-            borderRadius={1}
-            textColor={COLOR.BgColor}
-          />
-        </View>
-      </View>
+  
 
       <View style={styles.vendorInputContainer}>
-        <Text
-          style={{
-            fontSize: WP(5),
-            fontWeight: '400',
-            color: COLOR.BgColor,
-            marginVertical: WP(3),
-          }}>
-          Create Vendor
-        </Text>
+   
 
         <View style={{top: HP(3)}}>
           <FormCustomInput
@@ -239,9 +203,9 @@ const CreateVendor = props => {
                   uri: document.path,
                 }}
                 style={{
-                  left: WP(4),
-                  top: WP(6),
-                  width: WP(80),
+                
+                 
+                  width: WP(90),
                   height: WP(30),
                 
                 }}
@@ -280,11 +244,12 @@ const styles = StyleSheet.create({
   _mainContainer: {
     backgroundColor: COLOR.whiteColor,
     flex: 1,
+    paddingHorizontal: WP(5),
   },
   vendorInputContainer: {
-    top: WP(-25),
+  
     width: WP(90),
-    left: WP(3),
+   
   },
   errorContainer: {
     top: HP(2),

@@ -8,14 +8,21 @@ import ButtonH from '../../../component/ButtonH';
 import { bgColor2, bgColor3 } from '../../../Utils/Colors';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { deleteJob } from '../../../Redux/Slice/JobSlice';
 
+import { deleteJob, updateJob } from '../../../Redux/Slice/JobSlice';
+import { useNavigation } from '@react-navigation/native';
 
+import { Spinner } from "native-base";
 const EditJob = ({route}) => {
   const { itemParams } = route.params;
   const auth = useSelector((auth) => auth.auth.user)
+  const loading = useSelector((job) => job.job.isLoading)
+
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible1, setModalVisible1] = React.useState(false);
+
   const dispatch = useDispatch()
+  const navigation = useNavigation();
 
   const [value, setValues] = React.useState({
     ...itemParams
@@ -31,9 +38,13 @@ const EditJob = ({route}) => {
 
   const token = auth?.token
 
-  const updateJob = () => {
+  const updateJobPost = () => {
+    const { _id, name, state, street, city, zip_code} = value
+    const updatedData = {
+name, state, street, city, zip_code      
+    }
     const dataJob = {
-      value, token
+      _id, updatedData, token
     }
     // console.log(dataMaterial, 'dataMaterial');
     if (!value.name) {
@@ -56,11 +67,12 @@ const EditJob = ({route}) => {
 
     }
     else {
-      dispatch(postJob(dataJob)).unwrap().then((res) => {
+      dispatch(updateJob(dataJob)).unwrap().then((res) => {
 
-        if (res.status === 'Created') {
+        if (res.status === 'Updated') {
           Alert.alert(`${res.msg}`)
-         
+          navigation.goBack()
+
         }
         console.log(res.status);
       }).catch((err) => {
@@ -80,18 +92,17 @@ const EditJob = ({route}) => {
     console.log(dataJob);
     dispatch(deleteJob(dataJob)).unwrap().then((res) => {
 
-      if (res.status === 'Created') {
+      if (res.status === 'Deleted') {
         Alert.alert(`${res.msg}`)
-     
+        navigation.goBack()
       }
       console.log(res.status);
     }).catch((err) => {
-      // console.log(err)
+      // console.log(err, 'editjob')
       Alert.alert(`${err}`)
     })
   }
-console.log(value);
-  // console.log(itemParams.zip_code);
+ 
   return (
     <>
       <Box px="6">
@@ -188,6 +199,7 @@ console.log(value);
 
 
               }}
+              onPress={() => setModalVisible1(true)}
 
             >
               <Text
@@ -217,7 +229,7 @@ console.log(value);
 }}>
               <Icon
                 name="delete-forever"
-                size={60}
+                size={50}
                 color={COLOR.BgColor}
 
 
@@ -239,10 +251,15 @@ console.log(value);
                 }}
                 onPress={deleteJobPost}
               >
-                <Text
-                  style={[styles.butttonText, { color: COLOR.BgColor }]}
 
-                >YES</Text>
+                {loading ?
+                  <Spinner accessibilityLabel="Loading posts" size="sm" color={COLOR.BgColor} />
+                  : <Text
+                    style={[styles.butttonText, { color: COLOR.BgColor }]}
+
+                  >YES</Text>
+              }
+               
               </ButtonH>
               <ButtonH
                 style={{
@@ -257,6 +274,79 @@ console.log(value);
                 onPress={() => setModalVisible(false)}
 
               >
+              
+                <Text
+                  style={[styles.butttonText, { color: "#fff" }]}
+                >NO</Text>
+              </ButtonH>
+            </Flex>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible1}
+        onRequestClose={() => {
+
+          setModalVisible1(!modalVisible1);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+
+            <View style={{
+              alignItems: "center"
+            }}>
+              <Icon
+                name="update"
+                size={50}
+                color={COLOR.BgColor}
+
+
+              />
+              <Text style={styles.modalText}>Are you sure you
+                want to update job</Text>
+            </View>
+
+            <Flex direction="row" mt="4" justifyContent="space-between">
+              <ButtonH
+                style={{
+
+                  borderColor: COLOR.BgColor,
+                  width: '45%',
+                  backgroundColor: "transparent",
+                  borderRadius: 5
+
+
+                }}
+                onPress={updateJobPost}
+              >
+
+                {loading ?
+                  <Spinner accessibilityLabel="Loading posts" size="sm" color={COLOR.BgColor} />
+                  : <Text
+                    style={[styles.butttonText, { color: COLOR.BgColor }]}
+
+                  >YES</Text>
+                }
+
+              </ButtonH>
+              <ButtonH
+                style={{
+
+                  borderColor: COLOR.BgColor,
+                  width: '45%',
+                  backgroundColor: COLOR.BgColor,
+                  borderRadius: 5
+
+
+                }}
+                onPress={() => setModalVisible1(false)}
+
+              >
+
                 <Text
                   style={[styles.butttonText, { color: "#fff" }]}
                 >NO</Text>

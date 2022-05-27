@@ -68,11 +68,7 @@ const Job = ({navigation}) => {
             {
                 index && <JobHistory navigation={navigation}/>
             }
-  {/* {
-                !index && <Box px="6" pt="5">
-                    <JobCreate setIdex={setIdex}/>
-                </Box>
-  } */}
+
         </ SafeAreaView>
        
     )
