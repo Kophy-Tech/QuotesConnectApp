@@ -19,6 +19,7 @@ import {
   ONBOARD_DATA,
 } from '../Utils/theme';
 import AppBar from '../component/AppBar';
+import preferences from '../preferences';
 
 const Onboarding = ({navigation}) => {
   const flatListRef = useRef();
@@ -121,13 +122,17 @@ const Onboarding = ({navigation}) => {
                 </Animated.Text>
               </View>
               <TouchableOpacity
-               
+                onPress={() => _onNextClick()}
                 style={Styles._nextBtn}>
                 <Text style={Styles._nextText}>{item.nextBtn}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-               
+                onPress={() =>
+                  navigation.navigate('Auth', {
+                    screen: 'Login',
+                  })
+                }
                 style={Styles._skipBtn}>
                 <Text style={Styles._skipText}>{item.skipbtn}</Text>
               </TouchableOpacity>
@@ -147,9 +152,8 @@ const Styles = StyleSheet.create({
   _skipBtn: {
     position: 'absolute',
     top: HP(SPACING_PERCENT * 14 + 1),
-   alignSelf:'center',
+    alignSelf: 'center',
     zIndex: 1,
-   
   },
   _skipText: {
     // fontFamily: FONT,
@@ -170,7 +174,6 @@ const Styles = StyleSheet.create({
     paddingHorizontal: WP('30.5%'),
     borderRadius: WP('2'),
     alignSelf: 'center',
-   
   },
   _nextText: {
     fontSize: WP(5),

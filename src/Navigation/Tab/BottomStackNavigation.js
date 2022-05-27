@@ -88,6 +88,7 @@ const BottomStackNavigation = () => {
         name="vendors"
         component={VendorStack}
         options={{
+          tabBarStyle: { display: "none" },
           headerShown: false,
           tabBarIcon: ({focused, color}) => {
             return (

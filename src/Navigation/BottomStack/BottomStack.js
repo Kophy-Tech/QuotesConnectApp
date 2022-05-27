@@ -41,6 +41,7 @@ function BottomStack() {
         name="editjob"
         component={EditJob}
         options={{
+          
           title: (
             <Text
               style={{
