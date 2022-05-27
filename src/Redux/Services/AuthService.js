@@ -23,13 +23,13 @@ const login = userData => {
 };
 
 const reset_password_api = email => {
-  return instance.post('/client/reset/mail', email).then(response => {
+  return axios.post(API_URL+'reset/mail', email).then(response => {
     console.log(response, 'reset password');
   });
 };
 
 const reset_password_otp = email => {
-  return instance.post('/client/confirmation/token', email).then(response => {
+  return axios.post(API_URL+'confirmation/token', email).then(response => {
     console.log(response, 'reset password');
   });
 };
@@ -51,8 +51,15 @@ const CreateVendorApi = vendorData => {
   });
 };
 
-const otp = userData => {
-  return axios.post(API_URL + 'login', userData).then(response => {
+const GetUserInfoApi = vendorData => {
+  console.log(vendorData, 'vendor data omidiora');
+  return instance.get('/client/info', vendorData).then(response => {
+    return response.data;
+  });
+};
+
+const otpApi = userData => {
+  return axios.post(API_URL + 'confirmation/token', userData).then(response => {
     if (response.data) {
       AsyncStorage.setItem('user', JSON.stringify(response.data));
     }
@@ -73,6 +80,8 @@ const AuthService = {
   CreateVendorApi,
   reset_password_otp,
   getVendorApi,
+  GetUserInfoApi,
+  otpApi,
 };
 
 export default AuthService;

@@ -1,16 +1,19 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {Getprofiles} from '../Redux/action/profile';
+import { getUserInfoAction } from '../Redux/Slice/AuthSlice';
 
-const UserDetails = Component =>
+const UserDetailsHoc = Component =>
   function Comp(props) {
     const dispatch = useDispatch();
-    const profile = useSelector(state => state);
+    const profile = useSelector(state => state?.auth?.userInfo?.data);
+    console.log(profile, 'profile')
+    
+
     React.useEffect(() => {
-      dispatch(Getprofiles());
+      dispatch(getUserInfoAction());
     }, [dispatch]);
 
     return <Component profile={profile} {...props} />;
   };
-export default UserDetails;
+export default UserDetailsHoc;

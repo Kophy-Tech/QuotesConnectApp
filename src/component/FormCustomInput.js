@@ -43,8 +43,7 @@ const FormCustomInput = ({
           placeholder={placeholder}
           onFocus={onFocus}
           keyboardType={keyboardType}
-          placeholderTextColor={COLOR.blackColor}
-          placeholderStyle={{fontSize: 'bold'}}
+         
         />
       </View>
     </View>

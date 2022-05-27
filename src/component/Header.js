@@ -4,8 +4,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
 import { HStack, Text, Box, Avatar, Flex, } from "native-base";
-const Header = () => {
+import UserDetailsHoc from '../hoc/UserDetails';
+const Header = (props) => {
+    const {profile={}}=props;
+    console.log(profile, 'props')
     const navigation = useNavigation();
+    
 
     return (
         <>
@@ -21,7 +25,7 @@ const Header = () => {
                             }} />
                         </Box>
                         <Box pl="2">
-                            <Text style={{ fontSize: 18 }} bold> Hi Bedlam,</Text>
+                            <Text style={{ fontSize: 18 }} bold> Hi {profile?.fullname},</Text>
                             <Text style={{ fontSize: 12 }}> Good day.</Text>
                         </Box>
                     </Flex>
@@ -47,5 +51,5 @@ const Header = () => {
     )
 }
 
-export default Header
+export default UserDetailsHoc(Header)
 

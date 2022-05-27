@@ -18,6 +18,7 @@ import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
 import {ErrorDisplay} from '../../Utils/util';
 import {register} from '../../Redux/Slice/AuthSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 Validator.setMessages('en', en);
 
 const Welcome = props => {
@@ -65,7 +66,22 @@ const Welcome = props => {
     if (validation.fails()) {
       setError(validation.errors.all());
     } else {
-      dispatch(register(value));
+      await AsyncStorage.setItem('userEmail', value?.email);
+      dispatch(register(value))
+        .unwrap()
+        .then(() => {
+          props.navigation.navigate('Otp')
+        })
+        .catch(rejectedValueOrSerializedError => {
+          console.log(rejectedValueOrSerializedError, 'rejecteddd');
+          if (typeof rejectedValueOrSerializedError == 'object') {
+            Object.keys(rejectedValueOrSerializedError).map(error => {
+              setError(...rejectedValueOrSerializedError[error]);
+            });
+          }
+
+          // handle error here
+        });
     }
   };
 

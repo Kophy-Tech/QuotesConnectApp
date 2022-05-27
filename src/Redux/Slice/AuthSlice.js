@@ -64,6 +64,32 @@ export const OtpResetPassword = createAsyncThunk(
   },
 );
 
+export const getUserInfoAction = createAsyncThunk(
+  'auth/reset_password',
+  async (user, thunkAPI) => {
+    try {
+      return await AuthService.GetUserInfoApi(user);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
+    }
+  },
+);
+
+export const confirmOtp = createAsyncThunk(
+  'auth/reset_password',
+  async (user, thunkAPI) => {
+    try {
+      return await AuthService.GetUserInfoApi(user);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
+    }
+  },
+);
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await AuthService.logout();
 });
@@ -75,6 +101,7 @@ const initialState = {
   isLoading: false,
   message: '',
   isLoadingOtp: false,
+  userInfo:{}
 };
 
 const authSlice = createSlice({
@@ -142,6 +169,21 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
     [OtpResetPassword.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.user = null;
+    },
+
+    [getUserInfoAction.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [getUserInfoAction.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.userInfo= action.payload;
+    },
+    [getUserInfoAction.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;

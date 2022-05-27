@@ -19,6 +19,7 @@ import en from 'validatorjs/src/lang/en';
 import PasswordInput from '../../component/PasswordInput';
 import {CreateVendorAction} from '../../Redux/Slice/VendorSlice';
 import {useNavigation} from '@react-navigation/native';
+import UserDetailsHoc from '../../hoc/UserDetails';
 
 Validator.setMessages('en', en);
 
@@ -153,7 +154,7 @@ const Login = props => {
 
       {/*  */}
 
-      <Text style={[styles.error,{ textAlign:'center'}]}>{errors?.msg}</Text>
+      <Text style={[styles.error, {textAlign: 'center'}]}>{errors?.msg}</Text>
 
       <View style={{top: WP(39), width: WP(90), left: WP(7)}}>
         <FormCustomButton
@@ -170,7 +171,7 @@ const Login = props => {
   );
 };
 
-export default Login;
+export default UserDetailsHoc(Login);
 
 const styles = StyleSheet.create({
   _mainContainer: {
