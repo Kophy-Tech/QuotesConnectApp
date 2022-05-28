@@ -16,11 +16,7 @@ function MainStack() {
       }}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
-<<<<<<< HEAD
-      
-=======
    
->>>>>>> 3bee8c1bd95d8b5af0345891a6e28a2ca41dd3d6
       <Stack.Screen name="Auth" component={AuthStack} />    
       <Stack.Screen name="bottomStack" component={BottomStack} />
     </Stack.Navigator>
