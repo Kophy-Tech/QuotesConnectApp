@@ -23,6 +23,7 @@ import CreateMaterial from '../../component/CreateMaterial';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import BottomStackNavigation from '../Tab/BottomStackNavigation';
+import CreateVendor from '../../Pages/Vendor/CreateVendor';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -90,6 +91,25 @@ function BottomStack() {
                 lineHeight: HP(5),
               }}>
              Create Job
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name="createvendor"
+        component={CreateVendor}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Create Vendor
             </Text>
           ),
           headerLeft: () => <BackIcon />,

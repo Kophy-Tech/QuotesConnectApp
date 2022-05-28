@@ -4,11 +4,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {WP} from '../../Utils/theme';
 import Rfq from '../../Pages/RFQ/Rfq';
-import VendorStack from '../VendorStack/VendorStack';
 import Job from '../../Pages/Jobs/Job/Job';
 import MaterialManagement from '../../Pages/MaterialManagement/MaterialManagement';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Vendors from '../../Pages/Vendor/Vendors';
+
 const Tab = createBottomTabNavigator();
 const BottomStackNavigation = () => {
   return (
@@ -87,7 +88,7 @@ const BottomStackNavigation = () => {
 
       <Tab.Screen
         name="vendors"
-        component={VendorStack}
+        component={Vendors}
         options={{
           // tabBarStyle: { display: "none" },
           headerShown: false,

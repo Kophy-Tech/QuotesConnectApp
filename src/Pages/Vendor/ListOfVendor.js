@@ -17,7 +17,7 @@ import {
   getVendorAction,
 } from '../../Redux/Slice/VendorSlice';
 import {COLOR, HP, WP} from '../../Utils/theme';
-import Header from '../../component/Header';
+
 import FormCustomButton from '../../component/FormCustomButton';
 
 const ListOfVendor = props => {
@@ -64,28 +64,8 @@ const ListOfVendor = props => {
 
   return (
     <View style={styles.container}>
-      <Header />
-      <View style={{flexDirection: 'row', paddingBottom: WP(10)}}>
-        <View style={{width: WP(48), height: HP(7.2)}}>
-          <FormCustomButton
-            backgroundColor={COLOR.whiteColor}
-            borderWidth={0.5}
-            btnTitle="View History"
-            borderColor={COLOR.deepBlue}
-            borderRadius={1}
-          />
-        </View>
-        <View style={{width: WP(43), left: WP(2), height: HP(7.2)}}>
-          <FormCustomButton
-            backgroundColor={COLOR.BgColor}
-            btnTitle="Create Vendor"
-            textColor={COLOR.whiteColor}
-            onPress={() => props.navigation.navigate('CreateVendor')}
-            borderRadius={1}
-          />
-        </View>
-      </View>
-
+     
+   
       <View>
         <Table borderStyle={{borderColor: 'black'}}>
           <Row data={TableHeader} style={styles.head} textStyle={styles.text} />
@@ -106,7 +86,7 @@ const ListOfVendor = props => {
 export default ListOfVendor;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff'},
+  container: {flex: 1, padding: 16, paddingTop: 30},
   head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2)},
   text: {margin: 6, color: '#fff'},
   row: {flexDirection: 'row', backgroundColor: '#F7FCFB'},

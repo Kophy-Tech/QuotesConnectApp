@@ -7,10 +7,12 @@ import Header from '../../component/Header';
 import InputSearch from '../../component/InputSearch';
 import ButtonH from '../../component/ButtonH';
 import { BgColor } from '../../Utils/Colors';
-import CreateVendor from './CreateVendor';
+import { useNavigation } from '@react-navigation/native';
+
 import ListOfVendor from './ListOfVendor'
 const Vendors = () => {
     const [index, setIdex] = React.useState(true)
+    const navigation = useNavigation();
 
   return (
      < SafeAreaView style={{ flex: 1, marginBottom:80 }}>
@@ -44,7 +46,7 @@ const Vendors = () => {
                       borderRadius: 5
 
                   }}
-                      onPress={() => setIdex(!index)}
+                      onPress={() => navigation.navigate('createvendor')}
                   >
                       <Text style={[styles.butttonText,
                       { color: !index ? "#fff" : BgColor }
@@ -53,10 +55,8 @@ const Vendors = () => {
                   </ButtonH>
               </Flex>
           </Box>
-          <Box px="6" pt="3">
-<CreateVendor/>
+          <ListOfVendor />
 
-          </Box>
      </SafeAreaView>
   )
 }
