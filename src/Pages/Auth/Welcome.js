@@ -102,6 +102,7 @@ const Welcome = props => {
             fontSize: WP(6),
             marginVertical: HP(3),
             top: HP(5),
+            
           }}>
           Welcome
         </Text>

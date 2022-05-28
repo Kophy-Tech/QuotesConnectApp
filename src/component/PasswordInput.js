@@ -33,6 +33,8 @@ const PasswordInput = ({
           secureTextEntry={showPassword}
           onChangeText={onChangeText}
           placeholder={placeholder}
+          placeholderTextColor="#999"
+          
         />
         {/* _toggleIcon */}
         <TouchableOpacity style={styles._icon} onPress={() => _toggleIcon()}>
