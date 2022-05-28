@@ -147,7 +147,7 @@ const Login = props => {
 
       <TouchableOpacity
         onPress={() => navigation.navigate('ResetPassword')}
-        style={{top: WP(-12), width: WP(90), left: WP(7)}}>
+        style={{top: HP(-10), width: WP(90), left: WP(7)}}>
         <Text style={styles._forgot}>Forgot Password</Text>
       </TouchableOpacity>
 

@@ -55,7 +55,7 @@ const ListOfVendor = props => {
 
   console.log(listOfVendor, 'list');
   const TableHeader = ['Company Logo', 'Company Name', 'Phone Number'];
-  const WidthTable = [40, 40, 70];
+  const WidthTable = [WP(40), WP(35), WP(30)];
   const TableData = useState([]);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const ListOfVendor = props => {
    
       <View>
         <Table borderStyle={{borderColor: 'black'}}>
-          <Row data={TableHeader} style={styles.head} textStyle={styles.text} />
+          <Row data={TableHeader} style={styles.head} widthArr={WidthTable} textStyle={styles.text} />
 
           {vendors.map((rowData, index) => (
             <TableWrapper key={index} style={styles.row}>
