@@ -22,7 +22,7 @@ const Splash = ({navigation}) => {
                     index: 0,
                     routes: [
                       {
-                        name: 'Account',
+                        name: 'Auth',
                         state: {
                           routes: [
                             {
@@ -40,7 +40,7 @@ const Splash = ({navigation}) => {
                     index: 0,
                     routes: [
                       {
-                        name: 'Account',
+                        name: 'Auth',
                         state: {
                           routes: [
                             {
