@@ -14,7 +14,7 @@ const HeaderComponent = () => {
                 </View>
                 <View style={styles.tableColumnRegular2}>
                     <Text style={[styles.textLineItem3, {
-                        fontSize: 13
+                        fontSize: 15
                     }]}>Sub Item Description</Text>
                 </View>
 
@@ -122,7 +122,7 @@ paddingRight:10
 
     },
     textLineItem3: {
-        fontSize: 15,
+      
         fontWeight: '400',
         color: '#fff',
         textAlign: 'left',
