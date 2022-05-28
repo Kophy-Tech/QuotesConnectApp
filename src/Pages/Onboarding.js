@@ -40,16 +40,18 @@ const Onboarding = ({navigation}) => {
       preferences._setItem('onboarding', '1').then(() => {
         navigation.reset({
           index: 0,
-          routes: [{name: 'authstack'}],
+          routes: [{name: 'Auth'}],
         });
       });
     }
   };
 
   const _onSkipClick = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'authstack'}],
+    preferences._setItem('onboarding', '1').then(() => {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Auth'}],
+      });
     });
   };
 
@@ -128,11 +130,7 @@ const Onboarding = ({navigation}) => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('Auth', {
-                    screen: 'Login',
-                  })
-                }
+                onPress={() => _onSkipClick()}
                 style={Styles._skipBtn}>
                 <Text style={Styles._skipText}>{item.skipbtn}</Text>
               </TouchableOpacity>
@@ -151,7 +149,7 @@ const Styles = StyleSheet.create({
   },
   _skipBtn: {
     position: 'absolute',
-    top: HP(SPACING_PERCENT * 14 + 1),
+    top: HP(SPACING_PERCENT * 14 + 8),
     alignSelf: 'center',
     zIndex: 1,
   },
@@ -165,7 +163,7 @@ const Styles = StyleSheet.create({
   },
   _nextBtn: {
     position: 'absolute',
-    top: HP(SPACING_PERCENT * 12 + 1),
+    top: HP(SPACING_PERCENT * 12 + 6),
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 1,
@@ -206,17 +204,17 @@ const Styles = StyleSheet.create({
     fontWeight: '900',
     textAlign: 'center',
     color: COLOR.whiteColor,
-    top: HP(34.5),
+    top: HP(37.5),
     fontWeight: 'bold',
     position: 'relative',
   },
   _subTitle: {
     // fontFamily: FONT,
-    fontSize: WP(2.7),
+    fontSize: WP(3.7),
     fontWeight: '300',
     textAlign: 'center',
     color: COLOR.whiteColor,
-    top: HP(34.5),
+    top: HP(37.5),
     position: 'relative',
   },
   inner_image: {

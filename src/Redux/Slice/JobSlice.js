@@ -57,9 +57,9 @@ export const deleteJob = createAsyncThunk('job/deletejob', async (data, thunkAPI
 
         return await JobService.deleteJobService(data);
     } catch (error) {
-        // console.log(error, 'error');
+        // console.log(error, 'deletederror');
         const { message } = error;
-        // console.log(error.response.data || message)
+        console.log(error.response.data, 'deletedresponse')
 
         // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
 
@@ -75,6 +75,7 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: '',
+    refresh:null
 };
 
 const materialSlice = createSlice({
@@ -108,7 +109,7 @@ const materialSlice = createSlice({
         [postJob.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.message = action.payload;
+            // state.message = action.payload;
 
         },
         
@@ -118,8 +119,9 @@ const materialSlice = createSlice({
         [ updateJob.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            console.log(action.payload.data, 'ressssssf');
-            state.job.push(action.payload.data);
+            // console.log(action.payload.data, 'ressssssf');
+            let job = state.job.filter((data) => data._id !== action.payload.data._id )  
+            state.job =[...job, action.payload.data]
         },
         [ updateJob.rejected]: (state, action) => {
             state.isLoading = false;
@@ -133,13 +135,14 @@ const materialSlice = createSlice({
         [deleteJob.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            console.log(action.payload.data, 'ressssssf');
-            state.job= state.job.filter((data)=> data._id !== action.payload._id)
+            // console.log(action.payload, 'ressssssf');
+            state.job= state.job
+            state.refresh = action.payload.msg
         },
         [deleteJob.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.message = action.payload;
+            state.message = action;
 
         },
     },

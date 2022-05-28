@@ -13,7 +13,7 @@ const JobHistory = ({ navigation}) => {
     const auth = useSelector((auth) => auth.auth.user)
     const dispatch = useDispatch()
   
-    const { isLoading, message } = useSelector((job) => job.job)
+    const { isLoading, message, refresh } = useSelector((job) => job.job)
     const job = useSelector((job) => job.job.job)
 
     const [error, setError] = useState(false);
@@ -33,7 +33,7 @@ const JobHistory = ({ navigation}) => {
 
 
             })
-    }, [dispatch])
+    }, [dispatch, refresh])
     if (isLoading === true && error === false) {
         return <>
             <Loading />

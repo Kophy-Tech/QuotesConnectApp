@@ -27,9 +27,7 @@ const Login = props => {
   const dispatch = useDispatch();
   const [document, setDocument] = useState({});
   const navigation = useNavigation();
-
-  const loading = useSelector(state => state?.auth?.isLoading);
-  console.log(loading, 'lloading');
+  const [loading, setLoading] = useState(false);
 
   const [errors, setError] = useState({});
   const [value, setValues] = useState({
@@ -45,7 +43,7 @@ const Login = props => {
   };
 
   const onSubmit = async () => {
-    console.log('submit');
+    setLoading(true);
     let rules = {
       email: 'required|email',
       password: 'required',
@@ -57,6 +55,7 @@ const Login = props => {
     });
 
     if (validation.fails()) {
+      setLoading(false);
       setError(validation.errors.all());
     } else {
       dispatch(login(value))
@@ -65,6 +64,7 @@ const Login = props => {
           navigation.navigate('bottomStack', {
             screen: 'rfq',
           });
+          setLoading(false);
         })
         .catch(rejectedValueOrSerializedError => {
           console.log(rejectedValueOrSerializedError, 'rejecteddd');
@@ -73,7 +73,7 @@ const Login = props => {
               setError(...rejectedValueOrSerializedError[error]);
             });
           }
-
+          setLoading(false);
           // handle error here
         });
     }
@@ -131,7 +131,6 @@ const Login = props => {
           <View style={styles.errorContainer}>
             <Text style={styles.error}>{errors?.email}</Text>
             <Text style={styles.error}>{errors?.password}</Text>
-            <Text style={styles.error}>{errors?.msg}</Text>
           </View>
 
           <FormCustomButton
@@ -148,7 +147,7 @@ const Login = props => {
 
       <TouchableOpacity
         onPress={() => navigation.navigate('ResetPassword')}
-        style={{top: WP(-12), width: WP(90), left: WP(7)}}>
+        style={{top: HP(-10), width: WP(90), left: WP(7)}}>
         <Text style={styles._forgot}>Forgot Password</Text>
       </TouchableOpacity>
 

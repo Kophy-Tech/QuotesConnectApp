@@ -60,15 +60,7 @@ const MaterialManagement = ({navigation}) => {
           
           }
        
-          {/* {
-              !index && <Box px="6" pt="3">
-                  <CreateMaterial 
-                      setIdex={setIdex}
-                  />
-
-              </Box>
-          }
-         */}
+        
     </SafeAreaView>
   )
 }
