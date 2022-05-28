@@ -15,7 +15,7 @@ import RequestForRfq from '../../Pages/RFQ/RequestForRfq';
 import Vendors from '../../Pages/Vendor/Vendors';
 import Notification from '../../Pages/Jobs/Notification';
 import Profile from '../../Pages/Jobs/Profile';
-import VendorStack from '../VendorStack/VendorStack';
+
 import JobCreate from '../../component/JobCreate';
 import CreateMaterial from '../../component/CreateMaterial';
 
