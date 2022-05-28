@@ -10,7 +10,7 @@ import { BgColor } from '../../Utils/Colors';
 import CreateMaterial from '../../component/CreateMaterial';
 import ViewMaterial from '../../component/ViewMaterial';
 
-const MaterialManagement = () => {
+const MaterialManagement = ({navigation}) => {
     const [index, setIdex] = React.useState(true)
 
   return (
@@ -45,7 +45,7 @@ const MaterialManagement = () => {
                       borderRadius: 5
 
                   }}
-                      onPress={() => setIdex(!index)}
+                      onPress={() => navigation.navigate('creatematerial')}
                   >
                       <Text style={[styles.butttonText,
                       { color: !index ? "#fff" : BgColor }
@@ -60,7 +60,7 @@ const MaterialManagement = () => {
           
           }
        
-          {
+          {/* {
               !index && <Box px="6" pt="3">
                   <CreateMaterial 
                       setIdex={setIdex}
@@ -68,7 +68,7 @@ const MaterialManagement = () => {
 
               </Box>
           }
-        
+         */}
     </SafeAreaView>
   )
 }

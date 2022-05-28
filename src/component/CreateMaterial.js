@@ -9,12 +9,15 @@ import { ColorText } from '../Utils/Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { postMaterial } from '../Redux/Slice/materialSlice';
 import {useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 
-const CreateMaterial = ({ setIdex}) => {
+const CreateMaterial = () => {
 
     const auth = useSelector((auth)=> auth.auth.user)
     const dispatch = useDispatch()
+    const navigation = useNavigation();
+
     // console.log(auth, 'aaaaaaaa');
     const [value, setValues] = React.useState({
         name: '',
@@ -51,7 +54,7 @@ const subMaterials=()=>{
                 name: '',
                 description: '',
             })
-            setIdex(true)
+            navigation.goBack()
         }
         console.log(res.status);
      }).catch((err)=>{
@@ -67,47 +70,46 @@ Alert.alert(`${err}`)
     // console.log(value)
   return (
       <KeyboardAwareScrollView
-          style={styles._mainContainer}
+        
           contentContainerStyle={{ paddingBottom: WP(65) }}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
 
-          <Box my="2">
-              <Text style={styles.heading}>Material Managment</Text>
-          </Box>
-
-          <Box mb="2">
-              <InputForm
-                  title="Primary Category Name"
-                  value={value.name}
-                  name='name'
-                  borderColor={COLOR.BgColor}
-                  onChangeText={value => handleInputChange('name', value)}
-              />
-              <Text style={styles.subText}>name of the project you want to create</Text>
-          </Box>
-          <Box mb="2">
-              <CustomTextArea
-                  title="Sub Item Description"
-                  value={value.description}
-                  name="description"
-                  borderColor={COLOR.BgColor}
-                  onChangeText={value => handleInputChange('description', value)}
-              />
-          </Box>
+          <Box px="6" pt="20">
+              <Box mb="2" >
+                  <InputForm
+                      title="Primary Category Name"
+                      value={value.name}
+                      name='name'
+                      borderColor={COLOR.BgColor}
+                      onChangeText={value => handleInputChange('name', value)}
+                  />
+                  <Text style={styles.subText}>name of the project you want to create</Text>
+              </Box>
+              <Box mb="2">
+                  <CustomTextArea
+                      title="Sub Item Description"
+                      value={value.description}
+                      name="description"
+                      borderColor={COLOR.BgColor}
+                      onChangeText={value => handleInputChange('description', value)}
+                  />
+              </Box>
 
 
-          <Box mb="2">
-              <FormCustomButton
-                  placeholder=""
-                  borderColor={COLOR.BgColor}
-                  borderWidth={WP(0.3)}
-                  btnTitle="Create"
-                  backgroundColor={COLOR.BgColor}
-                  textColor={COLOR.whiteColor}
-                  onPress={subMaterials}
-              />
+              <Box mb="2">
+                  <FormCustomButton
+                      placeholder=""
+                      borderColor={COLOR.BgColor}
+                      borderWidth={WP(0.3)}
+                      btnTitle="Create"
+                      backgroundColor={COLOR.BgColor}
+                      textColor={COLOR.whiteColor}
+                      onPress={subMaterials}
+                  />
+              </Box>
           </Box>
+     
       </KeyboardAwareScrollView>
   )
 }
@@ -115,6 +117,8 @@ Alert.alert(`${err}`)
 export default CreateMaterial
 
 const styles = StyleSheet.create({
+
+  
     heading: {
         fontWeight: '500',
         color: COLOR.BgColor,

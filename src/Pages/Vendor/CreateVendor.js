@@ -22,11 +22,18 @@ import {useSelector, useDispatch} from 'react-redux';
 Validator.setMessages('en', en);
 const CreateVendor = props => {
   const [errors, setError] = useState({});
+  const {navigation}=props
   console.log(errors);
   const [document, setDocument] = useState({});
   const {isLoading} = useSelector(state => state.vendor);
   console.log(isLoading, 'loading');
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+   navigation.setOptions({
+    
+    });
+}, [navigation]);
 
   const [value, setValues] = useState({
     name: '',

@@ -15,8 +15,10 @@ import AppBar from '../../../component/AppBar';
 import { COLOR } from '../../../Utils/theme';
 import InputSearch from '../../../component/InputSearch';
 
+
 const Job = ({navigation}) => {
    const [index, setIdex] = React.useState(true)
+    
     return (
         < SafeAreaView style={{ flex: 1, marginBottom:80 }}>
             <AppBar type="black" backgroundColor={COLOR.whiteColor} />
@@ -52,7 +54,7 @@ const Job = ({navigation}) => {
                         borderRadius: 5
 
                     }}
-                        onPress={() => setIdex(!index)}
+                        onPress={() => navigation.navigate('jobcreate')}
                     >
                         <Text style={[styles.butttonText,
                         { color: !index ? "#fff" : BgColor }
@@ -66,11 +68,11 @@ const Job = ({navigation}) => {
             {
                 index && <JobHistory navigation={navigation}/>
             }
-  {
+  {/* {
                 !index && <Box px="6" pt="5">
                     <JobCreate setIdex={setIdex}/>
                 </Box>
-  }
+  } */}
         </ SafeAreaView>
        
     )
