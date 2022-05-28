@@ -12,7 +12,7 @@ import MaterialManagement from '../../Pages/MaterialManagement/MaterialManagemen
 import Rfq from '../../Pages/RFQ/Rfq';
 import SelectVendors from '../../Pages/RFQ/SelectVendors';
 import RequestForRfq from '../../Pages/RFQ/RequestForRfq';
-import Vendors from '../../Pages/Vendor/Vendors';
+
 import Notification from '../../Pages/Jobs/Notification';
 import Profile from '../../Pages/Jobs/Profile';
 
