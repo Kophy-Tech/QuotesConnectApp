@@ -37,6 +37,38 @@ export const postMaterial = createAsyncThunk('material/postmaterial', async (dat
 });
 
 
+export const updateMaterial = createAsyncThunk('material/updatematerial', async (data, thunkAPI) => {
+    try {
+
+        return await MaterialService.updateMaterialService(data);
+    } catch (error) {
+        console.log(error, 'error');
+        const { message } = error;
+        // console.log(error.response.data || message)
+
+        // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+        return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
+    }
+});
+
+
+
+export const deleteMaterial = createAsyncThunk('material/deletematerial', async (data, thunkAPI) => {
+    try {
+
+        return await MaterialService.deleteMaterialService(data);
+    } catch (error) {
+        // console.log(error, 'deletederror');
+        const { message } = error;
+        console.log(error.response.data, 'deletedresponse')
+
+        // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+        return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
+    }
+});
+
 
 const initialState = {
     material: [],
@@ -44,6 +76,8 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: '',
+    refresh: null
+
 };
 
 const materialSlice = createSlice({
@@ -81,6 +115,39 @@ const materialSlice = createSlice({
             state.isError = true;
             state.message = action.payload;
             
+        },
+
+
+        [updateMaterial.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [updateMaterial.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            // console.log(action.payload.data, 'ressssssf');
+            let materialData= state.material.filter((data) => data._id !== action.payload.data._id)
+            state.material = [...materialData, action.payload.data]
+        },
+        [updateMaterial.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+
+        },
+        [deleteMaterial.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [deleteMaterial.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            // console.log(action.payload, 'ressssssf');
+            state.material = state.material
+            state.refresh = action.payload.msg
+        },
+        [deleteMaterial.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action;
         },
        
     },

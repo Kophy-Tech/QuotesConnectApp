@@ -8,11 +8,11 @@ import ButtonH from '../../../component/ButtonH';
 import { bgColor2, bgColor3 } from '../../../Utils/Colors';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import { deleteJob, updateJob } from '../../../Redux/Slice/JobSlice';
 import { useNavigation } from '@react-navigation/native';
 
 import { Spinner } from "native-base";
+
 const EditJob = ({route}) => {
   const { itemParams } = route.params;
   const auth = useSelector((auth) => auth.auth.user)
