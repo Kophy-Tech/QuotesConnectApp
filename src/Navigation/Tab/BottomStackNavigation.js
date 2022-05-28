@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {WP} from '../../Utils/theme';
 import Rfq from '../../Pages/RFQ/Rfq';
-import VendorStack from '../VendorStack/VendorStack';
+
 import Job from '../../Pages/Jobs/Job/Job';
 import MaterialManagement from '../../Pages/MaterialManagement/MaterialManagement';
 import Ionicons from 'react-native-vector-icons/Ionicons';
