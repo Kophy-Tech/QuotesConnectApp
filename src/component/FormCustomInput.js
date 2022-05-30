@@ -36,8 +36,11 @@ const FormCustomInput = ({
             borderColor: inputBorderColor,
             borderRadius: WP(1),
             marginVertical:HP(1),
+            color:COLOR.blackColor
+            
             
           }}
+          placeholderTextColor="#999" 
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}

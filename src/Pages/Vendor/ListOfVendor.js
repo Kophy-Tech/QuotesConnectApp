@@ -55,7 +55,7 @@ const ListOfVendor = props => {
 
   console.log(listOfVendor, 'list');
   const TableHeader = ['Company Logo', 'Company Name', 'Phone Number'];
-  const WidthTable = [WP(40), WP(35), WP(30)];
+  const WidthTable = [WP(40), WP(30), WP(25)];
   const TableData = useState([]);
 
   useEffect(() => {
