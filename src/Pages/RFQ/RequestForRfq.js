@@ -53,10 +53,10 @@ const RequestForRfq = () => {
              
 
           >
-              <View style={styles.tableColumnRegular}>
+              <View style={styles.tableColumnRegular2}>
                   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                       <Input w="100%"
-                          h="90%"
+                          h="95%"
 
                           placeholder=""
                           style={{
@@ -80,7 +80,7 @@ const RequestForRfq = () => {
               <View style={styles.tableColumnRegular2}>
                   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                       <Input w="100%"
-                      h="90%"
+                      h="95%"
                           placeholder=""
                           style={{
                               borderWidth: WP(0.2),
@@ -103,7 +103,7 @@ const RequestForRfq = () => {
               <View style={styles.tableColumnRegular}>
                   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                       <Input w="100%"
-                          h="90%"
+                          h="95%"
 
                           placeholder=""
                           style={{
@@ -124,10 +124,10 @@ const RequestForRfq = () => {
                   </TouchableWithoutFeedback>
 
               </View>
-              <View style={styles.tableColumnRegular}>
+              <View style={styles.tableColumnRegular2}>
                   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                       <Input w="100%"
-                          h="90%"
+                          h="95%"
 
                           placeholder=""
                           style={{

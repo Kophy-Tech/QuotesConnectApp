@@ -24,6 +24,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import BottomStackNavigation from '../Tab/BottomStackNavigation';
 import CreateVendor from '../../Pages/Vendor/CreateVendor';
 import EditMaterial from '../../Pages/MaterialManagement/EditMaterial';
+import CreateRfq from '../../component/CreateRfq';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -164,7 +165,27 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Request For RFQ
+            Create RFQ For Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+
+      <Stack.Screen
+        name="createrfq"
+        component={CreateRfq}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+             Create RFQ For Job
             </Text>
           ),
           headerLeft: () => <BackIcon />,
