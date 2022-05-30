@@ -4,9 +4,9 @@ import { WP, HP, COLOR } from '../../Utils/theme'
 import { Box,  } from "native-base";
 import { BgColor, bgColor1, ColorText } from '../../Utils/Colors';
 import FormCustomButton from '../../component/FormCustomButton';
-
+import CheckBox from '@react-native-community/checkbox';
 const SelectVendors = () => {
-    const [isSelected, setSelection] = React.useState(false);
+    const [toggleCheckBox, setToggleCheckBox] = React.useState(false)
   return (
       <Box px="4">
           <View>
@@ -18,7 +18,11 @@ const SelectVendors = () => {
 
               >
                   <View style={styles.tableColumnRegular1}>
-                  
+                      {/* <CheckBox
+                          disabled={false}
+                          value={toggleCheckBox}
+                          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                      /> */}
                   </View>
                   <View style={styles.tableColumnRegular}>
                       <Image
