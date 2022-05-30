@@ -22,6 +22,8 @@ const CreateRfq = () => {
     const [showDate1, setShowDate1] = React.useState(false);
     const [showDate2, setShowDate2] = React.useState(false);
 
+
+    const [text, onChangeText] = React.useState("");
     const onChangeDate1= (event, selectedDate) => {
         const currentDate = selectedDate;
         setShowDate1(false)
@@ -83,14 +85,16 @@ const CreateRfq = () => {
                       title="Select Job for Job Management "
                       value=''
                       borderColor={COLOR.BgColor}
+                    
                   />
 
               </Box>
               <Box mb="2">
                   <CustomTextArea
                       title="Job Information"
-                      value=''
+                      value={text}
                       borderColor={COLOR.BgColor}
+                      onChangeText={onChangeText}
                   />
               </Box>
 

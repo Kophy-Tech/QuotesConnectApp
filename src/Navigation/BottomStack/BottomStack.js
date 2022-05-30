@@ -73,7 +73,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Select Vendors
+           Create RFQ For Vendors
             </Text>
           ),
           headerLeft: () => <BackIcon />,

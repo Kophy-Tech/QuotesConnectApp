@@ -25,10 +25,13 @@ const CustomTextArea = ({
                         padding: WP(3),
                         borderColor: borderColor,
                         borderRadius: WP(2),
+                        color:'black'
 
                     }}
                     value={value}
                     onChangeText={onChangeText}
+                    autoCorrect={false}
+                   
 name={name}
                     onFocus={onFocus}
                     keyboardType={keyboardType}
