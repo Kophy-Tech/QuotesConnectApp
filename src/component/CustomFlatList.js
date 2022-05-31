@@ -39,7 +39,7 @@ const EmptyContainer = () => {
         backgroundColor: '#FFF'
     }}>
 
-        <Text style={{ fontSize: 20, }}> No data</Text>
+        <Text style={{ fontSize: 20,color:'black' }}> No data</Text>
     </View>
 }
 

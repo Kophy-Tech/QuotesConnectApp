@@ -18,11 +18,12 @@ const SelectVendors = () => {
 
               >
                   <View style={styles.tableColumnRegular1}>
-                      {/* <CheckBox
+                      <CheckBox
+                          tintColors={{ true: COLOR.BgColor, false: 'black' }}
                           disabled={false}
                           value={toggleCheckBox}
                           onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                      /> */}
+                      />
                   </View>
                   <View style={styles.tableColumnRegular}>
                       <Image
@@ -81,7 +82,7 @@ container:{
         paddingVertical: HP(4)
     },
     tableColumnRegular: {
-        flex: 1,
+        flex: 0.8,
 
         justifyContent: 'center',
 
@@ -91,7 +92,7 @@ container:{
 
     },
     tableColumnRegular1: {
-        flex: 0.5,
+        flex: 0.3,
 
         justifyContent: 'center',
 

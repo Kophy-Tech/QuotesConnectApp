@@ -8,6 +8,9 @@ import { COLOR, WP } from '../../Utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import { Input } from "native-base";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Autocomplete from 'react-native-autocomplete-input';
+import SelectDropdown from 'react-native-select-dropdown'
+
 
 const RequestForRfq = () => {
     const navigation = useNavigation();
@@ -37,6 +40,8 @@ const RequestForRfq = () => {
         list.splice(index, 1);
         setValues(list);
     };
+
+    const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "Drum", "Hour", "Day", "Week", "Month"]
   return (
   <ScrollView
       showsVerticalScrollIndicator={false}
@@ -88,7 +93,7 @@ const RequestForRfq = () => {
                               key={index}
                           >
                               <View style={styles.tableColumnRegular2}>
-                                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                                  {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                                       <Input w="100%"
                                           h="95%"
                                           value={val.nameInput}
@@ -109,8 +114,17 @@ autoCorrect={false}
                                           _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
 
                                       />
-                                  </TouchableWithoutFeedback>
+                                  </TouchableWithoutFeedback> */}
+                                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                                      <Autocomplete
 
+                                          style={{ backgroundColor: 'transparent',height:"95%" }}
+                                          inputContainerStyle={{
+                                              borderRadius: 5,
+                                              borderColor: COLOR.BgColor,
+                                          }}
+                                      />
+                                  </TouchableWithoutFeedback>
                               </View>
                               <View style={styles.tableColumnRegular2}>
                                   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -170,33 +184,43 @@ autoCorrect={false}
                               </View>
                               <View style={styles.tableColumnRegular3}>
                                   <View style={{ flex: index === 0 ? 5 : 4 }}>
-                                      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} >
-                                          <Input w="100%"
-autoCorrect={false}
+                             
+                                      <SelectDropdown
+                                          buttonStyle={{
+                                              width: index === 0 ? '97%' : '90%', height:'100%',
+                                        backgroundColor:'#fff',
+                                        color:'black'
+                                        }}
+                                          dropdownStyle={{
+                                           
+                                              backgroundColor:'#fff'
 
-                                              h="95%"
-                                              value={val.unit}
-                                              onChangeText={value => handleInputChange('unit', value, index)}
-
-                                              placeholder=""
-                                              style={{
-                                                  borderWidth: WP(0.2),
-                                                  padding: WP(3),
-                                                  borderColor: COLOR.BgColor,
-                                                  borderRadius: WP(0),
-
-                                              }}
-
-
-                                              placeholderTextColor={COLOR.blackColor}
-                                              placeholderStyle={{ fontSize: "bold" }}
-
-                                              _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
-
-                                          />
-
-                                      </TouchableWithoutFeedback>
-
+                                          }}
+                                          rowStyle={{
+                                              borderBottomColor: 'transparent',
+height:35
+                                          }}
+                                          rowTextStyle={{
+                                              color:'black',
+                                              fontSize:15
+                                          }}
+                                          data={countries}
+                                          defaultValue="Unit"
+                                          onSelect={(selectedItem, ind) => {
+                                              console.log(selectedItem, ind)
+                                              handleInputChange('unit', selectedItem, index)
+                                          }}
+                                          buttonTextAfterSelection={(selectedItem, index) => {
+                                              // text represented after item is selected
+                                              // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                              return selectedItem
+                                          }}
+                                          rowTextForSelection={(item, index) => {
+                                              // text represented for each item in dropdown
+                                              // if data array is an array of objects then return item.property to represent item in dropdown
+                                              return item
+                                          }}
+                                      />
                                   </View>
                                   <View style={{ justifyContent: 'center', alignItems: 'center', flex: index ===0?0:1 }}>
                                       {index !== 0 && <TouchableOpacity onPress={() => handleRemoveClick(index)}>

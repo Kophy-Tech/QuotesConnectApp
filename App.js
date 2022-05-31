@@ -6,7 +6,11 @@ import {NativeBaseProvider} from 'native-base';
 import {Provider} from 'react-redux';
 import {store} from './src/Redux/Store/Store';
 import {Provider as PaperProvider} from 'react-native-paper';
+import { LogBox } from "react-native";
 
+LogBox.ignoreLogs([
+  "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types",
+])
 const App = () => {
   
   return (
