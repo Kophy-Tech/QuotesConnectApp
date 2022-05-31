@@ -10,10 +10,61 @@ import { Input } from "native-base";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Autocomplete from 'react-native-autocomplete-input';
 import SelectDropdown from 'react-native-select-dropdown'
+import { useSelector, useDispatch } from 'react-redux';
+import { getMaterial } from '../../Redux/Slice/materialSlice';
 
 
 const RequestForRfq = () => {
     const navigation = useNavigation();
+    const auth = useSelector((auth) => auth.auth.user)
+    const dispatch = useDispatch()
+    const [all, setAllJob] = useState([])
+
+    const [query, setQuery] = useState('');
+   
+    const filterData = (query) => {
+
+        function match(query) {
+
+            if (allJob.find((a) => a.name.toLowerCase() === query.toLowerCase())) {
+                return true
+            }
+            return false
+        }
+
+        // console.log(match(query), 'matchhh')
+
+        if (query === '') {
+            return [];
+        }
+        if (match(query)) {
+            return [];
+
+        }
+
+        else {
+            return allJob.filter(x => x.name.toLowerCase().includes(query.toLowerCase()));
+        }
+    }
+
+    const data = filterData(query);
+
+    useLayoutEffect(() => {
+        dispatch(getJob(token))
+            .unwrap().then((res) => {
+                //  console.log(res, 'res');
+                setAllJob(res)
+            }).catch((err) => {
+
+                if (err) {
+                    setError(true)
+                }
+
+
+
+            })
+    }, [dispatch, refresh])
+
     const [value, setValues] = React.useState([{
         nameInput:'',
         description:'',
@@ -188,7 +239,7 @@ autoCorrect={false}
                                       <SelectDropdown
                                           buttonStyle={{
                                               width: index === 0 ? '97%' : '90%', height:'100%',
-                                        backgroundColor:'#fff',
+                                        backgroundColor:'transparent',
                                         color:'black'
                                         }}
                                           dropdownStyle={{

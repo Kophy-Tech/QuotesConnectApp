@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert} from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
 
 import { HP, WP, COLOR } from '../Utils/theme'
@@ -15,7 +15,8 @@ import Autocomplete from 'react-native-autocomplete-input';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { getJob } from '../Redux/Slice/JobSlice';
-import AutoCompeletCreate from './AutoCompeletCreate';
+import { dispatchJob } from '../Redux/Slice/RfqSlice';
+
 const CreateRfq = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch()
@@ -31,8 +32,40 @@ const CreateRfq = () => {
     const [showDate1, setShowDate1] = React.useState(false);
     const [showDate2, setShowDate2] = React.useState(false);
 const [allJob, setAllJob] = useState([])
-const [valueJob, setValueJob] = useState('')
+
     const [text, onChangeText] = React.useState("");
+    const [jobId, setJobId] = React.useState('');
+
+    const [query, setQuery] = useState('');
+    const [edit, setEdit] = useState(true)
+    const filterData=(query)=> {
+
+        function match(query) {
+          
+            if (allJob.find((a) => a.name.toLowerCase()===query.toLowerCase())){
+                return true
+            }
+            return false
+        }
+
+        // console.log(match(query), 'matchhh')
+        
+        if (query === '') {
+            return [];
+        }
+        if (match(query)){
+            return [];
+
+        }
+   
+      else{
+            return allJob.filter(x => x.name.toLowerCase().includes(query.toLowerCase()));
+      }
+    }
+    
+    const data = filterData(query);
+    // console.log(allJob)
+    // console.log(data, 'aaaa')
     const onChangeDate1= (event, selectedDate) => {
         const currentDate = selectedDate;
         setShowDate1(false)
@@ -58,7 +91,7 @@ setAllJob(res)
             }).catch((err) => {
 
                 if (err) {
-                    setError(true)
+                    // setError(true)
                 }
 
 
@@ -66,17 +99,42 @@ setAllJob(res)
             })
     }, [dispatch, refresh])
 
-    const onChangeJobText = (text) => {
-        setValueJob(text)
+    const NextScreen=()=>{
+        function match() {
+
+            if (allJob.find((a) => a._id === jobId)) {
+                return true
+            }
+            return false
+        }
+        if (!text) {
+            Alert.alert('Please enter job informtation')
+        }
+        else if (!match || !jobId) {
+            Alert.alert('Please select correct job management')
+
+        }
+       else{
+            const data = {
+
+                start_date: formateDate1,
+                due_date: formateDate2,
+                rfq_information: text,
+                job: jobId
+            }
+            dispatch(dispatchJob(data))
+            console.log({data})
+            navigation.navigate('requestforrfq')
+
+       }
+
+
     }
+  
   return (
-      <KeyboardAwareScrollView
-          style={styles._mainContainer}
-          contentContainerStyle={{ paddingBottom: WP(65) }}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}>
+      <>
           <Box px="4" pt="3">
-             
+
               <Box mb="2">
                   <DateInputForm
                       title="Creation Date"
@@ -109,12 +167,12 @@ setAllJob(res)
                       />
                   )}
               </Box>
-              <Box mb="6" mt="3">
+              <Box mb="6" mt="3" style={{position:'relative'}}>
                   <Text style={{ fontSize: WP(4.5), paddingBottom: WP(1), color: COLOR.BgColor, fontWeight: '400', fontStyle: 'normal' }}>
                       Select Job for Job Management
-                </Text>
-{
-    isLoading && <View
+                  </Text>
+                  {
+                      isLoading && <View
                           style={{
                               width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
                               alignSelf: 'center',
@@ -128,20 +186,20 @@ setAllJob(res)
 
                               elevation: 1,
                               backgroundColor: 'transparent',
-                              borderWidth:1,
-                              borderColor:"red",
-                              marginVertical:10
-                            
+                              borderWidth: 1,
+                              borderColor: COLOR.BgColor,
+                              marginVertical: 10
+
                           }}
-    >
-        <Text
+                      >
+                          <Text
                               style={{ fontSize: 15, color: 'black' }}
-        > Loading  Job Management...</Text>
-    </View>
-}
- 
-{
-    isLoading===false && message && <View
+                          > Loading  Job Management...</Text>
+                      </View>
+                  }
+
+                  {
+                      isLoading === false && message && <View
 
                           style={{
                               width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
@@ -157,30 +215,81 @@ setAllJob(res)
                               elevation: 1,
                               backgroundColor: 'transparent',
                               borderWidth: 1,
-                              borderColor: "red",
+                              borderColor: COLOR.BgColor,
                               marginVertical: 10
 
                           }}
-    >
-        <Text
+                      >
+                          <Text
                               style={{ fontSize: 15, color: 'red' }}
-        >
-            {message} in fechting Job Mangement
-        </Text>
-    </View>
-} 
+                          >
+                              {message} in fechting Job Mangement
+                          </Text>
+                      </View>
+                  }
+                 {
+                      isLoading === false && !message && <View style={styles.autocompleteContainer}>
 
-           {
-                      !isLoading && !message && 
-                      
-                      <AutoCompeletCreate valueJob={valueJob}
-                      allJob={allJob}
-                          onChangeJobText={onChangeJobText}
-                      />
-           }
-              
+                          <Autocomplete
+                              editable={edit}
+                              value={allJob.length === 0? 'No Job Mangement Created':query}
+                              onChangeText={(text)=>{
+                                  if(allJob.length ===0){
+                                      setEdit(true)
+                                      Alert.alert('No Job Mangement Created')
+                                  
+
+                                  }
+                               
+
+                                  setQuery(text)
+                                 
+                              }}
+                              placeholder="Enter Job Management"
+                              data={data}
+                              autoCorrect={false}
+                              style={{
+                                  backgroundColor: 'transparent',
+                              }}
+                              inputContainerStyle={{
+                                  borderColor: COLOR.BgColor,
+                                  borderRadius: 5
+
+                              }}
+                              listContainerStyle={{
+                                  backgroundColor: "#a9b4fc",
+                              }}
+
+                              flatListProps={{
+                                  keyboardShouldPersistTaps: 'always',
+                                  keyExtractor: (job) => job._id,
+                                  renderItem: ({ item }) => {
+                                      console.log({ item })
+                                      return (
+                                          <TouchableOpacity onPress={() => {
+                                              setQuery(item.name)
+                                              setJobId(item._id)
+                                          }}
+
+
+                                              style={{
+
+                                                  padding: 10,
+                                              }}
+                                          >
+                                              <Text style={styles.itemText}>{item.name}</Text>
+                                          </TouchableOpacity>
+                                      )
+                                  }
+                              }}
+
+                          />
+
+                      </View>
+
+                 }
               </Box>
-              <Box mb="2">
+              <Box mb="2" mt="10">
                   <CustomTextArea
                       title="Job Information"
                       value={text}
@@ -191,20 +300,42 @@ setAllJob(res)
 
 
               <Box mb="2">
-                  <FormCustomButton
-                      placeholder=""
-                      borderColor={COLOR.BgColor}
-                      borderWidth={WP(0.3)}
-                      btnTitle="Next"
-                      backgroundColor={COLOR.BgColor}
-                      textColor={COLOR.whiteColor}
-                      onPress={() => navigation.navigate('requestforrfq')}
-                  />
+
+                  <TouchableOpacity
+                      onPress={NextScreen}
+                      style={{
+                          backgroundColor: COLOR.BgColor,
+                          padding: WP(4),
+                          borderRadius: WP(3),
+                          borderWidth: 1,
+                          borderColor: COLOR.BgColor,
+                          top: WP(4),
+
+
+                      }}
+                      >
+ <Text
+                          style={{
+                              fontSize: WP(4.5),
+                              color: COLOR.whiteColor,
+                              textAlign: 'center',
+                              fontWeight: '400',
+
+
+
+
+                          }}>
+                          Next
+                      </Text>
+
+                  </TouchableOpacity>
+                 
               </Box>
 
-          </Box>
-      
-          </KeyboardAwareScrollView>
+          </Box> 
+     
+      </>
+  
 
   )
 }
@@ -226,7 +357,32 @@ const styles = StyleSheet.create({
         fontSize: WP(3),
         paddingTop: HP(0),
         color: ColorText
+    },
+    containerStyle: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+   
+    itemText: {
+        fontSize: 15,
+        margin: 2,
+        color:'#fff',
+        
+    },
+  
+    
+    autocompleteContainer: {
+        // Hack required to make the autocomplete
+        // work on Andrdoid
+        flex: 1,
+      
+        position: 'absolute',
+      width: '100%',
+        zIndex: 1,
+       paddingTop:40,
+      
+    },
+    autocompleteContainerStyle1:{
+        backgroundColor:'transparent'
     }
-
-
 })
