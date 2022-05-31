@@ -14,6 +14,9 @@ import FormCustomInput from '../../component/FormCustomInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const UpdateVendor = () => {
+
+ 
+
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
