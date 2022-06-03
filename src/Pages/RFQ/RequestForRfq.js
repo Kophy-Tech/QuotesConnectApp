@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard, } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from 'react-native'
+import React, { useState, useLayoutEffect, useCallback,useMemo } from 'react'
+import { ScrollView } from 'react-native-virtualized-view';
 import { Box, } from "native-base";
 import ButtonH from '../../component/ButtonH';
 import { BgColor, bgColor1, ColorText } from '../../Utils/Colors';
@@ -7,33 +8,300 @@ import FormCustomButton from '../../component/FormCustomButton';
 import { COLOR, WP } from '../../Utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import { Input } from "native-base";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Autocomplete from 'react-native-autocomplete-input';
+import SelectDropdown from 'react-native-select-dropdown'
+import { useSelector, useDispatch } from 'react-redux';
+import { getMaterial } from '../../Redux/Slice/materialSlice';
+import Loading from '../../component/Loading';
+
+
+import FormInput2 from './FormInput2';
+import FormInput from './FormInput';
+
+const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "Drum", "Hour", "Day", "Week", "Month"]
+
+
 
 const RequestForRfq = () => {
     const navigation = useNavigation();
+    const auth = useSelector((auth) => auth.auth.user)
+    const dispatch = useDispatch()
+    const { isLoading, message, refresh } = useSelector((material) => material.material)
+
+    const [allMaterial, setAllMaterial] = useState([])
+   const [data, setData] = useState([])
+
+//    console.log({allMaterial});
+    const filterData = (text) => {
+  
+
+      
+  
+let data
+        if (!text) {
+            return  data =[];
+        }
+     
+
+        else {
+            return  data= allMaterial.filter(x => x.name.toLowerCase().includes(text.toLowerCase()));
+        }
+
+        setData([...data])
+    }
+
+    // console.log({data})
+
+    const [value, setValue] = useState([
+        {
+            query: '',
+            description: '',
+            quantity: '',
+            unit: '',
+            name: '',
+            show:false
+        }
+    ]);
+console.log({value})
+
+    // const [valueText, setValueText] = useState([
+    //     {
+    //         query: '',
+    //         description: '',
+    //         quantity: '',
+    //         unit: '',
+    //         materialId: ''
+    //     }
+    // ]);
+    const token = auth?.token
+
+    useLayoutEffect(() => {
+        dispatch(getMaterial(token))
+            .unwrap().then((res) => {
+                 console.log(res, 'res');
+                setAllMaterial(res)
+            }).catch((err) => {
+
+                if (err) {
+                   
+                }
+
+
+
+            })
+    }, [dispatch, refresh])
+
+  
+   
+const memoizedCallback = useCallback(
+    (inputName, inputValue, index) => {
+        const list = [...value];
+        list[index][inputName] = inputValue;
+        setValue(list);
+
+    },
+    [],
+)
+    // const handle = (inputName, inputValue, index) => {
+    //     let v = valueText[index][inputName] = inputValue
+    //     setValueText([...valueText], {v} );
+
+    // }
+
+
+    const handleAddClick = () => {
+        const _inputs = [...value];
+        _inputs.push({
+            query: '',
+            description: '',
+            quantity: '',
+            unit: '',
+            name: '',
+            show: false
+        });
+        setValue(_inputs);
+    }
+
+
+    const handleRemoveClick = index => {
+        const list = [...value];
+        list.splice(index, 1);
+        setValue(list);
+    };
+
+
+    const inputHandleQuery = (text, key) => {
+        console.log(key)
+        const list = [...value];
+        list[key].query = text;
+        setValue(list);
+
+        const filterData = () => {
+
+
+            console.log(text)
+
+
+            if (text==='') {
+                return [];
+            }
+
+
+            else {
+                return allMaterial.filter(x => x.name.toLowerCase().includes(text.toLowerCase()));
+            }
+
+
+        }
+
+
+        setData(filterData)
+    }
+console.log({data})
+    const inputHandleDescription = (text, key) => {
+        const list = [...value];
+        list[key].description = text;
+        setValue(list);
+
+    }
+
+    const inputHandleName = (text, key) => {
+        console.log(text)
+        const list = [...value];
+        list[key].name = text;
+        setValue(list);
+
+    }
+    // const inputHandleDescription = (text, key) => {
+    //     const _formNumberInputs = [...value]
+    //     _formNumberInputs[key].key = key;
+    //     console.log({
+    //         _formNumberInputs
+    //     })
+    //     _formNumberInputs[key].description = text;
+    //     setValue(_formNumberInputs);
+    // }
+
+    const inputHandleQuantity = (text, key) => {
+        const list = [...value];
+        list[key].quantity = text;
+        setValue(list);
+
+    }
+
+
+    const inputHandleShow = (text, key) => {
+        const list = [...value];
+        list[key].show = text;
+        setValue(list);
+
+    }
+   
+
+
+   const submitButton =()=>{
+       let send =[]
+       let error
+       const dataSend = value.map(({name, description, quantity, unit})=> {
+         
+function confirm() {
+    let found ;
+    for (var i = 0; i < allMaterial.length; i++) {
+        // console.log(allMaterial[i]._id, 'aaaaa')
+        if (allMaterial[i]._id == name) {
+            found = true;
+            break;
+        }
+        else{
+            found = false;
+        }
+    }
+    return found
+}
+
+
+// console.log(confirm())
+           if (!confirm()) {
+             
+               Alert.alert('Error', 'Please select correct material')
+           }
+         else if ( quantity==='') {
+             error =true
+             Alert.alert('Error', 'Please fill all the fields')
+         }
+           else if (description === '') {
+               error=true
+               Alert.alert('Error', 'Please fill all the fields')
+           } 
+           else if ( unit === '') {
+               error = true
+
+               Alert.alert('Error', 'Please fill all the fields')
+           }
+         else {
+               send.push({
+                   name,
+                   description,
+                   quantity,
+                   unit
+               })
+         }
+       })
+//  console.log(error, 'error')
+
+ if (error) {
+     console.log('error')
+ }
+ else{
+     console.log(send, 'tttt')
+
+ }
+   }
+
+    const inputHandleUnit = (text, key) => {
+        const list = [...value];
+        list[key].unit = text;
+        setValue(list);
+
+    }
+
+    if (isLoading) {
+        return <Loading/>
+    }
+    
+    else if(message && isLoading === false){
+        return(
+            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                <Text>{message}</Text>
+            </View>
+        )
+    }
+
 
   return (
-      <Box px="6">
-  <View style={styles.addButtonContainer}>
+      <Box px="4">
+          <View style={styles.addButtonContainer}>
               <ButtonH style={{
 
                   borderColor: BgColor,
                   width: '100%',
                   backgroundColor: BgColor,
                   borderRadius: 5,
-                
+
 
               }}
-                  
+                  onPress={handleAddClick}
               >
                   <Text style={[styles.butttonText,
-                  { color:'#fff'}
+                  { color: '#fff' }
 
                   ]}>Add</Text>
               </ButtonH>
-      
 
 
-  </View>
+
+          </View>
 
           <View style={styles.tableColumnHeader}>
               <View style={styles.tableColumnRegular}>
@@ -46,111 +314,170 @@ const RequestForRfq = () => {
                   <Text style={styles.textLineItemH}>Quantity</Text>
               </View>
               <View style={styles.tableColumnRegular}>
-                  <Text style={styles.textLineItemH}>Unit</Text>
+                  <Text style={[styles.textLineItemH, { textAlign: 'left' }]}>Unit</Text>
               </View>
+
           </View>
-          < TouchableOpacity style={styles.tableRow}
-             
 
-          >
-              <View style={styles.tableColumnRegular}>
-                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                      <Input w="100%"
-                          h="90%"
+          {
+              value.map((val, key) => {
 
-                          placeholder=""
-                          style={{
-                              borderWidth: WP(0.2),
-                              padding: WP(3),
-                              borderColor: COLOR.BgColor,
-                              borderRadius: WP(2),
+                  return (
+                      <View style={styles.tableRow}
 
-                          }}
-                        
-                        
-                          placeholderTextColor={COLOR.blackColor}
-                          placeholderStyle={{ fontSize: "bold" }}
+                          key={key}
+                      >
+                          <View style={[styles.tableColumnRegular2, { position: 'relative' }]}>
 
-                          _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
-                        
-                      />
-                  </TouchableWithoutFeedback>
+                              <View style={styles.autocompleteContainer}>
 
-              </View>
-              <View style={styles.tableColumnRegular2}>
-                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                      <Input w="100%"
-                      h="90%"
-                          placeholder=""
-                          style={{
-                              borderWidth: WP(0.2),
-                              padding: WP(3),
-                              borderColor: COLOR.BgColor,
-                              borderRadius: WP(0),
+                                  <Autocomplete
+                                      value={val.query}
 
-                          }}
+                                      onChangeText={(text) =>{ inputHandleQuery(text, key)
+                                          inputHandleName('', key)
+                                          inputHandleShow(true, key)
+                                    }}
 
 
-                          placeholderTextColor={COLOR.blackColor}
-                          placeholderStyle={{ fontSize: "bold" }}
+                                      placeholder="Enter material name"
+                                      data={data}
 
-                          _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
+                                      style={{
+                                          backgroundColor: 'transparent',
+                                      }}
+                                      inputContainerStyle={{
+                                          borderColor: COLOR.BgColor,
+                                          borderRadius: 2,
+                                          borderWidth: WP(0.2)
 
-                      />
-                  </TouchableWithoutFeedback>
-
-              </View>
-              <View style={styles.tableColumnRegular}>
-                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                      <Input w="100%"
-                          h="90%"
-
-                          placeholder=""
-                          style={{
-                              borderWidth: WP(0.2),
-                              padding: WP(3),
-                              borderColor: COLOR.BgColor,
-                              borderRadius: WP(0),
-
-                          }}
+                                      }}
+                                      listContainerStyle={{
+                                          backgroundColor: "#a9b4fc",
+                                      }}
 
 
-                          placeholderTextColor={COLOR.blackColor}
-                          placeholderStyle={{ fontSize: "bold" }}
+                                      flatListProps={{
+                                          keyboardShouldPersistTaps: 'always',
 
-                          _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
+                                          listKey: (item, index) => `_key${index.toString()}`,
+                                          keyExtractor: (item, index) => `_key${index.toString()}`,
+                                          renderItem: ({ item }) => {
+if (val.show) {
+    return (
+        <TouchableOpacity
+            key={item?._id}
 
-                      />
-                  </TouchableWithoutFeedback>
-
-              </View>
-              <View style={styles.tableColumnRegular}>
-                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                      <Input w="100%"
-                          h="90%"
-
-                          placeholder=""
-                          style={{
-                              borderWidth: WP(0.2),
-                              padding: WP(3),
-                              borderColor: COLOR.BgColor,
-                              borderRadius: WP(0),
-
-                          }}
+            onPress={() => {
+                inputHandleQuery(item?.name, key)
+                inputHandleName(item?._id, key)
+                inputHandleShow(false, key)
+                setData([])
+            }}
 
 
-                          placeholderTextColor={COLOR.blackColor}
-                          placeholderStyle={{ fontSize: "bold" }}
+            style={{
 
-                          _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
+                padding: 10,
+            }}
+        >
+            <Text style={styles.itemText}>{item?.name}</Text>
+        </TouchableOpacity>
+    )
+}
+                                             
+                                          }
+                                      }}
 
-                      />
-                  </TouchableWithoutFeedback>
+                                  />
 
-              </View>
+                              </View>
+                          </View>
+                          <View style={styles.tableColumnRegular2}>
+                              <FormInput2
 
-          </ TouchableOpacity>
-     
+                                  value={val.description}
+                                  onChangeText={(text) => inputHandleDescription(text, key)}
+
+                              />
+
+                          </View>
+                          <View style={styles.tableColumnRegular}>
+
+                              <FormInput
+
+                                  value={val.quantity}
+
+                                  onChangeText={(text) => inputHandleQuantity(text, key)}
+
+                              />
+
+                          </View>
+                          <View style={styles.tableColumnRegular3}>
+                              <View style={{ flex: key === 0 ? 5 : 4 }}>
+
+                                  <SelectDropdown
+                                      buttonStyle={{
+                                          width: key === 0 ? '97%' : '90%', height: '100%',
+                                          backgroundColor: 'transparent',
+                                          color: 'black'
+                                      }}
+
+                                      dropdownStyle={{
+
+                                          backgroundColor: '#fff'
+
+                                      }}
+                                      rowStyle={{
+                                          borderBottomColor: 'transparent',
+                                          height: 35
+                                      }}
+                                      rowTextStyle={{
+                                          color: 'black',
+                                          fontSize: 15
+                                      }}
+                                      data={countries}
+                                      defaultValue={val.unit}
+                                      onSelect={(selectedItem, ind) => inputHandleUnit(selectedItem, key)}
+
+                                      buttonTextAfterSelection={(selectedItem, index) => {
+                                          // inputHandleUnit(selectedItem, index)
+
+                                          // text represented after item is selected
+                                          // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                          return selectedItem
+                                      }}
+                                      rowTextForSelection={(item, i) => {
+                                          // inputHandleUnit(item, index)
+
+                                          // text represented for each item in dropdown
+                                          // if data array is an array of objects then return item.property to represent item in dropdown
+                                          return item
+                                      }}
+                                  />
+                              </View>
+                              <View style={{ justifyContent: 'center', alignItems: 'center', flex: key === 0 ? 0 : 1 }}>
+                                  {key !== 0 && <TouchableOpacity onPress={() => {
+                                      handleRemoveClick(key)
+                                  }}>
+                                      <Icon
+                                          name="delete"
+                                          size={25}
+                                          color={COLOR.BgColor}
+
+
+                                      />
+                                  </TouchableOpacity>}
+
+                              </View>
+
+                          </View>
+
+                      </View>
+                  )
+              })
+          }
+
           <Box my="4">
               <FormCustomButton
                   placeholder=""
@@ -159,10 +486,13 @@ const RequestForRfq = () => {
                   btnTitle="Next"
                   backgroundColor={COLOR.BgColor}
                   textColor={COLOR.whiteColor}
-                  onPress={() => navigation.navigate('selectvendors')}  
+                  onPress={submitButton}
               />
           </Box>
       </Box>
+
+
+     
   )
 }
 
@@ -203,6 +533,17 @@ const styles = StyleSheet.create({
 
 
     },
+
+    tableColumnRegular3: {
+        flex: 2.5,
+
+        justifyContent: 'center',
+
+      
+flexDirection:'row'
+
+
+    },
     tableColumnHeader: {
 
         flexDirection: "row",
@@ -231,6 +572,29 @@ const styles = StyleSheet.create({
 
 
     },
+    itemText: {
+        fontSize: 15,
+        margin: 2,
+        color: '#fff',
+
+    },
+
+
+    autocompleteContainer: {
+        // Hack required to make the autocomplete
+        // work on Andrdoid
+        flex: 1,
+
+        position: 'absolute',
+        width: '100%',
+        zIndex: 1,
+      
+      
+
+    },
+    autocompleteContainerStyle1: {
+        backgroundColor: 'transparent'
+    }
 
 
 })

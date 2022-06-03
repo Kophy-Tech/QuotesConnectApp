@@ -1,21 +1,30 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { WP, HP, COLOR } from '../../Utils/theme'
-import { Box, } from "native-base";
+import { Box,  } from "native-base";
 import { BgColor, bgColor1, ColorText } from '../../Utils/Colors';
 import FormCustomButton from '../../component/FormCustomButton';
-
+import CheckBox from '@react-native-community/checkbox';
 const SelectVendors = () => {
+    const [toggleCheckBox, setToggleCheckBox] = React.useState(false)
   return (
-      <Box px="6">
+      <Box px="4">
           <View>
         
               <Text style={styles.vendorSelectText}> Note that you  are not eligible to select  more than three (3) vendors</Text>
 
               
-              < TouchableOpacity style={styles.tableRow}
+              < View style={styles.tableRow}
 
               >
+                  <View style={styles.tableColumnRegular1}>
+                      <CheckBox
+                          tintColors={{ true: COLOR.BgColor, false: 'black' }}
+                          disabled={false}
+                          value={toggleCheckBox}
+                          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                      />
+                  </View>
                   <View style={styles.tableColumnRegular}>
                       <Image
                           style={styles.imageStyle}
@@ -29,7 +38,7 @@ const SelectVendors = () => {
                   </View>
 
 
-              </ TouchableOpacity>
+              </ View>
 
               <Box my="5">
                   <FormCustomButton
@@ -65,7 +74,7 @@ container:{
     },
    
     vendorSelectText:{
-        fontWeight: '500',
+        fontWeight: '400',
         color: ColorText,
         fontSize: 15,
         fontStyle: 'normal',
@@ -73,7 +82,17 @@ container:{
         paddingVertical: HP(4)
     },
     tableColumnRegular: {
-        flex: 1,
+        flex: 0.8,
+
+        justifyContent: 'center',
+
+        alignSelf: 'stretch',
+
+
+
+    },
+    tableColumnRegular1: {
+        flex: 0.3,
 
         justifyContent: 'center',
 
@@ -83,7 +102,7 @@ container:{
 
     },
     tableColumnRegular2: {
-        flex: 1.8,
+        flex: 2.5,
 
         justifyContent: 'center',
 

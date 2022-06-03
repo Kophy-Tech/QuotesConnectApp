@@ -9,7 +9,7 @@ import ButtonH from '../../component/ButtonH';
 import { BgColor } from '../../Utils/Colors';
 import CreateRfq from '../../component/CreateRfq';
 
-const Rfq = () => {
+const Rfq = ({navigation}) => {
     const [index, setIdex] = React.useState(true)
 
   return (
@@ -44,7 +44,7 @@ const Rfq = () => {
                       borderRadius: 5
 
                   }}
-                      onPress={() => setIdex(!index)}
+                      onPress={() => navigation.navigate('createrfq')}
                   >
                       <Text style={[styles.butttonText,
                       { color: !index ? "#fff" : BgColor }
@@ -54,9 +54,7 @@ const Rfq = () => {
               </Flex>
           </Box>
 
-          <Box px="6" pt="3">
-              <CreateRfq/>
-          </Box>
+        
       </SafeAreaView>
   )
 }
