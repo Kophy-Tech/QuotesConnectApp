@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native'
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useLayoutEffect, useCallback,useMemo } from 'react'
 import { ScrollView } from 'react-native-virtualized-view';
 import { Box, } from "native-base";
 import ButtonH from '../../component/ButtonH';
@@ -15,6 +15,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMaterial } from '../../Redux/Slice/materialSlice';
 import Loading from '../../component/Loading';
 
+import AutoComplete from './AutoComplete';
+
+import FormInput2 from './FormInput2';
+import FormInput from './FormInput';
+
+import FormSelect from './FormSelect';
+const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "Drum", "Hour", "Day", "Week", "Month"]
 
 
 
@@ -25,44 +32,50 @@ const RequestForRfq = () => {
     const { isLoading, message, refresh } = useSelector((material) => material.material)
 
     const [allMaterial, setAllMaterial] = useState([])
-    const [value, setValues] = React.useState([{
-        query: '',
-        description: '',
-        quantity: '',
-        unit: '',
-        materialId:''
-    }]);
-    const [indx, setIndx] = useState(null||0)
-   console.log(value);
+   const [data, setData] = useState([])
+
 //    console.log({allMaterial});
-    const filterData = (querydata) => {
-console.log({querydata});
-        function match() {
+    const filterData = (text) => {
+  
 
-            if (allMaterial.find((a) => a.name.toLowerCase() === value[indx].query?.toLowerCase())) {
-                return true
-            }
-            return false
+      
+  
+let data
+        if (!text) {
+            return  data =[];
         }
-
-        // console.log(match(query), 'matchhh')
-
-        if (querydata === '') {
-            return [];
-        }
-        if (match()) {
-            return [];
-
-        }
+     
 
         else {
-            return allMaterial.filter(x => x.name.toLowerCase().includes(querydata?.toLowerCase()));
+            return  data= allMaterial.filter(x => x.name.toLowerCase().includes(text.toLowerCase()));
         }
+
+        setData([...data])
     }
 
-    let data = filterData(value[indx].query);
-    console.log(value[indx].query, 'qqqqq')
-    console.log({data})
+    // console.log({data})
+
+    const [value, setValue] = useState([
+        {
+          
+            query: '',
+            description: '',
+            quantity: '',
+            unit: '',
+            materialId: ''
+        }
+    ]);
+
+
+    // const [valueText, setValueText] = useState([
+    //     {
+    //         query: '',
+    //         description: '',
+    //         quantity: '',
+    //         unit: '',
+    //         materialId: ''
+    //     }
+    // ]);
     const token = auth?.token
 
     useLayoutEffect(() => {
@@ -82,29 +95,103 @@ console.log({querydata});
     }, [dispatch, refresh])
 
   
-    const handleInputChange = (inputName, inputValue, index) => {
+   
+const memoizedCallback = useCallback(
+    (inputName, inputValue, index) => {
         const list = [...value];
         list[index][inputName] = inputValue;
-        setValues(list);
-    };
+        setValue(list);
+
+    },
+    [],
+)
+    // const handle = (inputName, inputValue, index) => {
+    //     let v = valueText[index][inputName] = inputValue
+    //     setValueText([...valueText], {v} );
+
+    // }
+
 
     const handleAddClick = () => {
-        setValues([...value, {
-            nameInput: '',
+        const _inputs = [...value];
+        _inputs.push({
+         
+            query: '',
             description: '',
             quantity: '',
-            unit: ''
-        }]);
-    };
+            unit: '',
+            materialId: ''
+        });
+        setValue(_inputs);
+    }
+
 
     const handleRemoveClick = index => {
         const list = [...value];
         list.splice(index, 1);
-        setValues(list);
+        setValue(list);
     };
 
-    const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "Drum", "Hour", "Day", "Week", "Month"]
 
+    const inputHandleDescription = useCallback(
+        (text, key) => {
+            const list = [...value];
+            list[key].description = text;
+            setValue(list);
+
+        },
+      [],
+    )
+    // const inputHandleDescription = (text, key) => {
+    //     const _formNumberInputs = [...value]
+    //     _formNumberInputs[key].key = key;
+    //     console.log({
+    //         _formNumberInputs
+    //     })
+    //     _formNumberInputs[key].description = text;
+    //     setValue(_formNumberInputs);
+    // }
+
+    const inputHandleQuantity = useCallback(
+        (text, key) => {
+            const list = [...value];
+            list[key].quantity = text;
+            setValue(list);
+
+        },
+      [],
+    )
+
+    // const inputHandleQuantity = (text, key) => {
+    //     const _formNumberInputs = [...value]
+    //     _formNumberInputs[key].key = key;
+    //     _formNumberInputs[key].quantity = text;
+    //     console.log({
+    //         _formNumberInputs
+    //     })
+    //     setValue(_formNumberInputs);
+    // }
+
+
+    // const inputHandleUnit= (text, key) => {
+    //     const _formNumberInputs = [...value]
+    //     _formNumberInputs[key].key = key;
+    //     _formNumberInputs[key].unit = text;
+    //     console.log({
+    //         _formNumberInputs
+    //     })
+    //     setValue(_formNumberInputs);
+    // }
+
+    const inputHandleUnit = useCallback(
+     (text, key) => {
+            const list = [...value];
+            list[key].unit = text;
+            setValue(list);
+
+     },
+   [],
+ )
 
     if (isLoading) {
         return <Loading/>
@@ -163,176 +250,54 @@ console.log({querydata});
               </View>
 
               {
-                  value.map((val, index) => {
+                  value.map((val, key) => {
+                   
                       return (
                           <View style={styles.tableRow}
 
-                              key={index}
+                              key={key}
                           >
                               <View style={[styles.tableColumnRegular2, { position: 'relative' }]}>
-                                  <View style={styles.autocompleteContainer}>
+                                  <AutoComplete
+                                      setData={setData}
+                                      value={val.query}
+                                    //   onChangeText={onChangeText}
+                                      data={data}
+                                      filterData={filterData}
+                                      id={key}
+                                  />
 
-                                      <Autocomplete
-                                       
-                                          value={val.query}
-                                          onChangeText={value =>{handleInputChange('query', value, index)
-                                        
-                                              setIndx(index)
-}}
-
-                                          placeholder="Enter material name"
-                                          data={data}
-                                         
-                                          style={{
-                                              backgroundColor: 'transparent',
-                                          }}
-                                          inputContainerStyle={{
-                                              borderColor: COLOR.BgColor,
-                                            borderRadius:2,
-                                              borderWidth: WP(0.2)
-
-                                          }}
-                                          listContainerStyle={{
-                                              backgroundColor: "#a9b4fc",
-                                          }}
-
-                                          flatListProps={{
-                                              keyboardShouldPersistTaps: 'always',
-                                              keyExtractor: (mt) => mt._id,
-                                              renderItem: ({ item }) => {
-                                                  console.log({ item })
-                                                  return (
-                                                      <TouchableOpacity onPress={() => {
-                                                          handleInputChange('query', item.name, index)
-                                                          handleInputChange('materialId', item._id, index)
-
-                                                      }}
-
-
-                                                          style={{
-
-                                                              padding: 10,
-                                                          }}
-                                                      >
-                                                          <Text style={styles.itemText}>{item.name}</Text>
-                                                      </TouchableOpacity>
-                                                  )
-                                              }
-                                          }}
-
-                                      />
-
-                                  </View>
                               </View>
                               <View style={styles.tableColumnRegular2}>
-                                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                                      <Input w="100%"
-                                          h="85%"
-autoCorrect={false}
+                                  <FormInput2
+                                     
+                                      value={val.description}
+                                      onChangeText={(text) => inputHandleDescription (text, key)}
 
-                                          value={val.description}
-                                          onChangeText={value => handleInputChange('description', value, index)}
-
-                                          placeholder=""
-                                          style={{
-                                              borderWidth: WP(0.2),
-                                              padding: WP(3),
-                                              borderColor: COLOR.BgColor,
-                                              borderRadius: WP(0),
-
-                                          }}
-
-
-                                          placeholderTextColor={COLOR.blackColor}
-                                          placeholderStyle={{ fontSize: "bold" }}
-
-                                          _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
-
-                                      />
-                                  </TouchableWithoutFeedback>
+                                  />
 
                               </View>
                               <View style={styles.tableColumnRegular}>
-                                  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                                      <Input w="100%"
-                                          h="85%"
-autoCorrect={false}
 
-                                          value={val.quantity}
-                                          onChangeText={value => handleInputChange('quantity', value, index)}
+                                  <FormInput
 
-                                          placeholder=""
-                                          style={{
-                                              borderWidth: WP(0.2),
-                                              padding: WP(3),
-                                              borderColor: COLOR.BgColor,
-                                              borderRadius: WP(0),
+                                      value={val.quantity}
+                                    
+                                      onChangeText={(text) => inputHandleQuantity(text, key)}
 
-                                          }}
-
-
-                                          placeholderTextColor={COLOR.blackColor}
-                                          placeholderStyle={{ fontSize: "bold" }}
-
-                                          _focus={{ backgroundColor: 'transparent' }} //? focus here left to implement.
-
-                                      />
-                                  </TouchableWithoutFeedback>
+                                  />
 
                               </View>
                               <View style={styles.tableColumnRegular3}>
-                                  <View style={{ flex: index === 0 ? 5 : 4 }}>
-                             
-                                      <SelectDropdown
-                                          buttonStyle={{
-                                              width: index === 0 ? '97%' : '90%', height:'100%',
-                                        backgroundColor:'transparent',
-                                        color:'black'
-                                        }}
-                                          dropdownStyle={{
-                                           
-                                              backgroundColor:'#fff'
-
-                                          }}
-                                          rowStyle={{
-                                              borderBottomColor: 'transparent',
-height:35
-                                          }}
-                                          rowTextStyle={{
-                                              color:'black',
-                                              fontSize:15
-                                          }}
-                                          data={countries}
-                                          defaultValue="Unit"
-                                          onSelect={(selectedItem, ind) => {
-                                              console.log(selectedItem, ind)
-                                              handleInputChange('unit', selectedItem, index)
-                                          }}
-                                          buttonTextAfterSelection={(selectedItem, index) => {
-                                              // text represented after item is selected
-                                              // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                              return selectedItem
-                                          }}
-                                          rowTextForSelection={(item, index) => {
-                                              // text represented for each item in dropdown
-                                              // if data array is an array of objects then return item.property to represent item in dropdown
-                                              return item
-                                          }}
-                                      />
-                                  </View>
-                                  <View style={{ justifyContent: 'center', alignItems: 'center', flex: index ===0?0:1 }}>
-                                      {index !== 0 && <TouchableOpacity onPress={() => handleRemoveClick(index)}>
-                                          <Icon
-                                              name="delete"
-                                              size={25}
-                                              color={COLOR.BgColor}
+                                  <FormSelect
+                                      index={key}
+                                      countries={countries}
+                                      handleRemoveClick={handleRemoveClick}
+                                      onChangeText={inputHandleUnit}
+                                      value={val.unit}
 
 
-                                          />
-                                      </TouchableOpacity>}
-
-                                  </View>
-
+                                  />
                               </View>
 
                           </View>
