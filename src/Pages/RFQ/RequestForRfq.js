@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from 'react-native'
 import React, { useState, useLayoutEffect, useCallback,useMemo } from 'react'
 import { ScrollView } from 'react-native-virtualized-view';
 import { Box, } from "native-base";
@@ -55,12 +55,12 @@ let data
 
     const [value, setValue] = useState([
         {
-          
             query: '',
             description: '',
             quantity: '',
             unit: '',
-            name: ''
+            name: '',
+            show:false
         }
     ]);
 console.log({value})
@@ -113,12 +113,12 @@ const memoizedCallback = useCallback(
     const handleAddClick = () => {
         const _inputs = [...value];
         _inputs.push({
-         
             query: '',
             description: '',
             quantity: '',
             unit: '',
-            name: ''
+            name: '',
+            show: false
         });
         setValue(_inputs);
     }
@@ -131,56 +131,48 @@ const memoizedCallback = useCallback(
     };
 
 
-    const inputHandleQuery = useCallback(
-        (text, key) => {
-            console.log(key)
-            const list = [...value];
-            list[key].query = text;
-            setValue(list);
+    const inputHandleQuery = (text, key) => {
+        console.log(key)
+        const list = [...value];
+        list[key].query = text;
+        setValue(list);
 
-            const filterData = () => {
-
-
-console.log(text)
-
-              
-                if (list[key].query=='') {
-                    return [];
-                }
+        const filterData = () => {
 
 
-                else {
-                    return allMaterial.filter(x => x.name.toLowerCase().includes(list[key].query.toLowerCase()));
-                }
+            console.log(text)
 
-              
+
+            if (text==='') {
+                return [];
             }
 
 
-            setData(filterData)
-        },
-        [],
-    )
+            else {
+                return allMaterial.filter(x => x.name.toLowerCase().includes(text.toLowerCase()));
+            }
+
+
+        }
+
+
+        setData(filterData)
+    }
 console.log({data})
-    const inputHandleDescription = useCallback(
-        (text, key) => {
-            const list = [...value];
-            list[key].description = text;
-            setValue(list);
+    const inputHandleDescription = (text, key) => {
+        const list = [...value];
+        list[key].description = text;
+        setValue(list);
 
-        },
-      [],
-    )
+    }
 
-    const inputHandleName = useCallback(
-        (text, key) => {
-            const list = [...value];
-            list[key].name = text;
-            setValue(list);
+    const inputHandleName = (text, key) => {
+        console.log(text)
+        const list = [...value];
+        list[key].name = text;
+        setValue(list);
 
-        },
-        [],
-    )
+    }
     // const inputHandleDescription = (text, key) => {
     //     const _formNumberInputs = [...value]
     //     _formNumberInputs[key].key = key;
@@ -191,46 +183,88 @@ console.log({data})
     //     setValue(_formNumberInputs);
     // }
 
-    const inputHandleQuantity = useCallback(
-        (text, key) => {
-            const list = [...value];
-            list[key].quantity = text;
-            setValue(list);
+    const inputHandleQuantity = (text, key) => {
+        const list = [...value];
+        list[key].quantity = text;
+        setValue(list);
 
-        },
-      [],
-    )
-
-    // const inputHandleQuantity = (text, key) => {
-    //     const _formNumberInputs = [...value]
-    //     _formNumberInputs[key].key = key;
-    //     _formNumberInputs[key].quantity = text;
-    //     console.log({
-    //         _formNumberInputs
-    //     })
-    //     setValue(_formNumberInputs);
-    // }
+    }
 
 
-    // const inputHandleUnit= (text, key) => {
-    //     const _formNumberInputs = [...value]
-    //     _formNumberInputs[key].key = key;
-    //     _formNumberInputs[key].unit = text;
-    //     console.log({
-    //         _formNumberInputs
-    //     })
-    //     setValue(_formNumberInputs);
-    // }
+    const inputHandleShow = (text, key) => {
+        const list = [...value];
+        list[key].show = text;
+        setValue(list);
 
-    const inputHandleUnit = useCallback(
-     (text, key) => {
-            const list = [...value];
-            list[key].unit = text;
-            setValue(list);
+    }
+   
 
-     },
-   [],
- )
+
+   const submitButton =()=>{
+       let send =[]
+       let error
+       const dataSend = value.map(({name, description, quantity, unit})=> {
+         
+function confirm() {
+    let found ;
+    for (var i = 0; i < allMaterial.length; i++) {
+        // console.log(allMaterial[i]._id, 'aaaaa')
+        if (allMaterial[i]._id == name) {
+            found = true;
+            break;
+        }
+        else{
+            found = false;
+        }
+    }
+    return found
+}
+
+
+// console.log(confirm())
+           if (!confirm()) {
+             
+               Alert.alert('Error', 'Please select correct material')
+           }
+         else if ( quantity==='') {
+             error =true
+             Alert.alert('Error', 'Please fill all the fields')
+         }
+           else if (description === '') {
+               error=true
+               Alert.alert('Error', 'Please fill all the fields')
+           } 
+           else if ( unit === '') {
+               error = true
+
+               Alert.alert('Error', 'Please fill all the fields')
+           }
+         else {
+               send.push({
+                   name,
+                   description,
+                   quantity,
+                   unit
+               })
+         }
+       })
+//  console.log(error, 'error')
+
+ if (error) {
+     console.log('error')
+ }
+ else{
+     console.log(send, 'tttt')
+
+ }
+   }
+
+    const inputHandleUnit = (text, key) => {
+        const list = [...value];
+        list[key].unit = text;
+        setValue(list);
+
+    }
 
     if (isLoading) {
         return <Loading/>
@@ -246,214 +280,216 @@ console.log({data})
 
 
   return (
-  <ScrollView
-          showsVerticalScrollIndicator={false}
-      >
-          <Box px="4">
-              <View style={styles.addButtonContainer}>
-                  <ButtonH style={{
+      <Box px="4">
+          <View style={styles.addButtonContainer}>
+              <ButtonH style={{
 
-                      borderColor: BgColor,
-                      width: '100%',
-                      backgroundColor: BgColor,
-                      borderRadius: 5,
+                  borderColor: BgColor,
+                  width: '100%',
+                  backgroundColor: BgColor,
+                  borderRadius: 5,
 
 
-                  }}
-                      onPress={handleAddClick}
-                  >
-                      <Text style={[styles.butttonText,
-                      { color: '#fff' }
+              }}
+                  onPress={handleAddClick}
+              >
+                  <Text style={[styles.butttonText,
+                  { color: '#fff' }
 
-                      ]}>Add</Text>
-                  </ButtonH>
+                  ]}>Add</Text>
+              </ButtonH>
 
 
 
+          </View>
+
+          <View style={styles.tableColumnHeader}>
+              <View style={styles.tableColumnRegular}>
+                  <Text style={styles.textLineItemH}>Item Name</Text>
+              </View>
+              <View style={styles.tableColumnRegular}>
+                  <Text style={styles.textLineItemH}>Description</Text>
+              </View>
+              <View style={styles.tableColumnRegular}>
+                  <Text style={styles.textLineItemH}>Quantity</Text>
+              </View>
+              <View style={styles.tableColumnRegular}>
+                  <Text style={[styles.textLineItemH, { textAlign: 'left' }]}>Unit</Text>
               </View>
 
-              <View style={styles.tableColumnHeader}>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItemH}>Item Name</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItemH}>Description</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={styles.textLineItemH}>Quantity</Text>
-                  </View>
-                  <View style={styles.tableColumnRegular}>
-                      <Text style={[styles.textLineItemH, { textAlign: 'left' }]}>Unit</Text>
-                  </View>
+          </View>
 
-              </View>
+          {
+              value.map((val, key) => {
 
-              {
-                  value.map((val, key) => {
-                   
-                      return (
-                          <View style={styles.tableRow}
+                  return (
+                      <View style={styles.tableRow}
 
-                              key={key}
-                          >
-                              <View style={[styles.tableColumnRegular2, { position: 'relative' }]}>
-                                
-                                  <View style={styles.autocompleteContainer}>
+                          key={key}
+                      >
+                          <View style={[styles.tableColumnRegular2, { position: 'relative' }]}>
 
-                                      <Autocomplete
-                                          value={val.query}
+                              <View style={styles.autocompleteContainer}>
 
-                                          onChangeText={(text) => inputHandleQuery(text, key)}
+                                  <Autocomplete
+                                      value={val.query}
+
+                                      onChangeText={(text) =>{ inputHandleQuery(text, key)
+                                          inputHandleName('', key)
+                                          inputHandleShow(true, key)
+                                    }}
 
 
-                                          placeholder="Enter material name"
-                                          data={data}
+                                      placeholder="Enter material name"
+                                      data={data}
 
-                                          style={{
-                                              backgroundColor: 'transparent',
-                                          }}
-                                          inputContainerStyle={{
-                                              borderColor: COLOR.BgColor,
-                                              borderRadius: 2,
-                                              borderWidth: WP(0.2)
+                                      style={{
+                                          backgroundColor: 'transparent',
+                                      }}
+                                      inputContainerStyle={{
+                                          borderColor: COLOR.BgColor,
+                                          borderRadius: 2,
+                                          borderWidth: WP(0.2)
 
-                                          }}
-                                          listContainerStyle={{
-                                              backgroundColor: "#a9b4fc",
-                                          }}
-
-
-                                          flatListProps={{
-                                              keyboardShouldPersistTaps: 'always',
-
-                                              listKey: (item, index) => `_key${index.toString()}`,
-                                              keyExtractor: (item, index) => `_key${index.toString()}`,
-                                              renderItem: ({ item }) => {
-
-                                                  return (
-                                                      <TouchableOpacity
-                                                          key={item?._id}
-
-                                                          onPress={() => {
-                                                              inputHandleQuery(item?.name, key)
-                                                              inputHandleName(item?._d, key)
-                                                              setData([])
-                                                          }}
+                                      }}
+                                      listContainerStyle={{
+                                          backgroundColor: "#a9b4fc",
+                                      }}
 
 
-                                                          style={{
+                                      flatListProps={{
+                                          keyboardShouldPersistTaps: 'always',
 
-                                                              padding: 10,
-                                                          }}
-                                                      >
-                                                          <Text style={styles.itemText}>{item?.name}</Text>
-                                                      </TouchableOpacity>
-                                                  )
-                                              }
-                                          }}
+                                          listKey: (item, index) => `_key${index.toString()}`,
+                                          keyExtractor: (item, index) => `_key${index.toString()}`,
+                                          renderItem: ({ item }) => {
+if (val.show) {
+    return (
+        <TouchableOpacity
+            key={item?._id}
 
-                                      />
+            onPress={() => {
+                inputHandleQuery(item?.name, key)
+                inputHandleName(item?._id, key)
+                inputHandleShow(false, key)
+                setData([])
+            }}
 
-                                  </View>
-                              </View>
-                              <View style={styles.tableColumnRegular2}>
-                                  <FormInput2
-                                     
-                                      value={val.description}
-                                      onChangeText={(text) => inputHandleDescription (text, key)}
+
+            style={{
+
+                padding: 10,
+            }}
+        >
+            <Text style={styles.itemText}>{item?.name}</Text>
+        </TouchableOpacity>
+    )
+}
+                                             
+                                          }
+                                      }}
 
                                   />
 
                               </View>
-                              <View style={styles.tableColumnRegular}>
+                          </View>
+                          <View style={styles.tableColumnRegular2}>
+                              <FormInput2
 
-                                  <FormInput
+                                  value={val.description}
+                                  onChangeText={(text) => inputHandleDescription(text, key)}
 
-                                      value={val.quantity}
-                                    
-                                      onChangeText={(text) => inputHandleQuantity(text, key)}
+                              />
 
+                          </View>
+                          <View style={styles.tableColumnRegular}>
+
+                              <FormInput
+
+                                  value={val.quantity}
+
+                                  onChangeText={(text) => inputHandleQuantity(text, key)}
+
+                              />
+
+                          </View>
+                          <View style={styles.tableColumnRegular3}>
+                              <View style={{ flex: key === 0 ? 5 : 4 }}>
+
+                                  <SelectDropdown
+                                      buttonStyle={{
+                                          width: key === 0 ? '97%' : '90%', height: '100%',
+                                          backgroundColor: 'transparent',
+                                          color: 'black'
+                                      }}
+
+                                      dropdownStyle={{
+
+                                          backgroundColor: '#fff'
+
+                                      }}
+                                      rowStyle={{
+                                          borderBottomColor: 'transparent',
+                                          height: 35
+                                      }}
+                                      rowTextStyle={{
+                                          color: 'black',
+                                          fontSize: 15
+                                      }}
+                                      data={countries}
+                                      defaultValue={val.unit}
+                                      onSelect={(selectedItem, ind) => inputHandleUnit(selectedItem, key)}
+
+                                      buttonTextAfterSelection={(selectedItem, index) => {
+                                          // inputHandleUnit(selectedItem, index)
+
+                                          // text represented after item is selected
+                                          // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                          return selectedItem
+                                      }}
+                                      rowTextForSelection={(item, i) => {
+                                          // inputHandleUnit(item, index)
+
+                                          // text represented for each item in dropdown
+                                          // if data array is an array of objects then return item.property to represent item in dropdown
+                                          return item
+                                      }}
                                   />
-
                               </View>
-                              <View style={styles.tableColumnRegular3}>
-                                  <View style={{ flex: key === 0 ? 5 : 4 }}>
+                              <View style={{ justifyContent: 'center', alignItems: 'center', flex: key === 0 ? 0 : 1 }}>
+                                  {key !== 0 && <TouchableOpacity onPress={() => {
+                                      handleRemoveClick(key)
+                                  }}>
+                                      <Icon
+                                          name="delete"
+                                          size={25}
+                                          color={COLOR.BgColor}
 
-                                      <SelectDropdown
-                                          buttonStyle={{
-                                              width: key === 0 ? '97%' : '90%', height: '100%',
-                                              backgroundColor: 'transparent',
-                                              color: 'black'
-                                          }}
 
-                                          dropdownStyle={{
-
-                                              backgroundColor: '#fff'
-
-                                          }}
-                                          rowStyle={{
-                                              borderBottomColor: 'transparent',
-                                              height: 35
-                                          }}
-                                          rowTextStyle={{
-                                              color: 'black',
-                                              fontSize: 15
-                                          }}
-                                          data={countries}
-                                          defaultValue="Unit"
-                                          onSelect={(selectedItem, ind) => inputHandleUnit(selectedItem, key)}
-
-                                          buttonTextAfterSelection={(selectedItem, index) => {
-                                              // inputHandleUnit(selectedItem, index)
-
-                                              // text represented after item is selected
-                                              // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                              return selectedItem
-                                          }}
-                                          rowTextForSelection={(item, i) => {
-                                              // inputHandleUnit(item, index)
-
-                                              // text represented for each item in dropdown
-                                              // if data array is an array of objects then return item.property to represent item in dropdown
-                                              return item
-                                          }}
                                       />
-                                  </View>
-                                  <View style={{ justifyContent: 'center', alignItems: 'center', flex: key === 0 ? 0 : 1 }}>
-                                      {key !== 0 && <TouchableOpacity onPress={() => {
-                                          handleRemoveClick(index)
-                                      }}>
-                                          <Icon
-                                              name="delete"
-                                              size={25}
-                                              color={COLOR.BgColor}
-
-
-                                          />
-                                      </TouchableOpacity>}
-
-                                  </View>
+                                  </TouchableOpacity>}
 
                               </View>
 
                           </View>
-                      )
-                  })
-              }
 
-              <Box my="4">
-                  <FormCustomButton
-                      placeholder=""
-                      borderColor={COLOR.BgColor}
-                      borderWidth={WP(0.3)}
-                      btnTitle="Next"
-                      backgroundColor={COLOR.BgColor}
-                      textColor={COLOR.whiteColor}
-                      onPress={() => navigation.navigate('selectvendors')}
-                  />
-              </Box>
+                      </View>
+                  )
+              })
+          }
+
+          <Box my="4">
+              <FormCustomButton
+                  placeholder=""
+                  borderColor={COLOR.BgColor}
+                  borderWidth={WP(0.3)}
+                  btnTitle="Next"
+                  backgroundColor={COLOR.BgColor}
+                  textColor={COLOR.whiteColor}
+                  onPress={submitButton}
+              />
           </Box>
-      </ScrollView>
+      </Box>
 
 
      
