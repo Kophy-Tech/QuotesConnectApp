@@ -22,6 +22,8 @@ const FormInput2 = ({ value, onChangeText }) => {
                     padding: WP(3),
                     borderColor: COLOR.BgColor,
                     borderRadius: WP(0),
+                    color: 'black'
+
 
                 }}
 

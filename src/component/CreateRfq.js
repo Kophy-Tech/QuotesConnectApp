@@ -16,6 +16,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { getJob } from '../Redux/Slice/JobSlice';
 import { dispatchJob } from '../Redux/Slice/RfqSlice';
+import Loading from './Loading';
 
 const CreateRfq = () => {
     const navigation = useNavigation();
@@ -83,6 +84,7 @@ const [allJob, setAllJob] = useState([])
     const formateDate2 = moment(date2).format('DD-MM-YYYY'); 
     const token = auth?.token
 
+    console.log(token, 'token')
     useLayoutEffect(() => {
         dispatch(getJob(token))
             .unwrap().then((res) => {
@@ -130,7 +132,71 @@ setAllJob(res)
 
 
     }
-  
+
+
+    if (isLoading) {
+        return <Loading />
+    }
+
+    else if (message && isLoading === false) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                    width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                    alignSelf: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.18,
+                    shadowRadius: 1.00,
+
+                    elevation: 1,
+                    backgroundColor: '#FFF'
+                }}>
+
+                    <Text style={{ fontSize: 20, color: 'black' }}> {message}</Text>
+                   
+                </View>
+            </View>
+        )
+    }
+    if (allJob.length === 0) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                    width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                    alignSelf: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.18,
+                    shadowRadius: 1.00,
+
+                    elevation: 1,
+                    backgroundColor: '#FFF'
+                }}>
+
+                    <Text style={{ fontSize: 20, color: 'black' }}> No data</Text>
+                    <Text style={{ fontSize: 10, color: 'black' }}> Create Job Management at Job Dashboard</Text>
+                    <Box my="4">
+                        <FormCustomButton
+                            placeholder=""
+                            borderColor={COLOR.BgColor}
+                            borderWidth={WP(0.3)}
+                            btnTitle="Next To  Material Screen"
+                            backgroundColor={COLOR.BgColor}
+                            textColor={COLOR.whiteColor}
+                            onPress={() => navigation.navigate('requestforrfq')}
+                        />
+                    </Box>
+                </View>
+            </View>
+        )
+    }
   return (
       <>
           <Box px="4" pt="3">
@@ -171,32 +237,7 @@ setAllJob(res)
                   <Text style={{ fontSize: WP(4.5), paddingBottom: WP(1), color: COLOR.BgColor, fontWeight: '400', fontStyle: 'normal' }}>
                       Select Job for Job Management
                   </Text>
-                  {
-                      isLoading && <View
-                          style={{
-                              width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
-                              alignSelf: 'center',
-                              shadowColor: "#000",
-                              shadowOffset: {
-                                  width: 0,
-                                  height: 1,
-                              },
-                              shadowOpacity: 0.18,
-                              shadowRadius: 1.00,
-
-                              elevation: 1,
-                              backgroundColor: 'transparent',
-                              borderWidth: 1,
-                              borderColor: COLOR.BgColor,
-                              marginVertical: 10
-
-                          }}
-                      >
-                          <Text
-                              style={{ fontSize: 15, color: 'black' }}
-                          > Loading  Job Management...</Text>
-                      </View>
-                  }
+               
 
                   {
                       isLoading === false && message && <View
@@ -231,23 +272,18 @@ setAllJob(res)
                       isLoading === false && !message && <View style={styles.autocompleteContainer}>
 
                           <Autocomplete
-                              editable={edit}
-                              value={allJob.length === 0? 'No Job Mangement Created':query}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                              value={query}
                               onChangeText={(text)=>{
-                                  if(allJob.length ===0){
-                                      setEdit(true)
-                                      Alert.alert('No Job Mangement Created')
-                                  
-
-                                  }
-                               
+                    
 
                                   setQuery(text)
                                  
                               }}
                               placeholder="Enter Job Management"
                               data={data}
-                              autoCorrect={false}
+                             
                               style={{
                                   backgroundColor: 'transparent',
                               }}

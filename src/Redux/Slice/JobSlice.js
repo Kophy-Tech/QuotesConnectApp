@@ -20,6 +20,25 @@ export const getJob = createAsyncThunk(
     },
 );
 
+
+export const mygetVendor = createAsyncThunk(
+    'vendor/getvendor',
+    async (token, thunkAPI) => {
+        try {
+            const response = await JobService.mygetVendorService(token);
+            // console.log(response.data, 'response')
+            return response.data;
+        } catch (error) {
+            console.log(error, 'from getjob');
+            const { message } = error;
+            // console.log(error.response.data.error[0].msg, 'from getmmaterial');
+
+            // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+            return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
+        }
+    },
+);
+
 export const postJob = createAsyncThunk('job/postjob', async (data, thunkAPI) => {
     try {
 
@@ -75,7 +94,8 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: '',
-    refresh:null
+    refresh:null,
+    vendor:[]
 };
 
 const materialSlice = createSlice({
@@ -92,6 +112,21 @@ const materialSlice = createSlice({
             state.job = action.payload;
         },
         [getJob.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+
+        },
+
+        [mygetVendor.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [mygetVendor.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.vendor = action.payload;
+        },
+        [mygetVendor.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.message = action.payload;
