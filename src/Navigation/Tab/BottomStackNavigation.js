@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet,Image,Platform} from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -22,7 +22,8 @@ const BottomStackNavigation = () => {
           right: 10,
           elevation: 0,
           backgroundColor: '#5080FA',
-          height: WP(15),
+          // height: WP(15),
+          height: Platform.OS === 'ios' ?WP(22):WP( 15),
           ...styles.shadow,
         },
       }}>
@@ -43,14 +44,14 @@ const BottomStackNavigation = () => {
                 <Ionicons
                   name="reader-outline"
                   size={28}
-                  color={focused ? '#FFFFFF' : '#bdb9b7'}
+                  color={focused ? '#FFFFFF' : '#ffff'}
                 />
                 {/* <Image source={require('../../Assets/Images/Vector.png')}
                     resizeMode='contain'
                     style={{
                       width: 30,
                       height: 30,
-                      tintColor: focused ? '#FFFFFF' : '#bdb9b7'
+                      tintColor: focused ? '#FFFFFF' : '#ffff'
                     }}
                   /> */}
               </View>
@@ -77,7 +78,7 @@ const BottomStackNavigation = () => {
                   style={{
                     width: 30,
                     height: 30,
-                    tintColor: focused ? '#fff' : '#bdb9b7',
+                    tintColor: focused ? '#fff' : '#ffff',
                   }}
                 />
               </View>
@@ -103,7 +104,7 @@ const BottomStackNavigation = () => {
                 <Ionicons
                   name={focused ? 'ios-people-sharp' : 'ios-people-outline'}
                   size={30}
-                  color={focused ? '#fff' : '#bdb9b7'}
+                  color={focused ? '#fff' : '#ffff'}
                 />
               </View>
             );
@@ -129,7 +130,9 @@ const BottomStackNavigation = () => {
                   style={{
                     width: 30,
                     height: 30,
-                    tintColor: focused ? '#ffff' : '#bdb9b7',
+                    tintColor: focused ? '#fff' : '#fff',
+                 
+                  
                   }}
                 />
               </View>

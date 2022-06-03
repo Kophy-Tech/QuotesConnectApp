@@ -23,8 +23,8 @@ Validator.setMessages('en', en);
 const CreateVendor = props => {
   const [errors, setError] = useState({});
   const {navigation}=props
-  console.log(errors);
   const [document, setDocument] = useState({});
+  console.log(document, 'docuemtntntn')
   const {isLoading} = useSelector(state => state.vendor);
   console.log(isLoading, 'loading');
   const dispatch = useDispatch();
@@ -46,9 +46,8 @@ const CreateVendor = props => {
     state: '',
   });
 
-  console.log(value, 'value');
 
-  const {name, street, city, zip_code, sales_rep, telephone, email, state} =
+  const {name, street, city, zip_code, sales_rep, telephone, email, state ,logo=document?.path} =
     value;
 
   const handleInputChange = (inputName, inputValue) => {
@@ -65,10 +64,30 @@ const CreateVendor = props => {
       setDocument(image);
     });
   };
+  const [textValue, setTextValue] = useState(''); 
+	// our number of inputs, we can add the length or decrease the length
+  const [numInputs, setNumInputs] = useState(1);
+  // all our input fields are tracked with this array
+  const refInputs = React.useRef([textValue]);
+  
+  const inputs= [];
+const EmailInput =() => {
+  for (let i = 0; i < numInputs; i ++)
+	{
+		inputs.push(
+			<View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
+				<Text>{i + 1}.</Text>
+				<FormCustomInput
+                lablelText="Email*"
+                inputBorderColor={COLOR.BgColor}
+                labelTextTop={WP(3)}
+                labelText={COLOR.BgColor}
+              />
+			</View>
+		);
+	}
+}
 
-  // const onSubmit = ()=>{
-  //
-  // }
   const onSubmit = async () => {
     let rules = {
       name: 'required',
@@ -126,14 +145,15 @@ const CreateVendor = props => {
    
 
         <View style={{top: HP(3)}}>
-          <FormCustomInput
+          {EmailInput()}
+          {/* <FormCustomInput
             lablelText="Company Name*"
             inputBorderColor={COLOR.BgColor}
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
             name="name"
             onChangeText={value => handleInputChange('name', value)}
-          />
+          /> */}
           <FormCustomInput
             lablelText="Street*"
             inputBorderColor={COLOR.BgColor}
@@ -252,7 +272,7 @@ const styles = StyleSheet.create({
    
   },
   errorContainer: {
-    top: HP(2),
+    top: HP(12),
     alignSelf: 'center',
   },
   error: {

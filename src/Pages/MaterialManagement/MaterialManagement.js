@@ -56,7 +56,7 @@ const MaterialManagement = ({navigation}) => {
           </Box>
 
           {
-              index && <ViewMaterial />
+              index && <ViewMaterial navigation={navigation} />
           
           }
        

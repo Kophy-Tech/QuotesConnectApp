@@ -29,12 +29,43 @@ const postMaterialService = (data) => {
 
 
 
+const deleteMaterialService = (data) => {
+    const { _id, token } = data
+    // console.log(_id, token,data, ' vaaaaaa')
+    // console.log(API_URL + `material/${_id}`);
+    return axios
+        .delete(API_URL + `material/${_id}`, { headers: { "Authorization": `${token}` } })
+        .then((response) => {
+            // console.log(response, 'response')
+
+
+            return response.data;
+        });
+};
+
+
+const updateMaterialService = (data) => {
+    const { _id, updatedData, token } = data
+    // console.log(_id,updatedData, token, ' updatedJobService')
+    // console.log(API_URL + `material/${_id}`);
+
+    return axios
+        .put(API_URL + `material/${_id}`, updatedData, { headers: { "Authorization": `${token}` } })
+        .then((response) => {
+            // console.log(response, 'response')
+
+
+            return response.data;
+        });
+};
+
 
 
 const materialService = {
     getMaterialService,
     postMaterialService,
-    
+    deleteMaterialService,
+    updateMaterialService
 
 };
 

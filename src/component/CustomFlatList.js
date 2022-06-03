@@ -14,7 +14,7 @@ const HeaderComponent = () => {
                 </View>
                 <View style={styles.tableColumnRegular2}>
                     <Text style={[styles.textLineItem3, {
-                        fontSize: 13
+                        fontSize: 15
                     }]}>Sub Item Description</Text>
                 </View>
 
@@ -23,19 +23,6 @@ const HeaderComponent = () => {
     )
 }
 
-const renderItem = ({ item }) => {
-    return (
-        <View style={styles.tableRow}>
-            <View style={styles.tableColumnRegular}>
-                <Text style={styles.textLineItem1}>{item?.name}</Text>
-            </View>
-            <View style={styles.tableColumnRegular2}>
-                <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>
-
-            </View>
-        </View>
-    )
-}
 const EmptyContainer = () => {
     return <View style={{
         width: '100%', justifyContent: 'center', alignItems: 'center', height: 100,
@@ -56,10 +43,25 @@ const EmptyContainer = () => {
     </View>
 }
 
-const CustomFlatList = ({itemData}) => {
+const CustomFlatList = ({itemData, navigation}) => {
     // const keyExtractor = (item) => item.id;
     // console.log(itemData, 'itemData');
-    // const renderItemMemo = ({ item }) => <RenderItem item={item}  />
+
+    const renderItem = ({ item }) => {
+        return (
+            <TouchableOpacity style={styles.tableRow}
+                onPress={() => navigation.navigate('editmaterial', { itemParams: item })}
+            >
+                <View style={styles.tableColumnRegular}>
+                    <Text style={styles.textLineItem1}>{item?.name}</Text>
+                </View>
+                <View style={styles.tableColumnRegular2}>
+                    <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>
+
+                </View>
+            </TouchableOpacity>
+        )
+    }
   return (
   <>
           <FlatList
@@ -120,7 +122,7 @@ paddingRight:10
 
     },
     textLineItem3: {
-        fontSize: 15,
+      
         fontWeight: '400',
         color: '#fff',
         textAlign: 'left',

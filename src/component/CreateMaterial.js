@@ -64,7 +64,7 @@ const CreateMaterial = () => {
       contentContainerStyle={{paddingBottom: WP(65)}}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
-      <Box px="6" pt="20">
+      <Box px="6" pt="5">
         <Box mb="2">
           <InputForm
             title="Primary Category Name"

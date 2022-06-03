@@ -55,7 +55,7 @@ const ListOfVendor = props => {
 
   console.log(listOfVendor, 'list');
   const TableHeader = ['Company Logo', 'Company Name', 'Phone Number'];
-  const WidthTable = [WP(40), WP(30), WP(25)];
+  const WidthTable = [WP(30), WP(35), WP(40)];
   const TableData = useState([]);
 
   useEffect(() => {
@@ -86,10 +86,10 @@ const ListOfVendor = props => {
 export default ListOfVendor;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16, paddingTop: 30},
+  container: {flex: 1, padding: 16, paddingTop: 30,backgroundColor:COLOR.whiteColor},
   head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2)},
   text: {margin: 6, color: '#fff'},
-  row: {flexDirection: 'row', backgroundColor: '#F7FCFB'},
+  row: {flexDirection: 'row', backgroundColor: '#F7FCFB',marginVertical:2},
   btn: {width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2},
   btnText: {textAlign: 'center', color: '#fff'},
   tableContainer: {

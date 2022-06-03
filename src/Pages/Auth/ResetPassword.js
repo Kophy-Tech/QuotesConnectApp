@@ -20,7 +20,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Validator.setMessages('en', en);
 const ResetPassword = ({navigation}) => {
-  const loading = useSelector(state => state?.auth?.isLoading);
+  const [loading, setLoading] = useState(false);
+  // const loading = useSelector(state => state?.auth?.isLoading);
   console.log(loading, 'loading');
   const dispatch = useDispatch();
   const [document, setDocument] = useState({});
@@ -38,6 +39,7 @@ const ResetPassword = ({navigation}) => {
   };
 
   const onSubmit = async () => {
+    setLoading(true);
     await AsyncStorage.setItem('userEmail', value?.email);
     let rules = {
       email: 'required|email',
@@ -51,11 +53,12 @@ const ResetPassword = ({navigation}) => {
       setError(validation.errors.all());
     } else {
       console.log(value?.email, 'vvvvvvvvvlaue');
-
+      setLoading(true);
       dispatch(ResetPasswordAction(value))
         .unwrap()
         .then(originalPromiseResult => {
           navigation.navigate('OtpReset');
+          setLoading(false);
         })
         .catch(rejectedValueOrSerializedError => {
           if (typeof rejectedValueOrSerializedError == 'object') {
@@ -63,10 +66,10 @@ const ResetPassword = ({navigation}) => {
               setError(...rejectedValueOrSerializedError[error]);
             });
           }
-
+          setLoading(false);
           // handle error here
         });
-      // dispatch(login(value))
+      // dispatch(login(value))r
       //   .unwrap()
       //   .then(() => {
       //     navigation.navigate('bottomStack', {

@@ -46,6 +46,8 @@ const FormCustomInput = ({
           placeholder={placeholder}
           onFocus={onFocus}
           keyboardType={keyboardType}
+          autoCapitalize="none"
+          autoCorrect={false}
          
         />
       </View>

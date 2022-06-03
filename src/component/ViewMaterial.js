@@ -10,11 +10,11 @@ import { Stack, Alert, IconButton, HStack, VStack, CloseIcon,  Center } from "na
 
 
 
-const ViewMaterial = () => {
+const ViewMaterial = ({ navigation}) => {
 
     const auth = useSelector((auth) => auth.auth.user)
     const dispatch = useDispatch()
-    const {isLoading, message} = useSelector((material) => material.material)
+    const { isLoading, message, refresh} = useSelector((material) => material.material)
     const material = useSelector((material) => material.material.material)
   
       const [error, setError] = useState(false);
@@ -34,7 +34,7 @@ const token = auth?.token
 
         
      })
-    }, [dispatch])
+    }, [dispatch, refresh])
     // console.log(materialPost, 'materialPost');
 // console.log(material, 'material');
 
@@ -73,7 +73,7 @@ const token = auth?.token
     }
   return (
       <>
-          <CustomFlatList itemData={material}/>
+          <CustomFlatList itemData={material} navigation={navigation}/>
           
       </>
   )
