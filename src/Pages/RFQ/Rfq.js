@@ -13,7 +13,7 @@ const Rfq = ({navigation}) => {
     const [index, setIdex] = React.useState(true)
 
   return (
-      <SafeAreaView style={{ flex: 1, marginBottom: 80 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor:'#fff' }}>
           <AppBar type="black" backgroundColor={COLOR.whiteColor} />
           <Header />
           <Box px="6">

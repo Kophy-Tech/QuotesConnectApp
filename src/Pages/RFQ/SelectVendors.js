@@ -103,9 +103,15 @@ console.log(allVendors, 'allvendors');
     }
   return (
    <>
-          <CustomRfqVendorFlatlist  
-              itemData={allVendors}
-          />
+       <View style={{
+           flex:1,
+           backgroundColor:'#fff'
+       }}>
+
+              <CustomRfqVendorFlatlist
+                  itemData={allVendors}
+              />
+       </View>
    </>
   )
 }

@@ -166,6 +166,10 @@ const JobCreate = () => {
 export default JobCreate
 
 const styles = StyleSheet.create({
+  _mainContainer:{
+    flex:1,
+    backgroundColor:'#fff'
+  },
  address:{
 fontWeight:'500',
 color: COLOR.BgColor,

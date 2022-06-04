@@ -316,7 +316,9 @@ if(allMaterial.length===0){
 }
   return (
       <KeyboardAwareScrollView
-          style={{flex:1}}
+          style={{flex:1,
+        backgroundColor:'#fff'
+        }}
           contentContainerStyle={{ paddingBottom: WP(50) }}
           horizontal={false}
 

@@ -94,75 +94,77 @@ const EditMaterial = ({route}) => {
 
     return (
         <>
-            <KeyboardAwareScrollView
-                contentContainerStyle={{ paddingBottom: WP(65) }}
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}>
-                <Box px="6" pt="5">
-                    <Box mb="2">
-                        <InputForm
-                            title="Primary Category Name"
-                            value={value.name}
-                            name="name"
-                            borderColor={COLOR.BgColor}
-                            onChangeText={value => handleInputChange('name', value)}
-                        />
-                        <Text style={styles.subText}>
-                            name of the project you want to create
-                        </Text>
+          <View style={{flex:1, backgroundColor:'#fff'}}>
+                <KeyboardAwareScrollView
+                    contentContainerStyle={{ paddingBottom: WP(65) }}
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}>
+                    <Box px="6" pt="5">
+                        <Box mb="2">
+                            <InputForm
+                                title="Primary Category Name"
+                                value={value.name}
+                                name="name"
+                                borderColor={COLOR.BgColor}
+                                onChangeText={value => handleInputChange('name', value)}
+                            />
+                            <Text style={styles.subText}>
+                                name of the project you want to create
+                            </Text>
+                        </Box>
+                        <Box mb="2">
+                            <CustomTextArea
+                                title="Sub Item Description"
+                                value={value.description}
+                                name="description"
+                                borderColor={COLOR.BgColor}
+                                onChangeText={value => handleInputChange('description', value)}
+                            />
+                        </Box>
+
+                        <Flex direction="row" mt="4" justifyContent="space-around">
+                            <ButtonH
+                                style={{
+
+                                    borderColor: bgColor2,
+                                    width: '40%',
+                                    backgroundColor: "transparent",
+                                    borderRadius: 5
+
+
+                                }}
+                                onPress={() => setModalVisible(true)}
+                            >
+                                <Text
+                                    style={[styles.butttonText, { color: bgColor2 }]}
+
+                                >Delete</Text>
+                            </ButtonH>
+                            <ButtonH
+                                style={{
+
+                                    borderColor: bgColor3,
+                                    width: '40%',
+                                    backgroundColor: bgColor3,
+                                    borderRadius: 5
+
+
+                                }}
+                                onPress={() => setModalVisible1(true)}
+
+                            >
+                                <Text
+                                    style={[styles.butttonText, { color: "#fff" }]}
+                                >Update</Text>
+                            </ButtonH>
+                        </Flex>
                     </Box>
-                    <Box mb="2">
-                        <CustomTextArea
-                            title="Sub Item Description"
-                            value={value.description}
-                            name="description"
-                            borderColor={COLOR.BgColor}
-                            onChangeText={value => handleInputChange('description', value)}
-                        />
-                    </Box>
-
-                    <Flex direction="row" mt="4" justifyContent="space-around">
-                        <ButtonH
-                            style={{
-
-                                borderColor: bgColor2,
-                                width: '40%',
-                                backgroundColor: "transparent",
-                                borderRadius: 5
 
 
-                            }}
-                            onPress={() => setModalVisible(true)}
-                        >
-                            <Text
-                                style={[styles.butttonText, { color: bgColor2 }]}
 
-                            >Delete</Text>
-                        </ButtonH>
-                        <ButtonH
-                            style={{
+                </KeyboardAwareScrollView>
 
-                                borderColor: bgColor3,
-                                width: '40%',
-                                backgroundColor: bgColor3,
-                                borderRadius: 5
-
-
-                            }}
-                            onPress={() => setModalVisible1(true)}
-
-                        >
-                            <Text
-                                style={[styles.butttonText, { color: "#fff" }]}
-                            >Update</Text>
-                        </ButtonH>
-                    </Flex>
-                </Box>
-
-
-            
-            </KeyboardAwareScrollView>
-
+          </View>
             <Modal
                 animationType="slide"
                 transparent={true}

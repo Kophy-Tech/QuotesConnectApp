@@ -199,176 +199,179 @@ setAllJob(res)
     }
   return (
       <>
-          <Box px="4" pt="3">
+      <View style={{flex:1, backgroundColor:'#fff'}}>
+              <Box px="4" pt="3">
 
-              <Box mb="2">
-                  <DateInputForm
-                      title="Creation Date"
-                      value={formateDate1}
-                      borderColor={COLOR.BgColor}
-                      onPress={() => setShowDate1(true)}
+                  <Box mb="2">
+                      <DateInputForm
+                          title="Creation Date"
+                          value={formateDate1}
+                          borderColor={COLOR.BgColor}
+                          onPress={() => setShowDate1(true)}
 
-                  />
-                  {showDate1 && (
-                      <DateTimePicker
-                          testID="dateTimePicker"
-                          value={date1}
-                          onChange={onChangeDate1}
                       />
-                  )}
-              </Box>
-              <Box mb="2">
-                  <DateInputForm
-                      title="Due Date"
-                      value={formateDate2}
-                      borderColor={COLOR.BgColor}
-                      onPress={() => setShowDate2(true)}
+                      {showDate1 && (
+                          <DateTimePicker
+                              testID="dateTimePicker"
+                              value={date1}
+                              onChange={onChangeDate1}
+                          />
+                      )}
+                  </Box>
+                  <Box mb="2">
+                      <DateInputForm
+                          title="Due Date"
+                          value={formateDate2}
+                          borderColor={COLOR.BgColor}
+                          onPress={() => setShowDate2(true)}
 
-                  />
-                  {showDate2 && (
-                      <DateTimePicker
-                          testID="dateTimePicker"
-                          value={date2}
-                          onChange={onChangeDate2}
                       />
-                  )}
-              </Box>
-              <Box mb="6" mt="3" style={{position:'relative'}}>
-                  <Text style={{ fontSize: WP(4.5), paddingBottom: WP(1), color: COLOR.BgColor, fontWeight: '400', fontStyle: 'normal' }}>
-                      Select Job for Job Management
-                  </Text>
-               
+                      {showDate2 && (
+                          <DateTimePicker
+                              testID="dateTimePicker"
+                              value={date2}
+                              onChange={onChangeDate2}
+                          />
+                      )}
+                  </Box>
+                  <Box mb="6" mt="3" style={{ position: 'relative' }}>
+                      <Text style={{ fontSize: WP(4.5), paddingBottom: WP(1), color: COLOR.BgColor, fontWeight: '400', fontStyle: 'normal' }}>
+                          Select Job for Job Management
+                      </Text>
 
-                  {
-                      isLoading === false && message && <View
 
+                      {
+                          isLoading === false && message && <View
+
+                              style={{
+                                  width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
+                                  alignSelf: 'center',
+                                  shadowColor: "#000",
+                                  shadowOffset: {
+                                      width: 0,
+                                      height: 1,
+                                  },
+                                  shadowOpacity: 0.18,
+                                  shadowRadius: 1.00,
+
+                                  elevation: 1,
+                                  backgroundColor: 'transparent',
+                                  borderWidth: 1,
+                                  borderColor: COLOR.BgColor,
+                                  marginVertical: 10
+
+                              }}
+                          >
+                              <Text
+                                  style={{ fontSize: 15, color: 'red' }}
+                              >
+                                  {message} in fechting Job Mangement
+                              </Text>
+                          </View>
+                      }
+                      {
+                          isLoading === false && !message && <View style={styles.autocompleteContainer}>
+
+                              <Autocomplete
+                                  autoCapitalize="none"
+                                  autoCorrect={false}
+                                  value={query}
+                                  onChangeText={(text) => {
+
+
+                                      setQuery(text)
+
+                                  }}
+                                  placeholder="Enter Job Management"
+                                  data={data}
+
+                                  style={{
+                                      backgroundColor: 'transparent',
+                                      color:'black'
+                                  }}
+                                  inputContainerStyle={{
+                                      borderColor: COLOR.BgColor,
+                                      borderRadius: 5
+
+                                  }}
+                                  listContainerStyle={{
+                                      backgroundColor: "#a9b4fc",
+                                  }}
+
+                                  flatListProps={{
+                                      keyboardShouldPersistTaps: 'always',
+                                      keyExtractor: (job) => job._id,
+                                      renderItem: ({ item }) => {
+                                          console.log({ item })
+                                          return (
+                                              <TouchableOpacity onPress={() => {
+                                                  setQuery(item.name)
+                                                  setJobId(item._id)
+                                              }}
+
+
+                                                  style={{
+
+                                                      padding: 10,
+                                                  }}
+                                              >
+                                                  <Text style={styles.itemText}>{item.name}</Text>
+                                              </TouchableOpacity>
+                                          )
+                                      }
+                                  }}
+
+                              />
+
+                          </View>
+
+                      }
+                  </Box>
+                  <Box mb="2" mt="10">
+                      <CustomTextArea
+                          title="Job Information"
+                          value={text}
+                          borderColor={COLOR.BgColor}
+                          onChangeText={onChangeText}
+                      />
+                  </Box>
+
+
+                  <Box mb="2">
+
+                      <TouchableOpacity
+                          onPress={NextScreen}
                           style={{
-                              width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
-                              alignSelf: 'center',
-                              shadowColor: "#000",
-                              shadowOffset: {
-                                  width: 0,
-                                  height: 1,
-                              },
-                              shadowOpacity: 0.18,
-                              shadowRadius: 1.00,
-
-                              elevation: 1,
-                              backgroundColor: 'transparent',
+                              backgroundColor: COLOR.BgColor,
+                              padding: WP(4),
+                              borderRadius: WP(3),
                               borderWidth: 1,
                               borderColor: COLOR.BgColor,
-                              marginVertical: 10
+                              top: WP(4),
+
 
                           }}
                       >
                           <Text
-                              style={{ fontSize: 15, color: 'red' }}
-                          >
-                              {message} in fechting Job Mangement
-                          </Text>
-                      </View>
-                  }
-                 {
-                      isLoading === false && !message && <View style={styles.autocompleteContainer}>
-
-                          <Autocomplete
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                              value={query}
-                              onChangeText={(text)=>{
-                    
-
-                                  setQuery(text)
-                                 
-                              }}
-                              placeholder="Enter Job Management"
-                              data={data}
-                             
                               style={{
-                                  backgroundColor: 'transparent',
-                              }}
-                              inputContainerStyle={{
-                                  borderColor: COLOR.BgColor,
-                                  borderRadius: 5
-
-                              }}
-                              listContainerStyle={{
-                                  backgroundColor: "#a9b4fc",
-                              }}
-
-                              flatListProps={{
-                                  keyboardShouldPersistTaps: 'always',
-                                  keyExtractor: (job) => job._id,
-                                  renderItem: ({ item }) => {
-                                      console.log({ item })
-                                      return (
-                                          <TouchableOpacity onPress={() => {
-                                              setQuery(item.name)
-                                              setJobId(item._id)
-                                          }}
-
-
-                                              style={{
-
-                                                  padding: 10,
-                                              }}
-                                          >
-                                              <Text style={styles.itemText}>{item.name}</Text>
-                                          </TouchableOpacity>
-                                      )
-                                  }
-                              }}
-
-                          />
-
-                      </View>
-
-                 }
-              </Box>
-              <Box mb="2" mt="10">
-                  <CustomTextArea
-                      title="Job Information"
-                      value={text}
-                      borderColor={COLOR.BgColor}
-                      onChangeText={onChangeText}
-                  />
-              </Box>
-
-
-              <Box mb="2">
-
-                  <TouchableOpacity
-                      onPress={NextScreen}
-                      style={{
-                          backgroundColor: COLOR.BgColor,
-                          padding: WP(4),
-                          borderRadius: WP(3),
-                          borderWidth: 1,
-                          borderColor: COLOR.BgColor,
-                          top: WP(4),
-
-
-                      }}
-                      >
- <Text
-                          style={{
-                              fontSize: WP(4.5),
-                              color: COLOR.whiteColor,
-                              textAlign: 'center',
-                              fontWeight: '400',
+                                  fontSize: WP(4.5),
+                                  color: COLOR.whiteColor,
+                                  textAlign: 'center',
+                                  fontWeight: '400',
 
 
 
 
-                          }}>
-                          Next
-                      </Text>
+                              }}>
+                              Next
+                          </Text>
 
-                  </TouchableOpacity>
-                 
-              </Box>
+                      </TouchableOpacity>
 
-          </Box> 
+                  </Box>
+
+              </Box> 
+      </View>
      
       </>
   
