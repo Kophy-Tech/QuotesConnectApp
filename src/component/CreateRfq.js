@@ -84,7 +84,7 @@ const [allJob, setAllJob] = useState([])
     const formateDate2 = moment(date2).format('DD-MM-YYYY'); 
     const token = auth?.token
 
-    console.log(token, 'token')
+    // console.log(token, 'token')
     useLayoutEffect(() => {
         dispatch(getJob(token))
             .unwrap().then((res) => {

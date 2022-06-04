@@ -10,8 +10,14 @@ const InputSearch = ({value, onChange, rest}) => {
   return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <Input w="100%" 
+              autoCorrect={false}
+
               value={value}
 onChange={onChange}
+style={{
+    color: 'black'
+
+}}
           {...rest}
           InputLeftElement={
               <Icon

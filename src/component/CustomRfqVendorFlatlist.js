@@ -9,20 +9,28 @@ import { WP, HP  ,COLOR } from '../Utils/theme';
 import FormCustomButton from './FormCustomButton';
 
 
-const HeaderComponent = () => {
+const FooterComponent = () => {
     return (
         <>
-            <View style={styles.tableColumnHeader}>
-                <View style={styles.tableColumnRegular}>
-                    <Text style={styles.textLineItem}>Project No.</Text>
-                </View>
-                <View style={styles.tableColumnRegular}>
-                    <Text style={styles.textLineItem}>Project Name</Text>
-                </View>
-                <View style={styles.tableColumnRegular}>
-                    <Text style={styles.textLineItem}>State</Text>
-                </View>
+            <View style={{
+                width: '100%', justifyContent: 'center', alignItems: 'center', height: 100,
+                alignSelf: 'center',
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 1,
+                },
+                shadowOpacity: 0.18,
+                shadowRadius: 1.00,
+
+                elevation: 1,
+                backgroundColor: '#FFF'
+            }}>
+
+                <Text style={{ fontSize: 15, color: 'black' }}> Less than 3 Vednors is present in the List, Create more Vendors at Vendor Dashboard</Text>
+             
             </View>
+
         </>
     )
 }
@@ -76,6 +84,14 @@ const submitVendor =()=>{
     }
     else{
         console.log(selectedVendor,'selectedVendor')
+        let data = []
+        selectedVendor.map(({_id})=>{
+data.push(_id.toString())
+
+        })
+
+
+        console.log(data,'data')
     }
 }
 
@@ -130,7 +146,7 @@ const submitVendor =()=>{
                         renderItem={renderItem}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
-
+                    ListFooterComponent={vendorData.length <3 ? FooterComponent : null}
 
                         keyExtractor={(item) => `id${item?._id}`}
                         contentContainerStyle={{ paddingHorizontal: 22, paddingVertical: 9 }}

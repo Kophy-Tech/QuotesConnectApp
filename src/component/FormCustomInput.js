@@ -40,6 +40,8 @@ const FormCustomInput = ({
             
             
           }}
+          autoCorrect={false}
+
           placeholderTextColor="#999" 
           value={value}
           onChangeText={onChangeText}
