@@ -15,8 +15,10 @@ import Autocomplete from 'react-native-autocomplete-input';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { getJob } from '../Redux/Slice/JobSlice';
-import { dispatchJob } from '../Redux/Slice/RfqSlice';
+import { Spinner } from "native-base";
+
 import Loading from './Loading';
+import { postRfqJob } from '../Redux/Slice/RfqSlice';
 
 const CreateRfq = () => {
     const navigation = useNavigation();
@@ -25,6 +27,8 @@ const CreateRfq = () => {
    
     const auth = useSelector((auth) => auth.auth.user)
     const { isLoading, message, refresh } = useSelector((job) => job.job)
+    const { isLoading:LoadingRfq, message:messageRfq, refresh:refreshRfq } = useSelector((rfq) => rfq.rfq)
+
 
 
     const [date1, setDate1] = React.useState(new Date());
@@ -80,8 +84,8 @@ const [allJob, setAllJob] = useState([])
 
         setDate2(currentDate);
     };
-    const formateDate1 = moment(date1).format('DD-MM-YYYY'); 
-    const formateDate2 = moment(date2).format('DD-MM-YYYY'); 
+    const formateDate1 = moment(date1).format('YYYY/MM/DD'); 
+    const formateDate2 = moment(date2).format('YYYY/MM/DD'); 
     const token = auth?.token
 
     // console.log(token, 'token')
@@ -117,16 +121,34 @@ setAllJob(res)
 
         }
        else{
-            const data = {
+            const value = {
 
                 start_date: formateDate1,
                 due_date: formateDate2,
                 rfq_information: text,
                 job: jobId
             }
-            dispatch(dispatchJob(data))
-            console.log({data})
-            navigation.navigate('requestforrfq')
+ const dataJob= {
+     token,
+     value
+ }
+            dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
+
+                if (res.status === 'Created') {
+                    Alert.alert(`${res.msg}`)
+                    onChangeText('')
+                    setQuery('')
+                }
+                console.log(res.status);
+            }).catch((err) => {
+                console.log(err, 'error from postrfqjob')
+                Alert.alert(`${err}`)
+            })
+
+
+            // dispatch(dispatchJob(data))
+            console.log({value})
+            // navigation.navigate('requestforrfq')
 
        }
 
@@ -352,19 +374,23 @@ setAllJob(res)
 
                           }}
                       >
-                          <Text
-                              style={{
-                                  fontSize: WP(4.5),
-                                  color: COLOR.whiteColor,
-                                  textAlign: 'center',
-                                  fontWeight: '400',
+                          {
+
+                              LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff"/> : <Text
+                                  style={{
+                                      fontSize: WP(4.5),
+                                      color: COLOR.whiteColor,
+                                      textAlign: 'center',
+                                      fontWeight: '400',
 
 
 
 
-                              }}>
-                              Next
-                          </Text>
+                                  }}>
+                                  Next
+                              </Text>
+                          }
+                       
 
                       </TouchableOpacity>
 

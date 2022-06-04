@@ -1,50 +1,71 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import RfqService from '../Services/RfqService';
+
+
+export const postRfqJob = createAsyncThunk('rfq/postrfqjob', async (data, thunkAPI) => {
+    try {
+
+        return await RfqService.postRfQJobService(data);
+    } catch (error) {
+        console.log(error, 'error');
+        const { message } = error;
+        // console.log(error.response.data || message)
+
+        // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+        return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
+    }
+});
+
 
 const initialState = {
     createJob: {},
-    value:[
-        {
-            query: '',
-            description: '',
-            quantity: '',
-            unit: '',
-            materialId: ''
-        }
-    ]
+
+    jobRfq: {},
+    isError: false,
+    isSuccess: false,
+    isLoading: false,
+    message: '',
+    refresh: null,
+    
 }
 
 export const RfqSlice = createSlice({
-    name: 'createjob',
+    name: 'createfq',
     initialState,
     reducers: {
         dispatchJob: (state, {payload}) => {
           
             state.createJob= payload
         },
-        handleAddRfq: (state)=>{
-            state.value.push(
-                {
-                    query: '',
-                    description: '',
-                    quantity: '',
-                    unit: '',
-                    materialId: ''
-                }
-            )
+      
+    },
+
+    extraReducers: {
+    
+        [postRfqJob.pending]: (state, action) => {
+            state.isLoading = true;
         },
-        handleRemoveRRfq: (state, {payload}) => {
-            state.value.splice(payload, 1)
-          
+        [postRfqJob.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.jobRfq = action.payload.data;
+            // state.job.push(action.payload.data);
         },
-        changeInput: (state, {payload}) => {
-            state.value[payload.index][payload.name] = payload.value
-        }
-     
+        [postRfqJob.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+
+        },
+
+       
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { dispatchJob, handleAddRfq, handleRemoveRRfq, changeInput} = RfqSlice.actions
+export const { dispatchJob} = RfqSlice.actions
 
 const { reducer } = RfqSlice;
 export default reducer;
