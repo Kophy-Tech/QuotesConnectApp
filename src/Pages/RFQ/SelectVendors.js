@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { mygetVendor } from '../../Redux/Slice/JobSlice';
 import CustomRfqVendorFlatlist from '../../component/CustomRfqVendorFlatlist';
 
-const SelectVendors = () => {
+const SelectVendors = ({navigation}) => {
     const auth = useSelector((auth) => auth.auth.user)
 
     const { isLoading, message, refresh } = useSelector((job) => job.job)
@@ -26,7 +26,7 @@ const [allVendors, setVendors] = useState([])
     useLayoutEffect(() => {
         dispatch(mygetVendor(token))
             .unwrap().then((res) => {
-                console.log(res, 'res');
+                // console.log(res, 'res');
                 setVendors(res)
             }).catch((err) => {
 
@@ -110,6 +110,7 @@ console.log(allVendors, 'allvendors');
 
               <CustomRfqVendorFlatlist
                   itemData={allVendors}
+                  navigation={navigation}
               />
        </View>
    </>

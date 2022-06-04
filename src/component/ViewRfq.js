@@ -3,25 +3,24 @@ import React, { useState, useLayoutEffect } from 'react'
 import { Text } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getMaterial } from '../Redux/Slice/materialSlice';
+import { getRfqJob } from '../Redux/Slice/RfqSlice';
 import Loading from './Loading';
-import CustomFlatList from './CustomFlatList';
+import CustomRfqflatlist from './CustomRfqflatlist';
 import { Stack, Alert, IconButton, HStack, VStack, CloseIcon, Center } from "native-base";
-
 
 
 const ViewRfq = ({ navigation }) => {
 
     const auth = useSelector((auth) => auth.auth.user)
     const dispatch = useDispatch()
-    const { isLoading, message, refresh } = useSelector((material) => material.material)
-    const material = useSelector((material) => material.material.material)
+    const { isLoading, message, refresh } = useSelector((rfq) => rfq.rfq)
+    const allRfq = useSelector((rfq) => rfq.rfq.allrfq)
 
     const [error, setError] = useState(false);
     const token = auth?.token
     // console.log(token, 'ttttttt');
     useLayoutEffect(() => {
-        dispatch(getMaterial(token))
+        dispatch(getRfqJob(token))
             .unwrap().then((res) => {
                 //  console.log(res, 'res');
 
@@ -73,7 +72,7 @@ const ViewRfq = ({ navigation }) => {
     }
     return (
         <>
-            <CustomFlatList itemData={material} navigation={navigation} />
+            <CustomRfqflatlist itemData={allRfq} navigation={navigation} />
 
         </>
     )

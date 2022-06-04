@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
 import { Box, } from "native-base";
+import { useSelector, useDispatch } from 'react-redux';
 
 import { BgColor, bgColor1, ColorText } from '../Utils/Colors';
 import { WP, HP  ,COLOR } from '../Utils/theme';
 import FormCustomButton from './FormCustomButton';
-
+import { Spinner } from "native-base";
+import { postRfqVendor } from '../Redux/Slice/RfqSlice';
 
 const FooterComponent = () => {
     return (
@@ -56,9 +58,14 @@ const EmptyContainer = () => {
 
 
 // { itemParams: item }
-const CustomRfqVendorFlatlist = ({ itemData }) => {
+const CustomRfqVendorFlatlist = ({ itemData, navigation }) => {
+    const auth = useSelector((auth) => auth.auth.user)
 
-    const [toggleCheckBox, setToggleCheckBox] = React.useState(false)
+    const { isLoading: LoadingRfq, message: messageRfq, jobRfq } = useSelector((rfq) => rfq.rfq)
+    const token = auth?.token
+    const rfq_id = jobRfq?._id
+
+    const dispatch = useDispatch()
     const [vendorData, setvendorData] = useState(itemData)
     const renderItem = ({ item }) => <Item item={item}  />
 
@@ -84,14 +91,31 @@ const submitVendor =()=>{
     }
     else{
         console.log(selectedVendor,'selectedVendor')
-        let data = []
+        let dataVendor = []
         selectedVendor.map(({_id})=>{
-data.push(_id.toString())
+dataVendor.push(_id.toString())
 
         })
+      const  datarfqvendor={
+token,
+rfq_id,
+          dataVendor
+        }
 
+        dispatch(postRfqVendor(datarfqvendor)).unwrap().then((res) => {
 
-        console.log(data,'data')
+            if (res.status === 'Updated') {
+                Alert.alert(`${res.msg}`)
+              
+                navigation.navigate('rfq')
+            }
+            console.log(res.status);
+        }).catch((err) => {
+            console.log(err, 'error from postrfqjob')
+            Alert.alert(`${err}`)
+        })
+
+      
     }
 }
 
@@ -154,15 +178,39 @@ data.push(_id.toString())
 
 
                     <Box my="5" px="3">
-                        <FormCustomButton
-                            placeholder=""
-                            borderColor={COLOR.BgColor}
-                            borderWidth={WP(0.3)}
-                            btnTitle="Create"
-                            backgroundColor={COLOR.BgColor}
-                            textColor={COLOR.whiteColor}
+                    <TouchableOpacity
                         onPress={submitVendor}
-                        />
+                        style={{
+                            backgroundColor: COLOR.BgColor,
+                            padding: WP(4),
+                            borderRadius: WP(3),
+                            borderWidth: 1,
+                            borderColor: COLOR.BgColor,
+                            top: WP(4),
+
+
+                        }}
+                    >
+                        {
+
+                            LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
+                                style={{
+                                    fontSize: WP(4.5),
+                                    color: COLOR.whiteColor,
+                                    textAlign: 'center',
+                                    fontWeight: '400',
+
+
+
+
+                                }}>
+                              Create
+                            </Text>
+                        }
+
+
+                    </TouchableOpacity>
+                      
                     </Box>
                 </View>
 

@@ -27,7 +27,7 @@ const CreateRfq = () => {
    
     const auth = useSelector((auth) => auth.auth.user)
     const { isLoading, message, refresh } = useSelector((job) => job.job)
-    const { isLoading:LoadingRfq, message:messageRfq, refresh:refreshRfq } = useSelector((rfq) => rfq.rfq)
+    const { isLoading:LoadingRfq, message:messageRfq } = useSelector((rfq) => rfq.rfq)
 
 
 
@@ -138,6 +138,8 @@ setAllJob(res)
                     Alert.alert(`${res.msg}`)
                     onChangeText('')
                     setQuery('')
+            navigation.navigate('requestforrfq')
+
                 }
                 console.log(res.status);
             }).catch((err) => {

@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList , Alert} from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native';
 
 import { BgColor, bgColor1, ColorText } from '../Utils/Colors';
+import { dispatchRouteData } from '../Redux/Slice/RfqSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 const HeaderComponent = () => {
@@ -44,30 +45,123 @@ const EmptyContainer = () => {
 
 
 // { itemParams: item }
-const CustomRfqFlatList = ({ itemData, navigation }) => {
-    const renderItem = ({ item }) => <Item item={item} onItemPress={NavigationPress} />
-    const NavigationPress = (item) => {
+const CustomRfqflatlist = ({ itemData, navigation }) => {
+    const dispatch = useDispatch()
 
+    const renderItem = ({ item }) => <Item item={item}
+        onItemPress={NavigationPressPending}
 
-        navigation.navigate('editjob', { itemParams: item })
-    };
+    />
+    const NavigationPressPending = (item) => {
+        console.log({ item })
+        if (item.status === 'pending' && item.rfqArray.length === 0) {
+            console.log('ppp')
+
+            dispatch(dispatchRouteData(item))
+            navigation.navigate('requestforrfq')
+
+        }
+        else if (item.status === 'pending' && item.rfqArray.length > 0 &&item.vendorArray.length ===0) {
+            navigation.navigate('selectvendors')
+            dispatch(dispatchRouteData(item))
+
+        }
+        else{
+            Alert.alert('Waiting for Vendors to confirm the request')
+        }
+    }
     const Item = ({ item, onItemPress }) => {
 
         return (
-            < TouchableOpacity style={styles.tableRow}
-                onPress={() => onItemPress(item)}
+            < View style={styles.tableRow}
             >
                 <View style={styles.tableColumnRegular}>
                     <Text style={styles.textLineItem1}>{item.project_id}</Text>
                 </View>
                 <View style={styles.tableColumnRegular}>
-                    <Text style={styles.textLineItem3}>{item.name}</Text>
+                    <Text style={styles.textLineItem3}>{item.job?.name}</Text>
                 </View>
                 <View style={styles.tableColumnRegular}>
-                    <Text style={styles.textLineItem1}>{item.state}</Text>
+                    {
+
+                        item.status === 'pending' && <TouchableOpacity
+
+                            onPress={() => onItemPress(item)}
+
+                            style={{
+                                backgroundColor: '#FFC4C4',
+                                borderRadius: 4,
+                                padding: 6
+
+                            }}>
+                            <Text style={[styles.textLineItem1,
+                            {
+                                color: '#fff',
+                                fontSize: 12
+
+                            }
+                            ]}>{item.status}</Text>
+
+                        </TouchableOpacity>
+                    }
+
+                    {
+
+                        item.status === 'open' && <TouchableOpacity style={{
+                            backgroundColor: '#FD5757',
+                            borderRadius: 4,
+                            padding: 6
+
+                        }}>
+                            <Text style={[styles.textLineItem1,
+                            {
+                                color: '#fff',
+                                fontSize: 12
+
+                            }
+                            ]}>{item.status}</Text>
+
+                        </TouchableOpacity>
+                    }
+                    {
+
+                        item.status === 'submited' && <TouchableOpacity style={{
+                            backgroundColor: '#FAAE3B',
+                            borderRadius: 4,
+                            padding: 6
+
+                        }}>
+                            <Text style={[styles.textLineItem1,
+                            {
+                                color: '#fff',
+                                fontSize: 12
+
+                            }
+                            ]}>{item.status}</Text>
+
+                        </TouchableOpacity>
+                    }
+                    {
+
+                        item.status === 'purchased' && <TouchableOpacity style={{
+                            backgroundColor: '#2EB66E',
+                            borderRadius: 4,
+                            padding: 6
+
+                        }}>
+                            <Text style={[styles.textLineItem1,
+                            {
+                                color: '#fff',
+                                fontSize: 12
+
+                            }
+                            ]}>{item.status}</Text>
+
+                        </TouchableOpacity>
+                    }
                 </View>
 
-            </ TouchableOpacity>
+            </ View>
         )
     }
 
@@ -90,7 +184,7 @@ const CustomRfqFlatList = ({ itemData, navigation }) => {
     )
 }
 
-export default CustomRfqFlatList
+export default CustomRfqflatlist
 
 const styles = StyleSheet.create({
 

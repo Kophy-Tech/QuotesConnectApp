@@ -16,9 +16,11 @@ import { getMaterial } from '../../Redux/Slice/materialSlice';
 import Loading from '../../component/Loading';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import { Spinner } from "native-base";
 
 import FormInput2 from './FormInput2';
 import FormInput from './FormInput';
+import { postRfqMaterial } from '../../Redux/Slice/RfqSlice';
 
 const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "Drum", "Hour", "Day", "Week", "Month"]
 
@@ -27,13 +29,16 @@ const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "
 const RequestForRfq = () => {
     const navigation = useNavigation();
     const auth = useSelector((auth) => auth.auth.user)
+    const { isLoading: LoadingRfq, message: messageRfq, jobRfq  } = useSelector((rfq) => rfq.rfq)
+
     const dispatch = useDispatch()
     const { isLoading, message, refresh } = useSelector((material) => material.material)
 
     const [allMaterial, setAllMaterial] = useState([])
    const [data, setData] = useState([])
 
-
+    // console.log(jobRfq?._id)
+    const rfq_id = jobRfq?._id
     const [value, setValue] = useState([
         {
             query: '',
@@ -239,7 +244,41 @@ function confirm() {
  }
  else{
      console.log(send, 'tttt')
-     navigation.navigate('selectvendors')
+
+     const datarfqmaterial ={
+         rfqArray:send,
+token,
+rfq_id
+
+     }
+     console.log(send)
+ console.log(
+   {  datarfqmaterial}
+ )
+     dispatch(postRfqMaterial(datarfqmaterial)).unwrap().then((res) => {
+
+         if (res.status === 'Updated') {
+             Alert.alert(`${res.msg}`)
+             setValue(
+                 [
+                     {
+                         query: '',
+                         description: '',
+                         quantity: '',
+                         unit: '',
+                         name: '',
+                         show: false
+                     }
+                 ]
+             )
+         navigation.navigate('selectvendors')
+         }
+         console.log(res.status);
+     }).catch((err) => {
+         console.log(err, 'error from postrfqjob')
+         Alert.alert(`${err}`)
+     })
+    //  navigation.navigate('selectvendors')
  }
    }
 
@@ -525,15 +564,41 @@ if (val.show) {
           }
 
           <Box my="4">
-              <FormCustomButton
-                  placeholder=""
-                  borderColor={COLOR.BgColor}
-                  borderWidth={WP(0.3)}
-                  btnTitle="Next"
-                  backgroundColor={COLOR.BgColor}
-                  textColor={COLOR.whiteColor}
-                  onPress={submitButton}
-              />
+
+
+                  <TouchableOpacity
+                      onPress={submitButton}
+                      style={{
+                          backgroundColor: COLOR.BgColor,
+                          padding: WP(4),
+                          borderRadius: WP(3),
+                          borderWidth: 1,
+                          borderColor: COLOR.BgColor,
+                          top: WP(4),
+
+
+                      }}
+                  >
+                      {
+
+                          LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
+                              style={{
+                                  fontSize: WP(4.5),
+                                  color: COLOR.whiteColor,
+                                  textAlign: 'center',
+                                  fontWeight: '400',
+
+
+
+
+                              }}>
+                              Next
+                          </Text>
+                      }
+
+
+                  </TouchableOpacity>
+              
           </Box>
       </Box>
 
