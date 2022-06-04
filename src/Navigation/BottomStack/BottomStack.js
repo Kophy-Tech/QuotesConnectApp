@@ -35,7 +35,7 @@ function BottomStack() {
         headerShown: true,
       }}
       initialRouteName="vendors">
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Bottom"
         component={BottomStackNavigation}
         options={{
@@ -60,7 +60,7 @@ function BottomStack() {
           headerLeft: () => <BackIcon />,
           headerTitleAlign: 'center',
         }}
-      />
+      /> */}
 
       <Stack.Screen
         name="selectvendors"

@@ -24,6 +24,7 @@ const InputForm = ({
                       padding: WP(3),
                       borderColor: borderColor,
                       borderRadius: WP(2),
+                      color:'black'
 
                   }}
                   value={value}

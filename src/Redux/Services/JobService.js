@@ -13,6 +13,15 @@ const getJobService = (token) => {
 
 
 
+const mygetVendorService = (token) => {
+    // console.log(token, 'token')
+    return axios.get(API_URL + "vendor/all-vendors", { headers: { "Authorization": `${token}` } }).then((response) => {
+        return response.data;
+    });
+};
+
+
+
 
 const postJobService = (data) => {
     const { value, token } = data
@@ -64,7 +73,8 @@ const JobService = {
     getJobService,
     postJobService,
     deleteJobService,
-updateJobService
+updateJobService,
+    mygetVendorService
 
 };
 

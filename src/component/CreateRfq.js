@@ -15,7 +15,10 @@ import Autocomplete from 'react-native-autocomplete-input';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { getJob } from '../Redux/Slice/JobSlice';
-import { dispatchJob } from '../Redux/Slice/RfqSlice';
+import { Spinner } from "native-base";
+
+import Loading from './Loading';
+import { postRfqJob } from '../Redux/Slice/RfqSlice';
 
 const CreateRfq = () => {
     const navigation = useNavigation();
@@ -24,6 +27,8 @@ const CreateRfq = () => {
    
     const auth = useSelector((auth) => auth.auth.user)
     const { isLoading, message, refresh } = useSelector((job) => job.job)
+    const { isLoading:LoadingRfq, message:messageRfq } = useSelector((rfq) => rfq.rfq)
+
 
 
     const [date1, setDate1] = React.useState(new Date());
@@ -79,10 +84,11 @@ const [allJob, setAllJob] = useState([])
 
         setDate2(currentDate);
     };
-    const formateDate1 = moment(date1).format('DD-MM-YYYY'); 
-    const formateDate2 = moment(date2).format('DD-MM-YYYY'); 
+    const formateDate1 = moment(date1).format('YYYY/MM/DD'); 
+    const formateDate2 = moment(date2).format('YYYY/MM/DD'); 
     const token = auth?.token
 
+    // console.log(token, 'token')
     useLayoutEffect(() => {
         dispatch(getJob(token))
             .unwrap().then((res) => {
@@ -115,224 +121,285 @@ setAllJob(res)
 
         }
        else{
-            const data = {
+            const value = {
 
                 start_date: formateDate1,
                 due_date: formateDate2,
                 rfq_information: text,
                 job: jobId
             }
-            dispatch(dispatchJob(data))
-            console.log({data})
+ const dataJob= {
+     token,
+     value
+ }
+            dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
+
+                if (res.status === 'Created') {
+                    Alert.alert(`${res.msg}`)
+                    onChangeText('')
+                    setQuery('')
             navigation.navigate('requestforrfq')
+
+                }
+                console.log(res.status);
+            }).catch((err) => {
+                console.log(err, 'error from postrfqjob')
+                Alert.alert(`${err}`)
+            })
+
+
+            // dispatch(dispatchJob(data))
+            console.log({value})
+            // navigation.navigate('requestforrfq')
 
        }
 
 
     }
-  
+
+
+    if (isLoading) {
+        return <Loading />
+    }
+
+    else if (message && isLoading === false) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                    width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                    alignSelf: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.18,
+                    shadowRadius: 1.00,
+
+                    elevation: 1,
+                    backgroundColor: '#FFF'
+                }}>
+
+                    <Text style={{ fontSize: 20, color: 'black' }}> {message}</Text>
+                   
+                </View>
+            </View>
+        )
+    }
+    if (allJob.length === 0) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                    width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                    alignSelf: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.18,
+                    shadowRadius: 1.00,
+
+                    elevation: 1,
+                    backgroundColor: '#FFF'
+                }}>
+
+                    <Text style={{ fontSize: 20, color: 'black' }}> No data</Text>
+                    <Text style={{ fontSize: 10, color: 'black' }}> Create Job Management at Job Dashboard</Text>
+                    <Box my="4">
+                        <FormCustomButton
+                            placeholder=""
+                            borderColor={COLOR.BgColor}
+                            borderWidth={WP(0.3)}
+                            btnTitle="Next To  Material Screen"
+                            backgroundColor={COLOR.BgColor}
+                            textColor={COLOR.whiteColor}
+                            onPress={() => navigation.navigate('requestforrfq')}
+                        />
+                    </Box>
+                </View>
+            </View>
+        )
+    }
   return (
       <>
-          <Box px="4" pt="3">
+      <View style={{flex:1, backgroundColor:'#fff'}}>
+              <Box px="4" pt="3">
 
-              <Box mb="2">
-                  <DateInputForm
-                      title="Creation Date"
-                      value={formateDate1}
-                      borderColor={COLOR.BgColor}
-                      onPress={() => setShowDate1(true)}
+                  <Box mb="2">
+                      <DateInputForm
+                          title="Creation Date"
+                          value={formateDate1}
+                          borderColor={COLOR.BgColor}
+                          onPress={() => setShowDate1(true)}
 
-                  />
-                  {showDate1 && (
-                      <DateTimePicker
-                          testID="dateTimePicker"
-                          value={date1}
-                          onChange={onChangeDate1}
                       />
-                  )}
-              </Box>
-              <Box mb="2">
-                  <DateInputForm
-                      title="Due Date"
-                      value={formateDate2}
-                      borderColor={COLOR.BgColor}
-                      onPress={() => setShowDate2(true)}
-
-                  />
-                  {showDate2 && (
-                      <DateTimePicker
-                          testID="dateTimePicker"
-                          value={date2}
-                          onChange={onChangeDate2}
-                      />
-                  )}
-              </Box>
-              <Box mb="6" mt="3" style={{position:'relative'}}>
-                  <Text style={{ fontSize: WP(4.5), paddingBottom: WP(1), color: COLOR.BgColor, fontWeight: '400', fontStyle: 'normal' }}>
-                      Select Job for Job Management
-                  </Text>
-                  {
-                      isLoading && <View
-                          style={{
-                              width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
-                              alignSelf: 'center',
-                              shadowColor: "#000",
-                              shadowOffset: {
-                                  width: 0,
-                                  height: 1,
-                              },
-                              shadowOpacity: 0.18,
-                              shadowRadius: 1.00,
-
-                              elevation: 1,
-                              backgroundColor: 'transparent',
-                              borderWidth: 1,
-                              borderColor: COLOR.BgColor,
-                              marginVertical: 10
-
-                          }}
-                      >
-                          <Text
-                              style={{ fontSize: 15, color: 'black' }}
-                          > Loading  Job Management...</Text>
-                      </View>
-                  }
-
-                  {
-                      isLoading === false && message && <View
-
-                          style={{
-                              width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
-                              alignSelf: 'center',
-                              shadowColor: "#000",
-                              shadowOffset: {
-                                  width: 0,
-                                  height: 1,
-                              },
-                              shadowOpacity: 0.18,
-                              shadowRadius: 1.00,
-
-                              elevation: 1,
-                              backgroundColor: 'transparent',
-                              borderWidth: 1,
-                              borderColor: COLOR.BgColor,
-                              marginVertical: 10
-
-                          }}
-                      >
-                          <Text
-                              style={{ fontSize: 15, color: 'red' }}
-                          >
-                              {message} in fechting Job Mangement
-                          </Text>
-                      </View>
-                  }
-                 {
-                      isLoading === false && !message && <View style={styles.autocompleteContainer}>
-
-                          <Autocomplete
-                              editable={edit}
-                              value={allJob.length === 0? 'No Job Mangement Created':query}
-                              onChangeText={(text)=>{
-                                  if(allJob.length ===0){
-                                      setEdit(true)
-                                      Alert.alert('No Job Mangement Created')
-                                  
-
-                                  }
-                               
-
-                                  setQuery(text)
-                                 
-                              }}
-                              placeholder="Enter Job Management"
-                              data={data}
-                              autoCorrect={false}
-                              style={{
-                                  backgroundColor: 'transparent',
-                              }}
-                              inputContainerStyle={{
-                                  borderColor: COLOR.BgColor,
-                                  borderRadius: 5
-
-                              }}
-                              listContainerStyle={{
-                                  backgroundColor: "#a9b4fc",
-                              }}
-
-                              flatListProps={{
-                                  keyboardShouldPersistTaps: 'always',
-                                  keyExtractor: (job) => job._id,
-                                  renderItem: ({ item }) => {
-                                      console.log({ item })
-                                      return (
-                                          <TouchableOpacity onPress={() => {
-                                              setQuery(item.name)
-                                              setJobId(item._id)
-                                          }}
-
-
-                                              style={{
-
-                                                  padding: 10,
-                                              }}
-                                          >
-                                              <Text style={styles.itemText}>{item.name}</Text>
-                                          </TouchableOpacity>
-                                      )
-                                  }
-                              }}
-
+                      {showDate1 && (
+                          <DateTimePicker
+                              testID="dateTimePicker"
+                              value={date1}
+                              onChange={onChangeDate1}
                           />
+                      )}
+                  </Box>
+                  <Box mb="2">
+                      <DateInputForm
+                          title="Due Date"
+                          value={formateDate2}
+                          borderColor={COLOR.BgColor}
+                          onPress={() => setShowDate2(true)}
 
-                      </View>
-
-                 }
-              </Box>
-              <Box mb="2" mt="10">
-                  <CustomTextArea
-                      title="Job Information"
-                      value={text}
-                      borderColor={COLOR.BgColor}
-                      onChangeText={onChangeText}
-                  />
-              </Box>
-
-
-              <Box mb="2">
-
-                  <TouchableOpacity
-                      onPress={NextScreen}
-                      style={{
-                          backgroundColor: COLOR.BgColor,
-                          padding: WP(4),
-                          borderRadius: WP(3),
-                          borderWidth: 1,
-                          borderColor: COLOR.BgColor,
-                          top: WP(4),
-
-
-                      }}
-                      >
- <Text
-                          style={{
-                              fontSize: WP(4.5),
-                              color: COLOR.whiteColor,
-                              textAlign: 'center',
-                              fontWeight: '400',
-
-
-
-
-                          }}>
-                          Next
+                      />
+                      {showDate2 && (
+                          <DateTimePicker
+                              testID="dateTimePicker"
+                              value={date2}
+                              onChange={onChangeDate2}
+                          />
+                      )}
+                  </Box>
+                  <Box mb="6" mt="3" style={{ position: 'relative' }}>
+                      <Text style={{ fontSize: WP(4.5), paddingBottom: WP(1), color: COLOR.BgColor, fontWeight: '400', fontStyle: 'normal' }}>
+                          Select Job for Job Management
                       </Text>
 
-                  </TouchableOpacity>
-                 
-              </Box>
 
-          </Box> 
+                      {
+                          isLoading === false && message && <View
+
+                              style={{
+                                  width: '100%', justifyContent: 'center', alignItems: 'center', height: 50,
+                                  alignSelf: 'center',
+                                  shadowColor: "#000",
+                                  shadowOffset: {
+                                      width: 0,
+                                      height: 1,
+                                  },
+                                  shadowOpacity: 0.18,
+                                  shadowRadius: 1.00,
+
+                                  elevation: 1,
+                                  backgroundColor: 'transparent',
+                                  borderWidth: 1,
+                                  borderColor: COLOR.BgColor,
+                                  marginVertical: 10
+
+                              }}
+                          >
+                              <Text
+                                  style={{ fontSize: 15, color: 'red' }}
+                              >
+                                  {message} in fechting Job Mangement
+                              </Text>
+                          </View>
+                      }
+                      {
+                          isLoading === false && !message && <View style={styles.autocompleteContainer}>
+
+                              <Autocomplete
+                                  autoCapitalize="none"
+                                  autoCorrect={false}
+                                  value={query}
+                                  onChangeText={(text) => {
+
+
+                                      setQuery(text)
+
+                                  }}
+                                  placeholder="Enter Job Management"
+                                  data={data}
+
+                                  style={{
+                                      backgroundColor: 'transparent',
+                                      color:'black'
+                                  }}
+                                  inputContainerStyle={{
+                                      borderColor: COLOR.BgColor,
+                                      borderRadius: 5
+
+                                  }}
+                                  listContainerStyle={{
+                                      backgroundColor: "#a9b4fc",
+                                  }}
+
+                                  flatListProps={{
+                                      keyboardShouldPersistTaps: 'always',
+                                      keyExtractor: (job) => job._id,
+                                      renderItem: ({ item }) => {
+                                          console.log({ item })
+                                          return (
+                                              <TouchableOpacity onPress={() => {
+                                                  setQuery(item.name)
+                                                  setJobId(item._id)
+                                              }}
+
+
+                                                  style={{
+
+                                                      padding: 10,
+                                                  }}
+                                              >
+                                                  <Text style={styles.itemText}>{item.name}</Text>
+                                              </TouchableOpacity>
+                                          )
+                                      }
+                                  }}
+
+                              />
+
+                          </View>
+
+                      }
+                  </Box>
+                  <Box mb="2" mt="10">
+                      <CustomTextArea
+                          title="Job Information"
+                          value={text}
+                          borderColor={COLOR.BgColor}
+                          onChangeText={onChangeText}
+                      />
+                  </Box>
+
+
+                  <Box mb="2">
+
+                      <TouchableOpacity
+                          onPress={NextScreen}
+                          style={{
+                              backgroundColor: COLOR.BgColor,
+                              padding: WP(4),
+                              borderRadius: WP(3),
+                              borderWidth: 1,
+                              borderColor: COLOR.BgColor,
+                              top: WP(4),
+
+
+                          }}
+                      >
+                          {
+
+                              LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff"/> : <Text
+                                  style={{
+                                      fontSize: WP(4.5),
+                                      color: COLOR.whiteColor,
+                                      textAlign: 'center',
+                                      fontWeight: '400',
+
+
+
+
+                                  }}>
+                                  Next
+                              </Text>
+                          }
+                       
+
+                      </TouchableOpacity>
+
+                  </Box>
+
+              </Box> 
+      </View>
      
       </>
   

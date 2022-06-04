@@ -7,7 +7,7 @@ import InputSearch from '../../component/InputSearch';
 
 const Notification = () => {
   return (
-      < SafeAreaView style={{ flex: 1, marginBottom: 80 }}>
+      < SafeAreaView style={{ flex: 1, backgroundColor:'#fff'}}>
           <Box px="2">
               <Box pb="3">
                   < InputSearch />

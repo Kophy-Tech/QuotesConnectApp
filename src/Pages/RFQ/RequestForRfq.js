@@ -14,10 +14,13 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { useSelector, useDispatch } from 'react-redux';
 import { getMaterial } from '../../Redux/Slice/materialSlice';
 import Loading from '../../component/Loading';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import { Spinner } from "native-base";
 
 import FormInput2 from './FormInput2';
 import FormInput from './FormInput';
+import { postRfqMaterial } from '../../Redux/Slice/RfqSlice';
 
 const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "Drum", "Hour", "Day", "Week", "Month"]
 
@@ -26,33 +29,16 @@ const countries = ["Bundle", "Box", "Bag", "Pallet", "Roll", "Case", "Gallon", "
 const RequestForRfq = () => {
     const navigation = useNavigation();
     const auth = useSelector((auth) => auth.auth.user)
+    const { isLoading: LoadingRfq, message: messageRfq, jobRfq  } = useSelector((rfq) => rfq.rfq)
+
     const dispatch = useDispatch()
     const { isLoading, message, refresh } = useSelector((material) => material.material)
 
     const [allMaterial, setAllMaterial] = useState([])
    const [data, setData] = useState([])
 
-//    console.log({allMaterial});
-    const filterData = (text) => {
-  
-
-      
-  
-let data
-        if (!text) {
-            return  data =[];
-        }
-     
-
-        else {
-            return  data= allMaterial.filter(x => x.name.toLowerCase().includes(text.toLowerCase()));
-        }
-
-        setData([...data])
-    }
-
-    // console.log({data})
-
+    // console.log(jobRfq?._id)
+    const rfq_id = jobRfq?._id
     const [value, setValue] = useState([
         {
             query: '',
@@ -63,7 +49,7 @@ let data
             show:false
         }
     ]);
-console.log({value})
+// console.log({value})
 
     // const [valueText, setValueText] = useState([
     //     {
@@ -203,14 +189,17 @@ console.log({data})
    const submitButton =()=>{
        let send =[]
        let error
-       const dataSend = value.map(({name, description, quantity, unit})=> {
+       const dataSend = value.map(({name, description, quantity, unit, query})=> {
          
 function confirm() {
     let found ;
+    let q
     for (var i = 0; i < allMaterial.length; i++) {
         // console.log(allMaterial[i]._id, 'aaaaa')
         if (allMaterial[i]._id == name) {
             found = true;
+           
+
             break;
         }
         else{
@@ -224,7 +213,7 @@ function confirm() {
 // console.log(confirm())
            if (!confirm()) {
              
-               Alert.alert('Error', 'Please select correct material')
+               Alert.alert(`Error', 'Please select correct material ${query}, is not in the list`)
            }
          else if ( quantity==='') {
              error =true
@@ -256,6 +245,40 @@ function confirm() {
  else{
      console.log(send, 'tttt')
 
+     const datarfqmaterial ={
+         rfqArray:send,
+token,
+rfq_id
+
+     }
+     console.log(send)
+ console.log(
+   {  datarfqmaterial}
+ )
+     dispatch(postRfqMaterial(datarfqmaterial)).unwrap().then((res) => {
+
+         if (res.status === 'Updated') {
+             Alert.alert(`${res.msg}`)
+             setValue(
+                 [
+                     {
+                         query: '',
+                         description: '',
+                         quantity: '',
+                         unit: '',
+                         name: '',
+                         show: false
+                     }
+                 ]
+             )
+         navigation.navigate('selectvendors')
+         }
+         console.log(res.status);
+     }).catch((err) => {
+         console.log(err, 'error from postrfqjob')
+         Alert.alert(`${err}`)
+     })
+    //  navigation.navigate('selectvendors')
  }
    }
 
@@ -272,14 +295,75 @@ function confirm() {
     
     else if(message && isLoading === false){
         return(
-            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                <Text>{message}</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                    width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                    alignSelf: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.18,
+                    shadowRadius: 1.00,
+
+                    elevation: 1,
+                    backgroundColor: '#FFF'
+                }}>
+
+                    <Text style={{ fontSize: 20, color: 'black' }}> {message}</Text>
+                   
+                </View>
             </View>
         )
     }
 
+if(allMaterial.length===0){
+    return(
+        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+            <View style={{
+                width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                alignSelf: 'center',
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 1,
+                },
+                shadowOpacity: 0.18,
+                shadowRadius: 1.00,
 
+                elevation: 1,
+                backgroundColor: '#FFF'
+            }}>
+
+                <Text style={{ fontSize: 20, color: 'black' }}> No data</Text>
+                <Text style={{ fontSize: 10, color: 'black' }}> Create Material at Material Dashboard</Text>
+                <Box my="4">
+                    <FormCustomButton
+                        placeholder=""
+                        borderColor={COLOR.BgColor}
+                        borderWidth={WP(0.3)}
+                        btnTitle="Next To  Vendor Screen"
+                        backgroundColor={COLOR.BgColor}
+                        textColor={COLOR.whiteColor}
+                        onPress={() => navigation.navigate('selectvendors')}
+                    />
+                </Box>
+            </View>
+        </View>
+    )
+}
   return (
+      <KeyboardAwareScrollView
+          style={{flex:1,
+        backgroundColor:'#fff'
+        }}
+          contentContainerStyle={{ paddingBottom: WP(50) }}
+          horizontal={false}
+
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}>
+
       <Box px="4">
           <View style={styles.addButtonContainer}>
               <ButtonH style={{
@@ -333,23 +417,24 @@ function confirm() {
 
                                   <Autocomplete
                                       value={val.query}
-
                                       onChangeText={(text) =>{ inputHandleQuery(text, key)
                                           inputHandleName('', key)
                                           inputHandleShow(true, key)
                                     }}
 
-
+                                      horizontal={true}
                                       placeholder="Enter material name"
                                       data={data}
 
                                       style={{
                                           backgroundColor: 'transparent',
+                                          color: 'black'
                                       }}
                                       inputContainerStyle={{
                                           borderColor: COLOR.BgColor,
                                           borderRadius: 2,
-                                          borderWidth: WP(0.2)
+                                          borderWidth: WP(0.2),
+                                        
 
                                       }}
                                       listContainerStyle={{
@@ -479,18 +564,45 @@ if (val.show) {
           }
 
           <Box my="4">
-              <FormCustomButton
-                  placeholder=""
-                  borderColor={COLOR.BgColor}
-                  borderWidth={WP(0.3)}
-                  btnTitle="Next"
-                  backgroundColor={COLOR.BgColor}
-                  textColor={COLOR.whiteColor}
-                  onPress={submitButton}
-              />
+
+
+                  <TouchableOpacity
+                      onPress={submitButton}
+                      style={{
+                          backgroundColor: COLOR.BgColor,
+                          padding: WP(4),
+                          borderRadius: WP(3),
+                          borderWidth: 1,
+                          borderColor: COLOR.BgColor,
+                          top: WP(4),
+
+
+                      }}
+                  >
+                      {
+
+                          LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
+                              style={{
+                                  fontSize: WP(4.5),
+                                  color: COLOR.whiteColor,
+                                  textAlign: 'center',
+                                  fontWeight: '400',
+
+
+
+
+                              }}>
+                              Next
+                          </Text>
+                      }
+
+
+                  </TouchableOpacity>
+              
           </Box>
       </Box>
 
+      </KeyboardAwareScrollView>
 
      
   )
