@@ -23,14 +23,19 @@ const MaterialManagement = ({navigation}) => {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
+ const [limit, setLimit] = useState(10)
+    const [page, setPage] = useState()
+ const [total, setTotal] = useState()
+ console.log(total, 'totall')
 
     const token =auth?.token
     useLayoutEffect(() => {
         dispatch(getMaterial(token))
             .unwrap().then((res) => {
-                //  console.log(res, 'res');
-                setFilteredDataSource(res);
-                setMasterDataSource(res);
+                 console.log(res, 'res');
+                setFilteredDataSource(res.data);
+                setMasterDataSource(res.data);
+                setTotal(res.totalResult)
             }).catch((err) => {
 
                 if (err) {

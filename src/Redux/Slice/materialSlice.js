@@ -9,7 +9,7 @@ export const getMaterial = createAsyncThunk(
         try {
             const response = await MaterialService.getMaterialService(token);
             // console.log(response.data, 'response')
-            return response.data;
+            return response;
         } catch (error) {
             console.log(error, 'from getmmaterial');
             const { message } = error;
@@ -129,6 +129,8 @@ const materialSlice = createSlice({
             // console.log(action.payload.data, 'ressssssf');
             let materialData= state.material.filter((data) => data._id !== action.payload.data._id)
             state.material = [...materialData, action.payload.data]
+            state.refresh = action.payload.msg
+
         },
         [updateMaterial.rejected]: (state, action) => {
             state.isLoading = false;

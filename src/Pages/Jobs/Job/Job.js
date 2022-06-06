@@ -37,8 +37,8 @@ const Job = ({navigation}) => {
         dispatch(getJob(token))
             .unwrap().then((res) => {
                 //  console.log(res, 'res');
-                setFilteredDataSource(res);
-                setMasterDataSource(res);
+                setFilteredDataSource(res.data);
+                setMasterDataSource(res.data);
             }).catch((err) => {
 
                 if (err) {

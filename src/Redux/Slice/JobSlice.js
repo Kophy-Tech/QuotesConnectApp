@@ -8,7 +8,7 @@ export const getJob = createAsyncThunk(
         try {
             const response = await JobService.getJobService(token);
             // console.log(response.data, 'response')
-            return response.data;
+            return response;
         } catch (error) {
             console.log(error, 'from getjob');
             const { message } = error;
@@ -159,6 +159,8 @@ const materialSlice = createSlice({
             // console.log(action.payload.data, 'ressssssf');
             let job = state.job.filter((data) => data._id !== action.payload.data._id )  
             state.job =[...job, action.payload.data]
+            state.refresh = action.payload.msg
+
         },
         [ updateJob.rejected]: (state, action) => {
             state.isLoading = false;
