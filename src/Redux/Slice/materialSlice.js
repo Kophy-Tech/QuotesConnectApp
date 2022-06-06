@@ -109,6 +109,8 @@ const materialSlice = createSlice({
             state.isSuccess = true;
             console.log(action.payload.data, 'ressssssf');
             state.material.push(action.payload.data);
+            state.refresh = action.payload.msg
+
         },
         [postMaterial.rejected]: (state, action) => {
             state.isLoading = false;

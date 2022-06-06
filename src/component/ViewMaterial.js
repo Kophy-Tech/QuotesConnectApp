@@ -3,41 +3,18 @@ import React, {  useState, useLayoutEffect } from 'react'
 import {  Text } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getMaterial } from '../Redux/Slice/materialSlice';
 import Loading from './Loading';
 import CustomFlatList from './CustomFlatList';
 import { Stack, Alert, IconButton, HStack, VStack, CloseIcon,  Center } from "native-base";
 
 
 
-const ViewMaterial = ({ navigation}) => {
+const ViewMaterial = ({ navigation, error, setError, material}) => {
 
-    const auth = useSelector((auth) => auth.auth.user)
-    const dispatch = useDispatch()
-    const { isLoading, message, refresh} = useSelector((material) => material.material)
-    const material = useSelector((material) => material.material.material)
+   
+    const { isLoading, message,} = useSelector((material) => material.material)
   
-      const [error, setError] = useState(false);
-const token = auth?.token
-// console.log(token, 'ttttttt');
-    useLayoutEffect(() => {
-        dispatch(getMaterial(token))
-     .unwrap().then((res)=>{
-        //  console.log(res, 'res');
-         
-     }).catch((err)=>{
-       
-        if(err){
-            setError(true)
-        }
       
-
-        
-     })
-    }, [dispatch, refresh])
-    // console.log(materialPost, 'materialPost');
-// console.log(material, 'material');
-
 
     if (isLoading === true && error===false){
         return <>

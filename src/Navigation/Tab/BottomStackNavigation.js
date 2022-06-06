@@ -25,6 +25,7 @@ const BottomStackNavigation = () => {
           height: WP(15),
           ...styles.shadow,
         },
+        tabBarHideOnKeyboard:true
       }}>
       <Tab.Screen
         name="rfq"

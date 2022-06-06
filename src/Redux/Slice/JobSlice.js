@@ -140,6 +140,8 @@ const materialSlice = createSlice({
             state.isSuccess = true;
             console.log(action.payload.data, 'ressssssf');
             state.job.push(action.payload.data);
+            state.refresh = action.payload.msg
+
         },
         [postJob.rejected]: (state, action) => {
             state.isLoading = false;

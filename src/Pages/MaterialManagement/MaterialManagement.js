@@ -1,5 +1,6 @@
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState, useLayoutEffect } from 'react'
+
 import {  Text, Box,Flex } from "native-base";
 import { COLOR } from '../../Utils/theme'
 import AppBar from '../../component/AppBar'
@@ -7,11 +8,61 @@ import Header from '../../component/Header';
 import InputSearch from '../../component/InputSearch';
 import ButtonH from '../../component/ButtonH';
 import { BgColor } from '../../Utils/Colors';
-import CreateMaterial from '../../component/CreateMaterial';
-import ViewMaterial from '../../component/ViewMaterial';
+import { getMaterial } from '../../Redux/Slice/materialSlice';
 
+import ViewMaterial from '../../component/ViewMaterial';
+import { useSelector, useDispatch } from 'react-redux';
 const MaterialManagement = ({navigation}) => {
     const [index, setIdex] = React.useState(true)
+
+    const auth = useSelector((auth) => auth.auth.user)
+    const dispatch = useDispatch()
+    const { refresh } = useSelector((material) => material.material)
+
+    const [error, setError] = useState(false);
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [masterDataSource, setMasterDataSource] = useState([]);
+
+    const token =auth?.token
+    useLayoutEffect(() => {
+        dispatch(getMaterial(token))
+            .unwrap().then((res) => {
+                //  console.log(res, 'res');
+                setFilteredDataSource(res);
+                setMasterDataSource(res);
+            }).catch((err) => {
+
+                if (err) {
+                    setError(true)
+                }
+
+
+
+            })
+    }, [dispatch, refresh])
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name
+          ? item.name.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
 
   return (
     < SafeAreaView style={{ flex: 1,  backgroundColor:'#fff'}}>
@@ -19,7 +70,13 @@ const MaterialManagement = ({navigation}) => {
           <Header />
           <Box px="6">
               <Box>
-                  < InputSearch />
+                  < InputSearch
+                      onChangeText={(text) => searchFilterFunction(text)}
+                      onClear={(text) => searchFilterFunction('')}
+                      value={search}
+                      placeholder="search catergory name"
+                    
+                  />
               </Box>
               <Flex direction="row" mt="4" justifyContent="space-between">
                   <ButtonH style={{
@@ -56,7 +113,11 @@ const MaterialManagement = ({navigation}) => {
           </Box>
 
           {
-              index && <ViewMaterial navigation={navigation} />
+              index && <ViewMaterial navigation={navigation} 
+                  material={filteredDataSource}
+                  error={error}
+                  setError={setError}
+              />
           
           }
        
