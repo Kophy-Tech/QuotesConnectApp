@@ -110,7 +110,7 @@ const memoizedCallback = useCallback(
             quantity: '',
             unit: '',
             name: '',
-            show: false
+            show: null
         });
         setValue(_inputs);
     }
@@ -416,10 +416,13 @@ if(allMaterial.length===0){
 
                           key={key}
                       >
-                          <View style={[styles.tableColumnRegular2, { position: 'relative' }]}>
+                          <View style={[styles.tableColumnRegular2, { position: 'relative', top:0 }]}>
 
                             <>
-                                  <View style={styles.autocompleteContainer}>
+                                  <View style={[styles.autocompleteContainer,{
+                                      zIndex: val.show? 100:0,
+                                    
+                                  }]}>
 
                                       <Autocomplete
                                           value={val.query}
@@ -484,7 +487,9 @@ if(allMaterial.length===0){
 
                                       />
 
-                                  </View></>
+                                  </View>
+                                  
+                                  </>
                           </View>
                           <View style={styles.tableColumnRegular2}>
                               <FormInput2
@@ -707,7 +712,8 @@ flexDirection:'row'
 
         position: 'absolute',
         width: '100%',
-        zIndex: 1,
+   
+       top: 4
         // paddingTop: 40,
       
       
