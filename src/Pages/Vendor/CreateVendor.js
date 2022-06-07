@@ -13,27 +13,30 @@ import FormCustomButton from '../../component/FormCustomButton';
 import {COLOR, HP, IMAGE, WP} from '../../Utils/theme';
 import FormCustomInput from '../../component/FormCustomInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {CreateVendorAction} from '../../Redux/Slice/VendorSlice';
+import {
+  CreateVendorAction,
+  getVendorAction,
+} from '../../Redux/Slice/VendorSlice';
 import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useSelector, useDispatch} from 'react-redux';
+import {ErrorDisplay} from '../../Utils/util';
 
 Validator.setMessages('en', en);
 const CreateVendor = props => {
   const [errors, setError] = useState({});
-  const {navigation}=props
+  const [backendError, setBackendError] = useState([]);
+  const {navigation} = props;
   const [document, setDocument] = useState({});
-  console.log(document, 'docuemtntntn')
+  console.log(document, 'docuemtntntn');
   const {isLoading} = useSelector(state => state.vendor);
   console.log(isLoading, 'loading');
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-   navigation.setOptions({
-    
-    });
-}, [navigation]);
+    navigation.setOptions({});
+  }, [navigation]);
 
   const [value, setValues] = useState({
     name: '',
@@ -46,9 +49,17 @@ const CreateVendor = props => {
     state: '',
   });
 
-
-  const {name, street, city, zip_code, sales_rep, telephone, email, state ,logo=document?.path} =
-    value;
+  const {
+    name,
+    street,
+    city,
+    zip_code,
+    sales_rep,
+    telephone,
+    email,
+    state,
+    logo = document?.path,
+  } = value;
 
   const handleInputChange = (inputName, inputValue) => {
     setValues({
@@ -64,40 +75,22 @@ const CreateVendor = props => {
       setDocument(image);
     });
   };
-  const [textValue, setTextValue] = useState(''); 
-	// our number of inputs, we can add the length or decrease the length
+  const [textValue, setTextValue] = useState('');
+  // our number of inputs, we can add the length or decrease the length
   const [numInputs, setNumInputs] = useState(1);
   // all our input fields are tracked with this array
   const refInputs = React.useRef([textValue]);
-  
-  const inputs= [];
-const EmailInput =() => {
-  for (let i = 0; i < numInputs; i ++)
-	{
-		inputs.push(
-			<View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
-				<Text>{i + 1}.</Text>
-				<FormCustomInput
-                lablelText="Email*"
-                inputBorderColor={COLOR.BgColor}
-                labelTextTop={WP(3)}
-                labelText={COLOR.BgColor}
-              />
-			</View>
-		);
-	}
-}
 
   const onSubmit = async () => {
     let rules = {
       name: 'required',
       street: 'required',
       city: 'required',
-      zip_code: 'required',
-      sales_rep: 'required',
-      telephone: 'required',
-      email: 'required',
-      state: 'required',
+      zip_code: 'required|numeric',
+      sales_rep: 'required|string',
+      telephone: 'required|numeric',
+      email: 'required|email',
+      state: 'required|string',
     };
 
     let validation = new Validator(value, rules, {
@@ -127,7 +120,16 @@ const EmailInput =() => {
           city: city,
           zip_code: zip_code,
         }),
-      );
+      )
+        .unwrap()
+        .then(res => {
+          dispatch(getVendorAction());
+          props.navigation.goBack();
+        })
+        .catch(err => {
+          console.log(err?.error);
+          setBackendError(err?.error);
+        });
     }
   };
 
@@ -137,23 +139,16 @@ const EmailInput =() => {
       contentContainerStyle={{paddingBottom: WP(65)}}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
-    
-
-  
-
       <View style={styles.vendorInputContainer}>
-   
-
         <View style={{top: HP(3)}}>
-          {EmailInput()}
-          {/* <FormCustomInput
+          <FormCustomInput
             lablelText="Company Name*"
             inputBorderColor={COLOR.BgColor}
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
             name="name"
             onChangeText={value => handleInputChange('name', value)}
-          /> */}
+          />
           <FormCustomInput
             lablelText="Street*"
             inputBorderColor={COLOR.BgColor}
@@ -223,11 +218,8 @@ const EmailInput =() => {
                   uri: document.path,
                 }}
                 style={{
-                
-                 
                   width: WP(90),
                   height: WP(30),
-                
                 }}
               />
             </TouchableOpacity>
@@ -253,7 +245,12 @@ const EmailInput =() => {
         <Text style={styles.error}>{errors.zip_code}</Text>
         <Text style={styles.error}>{errors.sales_rep}</Text>
         <Text style={styles.error}>{errors.email}</Text>
+        {backendError.map(item => (
+          <Text  style={styles.error}>{item?.msg}</Text>
+        ))}
       </View>
+
+    
     </KeyboardAwareScrollView>
   );
 };
@@ -267,9 +264,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: WP(5),
   },
   vendorInputContainer: {
-  
     width: WP(90),
-   
   },
   errorContainer: {
     top: HP(12),

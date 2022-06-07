@@ -57,9 +57,9 @@ export const OtpResetPassword = createAsyncThunk(
     try {
       return await AuthService.reset_password_otp(user);
     } catch (error) {
-      // console.log(error, 'error');
+      console.log(error.response.data.error[0].msg, 'error');
       const {message} = error;
-      return thunkAPI.rejectWithValue(error.response.data || message);
+      return thunkAPI.rejectWithValue(error.response.data.error[0].msg);
     }
   },
 );
@@ -90,6 +90,22 @@ export const confirmOtp = createAsyncThunk(
   },
 );
 
+
+export const UploadImage = createAsyncThunk(
+  'auth/reset_password',
+  async (photo, thunkAPI) => {
+    try {
+      return await AuthService.uploadLogoApi(photo);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
+    }
+  },
+);
+
+
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await AuthService.logout();
 });
@@ -101,7 +117,7 @@ const initialState = {
   isLoading: false,
   message: '',
   isLoadingOtp: false,
-  userInfo:{}
+  userInfo: {},
 };
 
 const authSlice = createSlice({
@@ -181,9 +197,25 @@ const authSlice = createSlice({
     [getUserInfoAction.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.userInfo= action.payload;
+      state.userInfo = action.payload;
     },
     [getUserInfoAction.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.user = null;
+    },
+
+
+    [UploadImage.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [UploadImage.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.userInfo = action.payload;
+    },
+    [UploadImage.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;

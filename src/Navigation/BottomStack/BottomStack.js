@@ -25,6 +25,7 @@ import BottomStackNavigation from '../Tab/BottomStackNavigation';
 import CreateVendor from '../../Pages/Vendor/CreateVendor';
 import EditMaterial from '../../Pages/MaterialManagement/EditMaterial';
 import CreateRfq from '../../component/CreateRfq';
+import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,18 +36,18 @@ function BottomStack() {
         headerShown: true,
       }}
       initialRouteName="vendors">
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Bottom"
         component={BottomStackNavigation}
         options={{
           headerShown: false,
         }}
       />
+    
       <Stack.Screen
         name="editjob"
         component={EditJob}
         options={{
-          
           title: (
             <Text
               style={{
@@ -60,7 +61,7 @@ function BottomStack() {
           headerLeft: () => <BackIcon />,
           headerTitleAlign: 'center',
         }}
-      /> */}
+      />
 
       <Stack.Screen
         name="selectvendors"
@@ -73,7 +74,25 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-           Create RFQ For Vendors
+              Create RFQ For Vendors
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="selectitemvendors"
+        component={SelectedVendorItem}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Create RFQ For Vendors
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -91,7 +110,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-             Create Job
+              Create Job
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -165,14 +184,13 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-            Create RFQ For Material
+              Create RFQ For Material
             </Text>
           ),
           headerLeft: () => <BackIcon />,
           headerTitleAlign: 'center',
         }}
       />
-
 
       <Stack.Screen
         name="createrfq"
@@ -185,7 +203,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-             Create RFQ For Job
+              Create RFQ For Job
             </Text>
           ),
           headerLeft: () => <BackIcon />,

@@ -11,24 +11,33 @@ import UserDetailsHoc from '../../hoc/UserDetails';
 import ImagePicker from 'react-native-image-crop-picker';
 import Loading from '../../component/Loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {HStack, Avatar, Flex} from 'native-base';
+import {UploadImage} from '../../Redux/Slice/AuthSlice';
 
 const Profile = props => {
   console.log(props, 'props');
   const {profile, loading} = props;
+  console.log(profile, 'profile')
   const [email, setEmail] = useState(profile?.email);
+  const [photo, setPhoto] = useState({});
 
   const [fullname, setFullname] = useState(
     profile?.fullname !== undefined && profile?.fullname,
   );
 
-  console.log(profile, 'profile');
+  // UploadImage
   const PickImage = () => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
-    }).then(image => {
-      console.log(image);
-    });
+    })
+      .then(image => {
+        setPhoto(image);
+        dispatch(UploadImage(image?.path));
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
   };
   console.log(loading, 'loading');
   if (loading == true || fullname == undefined) {
@@ -37,13 +46,20 @@ const Profile = props => {
   return (
     <View style={styles._mainContainer}>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => PickImage()}
         style={{alignSelf: 'center', top: WP(12)}}>
-        <Ionicons
-          name="ios-person-circle-outline"
-          size={WP(30)}
-          // color={focused ? '#FFFFFF' : '#bdb9b7'}
-        />
+        {Object.keys(photo).length == 0 ? (
+          <Ionicons
+            name="ios-person-circle-outline"
+            size={WP(30)}
+            // color={focused ? '#FFFFFF' : '#bdb9b7'}
+          />
+        ) : (
+          <Image
+            source={{uri: photo.path}}
+            style={{width: WP(30), height: WP(30), borderRadius: WP(12)}}
+          />
+        )}
       </TouchableOpacity>
       <View style={styles.container}>
         <TextInput

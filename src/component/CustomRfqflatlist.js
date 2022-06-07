@@ -46,6 +46,7 @@ const EmptyContainer = () => {
 
 // { itemParams: item }
 const CustomRfqflatlist = ({ itemData, navigation }) => {
+    console.log(itemData, 'dataaxxxxxxxxaa')
     const dispatch = useDispatch()
 
     const renderItem = ({ item }) => <Item item={item}
@@ -56,12 +57,17 @@ const CustomRfqflatlist = ({ itemData, navigation }) => {
         console.log({ item })
         if (item.status === 'pending' && item.rfqArray.length === 0) {
             console.log('ppp')
-
-            dispatch(dispatchRouteData(item))
-            navigation.navigate('requestforrfq')
+            navigation.navigate('selectvendors')
+            // dispatch(dispatchRouteData(item))
+            // navigation.navigate('requestforrfq')
 
         }
         else if (item.status === 'pending' && item.rfqArray.length > 0 &&item.vendorArray.length ===0) {
+            navigation.navigate('selectvendors')
+            dispatch(dispatchRouteData(item))
+
+        }
+        else if (item.status === 'submitted' && item.rfqArray.length > 0 &&item.vendorArray.length ===0) {
             navigation.navigate('selectvendors')
             dispatch(dispatchRouteData(item))
 
@@ -71,6 +77,7 @@ const CustomRfqflatlist = ({ itemData, navigation }) => {
         }
     }
     const Item = ({ item, onItemPress }) => {
+        console.log(item?.status, "status")
 
         return (
             < View style={styles.tableRow}
@@ -107,7 +114,7 @@ const CustomRfqflatlist = ({ itemData, navigation }) => {
 
                     {
 
-                        item.status === 'open' && <TouchableOpacity style={{
+                        item.status === 'Open' && <TouchableOpacity style={{
                             backgroundColor: '#FD5757',
                             borderRadius: 4,
                             padding: 6

@@ -64,11 +64,14 @@ const ListOfVendor = props => {
 
   return (
     <View style={styles.container}>
-     
-   
-      <View>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Table borderStyle={{borderColor: 'black'}}>
-          <Row data={TableHeader} style={styles.head} widthArr={WidthTable} textStyle={styles.text} />
+          <Row
+            data={TableHeader}
+            style={styles.head}
+            widthArr={WidthTable}
+            textStyle={styles.text}
+          />
 
           {vendors.map((rowData, index) => (
             <TableWrapper key={index} style={styles.row}>
@@ -78,7 +81,7 @@ const ListOfVendor = props => {
             </TableWrapper>
           ))}
         </Table>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -86,10 +89,15 @@ const ListOfVendor = props => {
 export default ListOfVendor;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16, paddingTop: 30,backgroundColor:COLOR.whiteColor},
+  container: {
+    flex: 1,
+    padding: 16,
+    paddingTop: 30,
+    backgroundColor: COLOR.whiteColor,
+  },
   head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2)},
   text: {margin: 6, color: '#fff'},
-  row: {flexDirection: 'row', backgroundColor: '#F7FCFB',marginVertical:2},
+  row: {flexDirection: 'row', backgroundColor: '#F7FCFB', marginVertical: 2},
   btn: {width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2},
   btnText: {textAlign: 'center', color: '#fff'},
   tableContainer: {

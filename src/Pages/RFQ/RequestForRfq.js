@@ -144,7 +144,6 @@ const memoizedCallback = useCallback(
 
         setData(filterData)
     }
-console.log({data})
     const inputHandleDescription = (text, key) => {
         const list = [...value];
         list[key].description = text;

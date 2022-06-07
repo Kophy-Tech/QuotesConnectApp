@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet,Image,Platform} from 'react-native';
+import {View, Text, StyleSheet, Image, Platform} from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -9,12 +9,17 @@ import MaterialManagement from '../../Pages/MaterialManagement/MaterialManagemen
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Vendors from '../../Pages/Vendor/Vendors';
+import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
 
 const Tab = createBottomTabNavigator();
 const BottomStackNavigation = () => {
   return (
     <Tab.Navigator
+    tabBarOptions={{
+      keyboardHidesTabBar: true,
+      }}
       screenOptions={{
+        
         tabBarShowLabel: false,
         tabBarStyle: {
           width: WP('100%'),
@@ -23,13 +28,14 @@ const BottomStackNavigation = () => {
           elevation: 0,
           backgroundColor: '#5080FA',
           // height: WP(15),
-          height: Platform.OS === 'ios' ?WP(22):WP( 15),
+          height: Platform.OS === 'ios' ? WP(22) : WP(15),
           ...styles.shadow,
         },
       }}>
       <Tab.Screen
         name="rfq"
         component={Rfq}
+        // component={SelectedVendorItem}
         options={{
           // tabBarStyle: { display: "none" },
           headerShown: false,
@@ -40,11 +46,13 @@ const BottomStackNavigation = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   top: 1,
+                  elevation: 30,
                 }}>
                 <Ionicons
                   name="reader-outline"
                   size={28}
                   color={focused ? '#FFFFFF' : '#ffff'}
+                  style={focused ? styles.reHeight : null}
                 />
                 {/* <Image source={require('../../Assets/Images/Vector.png')}
                     resizeMode='contain'
@@ -75,11 +83,15 @@ const BottomStackNavigation = () => {
                 <Image
                   source={require('../../Assets/Images/Group2.png')}
                   resizeMode="contain"
-                  style={{
-                    width: 30,
-                    height: 30,
-                    tintColor: focused ? '#fff' : '#ffff',
-                  }}
+                  style={[
+                    focused ? styles.reHeight : null,
+                    {width: 30, height: 30},
+                  ]}
+                  // style={{
+                  //   width: 30,
+                  //   height: 30,
+
+                  // }}
                 />
               </View>
             );
@@ -105,6 +117,7 @@ const BottomStackNavigation = () => {
                   name={focused ? 'ios-people-sharp' : 'ios-people-outline'}
                   size={30}
                   color={focused ? '#fff' : '#ffff'}
+                  style={focused ? styles.reHeight : null}
                 />
               </View>
             );
@@ -127,13 +140,10 @@ const BottomStackNavigation = () => {
                 <Image
                   source={require('../../Assets/Images/Group.png')}
                   resizeMode="contain"
-                  style={{
-                    width: 30,
-                    height: 30,
-                    tintColor: focused ? '#fff' : '#fff',
-                 
-                  
-                  }}
+                  style={[
+                    focused ? styles.reHeight : null,
+                    {width: 30, height: 30},
+                  ]}
                 />
               </View>
             );
@@ -155,5 +165,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+  },
+
+  reHeight: {
+    bottom: WP(2.5),
+    elevation: 300,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
   },
 });

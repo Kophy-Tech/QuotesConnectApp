@@ -66,6 +66,40 @@ export const postRfqVendor = createAsyncThunk('rfq/postrfqjob', async (data, thu
         return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
     }
 });
+
+
+
+export const getRfqVendor = createAsyncThunk(
+    'vendor/CreateVendorAction',
+    async (user, thunkAPI) => {
+      try {
+        return await AuthService.CreateVendorApi(user);
+      } catch (error) {
+        console.log(error, 'error');
+        const {message} = error;
+        return thunkAPI.rejectWithValue(error.response.data || message);
+      }
+    },
+  );
+
+//   Client Select Items interested in from each vendor
+
+export const clientSelectItems = createAsyncThunk(
+    'vendor/postselectAction',
+    async (user, thunkAPI) => {
+      try {
+        return await AuthService.CreateVendorApi(user);
+      } catch (error) {
+        console.log(error, 'error');
+        const {message} = error;
+        return thunkAPI.rejectWithValue(error.response.data || message);
+      }
+    },
+  );
+
+
+
+
 const initialState = {
   
     allrfq:[],

@@ -44,16 +44,15 @@ const getVendorApi = userData => {
 };
 
 const CreateVendorApi = vendorData => {
-  console.log(vendorData, 'vendor data omidiora');
   return instance.post('/vendor', vendorData).then(response => {
-    getVendorApi();
+  
     return response.data;
   });
 };
 
 const GetUserInfoApi = vendorData => {
-  console.log(vendorData, 'vendor data omidiora');
   return instance.get('/client/info', vendorData).then(response => {
+   
     return response.data;
   });
 };
@@ -67,6 +66,14 @@ const otpApi = userData => {
     return response.data;
   });
 };
+
+
+const uploadLogoApi = photo => {
+  return instance.post('/image/upload', photo).then(response => {
+    return response.data;
+  });
+};
+
 
 const logout = () => {
   AsyncStorage.removeItem('user');
