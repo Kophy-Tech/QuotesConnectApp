@@ -74,7 +74,7 @@ const CustomFlatList = ({ itemData, navigation, fetchMore}) => {
               ListHeaderComponent={HeaderComponent}
               ListEmptyComponent={EmptyContainer}
               keyExtractor={(item) => `id${item?._id}`}
-              contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9 , paddingBottom:80}}
+              contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9 , paddingBottom:60}}
           />
 
   </>

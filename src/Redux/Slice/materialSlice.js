@@ -21,6 +21,7 @@ export const getMaterial = createAsyncThunk(
     },
 );
 
+
 export const postMaterial = createAsyncThunk('material/postmaterial', async (data, thunkAPI) => {
     try {
       
@@ -76,8 +77,8 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: '',
-    refresh: null
-
+    refresh: null,
+   
 };
 
 const materialSlice = createSlice({
@@ -94,6 +95,8 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.material = action.payload;
+            state.refresh = action.payload.msg
+
         },
         [getMaterial.rejected]: (state, action) => {
             state.isLoading = false;
@@ -101,6 +104,8 @@ const materialSlice = createSlice({
             state.message = action.payload;
           
         },
+
+     
         [postMaterial.pending]: (state, action) => {
             state.isLoading = true;
         },
