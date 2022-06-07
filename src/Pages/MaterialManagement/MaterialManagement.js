@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native'
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useLayoutEffect, useEffect } from 'react'
 
 import {  Text, Box,Flex } from "native-base";
 import { COLOR } from '../../Utils/theme'
@@ -23,16 +23,22 @@ const MaterialManagement = ({navigation}) => {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
- const [limit, setLimit] = useState(10)
-    const [page, setPage] = useState()
+ 
+    const [page, setPage] = useState(1)
  const [total, setTotal] = useState()
  console.log(total, 'totall')
 
     const token =auth?.token
+    const  tdata ={
+        token,
+        page
+    }
     useLayoutEffect(() => {
-        dispatch(getMaterial(token))
+        dispatch(getMaterial(tdata))
             .unwrap().then((res) => {
                  console.log(res, 'res');
+
+
                 setFilteredDataSource(res.data);
                 setMasterDataSource(res.data);
                 setTotal(res.totalResult)
@@ -45,7 +51,21 @@ const MaterialManagement = ({navigation}) => {
 
 
             })
-    }, [dispatch, refresh])
+    }, [dispatch, refresh ])
+
+ const fetchMore=()=>{
+    if(total){
+    if(page <= Math.ceil(total/5)){
+        setPage(page + 1)
+        console.log(page, 'pageeeee')
+
+      
+    }else{
+       console.lg('endddd')
+    }
+    }
+ }
+
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
     if (text) {
@@ -122,6 +142,7 @@ const MaterialManagement = ({navigation}) => {
                   material={filteredDataSource}
                   error={error}
                   setError={setError}
+                   fetchMore={ fetchMore}
               />
           
           }

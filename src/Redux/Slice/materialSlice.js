@@ -108,7 +108,7 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             console.log(action.payload.data, 'ressssssf');
-            state.material.push(action.payload.data);
+          
             state.refresh = action.payload.msg
 
         },
@@ -127,8 +127,7 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             // console.log(action.payload.data, 'ressssssf');
-            let materialData= state.material.filter((data) => data._id !== action.payload.data._id)
-            state.material = [...materialData, action.payload.data]
+           
             state.refresh = action.payload.msg
 
         },

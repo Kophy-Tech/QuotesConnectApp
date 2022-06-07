@@ -139,7 +139,7 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             console.log(action.payload.data, 'ressssssf');
-            state.job.push(action.payload.data);
+         
             state.refresh = action.payload.msg
 
         },
@@ -157,8 +157,7 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             // console.log(action.payload.data, 'ressssssf');
-            let job = state.job.filter((data) => data._id !== action.payload.data._id )  
-            state.job =[...job, action.payload.data]
+        
             state.refresh = action.payload.msg
 
         },

@@ -4,9 +4,14 @@ import { otherUrl } from '../Constant/Constants';
 
 const API_URL = `${otherUrl}/`
 
-const getMaterialService = (token) => {
-    // console.log(token, 'token')
-    return axios.get(API_URL + `material?page=${1}&limit=${1}`,  { headers: { "Authorization": `${token}` } }).then((response)=>{
+const getMaterialService = (data) => {
+   const {
+       token,
+       page
+   } =data
+    console.log(page, 'pageeeee fro serveice')
+
+    return axios.get(API_URL + `material?page=${page}&limit=${5}`,  { headers: { "Authorization": `${token}` } }).then((response)=>{
         return response.data;
     });
 };
