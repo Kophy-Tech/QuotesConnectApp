@@ -14,7 +14,7 @@ function MainStack() {
       screenOptions={{
         headerShown: false,
       }}>
-         {/* <Stack.Screen name="Auth" component={AuthStack} />  */}
+         <Stack.Screen name="Auth" component={AuthStack} /> 
    
 {/*    
      <Stack.Screen name="Splash" component={Splash} />

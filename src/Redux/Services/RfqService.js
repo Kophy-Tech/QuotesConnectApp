@@ -5,11 +5,7 @@ import instance from './ApiServices';
 
 const API_URL = `${otherUrl}/`;
 
-const getRfQJobService = token => {
-  return instance.get('/rfq').then(response => {
-    return response.data;
-  });
-};
+
 
 const postRfQJobService = data => {
   // console.log(value, token, ' vaaaaaa')
@@ -17,8 +13,13 @@ const postRfQJobService = data => {
     .post(API_URL + 'rfq', value, {headers: {Authorization: `${token}`}})
     .then(response => {
       console.log(response, 'response');
+    });
+  };
 
-      return response.data;
+const getRfQJobService = (token) => {
+    // console.log(token, 'token')
+    return axios.get(API_URL + `rfq?page=${1}&limit=${1}`, { headers: { "Authorization": `${token}` } }).then((response) => {
+        return response.data;
     });
 };
 

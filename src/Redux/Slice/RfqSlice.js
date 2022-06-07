@@ -8,7 +8,7 @@ export const getRfqJob = createAsyncThunk(
         try {
             const response = await RfqService.getRfQJobService(token);
             // console.log(response.data, 'response')
-            return response.data;
+            return response;
         } catch (error) {
             console.log(error, 'from getjob');
             const { message } = error;

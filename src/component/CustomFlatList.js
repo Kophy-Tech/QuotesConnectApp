@@ -43,7 +43,7 @@ const EmptyContainer = () => {
     </View>
 }
 
-const CustomFlatList = ({itemData, navigation}) => {
+const CustomFlatList = ({ itemData, navigation, fetchMore}) => {
     // const keyExtractor = (item) => item.id;
     // console.log(itemData, 'itemData');
 
@@ -66,13 +66,15 @@ const CustomFlatList = ({itemData, navigation}) => {
   <>
           <FlatList
               data={itemData}
+              onEndReached={fetchMore}
+              onEndReachedThreshold={0.3}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
               ListHeaderComponent={HeaderComponent}
               ListEmptyComponent={EmptyContainer}
               keyExtractor={(item) => `id${item?._id}`}
-              contentContainerStyle={{ paddingHorizontal: 22, paddingVertical: 9 }}
+              contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9 , paddingBottom:80}}
           />
 
   </>

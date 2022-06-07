@@ -8,32 +8,11 @@ import { getJob } from '../Redux/Slice/JobSlice';
 import { Stack, Alert, IconButton, HStack, VStack, CloseIcon, Center } from "native-base";
 import CustomJobFlatList from './CustomJobFlat';
 
-const JobHistory = ({ navigation}) => {
+const JobHistory = ({ navigation, error, setError, job}) => {
 
-    const auth = useSelector((auth) => auth.auth.user)
-    const dispatch = useDispatch()
   
-    const { isLoading, message, refresh } = useSelector((job) => job.job)
-    const job = useSelector((job) => job.job.job)
-
-    const [error, setError] = useState(false);
-    const token = auth?.token
-
-    useLayoutEffect(() => {
-        dispatch(getJob(token))
-            .unwrap().then((res) => {
-                //  console.log(res, 'res');
-
-            }).catch((err) => {
-
-                if (err) {
-                    setError(true)
-                }
-
-
-
-            })
-    }, [dispatch, refresh])
+    const { isLoading, message } = useSelector((job) => job.job)
+   
     if (isLoading === true && error === false) {
         return <>
             <Loading />
