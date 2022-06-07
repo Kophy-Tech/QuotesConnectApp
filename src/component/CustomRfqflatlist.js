@@ -47,9 +47,10 @@ const EmptyContainer = () => {
 // { itemParams: item }
 const CustomRfqflatlist = ({ itemData, navigation }) => {
     const dispatch = useDispatch()
-
+    // console.log({ itemData})
     const renderItem = ({ item }) => <Item item={item}
         onItemPress={NavigationPressPending}
+        NavigationPressOpen={NavigationPressOpen}
 
     />
     const NavigationPressPending = (item) => {
@@ -70,6 +71,13 @@ const CustomRfqflatlist = ({ itemData, navigation }) => {
             Alert.alert('Waiting for Vendors to confirm the request')
         }
     }
+    const NavigationPressOpen=(item)=>{
+        dispatch(dispatchRouteData(item))
+
+        navigation.navigate('openrfq')
+       
+    }
+
     const Item = ({ item, onItemPress }) => {
 
         return (
@@ -107,12 +115,14 @@ const CustomRfqflatlist = ({ itemData, navigation }) => {
 
                     {
 
-                        item.status === 'open' && <TouchableOpacity style={{
+                        item.status === 'Open' && <TouchableOpacity style={{
                             backgroundColor: '#FD5757',
                             borderRadius: 4,
                             padding: 6
 
-                        }}>
+                        }}
+                            onPress={() => NavigationPressOpen(item)}
+                        >
                             <Text style={[styles.textLineItem1,
                             {
                                 color: '#fff',
@@ -125,7 +135,7 @@ const CustomRfqflatlist = ({ itemData, navigation }) => {
                     }
                     {
 
-                        item.status === 'submited' && <TouchableOpacity style={{
+                        item.status === 'Submitted' && <TouchableOpacity style={{
                             backgroundColor: '#FAAE3B',
                             borderRadius: 4,
                             padding: 6
@@ -176,7 +186,7 @@ const CustomRfqflatlist = ({ itemData, navigation }) => {
                 ListHeaderComponent={HeaderComponent}
                 ListEmptyComponent={EmptyContainer}
                 keyExtractor={(item) => `id${item?._id}`}
-                contentContainerStyle={{ paddingHorizontal: 22, paddingVertical: 9 }}
+                contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9, paddingBottom: 60 }}
             />
 
 

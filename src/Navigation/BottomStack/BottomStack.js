@@ -25,6 +25,7 @@ import BottomStackNavigation from '../Tab/BottomStackNavigation';
 import CreateVendor from '../../Pages/Vendor/CreateVendor';
 import EditMaterial from '../../Pages/MaterialManagement/EditMaterial';
 import CreateRfq from '../../component/CreateRfq';
+import OpennRfq from '../../Pages/RFQ/OpenRfq';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -173,6 +174,24 @@ function BottomStack() {
         }}
       />
 
+      <Stack.Screen
+        name="openrfq"
+        component={OpennRfq}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+            RFQ History
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
 
       <Stack.Screen
         name="createrfq"

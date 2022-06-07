@@ -173,7 +173,7 @@ rfq_id,
                     ListFooterComponent={vendorData.length <3 ? FooterComponent : null}
 
                         keyExtractor={(item) => `id${item?._id}`}
-                        contentContainerStyle={{ paddingHorizontal: 22, paddingVertical: 9 }}
+                    contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9, paddingBottom: 60}}
                     />
 
 

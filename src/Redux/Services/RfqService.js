@@ -8,7 +8,7 @@ const API_URL = `${otherUrl}/`
 
 const getRfQJobService = (token) => {
     // console.log(token, 'token')
-    return axios.get(API_URL + `rfq?page=${1}&limit=${1}`, { headers: { "Authorization": `${token}` } }).then((response) => {
+    return axios.get(API_URL + `rfq/all-rfqs`, { headers: { "Authorization": `${token}` } }).then((response) => {
         return response.data;
     });
 };

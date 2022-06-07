@@ -9,7 +9,7 @@ import { Stack, Alert, IconButton, HStack, VStack, CloseIcon,  Center } from "na
 
 
 
-const ViewMaterial = ({ navigation, error, setError, material,  fetchMore}) => {
+const ViewMaterial = ({ navigation, error, setError, material}) => {
 
    
     const { isLoading, message,} = useSelector((material) => material.material)
@@ -51,7 +51,7 @@ const ViewMaterial = ({ navigation, error, setError, material,  fetchMore}) => {
   return (
       <>
           <CustomFlatList itemData={material} navigation={navigation}
-               fetchMore={ fetchMore}
+              
           />
           
       </>

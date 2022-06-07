@@ -8,7 +8,7 @@ import Header from '../../component/Header';
 import InputSearch from '../../component/InputSearch';
 import ButtonH from '../../component/ButtonH';
 import { BgColor } from '../../Utils/Colors';
-import { getMaterial } from '../../Redux/Slice/materialSlice';
+import { getMaterial, getMoreMaterial } from '../../Redux/Slice/materialSlice';
 
 import ViewMaterial from '../../component/ViewMaterial';
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,25 +23,22 @@ const MaterialManagement = ({navigation}) => {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
- 
-    const [page, setPage] = useState(1)
- const [total, setTotal] = useState()
- console.log(total, 'totall')
+
 
     const token =auth?.token
     const  tdata ={
         token,
-        page
+      
     }
     useLayoutEffect(() => {
         dispatch(getMaterial(tdata))
             .unwrap().then((res) => {
-                 console.log(res, 'res');
+                //  console.log(res, 'respppppppppppppp');
 
 
-                setFilteredDataSource(res.data);
-                setMasterDataSource(res.data);
-                setTotal(res.totalResult)
+                setFilteredDataSource([ ...res.data]);
+                setMasterDataSource([ ...res.data]);
+               
             }).catch((err) => {
 
                 if (err) {
@@ -53,18 +50,6 @@ const MaterialManagement = ({navigation}) => {
             })
     }, [dispatch, refresh ])
 
- const fetchMore=()=>{
-    if(total){
-    if(page <= Math.ceil(total/5)){
-        setPage(page + 1)
-        console.log(page, 'pageeeee')
-
-      
-    }else{
-       console.lg('endddd')
-    }
-    }
- }
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -142,7 +127,7 @@ const MaterialManagement = ({navigation}) => {
                   material={filteredDataSource}
                   error={error}
                   setError={setError}
-                   fetchMore={ fetchMore}
+                  
               />
           
           }

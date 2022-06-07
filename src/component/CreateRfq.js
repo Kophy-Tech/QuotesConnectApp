@@ -37,7 +37,7 @@ const CreateRfq = () => {
     const [showDate1, setShowDate1] = React.useState(false);
     const [showDate2, setShowDate2] = React.useState(false);
 const [allJob, setAllJob] = useState([])
-
+    console.log({ allJob});
     const [text, onChangeText] = React.useState("");
     const [jobId, setJobId] = React.useState('');
 
@@ -93,7 +93,7 @@ const [allJob, setAllJob] = useState([])
         dispatch(getJob(token))
             .unwrap().then((res) => {
                 //  console.log(res, 'res');
-setAllJob(res)
+setAllJob(res.data)
             }).catch((err) => {
 
                 if (err) {
@@ -132,24 +132,25 @@ setAllJob(res)
      token,
      value
  }
-            dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
+            // dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
 
-                if (res.status === 'Created') {
-                    Alert.alert(`${res.msg}`)
-                    onChangeText('')
-                    setQuery('')
-            navigation.navigate('requestforrfq')
+            //     if (res.status === 'Created') {
+            //         Alert.alert(`${res.msg}`)
+            //         onChangeText('')
+            //         setQuery('')
+            // navigation.navigate('requestforrfq')
 
-                }
-                console.log(res.status);
-            }).catch((err) => {
-                console.log(err, 'error from postrfqjob')
-                Alert.alert(`${err}`)
-            })
+            //     }
+            //     console.log(res.status);
+            // }).catch((err) => {
+            //     console.log(err, 'error from postrfqjob')
+            //     Alert.alert(`${err}`)
+            // })
 
 
             // dispatch(dispatchJob(data))
-            console.log({value})
+            navigation.navigate('requestforrfq')
+
             // navigation.navigate('requestforrfq')
 
        }
