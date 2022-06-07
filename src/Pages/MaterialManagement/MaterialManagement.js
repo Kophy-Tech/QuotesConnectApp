@@ -8,7 +8,7 @@ import Header from '../../component/Header';
 import InputSearch from '../../component/InputSearch';
 import ButtonH from '../../component/ButtonH';
 import { BgColor } from '../../Utils/Colors';
-import { getMaterial } from '../../Redux/Slice/materialSlice';
+import { getMaterial, getMoreMaterial } from '../../Redux/Slice/materialSlice';
 
 import ViewMaterial from '../../component/ViewMaterial';
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,14 +33,14 @@ const MaterialManagement = ({navigation}) => {
         token,
         page
     }
-    useLayoutEffect(() => {
+    useEffect(() => {
         dispatch(getMaterial(tdata))
             .unwrap().then((res) => {
-                 console.log(res, 'res');
+                 console.log(res, 'respppppppppppppp');
 
 
-                setFilteredDataSource(res.data);
-                setMasterDataSource(res.data);
+                setFilteredDataSource([ ...res.data]);
+                setMasterDataSource([ ...res.data]);
                 setTotal(res.totalResult)
             }).catch((err) => {
 
@@ -51,19 +51,19 @@ const MaterialManagement = ({navigation}) => {
 
 
             })
-    }, [dispatch, refresh ])
+    }, [dispatch, refresh ,page])
 
  const fetchMore=()=>{
-    if(total){
-    if(page <= Math.ceil(total/5)){
-        setPage(page + 1)
-        console.log(page, 'pageeeee')
-
-      
-    }else{
-       console.lg('endddd')
+    if (page) {
+        if (page  !== Math.ceil(total/7)) {
+            setPage((prev)=> prev+1)
+        }
+        else{
+            console.log('do');
+            return
+        }
     }
-    }
+     
  }
 
   const searchFilterFunction = (text) => {
