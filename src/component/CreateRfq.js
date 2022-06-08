@@ -149,7 +149,7 @@ setAllJob(res.data)
 
 
             dispatch(dispatchJob(data))
-            // navigation.navigate('requestforrfq')
+         
 
             // navigation.navigate('requestforrfq')
 
