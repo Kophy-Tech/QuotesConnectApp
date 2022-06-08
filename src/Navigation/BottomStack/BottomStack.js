@@ -43,6 +43,15 @@ function BottomStack() {
           headerShown: false,
         }}
       />
+       <Stack.Screen
+        name="SelectedVendorItem"
+        component={SelectedVendorItem}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      {/*  */}
     
       <Stack.Screen
         name="editjob"

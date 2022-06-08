@@ -5,8 +5,6 @@ import instance from './ApiServices';
 
 const API_URL = `${otherUrl}/`;
 
-
-
 const postRfQJobService = data => {
   // console.log(value, token, ' vaaaaaa')
   return axios
@@ -14,12 +12,16 @@ const postRfQJobService = data => {
     .then(response => {
       console.log(response, 'response');
     });
-  };
+};
 
-const getRfQJobService = (token) => {
-    // console.log(token, 'token')
-    return axios.get(API_URL + `rfq?page=${1}&limit=${1}`, { headers: { "Authorization": `${token}` } }).then((response) => {
-        return response.data;
+const getRfQJobService = token => {
+  // console.log(token, 'token')
+  return axios
+    .get(API_URL + `rfq?page=${1}&limit=${10}`, {
+      headers: {Authorization: `${token}`},
+    })
+    .then(response => {
+      return response.data;
     });
 };
 
@@ -56,12 +58,12 @@ const postRfQVendorService = data => {
     });
 };
 
-
-
 const selectItemServices = vendorData => {
+  console.log(vendorData?.data, 'seeleelelelelell');
   return instance
-    .post('/rfq/select/62890affce5cd34fa061d308', vendorData)
+    .post(`/rfq/select/${vendorData?.id}`, {...vendorData?.data})
     .then(response => {
+      console.log(response, 'selectItemServicesselectItemServices')
       return response.data;
     });
 };
@@ -71,6 +73,7 @@ const RfqService = {
   getRfQJobService,
   postRfQMaterialService,
   postRfQVendorService,
+  selectItemServices,
 };
 
 export default RfqService;

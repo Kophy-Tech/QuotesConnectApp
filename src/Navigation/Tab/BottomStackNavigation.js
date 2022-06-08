@@ -104,6 +104,7 @@ const BottomStackNavigation = () => {
         name="vendors"
         component={Vendors}
         options={{
+          
           // tabBarStyle: { display: "none" },
           headerShown: false,
           tabBarIcon: ({focused, color}) => {

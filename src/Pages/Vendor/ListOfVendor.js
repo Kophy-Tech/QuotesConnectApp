@@ -21,34 +21,35 @@ import {COLOR, HP, WP} from '../../Utils/theme';
 import FormCustomButton from '../../component/FormCustomButton';
 
 const ListOfVendor = props => {
+  const {totalVendor} = props;
+  console.log(totalVendor, 'epopr');
   const dispatch = useDispatch();
+  const loading = useSelector(state=>state.vendor);
+  console.log(loading, 'lllllllllll')
 
-  const listOfVendor = useSelector(
-    state =>
-      state?.vendor?.data?.map(data => {
-        return {
-          logo: (
-            <Image
-              source={{
-                uri:
-                  data?.logo ||
-                  'https://cdn-icons.flaticon.com/png/512/552/premium/552848.png?token=exp=1653588554~hmac=1e41d49a052d54034096fae003df35be',
-              }}
-              style={{
-                width: 33,
-                height: 33,
-                left: 3,
-                resizeMode: 'cover',
-                marginVertical: WP(3),
-              }}
-            />
-          ),
+  const listOfVendor = totalVendor?.map(data => {
+    return {
+      logo: (
+        <Image
+          source={{
+            uri:
+              data?.logo ||
+              'https://cdn-icons.flaticon.com/png/512/552/premium/552848.png?token=exp=1653588554~hmac=1e41d49a052d54034096fae003df35be',
+          }}
+          style={{
+            width: 33,
+            height: 33,
+            left: 3,
+            resizeMode: 'cover',
+            marginVertical: WP(3),
+          }}
+        />
+      ),
 
-          name: data.name,
-          phone: data.telephone,
-        };
-      }) || [],
-  );
+      name: data.name,
+      phone: data.telephone,
+    };
+  });
   console.log(listOfVendor, 'listofvorend');
 
   const vendors = listOfVendor.map(o => Object.keys(o).map(k => o[k]));
@@ -62,6 +63,27 @@ const ListOfVendor = props => {
     dispatch(getVendorAction());
   }, []);
 
+  const searchFilterFunction = text => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -73,13 +95,19 @@ const ListOfVendor = props => {
             textStyle={styles.text}
           />
 
-          {vendors.map((rowData, index) => (
-            <TableWrapper key={index} style={styles.row}>
-              {rowData.map((cellData, cellIndex) => (
-                <Cell key={cellIndex} data={cellData} />
+          {totalVendor.length == 0 ? (
+            <Text style={{textAlign: 'center', fontSize:WP(5)}}>Not Found!!!!!</Text>
+          ) : (
+            <>
+              {vendors.map((rowData, index) => (
+                <TableWrapper key={index} style={styles.row}>
+                  {rowData.map((cellData, cellIndex) => (
+                    <Cell key={cellIndex} data={cellData} />
+                  ))}
+                </TableWrapper>
               ))}
-            </TableWrapper>
-          ))}
+            </>
+          )}
         </Table>
       </ScrollView>
     </View>

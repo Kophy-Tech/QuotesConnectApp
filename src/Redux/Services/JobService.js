@@ -7,7 +7,7 @@ const API_URL = `${otherUrl}/`;
 
 const getJobService = token => {
   // console.log(token, 'token')
-  return instance.get(`/job?page=${1}&limit=${1}`).then(response => {
+  return  instance.get(`/job?page=${1}&limit=${10}`).then(response => {
       console.log(response.data, 'response')
     return response.data;
   });

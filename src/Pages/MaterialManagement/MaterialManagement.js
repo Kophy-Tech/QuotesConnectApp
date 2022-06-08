@@ -36,7 +36,6 @@ const MaterialManagement = ({navigation}) => {
     useEffect(() => {
         dispatch(getMaterial(tdata))
             .unwrap().then((res) => {
-                 console.log(res, 'respppppppppppppp');
 
 
                 setFilteredDataSource([ ...res.data]);

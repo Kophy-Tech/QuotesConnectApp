@@ -8,7 +8,8 @@ export const getJob = createAsyncThunk(
         try {
             const response = await JobService.getJobService(token);
             
-            // console.log(response.data, 'response')
+            
+         console.log(response.data, 'response')
             return response;
         } catch (error) {
             console.log(error, 'from getjob');
