@@ -26,8 +26,8 @@ const [allVendors, setVendors] = useState([])
     useLayoutEffect(() => {
         dispatch(mygetVendor(token))
             .unwrap().then((res) => {
-                // console.log(res, 'res');
-                setVendors(res)
+                // console.log(res.data, 'res');
+                setVendors(res.data)
             }).catch((err) => {
 
             

@@ -6,7 +6,7 @@ const API_URL = `${otherUrl}/`
 
 const getJobService = (token) => {
     // console.log(token, 'token')
-    return axios.get(API_URL + `job?page=${1}&limit=${1}`, { headers: { "Authorization": `${token}` } }).then((response) => {
+    return axios.get(API_URL + `job/all-jobs`, { headers: { "Authorization": `${token}` } }).then((response) => {
         return response.data;
     });
 };
