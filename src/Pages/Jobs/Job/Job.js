@@ -48,7 +48,7 @@ const Job = ({navigation}) => {
 
 
             })
-    }, [dispatch, refresh])
+    }, [dispatch, refresh, ])
 
     const searchFilterFunction = (text) => {
         // Check if searched text is not blank

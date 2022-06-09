@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity,Platform ,FlatList} from 'react-native';
 import React, {useLayoutEffect, useState, useEffect} from 'react';
 import Header from '../../component/Header';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,6 +6,7 @@ import {clientSelectItems, getRfqJob} from '../../Redux/Slice/RfqSlice';
 import {NAIRA_SYSMBOL, WP} from '../../Utils/theme';
 import {Radio, Center, NativeBaseProvider} from 'native-base';
 import RadioForm from 'react-native-simple-radio-button';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // const RadioButton = ({request, totalPrice, pricelist_id}) => {
 //   console.log(request, 'request');
@@ -22,13 +23,19 @@ import RadioForm from 'react-native-simple-radio-button';
 //     </Radio.Group>
 //   );
 // };
+var radio_props = [
+  {label: 'param1', value: 0 },
+
+];
+ 
 
 const SelectedVendorItem = props => {
   const {
     route: {params},
   } = props;
   const [chosenOption, setChosenOption] = useState([{}]);
-  console.log(chosenOption);
+  const [selectedId, setSelected] = useState(null);
+  console.log(chosenOption, 'setChosenOptionsetChosenOptionsetChosenOptionsetChosenOptionsetChosenOptionsetChosenOption');
   //will store our current user options
   const dispatch = useDispatch();
   const allRfq = useSelector(rfq => rfq?.rfq?.allrfq?.data || []);
@@ -57,7 +64,10 @@ const SelectedVendorItem = props => {
 
   return (
     <View style={styles._mainContainer}>
+      <View style={styles._headerContainer}>  
       <Header />
+      </View>
+
 
       {allRfq?.map(item => (
         <View
@@ -68,6 +78,7 @@ const SelectedVendorItem = props => {
           {item?.vendorArray.map(item => (
             <View key={Math.random()}>
               {item?.priceList?.priceArray.map(details => {
+                console.log(details, '2@@@@@@@@@@@@@@@@@@@@@@@')
                 return (
                   <>
                     <TouchableOpacity
@@ -113,13 +124,21 @@ const SelectedVendorItem = props => {
                         {NAIRA_SYSMBOL}
                         {details?.totalPrice}
                       </Text>
-                      <RadioForm
-                        radio_props={[{label: '', value: details?._id}]}
-                        initial={0}
-                        buttonColor={'#50C900'}
-                        buttonInnerColor={'#fff'}
-                      />
+
+
+                    <TouchableOpacity onPress={()=>setSelected(details?._id)}>
+                  <MaterialCommunityIcons  name={selectedId==details?._id ?"rectangle":"rectangle-outline"} size={34}
+                  
+                  color={selectedId==details?._id ?"#5080FA":"#5080FA"}/>
+                   </TouchableOpacity>
+                     
                     </TouchableOpacity>
+
+
+                   
+
+
+
                     <View
                       style={{
                         top: WP(13),
@@ -137,6 +156,8 @@ const SelectedVendorItem = props => {
                           {details?.totalPrice + details?.price}
                         </Text>
                       </View>
+
+                      
                     </View>
                   </>
                 );
@@ -157,6 +178,14 @@ const SelectedVendorItem = props => {
           Place Order
         </Text>
       </TouchableOpacity>
+
+
+
+
+
+
+
+      
     </View>
   );
 };
@@ -179,4 +208,14 @@ const styles = StyleSheet.create({
   textColor: {
     color: '#5080FA',
   },
+  _headerContainer:{
+    top:Platform.OS === 'ios' ?WP(8) : 0
+  },
+  subContainer:{
+    top:WP(9),
+    padding:WP(3),
+    flexDirection:'row',
+    justifyContent:'space-between'
+
+  }
 });
