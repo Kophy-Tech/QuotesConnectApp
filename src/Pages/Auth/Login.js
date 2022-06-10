@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Platform
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
@@ -145,11 +146,13 @@ const Login = props => {
         </View>
       </View>
 
-      <TouchableOpacity
+     <View style={{width:WP(3), bottom:Platform.OS=="ios"&&WP(8),}}>
+     <TouchableOpacity
         onPress={() => navigation.navigate('ResetPassword')}
         style={{top: HP(-10), width: WP(90), left: WP(7)}}>
         <Text style={styles._forgot}>Forgot Password</Text>
       </TouchableOpacity>
+     </View>
 
       {/*  */}
 

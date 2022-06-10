@@ -31,7 +31,7 @@ const FormCustomInput = ({
       <View>
         <TextInput
           style={{
-            borderWidth: WP(0.3),
+            borderWidth: WP(0.2),
             padding: WP(3),
             borderColor: inputBorderColor,
             borderRadius: WP(1),

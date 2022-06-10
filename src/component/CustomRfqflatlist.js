@@ -85,7 +85,19 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
     ) {
       navigation.navigate('SelectedVendorItem', {item});
       dispatch(dispatchRouteData(item));
-    } else {
+    }
+
+    else if (
+      item.status === 'Purchased' &&
+      item.rfqArray.length > 0 &&
+      item.vendorArray.length > 0
+    ) {
+      navigation.navigate('PurchasedVendorItem', {item});
+      dispatch(dispatchRouteData(item));
+    } 
+    
+    
+    else {
       Alert.alert('Waiting for Vendors to confirm the request');
     }
   };
@@ -142,6 +154,33 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
               </Text>
             </TouchableOpacity>
           )}
+
+
+
+      {item.status === 'Purchased' && (
+            <TouchableOpacity
+              onPress={() => onItemPress(item)}
+              style={{
+                backgroundColor: '#355E3B',
+                borderRadius: 4,
+                padding: 6,
+              }}>
+              <Text
+                style={[
+                  styles.textLineItem1,
+                  {
+                    color: '#fff',
+                    fontSize: 12,
+                  },
+                ]}>
+                {item.status}
+              </Text>
+            </TouchableOpacity>
+          )}
+
+
+
+          
 
           {item.status === 'Open' && (
             <TouchableOpacity

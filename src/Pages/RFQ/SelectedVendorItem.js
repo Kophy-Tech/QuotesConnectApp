@@ -35,10 +35,10 @@ const SelectedVendorItem = props => {
   } = props;
   const [chosenOption, setChosenOption] = useState([{}]);
   const [selectedId, setSelected] = useState(null);
-  console.log(chosenOption, 'setChosenOptionsetChosenOptionsetChosenOptionsetChosenOptionsetChosenOptionsetChosenOption');
   //will store our current user options
   const dispatch = useDispatch();
   const allRfq = useSelector(rfq => rfq?.rfq?.allrfq?.data || []);
+  console.log(allRfq, 'rrrrrrrrrrr')
   const [error, setError] = useState('');
   useLayoutEffect(() => {
     dispatch(getRfqJob())
@@ -78,7 +78,7 @@ const SelectedVendorItem = props => {
           {item?.vendorArray.map(item => (
             <View key={Math.random()}>
               {item?.priceList?.priceArray.map(details => {
-                console.log(details, '2@@@@@@@@@@@@@@@@@@@@@@@')
+                console.log(details, '2@@@@@@@cc@@@@@@@@@@@@@@@@')
                 return (
                   <>
                     <TouchableOpacity
@@ -133,12 +133,6 @@ const SelectedVendorItem = props => {
                    </TouchableOpacity>
                      
                     </TouchableOpacity>
-
-
-                   
-
-
-
                     <View
                       style={{
                         top: WP(13),

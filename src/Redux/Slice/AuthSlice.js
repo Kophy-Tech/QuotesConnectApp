@@ -92,7 +92,7 @@ export const confirmOtp = createAsyncThunk(
 
 
 export const UploadImage = createAsyncThunk(
-  'auth/reset_password',
+  'auth/uploadimage',
   async (photo, thunkAPI) => {
     try {
       return await AuthService.uploadLogoApi(photo);

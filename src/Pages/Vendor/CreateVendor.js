@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  TextInput,
+  Pressable
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../component/Header';
@@ -29,9 +31,7 @@ const CreateVendor = props => {
   const [backendError, setBackendError] = useState([]);
   const {navigation} = props;
   const [document, setDocument] = useState({});
-  console.log(document, 'docuemtntntn');
   const {isLoading} = useSelector(state => state.vendor);
-  console.log(isLoading, 'loading');
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -45,9 +45,12 @@ const CreateVendor = props => {
     zip_code: '',
     sales_rep: '',
     telephone: '',
-    email: '',
+    email: [],
     state: '',
   });
+
+  const [emails, setemails] = useState([]);
+  console.log(emails , 'setemailssetemailssetemailsvvvv')
 
   const {
     name,
@@ -74,12 +77,15 @@ const CreateVendor = props => {
     }).then(image => {
       setDocument(image);
     });
+
   };
   const [textValue, setTextValue] = useState('');
   // our number of inputs, we can add the length or decrease the length
   const [numInputs, setNumInputs] = useState(1);
   // all our input fields are tracked with this array
   const refInputs = React.useRef([textValue]);
+  const [numTextInputs,setNumTextInputs] = React.useState(1);
+  console.log([...Array(numTextInputs).keys()], '[...Array(numTextInputs).keys()][...Array(numTextInputs).keys()]')
 
   const onSubmit = async () => {
     let rules = {
@@ -133,6 +139,38 @@ const CreateVendor = props => {
     }
   };
 
+  const addInput = () => {
+    // add a new element in our refInputs array
+		refInputs.current.push('');
+    // increase the number of inputs
+		setNumInputs(value => value + 1);
+	}
+
+  const inputs = [];
+	for (let i = 0; i < numInputs; i ++)
+	{
+		inputs.push(
+			<View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
+				<Text>{i + 1}.</Text>
+        <FormCustomInput
+                lablelText="Email*"
+                inputBorderColor={COLOR.BgColor}
+                labelTextTop={WP(3)}
+                labelText={COLOR.BgColor}
+                onChangeText={(text) => setemails([text])}
+                // onChangeText={value => handleInputChange('email', value)}
+              />
+              <TouchableOpacity onPress={() => addInput()} style={{marginLeft: 5}}>
+                <Text>ddddd</Text>
+              </TouchableOpacity>
+        {/* To remove the input */}
+				{/* <Pressable onPress={() => removeInput(i)} style={{marginLeft: 5}}>
+					<AntDesign name="minuscircleo" size={20} color="red" />
+				</Pressable> */}
+			</View>
+		);
+	}
+
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -141,6 +179,10 @@ const CreateVendor = props => {
       showsHorizontalScrollIndicator={false}>
       <View style={styles.vendorInputContainer}>
         <View style={{top: HP(3)}}>
+        <ScrollView style={{flex:1}} >
+            
+        </ScrollView>
+        {inputs}
           <FormCustomInput
             lablelText="Company Name*"
             inputBorderColor={COLOR.BgColor}
@@ -187,7 +229,8 @@ const CreateVendor = props => {
             inputBorderColor={COLOR.BgColor}
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
-            onChangeText={value => handleInputChange('sales_rep', value)}
+             onChangeText={value => handleInputChange('sales_rep', value)}
+            
           />
           <FormCustomInput
             lablelText="Telephone Number*"
@@ -196,13 +239,59 @@ const CreateVendor = props => {
             labelText={COLOR.BgColor}
             onChangeText={value => handleInputChange('telephone', value)}
           />
+
+            {/* {[...Array(numTextInputs).keys()].map((key, index)=>{
+                return  (
+                <View style={{flexDirection:'row'}}>
+                  
+               <View style={{width:WP(60)}}>
+               <FormCustomInput
+                lablelText="Email*"
+                inputBorderColor={COLOR.BgColor}
+                labelTextTop={WP(3)}
+                labelText={COLOR.BgColor}
+                onChangeText={(text) => setemails([text])}
+                // onChangeText={value => handleInputChange('email', value)}
+              />
+               </View>
+             
+          <View style={{width:WP(28),height:WP(14),top:WP(3.5),left:WP(1)}}>
+            {index ?(
+              <FormCustomButton
+              btnTitle={'Remove'}
+              backgroundColor={"red"}
+              textColor={COLOR.whiteColor}
+              onPress={(num)=>setNumTextInputs(numTextInputs-1)}
+             
+            />
+            ):
+            
+            <FormCustomButton
+            btnTitle={'Add More'}
+            backgroundColor={COLOR.BgColor}
+            textColor={COLOR.whiteColor}
+            onPress={(num)=>setNumTextInputs(numTextInputs+1)}
+           
+          />}
+              
+          </View>
+              </View>)
+              })} */}
+          {/*
+             <FormCustomButton
+            btnTitle={isLoading ? <ActivityIndicator color="#fff" /> : 'Create'}
+            backgroundColor={COLOR.BgColor}
+            textColor={COLOR.whiteColor}
+           
+          />
+          
           <FormCustomInput
             lablelText="Email*"
             inputBorderColor={COLOR.BgColor}
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
             onChangeText={value => handleInputChange('email', value)}
-          />
+          /> */}
 
           {Object.keys(document).length == 0 ? (
             <TouchableOpacity onPress={() => pickFiles()}>

@@ -26,6 +26,7 @@ import CreateVendor from '../../Pages/Vendor/CreateVendor';
 import EditMaterial from '../../Pages/MaterialManagement/EditMaterial';
 import CreateRfq from '../../component/CreateRfq';
 import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
+import PurchasedVendorItem from '../../Pages/RFQ/PurchasedVendorItem';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,6 +47,14 @@ function BottomStack() {
        <Stack.Screen
         name="SelectedVendorItem"
         component={SelectedVendorItem}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PurchasedVendorItem"
+        component={PurchasedVendorItem}
         options={{
           headerShown: false,
         }}
