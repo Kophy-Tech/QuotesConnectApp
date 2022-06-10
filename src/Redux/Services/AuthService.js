@@ -50,6 +50,14 @@ const CreateVendorApi = vendorData => {
   });
 };
 
+const UpdateVendorApi = vendorData => {
+  return instance.put('/vendor', vendorData).then(response => {
+  
+    return response.data;
+  });
+};
+
+
 const GetUserInfoApi = vendorData => {
   return instance.get('/client/info', vendorData).then(response => {
    
@@ -89,7 +97,8 @@ const AuthService = {
   getVendorApi,
   GetUserInfoApi,
   otpApi,
-  uploadLogoApi
+  uploadLogoApi,
+  UpdateVendorApi
 };
 
 export default AuthService;

@@ -45,13 +45,8 @@ const CreateVendor = props => {
     zip_code: '',
     sales_rep: '',
     telephone: '',
-    email: [],
     state: '',
   });
-
-  const [emails, setemails] = useState([]);
-  console.log(emails , 'setemailssetemailssetemailsvvvv')
-
   const {
     name,
     street,
@@ -59,7 +54,6 @@ const CreateVendor = props => {
     zip_code,
     sales_rep,
     telephone,
-    email,
     state,
     logo = document?.path,
   } = value;
@@ -79,13 +73,33 @@ const CreateVendor = props => {
     });
 
   };
-  const [textValue, setTextValue] = useState('');
+  const [email, setemail] = useState('');
+  const [emailError, setEmailError] = useState(false);
   // our number of inputs, we can add the length or decrease the length
   const [numInputs, setNumInputs] = useState(1);
   // all our input fields are tracked with this array
-  const refInputs = React.useRef([textValue]);
-  const [numTextInputs,setNumTextInputs] = React.useState(1);
-  console.log([...Array(numTextInputs).keys()], '[...Array(numTextInputs).keys()][...Array(numTextInputs).keys()]')
+  const refInputs = React.useRef([email]);
+
+  console.log(email, ' onChangeText={value => setInputValue(i, value)}')
+
+  function validateEmailList(email){
+    var emails = email.split(',')
+
+
+    var valid = true;
+    var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    for (var i = 0; i < emails.length; i++) {
+        if( emails[i] === "" || !regex.test(emails[i].replace(/\s/g, ""))){
+            valid = false;
+
+            return false
+
+            
+        }
+    }
+    return email;
+}
 
   const onSubmit = async () => {
     let rules = {
@@ -95,7 +109,7 @@ const CreateVendor = props => {
       zip_code: 'required|numeric',
       sales_rep: 'required|string',
       telephone: 'required|numeric',
-      email: 'required|email',
+     
       state: 'required|string',
     };
 
@@ -106,12 +120,12 @@ const CreateVendor = props => {
       'required.zip_code': 'The zip code field is required.',
       'required.sales_rep': 'The sales representative field is required.',
       'required.telephone': 'The telephone field is required.',
-      'required.email': 'The email field is required.',
       'required.state': 'The state field is required.',
       // 'required.image': 'The image field is required.',
     });
-    if (validation.fails()) {
+    if (validation.fails()|| validateEmailList(...refInputs.current)==false) {
       setError(validation.errors.all());
+      setEmailError(true)
     } else {
       dispatch(
         CreateVendorAction({
@@ -125,12 +139,13 @@ const CreateVendor = props => {
           street: street,
           city: city,
           zip_code: zip_code,
+          email:refInputs.current
         }),
       )
         .unwrap()
         .then(res => {
-          dispatch(getVendorAction());
           props.navigation.goBack();
+          dispatch(getVendorAction());
         })
         .catch(err => {
           console.log(err?.error);
@@ -139,11 +154,31 @@ const CreateVendor = props => {
     }
   };
 
+ 
+
+console.log(validateEmailList(...refInputs.current), 'validatorjs')
+
   const addInput = () => {
     // add a new element in our refInputs array
 		refInputs.current.push('');
+    
     // increase the number of inputs
 		setNumInputs(value => value + 1);
+	}
+
+  const removeInput = (i) => {
+    // remove from the array by index value
+		refInputs.current.splice(i, 1)[0];
+    // decrease the number of inputs
+		setNumInputs(value => value - 1);
+	}
+
+  const setInputValue = (index, value) => {
+    // first, we are storing input value to refInputs array to track them
+		const inputs = refInputs.current;
+		inputs[index] = value;
+    // we are also setting the text value to the input field onChangeText
+		setemail(value)
 	}
 
   const inputs = [];
@@ -151,18 +186,36 @@ const CreateVendor = props => {
 	{
 		inputs.push(
 			<View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
-				<Text>{i + 1}.</Text>
-        <FormCustomInput
+      <View style={{width:WP(60)}}>
+      <FormCustomInput
                 lablelText="Email*"
                 inputBorderColor={COLOR.BgColor}
                 labelTextTop={WP(3)}
                 labelText={COLOR.BgColor}
-                onChangeText={(text) => setemails([text])}
+                onChangeText={value => setInputValue(i, value)}
                 // onChangeText={value => handleInputChange('email', value)}
               />
-              <TouchableOpacity onPress={() => addInput()} style={{marginLeft: 5}}>
-                <Text>ddddd</Text>
-              </TouchableOpacity>
+      </View>
+          <View style={{width:WP(30), height:HP(13),top:HP(3), left:WP(2)}}>
+         {i==0 ? ( <FormCustomButton
+            btnTitle={'Add More'}
+            backgroundColor={COLOR.BgColor}
+            textColor={COLOR.whiteColor}
+            onPress={() => addInput(i)}
+            
+           
+           
+          />) :(
+            <FormCustomButton
+            btnTitle={'Remove'}
+            backgroundColor={'red'}
+            textColor={COLOR.whiteColor}
+            onPress={() =>removeInput(i)}
+           
+           
+          />
+          )}
+          </View>
         {/* To remove the input */}
 				{/* <Pressable onPress={() => removeInput(i)} style={{marginLeft: 5}}>
 					<AntDesign name="minuscircleo" size={20} color="red" />
@@ -171,6 +224,8 @@ const CreateVendor = props => {
 		);
 	}
 
+
+  console.log(refInputs.current, 'refInputs.current.maprefInputs.current.map')
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -182,7 +237,7 @@ const CreateVendor = props => {
         <ScrollView style={{flex:1}} >
             
         </ScrollView>
-        {inputs}
+       
           <FormCustomInput
             lablelText="Company Name*"
             inputBorderColor={COLOR.BgColor}
@@ -239,59 +294,9 @@ const CreateVendor = props => {
             labelText={COLOR.BgColor}
             onChangeText={value => handleInputChange('telephone', value)}
           />
+           {inputs}
 
-            {/* {[...Array(numTextInputs).keys()].map((key, index)=>{
-                return  (
-                <View style={{flexDirection:'row'}}>
-                  
-               <View style={{width:WP(60)}}>
-               <FormCustomInput
-                lablelText="Email*"
-                inputBorderColor={COLOR.BgColor}
-                labelTextTop={WP(3)}
-                labelText={COLOR.BgColor}
-                onChangeText={(text) => setemails([text])}
-                // onChangeText={value => handleInputChange('email', value)}
-              />
-               </View>
-             
-          <View style={{width:WP(28),height:WP(14),top:WP(3.5),left:WP(1)}}>
-            {index ?(
-              <FormCustomButton
-              btnTitle={'Remove'}
-              backgroundColor={"red"}
-              textColor={COLOR.whiteColor}
-              onPress={(num)=>setNumTextInputs(numTextInputs-1)}
-             
-            />
-            ):
-            
-            <FormCustomButton
-            btnTitle={'Add More'}
-            backgroundColor={COLOR.BgColor}
-            textColor={COLOR.whiteColor}
-            onPress={(num)=>setNumTextInputs(numTextInputs+1)}
-           
-          />}
-              
-          </View>
-              </View>)
-              })} */}
-          {/*
-             <FormCustomButton
-            btnTitle={isLoading ? <ActivityIndicator color="#fff" /> : 'Create'}
-            backgroundColor={COLOR.BgColor}
-            textColor={COLOR.whiteColor}
-           
-          />
-          
-          <FormCustomInput
-            lablelText="Email*"
-            inputBorderColor={COLOR.BgColor}
-            labelTextTop={WP(3)}
-            labelText={COLOR.BgColor}
-            onChangeText={value => handleInputChange('email', value)}
-          /> */}
+
 
           {Object.keys(document).length == 0 ? (
             <TouchableOpacity onPress={() => pickFiles()}>
@@ -333,7 +338,7 @@ const CreateVendor = props => {
         <Text style={styles.error}>{errors.telephone}</Text>
         <Text style={styles.error}>{errors.zip_code}</Text>
         <Text style={styles.error}>{errors.sales_rep}</Text>
-        <Text style={styles.error}>{errors.email}</Text>
+        <Text style={styles.error}>{emailError&& 'Also check if the email in the email box are correct and also not empty'}</Text>
         {backendError.map(item => (
           <Text  style={styles.error}>{item?.msg}</Text>
         ))}

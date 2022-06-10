@@ -22,42 +22,13 @@ import FormCustomButton from '../../component/FormCustomButton';
 
 const ListOfVendor = props => {
   const {totalVendor} = props;
-  console.log(totalVendor, 'epopr');
   const dispatch = useDispatch();
   const loading = useSelector(state=>state.vendor);
-  console.log(loading, 'lllllllllll')
 
-  const listOfVendor = totalVendor?.map(data => {
-    return {
-      logo: (
-        <Image
-          source={{
-            uri:
-              data?.logo ||
-              'https://cdn-icons.flaticon.com/png/512/552/premium/552848.png?token=exp=1653588554~hmac=1e41d49a052d54034096fae003df35be',
-          }}
-          style={{
-            width: 33,
-            height: 33,
-            left: 3,
-            resizeMode: 'cover',
-            marginVertical: WP(3),
-          }}
-        />
-      ),
+ 
 
-      name: data.name,
-      phone: data.telephone,
-    };
-  });
-  console.log(listOfVendor, 'listofvorend');
-
-  const vendors = listOfVendor.map(o => Object.keys(o).map(k => o[k]));
-
-  console.log(listOfVendor, 'list');
   const TableHeader = ['Company Logo', 'Company Name', 'Phone Number'];
   const WidthTable = [WP(30), WP(35), WP(40)];
-  const TableData = useState([]);
 
   useEffect(() => {
     dispatch(getVendorAction());
@@ -86,30 +57,45 @@ const ListOfVendor = props => {
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      
         <Table borderStyle={{borderColor: 'black'}}>
           <Row
             data={TableHeader}
             style={styles.head}
             widthArr={WidthTable}
             textStyle={styles.text}
-          />
-
-          {totalVendor.length == 0 ? (
-            <Text style={{textAlign: 'center', fontSize:WP(5)}}>Not Found!!!!!</Text>
-          ) : (
-            <>
-              {vendors.map((rowData, index) => (
-                <TableWrapper key={index} style={styles.row}>
-                  {rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={cellData} />
-                  ))}
-                </TableWrapper>
-              ))}
-            </>
-          )}
+          />      
         </Table>
-      </ScrollView>
+        <FlatList 
+        data={totalVendor}
+        renderItem={({item})=>{
+          console.log(item, '55555555555555555')
+          return (
+                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+
+                  <View>
+                    <Image source={{uri:item?.logo}} 
+                    style={{width:WP(10), height:HP(5),marginVertical:WP(2), left:WP(3)}}  
+                      />
+                  </View>
+
+                  <View>
+                    <Text>{item?.name}</Text>
+                  </View>
+
+                  <View>
+                    <Text>{item?.telephone}</Text>
+                  </View>
+                
+                
+                
+                </View>
+
+          )
+        }}/>
+      
+        
+     
     </View>
   );
 };

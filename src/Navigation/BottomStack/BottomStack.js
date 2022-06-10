@@ -27,6 +27,7 @@ import EditMaterial from '../../Pages/MaterialManagement/EditMaterial';
 import CreateRfq from '../../component/CreateRfq';
 import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
 import PurchasedVendorItem from '../../Pages/RFQ/PurchasedVendorItem';
+import UpdateVendor from '../../Pages/Vendor/UpdateVendor';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -154,6 +155,27 @@ function BottomStack() {
           headerTitleAlign: 'center',
         }}
       />
+
+          <Stack.Screen
+        name="UpdateVendor"
+        component={UpdateVendor}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Create Vendor
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+
       <Stack.Screen
         name="creatematerial"
         component={CreateMaterial}
