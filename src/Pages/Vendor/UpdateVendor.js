@@ -17,7 +17,9 @@ import FormCustomInput from '../../component/FormCustomInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   CreateVendorAction,
+  DeleteVendorAction,
   getVendorAction,
+  UpdateVendorAction,
 } from '../../Redux/Slice/VendorSlice';
 import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
@@ -27,6 +29,7 @@ import {ErrorDisplay} from '../../Utils/util';
 
 Validator.setMessages('en', en);
 const UpdateVendor = props => {
+  const {route:{params:{item}}}=props;
   const [errors, setError] = useState({});
   const [backendError, setBackendError] = useState([]);
   const {navigation} = props;
@@ -39,15 +42,18 @@ const UpdateVendor = props => {
   }, [navigation]);
 
   const [value, setValues] = useState({
-    name: '',
-    street: '',
-    city: '',
-    zip_code: '',
-    sales_rep: '',
-    telephone: '',
-    state: '',
+    id:item?._id,
+    name: item?.name,
+    street: item?.street,
+    city: item?.city,
+    zip_code: item?.zip_code,
+    sales_rep: item?.sales_rep,
+    telephone: item?.telephone,
+    state: item?.state,
   });
+
   const {
+    id,
     name,
     street,
     city,
@@ -73,14 +79,14 @@ const UpdateVendor = props => {
     });
 
   };
-  const [email, setemail] = useState('');
+  const [email, setemail] = useState("omidio@gmail.com");
   const [emailError, setEmailError] = useState(false);
   // our number of inputs, we can add the length or decrease the length
   const [numInputs, setNumInputs] = useState(1);
   // all our input fields are tracked with this array
   const refInputs = React.useRef([email]);
 
-  console.log(email, ' onChangeText={value => setInputValue(i, value)}')
+
 
   function validateEmailList(email){
     var emails = email.split(',')
@@ -101,7 +107,7 @@ const UpdateVendor = props => {
     return email;
 }
 
-  const onSubmit = async () => {
+  const onUpdate = async () => {
     let rules = {
       name: 'required',
       street: 'required',
@@ -123,23 +129,23 @@ const UpdateVendor = props => {
       'required.state': 'The state field is required.',
       // 'required.image': 'The image field is required.',
     });
-    if (validation.fails()|| validateEmailList(...refInputs.current)==false) {
+    if (validation.fails()) {
       setError(validation.errors.all());
       setEmailError(true)
     } else {
       dispatch(
-        CreateVendorAction({
+        UpdateVendorAction({
+          id:id,
           logo: document.path,
           name: name,
           description: city,
           sales_rep: sales_rep,
           telephone: telephone,
-          emails: email,
           state: state,
           street: street,
           city: city,
           zip_code: zip_code,
-          email:refInputs.current
+          emails:refInputs.current
         }),
       )
         .unwrap()
@@ -149,14 +155,40 @@ const UpdateVendor = props => {
         })
         .catch(err => {
           console.log(err?.error);
-          setBackendError(err?.error);
+          // setBackendError(err?.error);
         });
     }
   };
 
  
+  const onDelete=()=>{
+    dispatch( DeleteVendorAction({
+        id:id,
+        logo: document.path,
+        name: name,
+        description: city,
+        sales_rep: sales_rep,
+        telephone: telephone,
+        state: state,
+        street: street,
+        city: city,
+        zip_code: zip_code,
+        emails:refInputs.current
+      }) 
+    ).unwrap()
+    .then(res => {
+      dispatch(getVendorAction());
+      props.navigation.goBack();
+      
+    })
+    .catch(err => {
+      console.log(err?.error);
+      // setBackendError(err?.error);
+    })
+    
 
-console.log(validateEmailList(...refInputs.current), 'validatorjs')
+  }
+
 
   const addInput = () => {
     // add a new element in our refInputs array
@@ -193,6 +225,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
                 labelTextTop={WP(3)}
                 labelText={COLOR.BgColor}
                 onChangeText={value => setInputValue(i, value)}
+                value={refInputs.current[i]}
                 // onChangeText={value => handleInputChange('email', value)}
               />
       </View>
@@ -202,6 +235,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
             onPress={() => addInput(i)}
+           
             
            
            
@@ -211,6 +245,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             backgroundColor={'red'}
             textColor={COLOR.whiteColor}
             onPress={() =>removeInput(i)}
+            
            
            
           />
@@ -225,7 +260,6 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
 	}
 
 
-  console.log(refInputs.current, 'refInputs.current.maprefInputs.current.map')
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -245,6 +279,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelText={COLOR.BgColor}
             name="name"
             onChangeText={value => handleInputChange('name', value)}
+            value={value?.name}
           />
           <FormCustomInput
             lablelText="Street*"
@@ -253,6 +288,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelText={COLOR.BgColor}
             name="street"
             onChangeText={value => handleInputChange('street', value)}
+            value={value?.street}
           />
           <FormCustomInput
             lablelText="City*"
@@ -261,6 +297,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelText={COLOR.BgColor}
             name="city"
             onChangeText={value => handleInputChange('city', value)}
+            value={value?.city}
           />
           <FormCustomInput
             lablelText="State*"
@@ -269,6 +306,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelText={COLOR.BgColor}
             name="state"
             onChangeText={value => handleInputChange('state', value)}
+            value={value?.state}
           />
           <FormCustomInput
             lablelText="Zip  Code*"
@@ -277,6 +315,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelText={COLOR.BgColor}
             name="zip_code"
             onChangeText={value => handleInputChange('zip_code', value)}
+            value={String(value?.zip_code)}
           />
 
           <FormCustomInput
@@ -285,6 +324,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
              onChangeText={value => handleInputChange('sales_rep', value)}
+             value={value?.sales_rep}
             
           />
           <FormCustomInput
@@ -293,6 +333,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
             onChangeText={value => handleInputChange('telephone', value)}
+            value={value?.telephone}
           />
            {inputs}
 
@@ -320,13 +361,25 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
           )}
         </View>
 
-        <View style={{top: WP(13)}}>
+        <View style={{top: WP(13) ,flexDirection:'row',justifyContent:'space-between'}}>
+        <FormCustomButton
+            btnTitle={'Delete'}
+            textColor={"#FD5757"}
+            
+            borderWidth={WP(0.1)}
+            borderColor={'red'}
+            onPress={()=>onDelete()}
+          />
+
+
           <FormCustomButton
-            btnTitle={isLoading ? <ActivityIndicator color="#fff" /> : 'Create'}
+            btnTitle={isLoading ? <ActivityIndicator color="#fff" /> : 'Update'}
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
-            onPress={() => onSubmit()}
+            onPress={() => onUpdate()}
           />
+
+         
         </View>
       </View>
 

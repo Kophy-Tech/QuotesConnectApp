@@ -57,7 +57,7 @@ function BottomStack() {
         name="PurchasedVendorItem"
         component={PurchasedVendorItem}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
 
@@ -167,7 +167,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Create Vendor
+              Update Vendor
             </Text>
           ),
           headerLeft: () => <BackIcon />,

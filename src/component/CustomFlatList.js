@@ -137,7 +137,7 @@ paddingRight:10
         color: ColorText,
         textAlign: 'left',
         lineHeight: 18,
-        fontFamily: 'sans-serif',
+       
        
 
     },
@@ -147,7 +147,7 @@ paddingRight:10
         color: ColorText,
         textAlign: 'left',
         lineHeight: 18,
-        fontFamily: 'sans-serif',
+      
 
     },
     tableRow: {

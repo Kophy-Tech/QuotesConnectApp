@@ -59,9 +59,7 @@ const PurchasedVendorItem = props => {
   return (
     <View style={styles.container}>
        <View style={{flexDirection:'row'}}>
-           <View>
-           <Header/>
-           </View>
+  
        </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Table borderStyle={{borderColor: 'black'}}>
@@ -72,7 +70,7 @@ const PurchasedVendorItem = props => {
             textStyle={styles.text}
           />
         </Table>
-            <View style={{flexDirection:'row' , justifyContent:'space-between',paddingBottom:WP(23)}}>
+            <View style={{flexDirection:'row' , justifyContent:'space-between',paddingBottom:WP(23),top:WP(-35)}}>
               <View>
                     {/* First Row */}
                 {item.vendorArray.map((item)=>(
@@ -130,7 +128,11 @@ const PurchasedVendorItem = props => {
 
             
 
-            <View>
+            <View style={{width:WP(70),alignSelf:'center',  backgroundColor:'white'}}>
+              <FormCustomButton btnTitle="Placed Order"
+              disabled={true}
+              backgroundColor={"#7591d9"}
+              textColor={"#fff"}/>
 
             </View>
             
@@ -153,11 +155,10 @@ export default PurchasedVendorItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    paddingTop: 30,
+  
     backgroundColor: COLOR.whiteColor,
   },
-  head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2),top:WP(43)},
+  head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2) ,top:WP(13), width:WP(92),left:WP(5)},
   text: {margin: 6, color: '#fff'},
   row: {flexDirection: 'row', backgroundColor: '#F7FCFB', marginVertical: 2},
   btn: {width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2},

@@ -45,18 +45,27 @@ const getVendorApi = userData => {
 
 const CreateVendorApi = vendorData => {
   return instance.post('/vendor', vendorData).then(response => {
-  
+    getVendorApi();
     return response.data;
   });
 };
 
 const UpdateVendorApi = vendorData => {
-  return instance.put('/vendor', vendorData).then(response => {
+  const {id, ...rest}=vendorData;
+  console.log(vendorData?.id, 1234567890)
+  return instance.put(`/vendor/${vendorData?.id}`, vendorData).then(response => {
   
     return response.data;
   });
 };
 
+const deleteVendorApi = vendorData => {
+   return instance.delete(`/vendor/${vendorData?.id}`).then(response => {
+     console.log(response, 'r1111111121')
+  
+    return response.data;
+  });
+};
 
 const GetUserInfoApi = vendorData => {
   return instance.get('/client/info', vendorData).then(response => {
@@ -98,7 +107,8 @@ const AuthService = {
   GetUserInfoApi,
   otpApi,
   uploadLogoApi,
-  UpdateVendorApi
+  UpdateVendorApi,
+  deleteVendorApi
 };
 
 export default AuthService;

@@ -43,3 +43,12 @@ export function acronym(words) {
 
   return words.split(' ').map(first_letter).join('');
 }
+
+
+
+
+
+export const Capitalize=(str)=>{
+  return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  
