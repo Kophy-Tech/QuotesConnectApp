@@ -49,7 +49,17 @@ function BottomStack() {
         name="SelectedVendorItem"
         component={SelectedVendorItem}
         options={{
-          headerShown: false,
+          headerShown: true,
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Edit Job
+            </Text>
+          ),
         }}
       />
 
@@ -58,6 +68,7 @@ function BottomStack() {
         component={PurchasedVendorItem}
         options={{
           headerShown: true,
+          
         }}
       />
 

@@ -36,7 +36,7 @@ console.log(profile, 'prifle')
                 {' '}
                 Hi {profile?.fullname},
               </Text>
-              <Text style={{fontSize: 12}}> Good day.</Text>
+              {/* <Text style={{fontSize: 12}}> Good day.</Text> */}
             </Box>
           </Flex>
         </TouchableOpacity>

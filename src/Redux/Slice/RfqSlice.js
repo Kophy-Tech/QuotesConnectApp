@@ -88,10 +88,9 @@ export const clientSelectItems = createAsyncThunk(
     'vendor/postselectAction',
     async (user, thunkAPI) => {
       try {
-          console.log(user, 'uuuuuuuuuuuuuuuuu')
         return await RfqService.selectItemServices(user);
       } catch (error) {
-        console.log(error, 'error selectItemServicesselectItemServices');
+        console.log(error.response.data, 'error selectIjjjjjtemServicesselectItemServices');
         const {message} = error;
         return thunkAPI.rejectWithValue(error.response.data || message);
       }

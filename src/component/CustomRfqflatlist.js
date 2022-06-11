@@ -79,7 +79,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
       navigation.navigate('selectvendors');
       dispatch(dispatchRouteData(item));
     } else if (
-      item.status === 'submitted' &&
+      item.status === 'Submitted' &&
       item.rfqArray.length > 0 &&
       item.vendorArray.length > 0
     ) {
@@ -94,7 +94,9 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
     ) {
       navigation.navigate('PurchasedVendorItem', {item});
       dispatch(dispatchRouteData(item));
-    } 
+    }   
+    
+
     
     
     else {
@@ -134,7 +136,29 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             </TouchableOpacity>
           )}
 
-          {item.status === 'submitted' && (
+          {item.status === 'Submitted' && (
+            <TouchableOpacity
+              onPress={() => onItemPress(item)}
+              style={{
+                backgroundColor: '#FAAE3B',
+                borderRadius: 4,
+                padding: 6,
+              }}>
+              <Text
+                style={[
+                  styles.textLineItem1,
+                  {
+                    color: '#fff',
+                    fontSize: 12,
+                  },
+                ]}>
+                {item.status}
+              </Text>
+            </TouchableOpacity>
+          )}
+
+
+    {item.status === 'Ready' && (
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{

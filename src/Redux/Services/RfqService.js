@@ -59,9 +59,9 @@ const postRfQVendorService = data => {
 };
 
 const selectItemServices = vendorData => {
-  console.log(vendorData?.data, 'seeleelelelelell');
+  console.log(vendorData?.data,vendorData?.id, 'chosenOptionchosenOptionchosenOption')
   return instance
-    .post(`/rfq/select/${vendorData?.id}`, {...vendorData?.data})
+    .post(`/rfq/select/${vendorData?.id}`, vendorData?.data)
     .then(response => {
       console.log(response, 'selectItemServicesselectItemServices')
       return response.data;

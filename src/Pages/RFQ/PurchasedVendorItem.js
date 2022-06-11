@@ -85,7 +85,7 @@ const PurchasedVendorItem = props => {
                     {/* First Row */}
                 {item.rfqArray.map((item)=>(
                     <View>
-                    <View style={{top:WP(53),width:WP(12)}}>
+                    <View style={{top:WP(53),width:WP(12), left:WP(3)}}>
                     <Text>{item?.name?.name}</Text>
                     </View>
                     </View>
