@@ -61,12 +61,18 @@ const RequestForRfq = () => {
     //     }
     // ]);
     const token = auth?.token
+    const tdata = {
+        token,
 
+    }
     useLayoutEffect(() => {
-        dispatch(getMaterial(token))
+        dispatch(getMaterial(tdata))
             .unwrap().then((res) => {
-                 console.log(res, 'res');
-                setAllMaterial(res)
+                //  console.log(res, 'respppppppppppppp');
+
+                setAllMaterial(res.data)
+               
+
             }).catch((err) => {
 
                 if (err) {
@@ -104,7 +110,7 @@ const memoizedCallback = useCallback(
             quantity: '',
             unit: '',
             name: '',
-            show: false
+            show: null
         });
         setValue(_inputs);
     }
@@ -354,11 +360,10 @@ if(allMaterial.length===0){
 }
   return (
       <KeyboardAwareScrollView
-          style={{flex:1,
-        backgroundColor:'#fff'
-        }}
+   
+        horizontal={false} style={{width: '100%', height: '100%'}}
           contentContainerStyle={{ paddingBottom: WP(50) }}
-          horizontal={false}
+        
 
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -410,72 +415,80 @@ if(allMaterial.length===0){
 
                           key={key}
                       >
-                          <View style={[styles.tableColumnRegular2, { position: 'relative' }]}>
+                          <View style={[styles.tableColumnRegular2, { position: 'relative', top:0 }]}>
 
-                              <View style={styles.autocompleteContainer}>
+                            <>
+                                  <View style={[styles.autocompleteContainer,{
+                                      zIndex: val.show? 100:0,
+                                    
+                                  }]}>
 
-                                  <Autocomplete
-                                      value={val.query}
-                                      onChangeText={(text) =>{ inputHandleQuery(text, key)
-                                          inputHandleName('', key)
-                                          inputHandleShow(true, key)
-                                    }}
+                                      <Autocomplete
+                                          value={val.query}
+                                          onChangeText={(text) => {
+                                              inputHandleQuery(text, key)
+                                              inputHandleName('', key)
+                                              inputHandleShow(true, key)
+                                          }}
 
-                                      horizontal={true}
-                                      placeholder="Enter material name"
-                                      data={data}
-
-                                      style={{
-                                          backgroundColor: 'transparent',
-                                          color: 'black'
-                                      }}
-                                      inputContainerStyle={{
-                                          borderColor: COLOR.BgColor,
-                                          borderRadius: 2,
-                                          borderWidth: WP(0.2),
-                                        
-
-                                      }}
-                                      listContainerStyle={{
-                                          backgroundColor: "#a9b4fc",
-                                      }}
+                                        //   horizontal={true}
+                                          placeholder="Enter material name"
+                                          data={data}
 
 
-                                      flatListProps={{
-                                          keyboardShouldPersistTaps: 'always',
+                                          style={{
+                                              backgroundColor: 'transparent',
+                                              color: 'black'
+                                          }}
+                                          inputContainerStyle={{
+                                              borderColor: COLOR.BgColor,
+                                              borderRadius: 1,
+                                              borderWidth:0.5
 
-                                          listKey: (item, index) => `_key${index.toString()}`,
-                                          keyExtractor: (item, index) => `_key${index.toString()}`,
-                                          renderItem: ({ item }) => {
-if (val.show) {
-    return (
-        <TouchableOpacity
-            key={item?._id}
-
-            onPress={() => {
-                inputHandleQuery(item?.name, key)
-                inputHandleName(item?._id, key)
-                inputHandleShow(false, key)
-                setData([])
-            }}
+                                          }}
+                                          listContainerStyle={{
+                                              backgroundColor: "#a9b4fc",
+                                          }}
 
 
-            style={{
 
-                padding: 10,
-            }}
-        >
-            <Text style={styles.itemText}>{item?.name}</Text>
-        </TouchableOpacity>
-    )
-}
-                                             
-                                          }
-                                      }}
+                                          flatListProps={{
+                                              keyboardShouldPersistTaps: 'always',
 
-                                  />
+                                              listKey: (item, index) => `_key${index.toString()}`,
+                                              keyExtractor: (item, index) => `_key${index.toString()}`,
+                                              renderItem: ({ item }) => {
+                                                  if (val.show) {
+                                                      return (
+                                                          <TouchableOpacity
+                                                              key={item?._id}
 
-                              </View>
+                                                              onPress={() => {
+                                                                  inputHandleQuery(item?.name, key)
+                                                                  inputHandleName(item?._id, key)
+                                                                  inputHandleShow(false, key)
+                                                                  setData([])
+                                                              }}
+
+
+                                                              style={{
+
+                                                                  padding: 10,
+                                                              }}
+                                                          >
+                                                              <Text style={styles.itemText}>{item?.name}</Text>
+                                                          </TouchableOpacity>
+                                                      )
+                                                  }
+
+                                              }
+                                          }}
+
+                                      />
+
+                                  </View>
+                                  
+                                  </>
                           </View>
                           <View style={styles.tableColumnRegular2}>
                               <FormInput2
@@ -562,7 +575,7 @@ if (val.show) {
               })
           }
 
-          <Box my="4">
+          <Box mt="40">
 
 
                   <TouchableOpacity
@@ -698,7 +711,9 @@ flexDirection:'row'
 
         position: 'absolute',
         width: '100%',
-        zIndex: 1,
+   
+       top: 4
+        // paddingTop: 40,
       
       
 

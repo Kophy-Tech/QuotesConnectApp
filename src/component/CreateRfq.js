@@ -37,7 +37,7 @@ const CreateRfq = () => {
     const [showDate1, setShowDate1] = React.useState(false);
     const [showDate2, setShowDate2] = React.useState(false);
 const [allJob, setAllJob] = useState([])
-
+    console.log({ allJob});
     const [text, onChangeText] = React.useState("");
     const [jobId, setJobId] = React.useState('');
 
@@ -93,7 +93,7 @@ const [allJob, setAllJob] = useState([])
         dispatch(getJob(token))
             .unwrap().then((res) => {
                 //  console.log(res, 'res');
-setAllJob(res)
+setAllJob(res.data)
             }).catch((err) => {
 
                 if (err) {
@@ -148,8 +148,9 @@ setAllJob(res)
             })
 
 
-            // dispatch(dispatchJob(data))
-            console.log({value})
+            dispatch(dispatchJob(data))
+         
+
             // navigation.navigate('requestforrfq')
 
        }

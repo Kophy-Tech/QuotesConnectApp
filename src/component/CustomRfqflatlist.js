@@ -227,7 +227,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
           )}
           {/* {
 
-                        item.status === 'submited' && <TouchableOpacity style={{
+                        item.status === 'Submitted' && <TouchableOpacity style={{
                             backgroundColor: '#FAAE3B',
                             borderRadius: 4,
                             padding: 6

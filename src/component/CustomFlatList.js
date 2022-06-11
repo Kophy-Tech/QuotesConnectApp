@@ -43,7 +43,7 @@ const EmptyContainer = () => {
     </View>
 }
 
-const CustomFlatList = ({ itemData, navigation, fetchMore}) => {
+const CustomFlatList = ({ itemData, navigation}) => {
     // const keyExtractor = (item) => item.id;
     // console.log(itemData, 'itemData');
 
@@ -66,8 +66,7 @@ const CustomFlatList = ({ itemData, navigation, fetchMore}) => {
   <>
           <FlatList
               data={itemData}
-              onEndReached={fetchMore}
-              onEndReachedThreshold={0.3}
+          
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}

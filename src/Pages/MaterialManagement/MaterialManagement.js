@@ -23,24 +23,22 @@ const MaterialManagement = ({navigation}) => {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
- 
-    const [page, setPage] = useState(1)
- const [total, setTotal] = useState()
- console.log(total, 'totall')
+
 
     const token =auth?.token
     const  tdata ={
         token,
-        page
+      
     }
-    useEffect(() => {
+    useLayoutEffect(() => {
         dispatch(getMaterial(tdata))
             .unwrap().then((res) => {
+                //  console.log(res, 'respppppppppppppp');
 
 
                 setFilteredDataSource([ ...res.data]);
                 setMasterDataSource([ ...res.data]);
-                setTotal(res.totalResult)
+               
             }).catch((err) => {
 
                 if (err) {
@@ -50,20 +48,8 @@ const MaterialManagement = ({navigation}) => {
 
 
             })
-    }, [dispatch, refresh ,page])
+    }, [dispatch, refresh ])
 
- const fetchMore=()=>{
-    if (page) {
-        if (page  !== Math.ceil(total/7)) {
-            setPage((prev)=> prev+1)
-        }
-        else{
-            console.log('do');
-            return
-        }
-    }
-     
- }
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -141,7 +127,7 @@ const MaterialManagement = ({navigation}) => {
                   material={filteredDataSource}
                   error={error}
                   setError={setError}
-                   fetchMore={ fetchMore}
+                  
               />
           
           }
