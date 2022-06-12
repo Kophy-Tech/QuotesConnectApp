@@ -38,7 +38,7 @@ const EditMaterial = ({route}) => {
         });
     };
     const token = auth?.token;
-    // console.log(token, 'ttttttt');
+  
     const updateMaterialPost = () => {
         const { _id, name, description } = value
         const updatedData = {
