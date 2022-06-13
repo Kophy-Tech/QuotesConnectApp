@@ -91,13 +91,13 @@ export const confirmOtp = createAsyncThunk(
 );
 
 
-export const UploadImage = createAsyncThunk(
+export const UploadUserDetails = createAsyncThunk(
   'auth/uploadimage',
   async (photo, thunkAPI) => {
     try {
-      return await AuthService.uploadLogoApi(photo);
+      return await AuthService.uploadUserDetailsApi(photo);
     } catch (error) {
-      console.log(error, 'error');
+      console.log(error, 'erroxxxr');
       const {message} = error;
       return thunkAPI.rejectWithValue(error.response.data.error || message);
     }
@@ -207,15 +207,15 @@ const authSlice = createSlice({
     },
 
 
-    [UploadImage.pending]: (state, action) => {
+    [UploadUserDetails.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [UploadImage.fulfilled]: (state, action) => {
+    [UploadUserDetails.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.userInfo = action.payload;
     },
-    [UploadImage.rejected]: (state, action) => {
+    [UploadUserDetails.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;

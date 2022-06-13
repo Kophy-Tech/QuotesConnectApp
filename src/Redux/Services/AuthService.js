@@ -85,8 +85,9 @@ const otpApi = userData => {
 };
 
 
-const uploadLogoApi = photo => {
-  return instance.put('/client/info', photo).then(response => {
+const uploadUserDetailsApi = details => {
+  return instance.put('/client/info', details).then(response => {
+    console.log(response, 'response')
     return response.data;
   });
 };
@@ -106,7 +107,7 @@ const AuthService = {
   getVendorApi,
   GetUserInfoApi,
   otpApi,
-  uploadLogoApi,
+  uploadUserDetailsApi,
   UpdateVendorApi,
   deleteVendorApi
 };
