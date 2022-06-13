@@ -261,30 +261,30 @@ rfq_id
  console.log(
    {  datarfqmaterial}
  )
-    //  dispatch(postRfqMaterial(datarfqmaterial)).unwrap().then((res) => {
+     dispatch(postRfqMaterial(datarfqmaterial)).unwrap().then((res) => {
 
-    //      if (res.status === 'Updated') {
-    //          Alert.alert(`${res.msg}`)
-    //          setValue(
-    //              [
-    //                  {
-    //                      query: '',
-    //                      description: '',
-    //                      quantity: '',
-    //                      unit: '',
-    //                      name: '',
-    //                      show: false
-    //                  }
-    //              ]
-    //          )
-    //      navigation.navigate('selectvendors')
-    //      }
-    //      console.log(res.status);
-    //  }).catch((err) => {
-    //      console.log(err, 'error from postrfqjob')
-    //      Alert.alert(`${err}`)
-    //  })
-     navigation.navigate('selectvendors')
+         if (res.status === 'Updated') {
+             Alert.alert(`${res.msg}`)
+             setValue(
+                 [
+                     {
+                         query: '',
+                         description: '',
+                         quantity: '',
+                         unit: '',
+                         name: '',
+                         show: false
+                     }
+                 ]
+             )
+         navigation.navigate('selectvendors')
+         }
+         console.log(res.status);
+     }).catch((err) => {
+         console.log(err, 'error from postrfqjob')
+         Alert.alert(`${err}`)
+     })
+    //  navigation.navigate('selectvendors')
  }
    }
 
