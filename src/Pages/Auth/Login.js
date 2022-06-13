@@ -161,7 +161,7 @@ const Login = props => {
           textColor={COLOR.BgColor}
         />
       </View>
-      <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(-10):0,}}>
+      <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(-15):0,}}>
      <TouchableOpacity
         onPress={() => navigation.navigate('ResetPassword')}
         style={{top: HP(-10), width: WP(90), left: WP(7)}}>

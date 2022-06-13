@@ -94,6 +94,7 @@ export const confirmOtp = createAsyncThunk(
 export const UploadUserDetails = createAsyncThunk(
   'auth/uploadimage',
   async (photo, thunkAPI) => {
+    console.log(photo, '999999999999')
     try {
       return await AuthService.uploadUserDetailsApi(photo);
     } catch (error) {

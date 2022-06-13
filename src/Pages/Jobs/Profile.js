@@ -26,18 +26,19 @@ const Profile = props => {
   const {profile} = props;
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(profile?.email);
-  const [photo, setPhoto] = useState(profile?.logo);
+  const [photo, setPhoto] = useState("");
+  console.log(photo?.path, 'pyoyyoyoy')
   const dispatch = useDispatch();
 
   const [errors, setError] = useState({});
-  console.log(errors, 'onSubmitonSubmitonSubmitonSubmitonSubmitonSubmitonSubmitonSubmit')
   const [value, setValues] = useState({
     code: '',
     telephone: '',
-    logo:photo?.path
+    logo
   });
 
-  console.log(value, 'cccccc')
+  const {code ,telephone, logo}=value
+
 
   const [fullname, setFullname] = useState(
     profile?.fullname !== undefined && profile?.fullname,
@@ -68,6 +69,7 @@ const Profile = props => {
 
 
   const onSubmit = async () => {
+    setLoading(true)
     const telephoneRegex =/^\+(\d{1}\-)?(\d{1,3})$/;
     
     Validator.register(
@@ -88,7 +90,24 @@ const Profile = props => {
       setError(validation.errors.all());
     } 
     else {
-      dispatch(UploadUserDetails(value))
+      dispatch(UploadUserDetails({code ,telephone, logo:photo?.path})).unwrap()
+      .then(() => {
+        // navigation.navigate('bottomStack', {
+        //   screen: 'rfq',
+        // });
+        setLoading(false);
+      })
+      .catch(rejectedValueOrSerializedError => {
+        console.log(rejectedValueOrSerializedError, 'rejecteddd');
+        if (typeof rejectedValueOrSerializedError == 'object') {
+          Object.keys(rejectedValueOrSerializedError).map(error => {
+            setError(...rejectedValueOrSerializedError[error]);
+          });
+        }
+        setError(rejectedValueOrSerializedError);
+        setLoading(false);
+        // handle error here
+      });
      
           }
 
@@ -104,12 +123,9 @@ const Profile = props => {
       <TouchableOpacity
         onPress={() => PickImage()}
         style={{alignSelf: 'center', top: WP(12)}}>
-         <Image
-        style={styles.tinyLogo}
-        source={{
-          uri:profile?.logo
-        }}
-      />
+         {photo?.path=="" || photo?.path==undefined? <Ionicons name="md-person-circle-sharp" size={154}/>:(
+           <Image source={{uri:photo?.path}} style={{width:WP(30), height:WP(12)}} />
+         )}
         
       </TouchableOpacity>
       <View style={styles.container}>
