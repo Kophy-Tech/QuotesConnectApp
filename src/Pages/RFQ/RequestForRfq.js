@@ -261,30 +261,30 @@ rfq_id
  console.log(
    {  datarfqmaterial}
  )
-     dispatch(postRfqMaterial(datarfqmaterial)).unwrap().then((res) => {
+    //  dispatch(postRfqMaterial(datarfqmaterial)).unwrap().then((res) => {
 
-         if (res.status === 'Updated') {
-             Alert.alert(`${res.msg}`)
-             setValue(
-                 [
-                     {
-                         query: '',
-                         description: '',
-                         quantity: '',
-                         unit: '',
-                         name: '',
-                         show: false
-                     }
-                 ]
-             )
-         navigation.navigate('selectvendors')
-         }
-         console.log(res.status);
-     }).catch((err) => {
-         console.log(err, 'error from postrfqjob')
-         Alert.alert(`${err}`)
-     })
-    //  navigation.navigate('selectvendors')
+    //      if (res.status === 'Updated') {
+    //          Alert.alert(`${res.msg}`)
+    //          setValue(
+    //              [
+    //                  {
+    //                      query: '',
+    //                      description: '',
+    //                      quantity: '',
+    //                      unit: '',
+    //                      name: '',
+    //                      show: false
+    //                  }
+    //              ]
+    //          )
+    //      navigation.navigate('selectvendors')
+    //      }
+    //      console.log(res.status);
+    //  }).catch((err) => {
+    //      console.log(err, 'error from postrfqjob')
+    //      Alert.alert(`${err}`)
+    //  })
+     navigation.navigate('selectvendors')
  }
    }
 
@@ -421,6 +421,8 @@ if(allMaterial.length===0){
                             <>
                                   <View style={[styles.autocompleteContainer,{
                                       zIndex: val.show? 100:0,
+                                      position: val.show ? 'absolute':'relative',
+                                      top: 4
                                     
                                   }]}>
 
@@ -439,7 +441,9 @@ if(allMaterial.length===0){
 
                                           style={{
                                               backgroundColor: 'transparent',
-                                              color: 'black'
+                                              color: 'black',
+                                             
+
                                           }}
                                           inputContainerStyle={{
                                               borderColor: COLOR.BgColor,
@@ -710,10 +714,10 @@ flexDirection:'row'
         // work on Andrdoid
         flex: 1,
 
-        position: 'absolute',
+      
         width: '100%',
    
-       top: 4
+    
         // paddingTop: 40,
       
       

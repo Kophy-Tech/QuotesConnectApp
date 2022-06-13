@@ -18,8 +18,9 @@ import { getJob } from '../Redux/Slice/JobSlice';
 import { Spinner } from "native-base";
 
 import Loading from './Loading';
-import { postRfqJob } from '../Redux/Slice/RfqSlice';
-
+import { postRfqJob , 
+    dispatchRouteData
+} from '../Redux/Slice/RfqSlice';
 const CreateRfq = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch()
@@ -132,23 +133,24 @@ setAllJob(res.data)
      token,
      value
  }
-            dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
+            // dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
 
-                if (res.status === 'Created') {
-                    Alert.alert(`${res.msg}`)
-                    onChangeText('')
-                    setQuery('')
+            //     if (res.status === 'Created') {
+            //         Alert.alert(`${res.msg}`)
+            //         onChangeText('')
+            //         setQuery('')
+            // navigation.navigate('requestforrfq')
+
+            //     }
+            //     console.log(res.status);
+            // }).catch((err) => {
+            //     console.log(err, 'error from postrfqjob')
+            //     Alert.alert(`${err}`)
+            // })
+
             navigation.navigate('requestforrfq')
 
-                }
-                console.log(res.status);
-            }).catch((err) => {
-                console.log(err, 'error from postrfqjob')
-                Alert.alert(`${err}`)
-            })
-
-
-            dispatch(dispatchJob(data))
+         
          
 
        
