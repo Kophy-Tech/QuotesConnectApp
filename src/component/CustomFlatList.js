@@ -14,7 +14,7 @@ const HeaderComponent = () => {
                 </View>
                 <View style={styles.tableColumnRegular2}>
                     <Text style={[styles.textLineItem3, {
-                        fontSize: 13
+                        fontSize: 15
                     }]}>Sub Item Description</Text>
                 </View>
 
@@ -23,19 +23,6 @@ const HeaderComponent = () => {
     )
 }
 
-const renderItem = ({ item }) => {
-    return (
-        <View style={styles.tableRow}>
-            <View style={styles.tableColumnRegular}>
-                <Text style={styles.textLineItem1}>{item?.name}</Text>
-            </View>
-            <View style={styles.tableColumnRegular2}>
-                <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>
-
-            </View>
-        </View>
-    )
-}
 const EmptyContainer = () => {
     return <View style={{
         width: '100%', justifyContent: 'center', alignItems: 'center', height: 100,
@@ -52,25 +39,42 @@ const EmptyContainer = () => {
         backgroundColor: '#FFF'
     }}>
 
-        <Text style={{ fontSize: 20, }}> No data</Text>
+        <Text style={{ fontSize: 20,color:'black' }}> No data</Text>
     </View>
 }
 
-const CustomFlatList = ({itemData}) => {
+const CustomFlatList = ({ itemData, navigation, fetchMore}) => {
     // const keyExtractor = (item) => item.id;
     // console.log(itemData, 'itemData');
-    // const renderItemMemo = ({ item }) => <RenderItem item={item}  />
+
+    const renderItem = ({ item }) => {
+        return (
+            <TouchableOpacity style={styles.tableRow}
+                onPress={() => navigation.navigate('editmaterial', { itemParams: item })}
+            >
+                <View style={styles.tableColumnRegular}>
+                    <Text style={styles.textLineItem1}>{item?.name}</Text>
+                </View>
+                <View style={styles.tableColumnRegular2}>
+                    <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>
+
+                </View>
+            </TouchableOpacity>
+        )
+    }
   return (
   <>
           <FlatList
               data={itemData}
+              onEndReached={fetchMore}
+              onEndReachedThreshold={0.3}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
               ListHeaderComponent={HeaderComponent}
               ListEmptyComponent={EmptyContainer}
               keyExtractor={(item) => `id${item?._id}`}
-              contentContainerStyle={{ paddingHorizontal: 22, paddingVertical: 9 }}
+              contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9 , paddingBottom:60}}
           />
 
   </>
@@ -120,7 +124,7 @@ paddingRight:10
 
     },
     textLineItem3: {
-        fontSize: 15,
+      
         fontWeight: '400',
         color: '#fff',
         textAlign: 'left',
@@ -133,7 +137,7 @@ paddingRight:10
         color: ColorText,
         textAlign: 'left',
         lineHeight: 18,
-        fontFamily: 'sans-serif',
+       
        
 
     },
@@ -143,7 +147,7 @@ paddingRight:10
         color: ColorText,
         textAlign: 'left',
         lineHeight: 18,
-        fontFamily: 'sans-serif',
+      
 
     },
     tableRow: {

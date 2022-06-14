@@ -9,7 +9,7 @@ export const getMaterial = createAsyncThunk(
         try {
             const response = await MaterialService.getMaterialService(token);
             // console.log(response.data, 'response')
-            return response.data;
+            return response;
         } catch (error) {
             console.log(error, 'from getmmaterial');
             const { message } = error;
@@ -20,6 +20,7 @@ export const getMaterial = createAsyncThunk(
         }
     },
 );
+
 
 export const postMaterial = createAsyncThunk('material/postmaterial', async (data, thunkAPI) => {
     try {
@@ -37,6 +38,38 @@ export const postMaterial = createAsyncThunk('material/postmaterial', async (dat
 });
 
 
+export const updateMaterial = createAsyncThunk('material/updatematerial', async (data, thunkAPI) => {
+    try {
+
+        return await MaterialService.updateMaterialService(data);
+    } catch (error) {
+        console.log(error, 'error');
+        const { message } = error;
+        // console.log(error.response.data || message)
+
+        // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+        return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
+    }
+});
+
+
+
+export const deleteMaterial = createAsyncThunk('material/deletematerial', async (data, thunkAPI) => {
+    try {
+
+        return await MaterialService.deleteMaterialService(data);
+    } catch (error) {
+        // console.log(error, 'deletederror');
+        const { message } = error;
+        console.log(error.response.data, 'deletedresponse')
+
+        // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+        return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
+    }
+});
+
 
 const initialState = {
     material: [],
@@ -44,6 +77,8 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: '',
+    refresh: null,
+   
 };
 
 const materialSlice = createSlice({
@@ -60,6 +95,8 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.material = action.payload;
+            state.refresh = action.payload.msg
+
         },
         [getMaterial.rejected]: (state, action) => {
             state.isLoading = false;
@@ -67,6 +104,8 @@ const materialSlice = createSlice({
             state.message = action.payload;
           
         },
+
+     
         [postMaterial.pending]: (state, action) => {
             state.isLoading = true;
         },
@@ -74,13 +113,49 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             console.log(action.payload.data, 'ressssssf');
-            state.material.push(action.payload.data);
+          
+            state.refresh = action.payload.msg
+
         },
         [postMaterial.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.message = action.payload;
             
+        },
+
+
+        [updateMaterial.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [updateMaterial.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            // console.log(action.payload.data, 'ressssssf');
+           
+            state.refresh = action.payload.msg
+
+        },
+        [updateMaterial.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+
+        },
+        [deleteMaterial.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [deleteMaterial.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            // console.log(action.payload, 'ressssssf');
+            state.material = state.material
+            state.refresh = action.payload.msg
+        },
+        [deleteMaterial.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action;
         },
        
     },

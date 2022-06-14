@@ -4,12 +4,21 @@ import { otherUrl } from '../Constant/Constants';
 
 const API_URL = `${otherUrl}/`
 
-const getMaterialService = (token) => {
-    // console.log(token, 'token')
-    return axios.get(API_URL + "material/all-materials",  { headers: { "Authorization": `${token}` } }).then((response)=>{
+const getMaterialService = (data) => {
+   
+    const {
+        page,
+        token
+    } = data
+
+
+    return axios.get(API_URL + `material?page=${page}&limit=${7}`,  { headers: { "Authorization": `${token}` } }).then((response)=>{
         return response.data;
     });
 };
+
+
+
 
 
 
@@ -29,13 +38,44 @@ const postMaterialService = (data) => {
 
 
 
+const deleteMaterialService = (data) => {
+    const { _id, token } = data
+    // console.log(_id, token,data, ' vaaaaaa')
+    // console.log(API_URL + `material/${_id}`);
+    return axios
+        .delete(API_URL + `material/${_id}`, { headers: { "Authorization": `${token}` } })
+        .then((response) => {
+            // console.log(response, 'response')
+
+
+            return response.data;
+        });
+};
+
+
+const updateMaterialService = (data) => {
+    const { _id, updatedData, token } = data
+    // console.log(_id,updatedData, token, ' updatedJobService')
+    // console.log(API_URL + `material/${_id}`);
+
+    return axios
+        .put(API_URL + `material/${_id}`, updatedData, { headers: { "Authorization": `${token}` } })
+        .then((response) => {
+            // console.log(response, 'response')
+
+
+            return response.data;
+        });
+};
+
 
 
 const materialService = {
     getMaterialService,
     postMaterialService,
-    
-
+    deleteMaterialService,
+    updateMaterialService,
+ 
 };
 
 export default materialService;

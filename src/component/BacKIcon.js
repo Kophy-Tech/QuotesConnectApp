@@ -15,6 +15,7 @@ const BackIcon = (props) => {
               
                 onPress={() => navigation.goBack()}
             />
+          
         </View>
     );
 };

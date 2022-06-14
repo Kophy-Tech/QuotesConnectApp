@@ -31,16 +31,19 @@ const DateInputForm = ({
                     }}
                 >
                     <Input
-   style={{fontSize:18}}
+   style={{fontSize:15, color:'grey'}}
                         w="100%"
                         value={value}
                         editable={false}
                         {...rest}
+                    //    autoCorrect={false}
+                    //    autoComplete={false}
+                    //    autoCapitalize={false}
                         InputLeftElement={
                             <Icon
                                 name="date-range"
-                                size={25}
-                                color="black"
+                                size={20}
+                                color="grey"
 
                             />
                         }

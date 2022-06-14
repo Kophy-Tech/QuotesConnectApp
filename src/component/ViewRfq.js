@@ -1,18 +1,20 @@
-import { Text} from 'react-native'
-import React, { useState, useLayoutEffect } from 'react'
 
+import React, { useState, useLayoutEffect } from 'react'
+import { Text } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { getRfqJob } from '../Redux/Slice/RfqSlice';
 import Loading from './Loading';
-import { getJob } from '../Redux/Slice/JobSlice';
+import CustomRfqflatlist from './CustomRfqflatlist';
 import { Stack, Alert, IconButton, HStack, VStack, CloseIcon, Center } from "native-base";
-import CustomJobFlatList from './CustomJobFlat';
 
-const JobHistory = ({ navigation, error, setError, job}) => {
 
-  
-    const { isLoading, message } = useSelector((job) => job.job)
+const ViewRfq = ({ navigation, error, setError, allRfq}) => {
+
+
+    const { isLoading, message} = useSelector((rfq) => rfq.rfq)
    
+
     if (isLoading === true && error === false) {
         return <>
             <Loading />
@@ -45,11 +47,12 @@ const JobHistory = ({ navigation, error, setError, job}) => {
         </Center>
 
     }
-  return (
-  <>
-          <CustomJobFlatList itemData={job} navigation={navigation}/>
-  </>
-  )
+    return (
+        <>
+            <CustomRfqflatlist itemData={allRfq} navigation={navigation} />
+
+        </>
+    )
 }
 
-export default JobHistory
+export default ViewRfq

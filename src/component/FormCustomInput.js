@@ -31,7 +31,7 @@ const FormCustomInput = ({
       <View>
         <TextInput
           style={{
-            borderWidth: WP(0.3),
+            borderWidth: WP(0.2),
             padding: WP(3),
             borderColor: inputBorderColor,
             borderRadius: WP(1),
@@ -40,12 +40,16 @@ const FormCustomInput = ({
             
             
           }}
+          autoCorrect={false}
+
           placeholderTextColor="#999" 
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
           onFocus={onFocus}
           keyboardType={keyboardType}
+          autoCapitalize="none"
+          autoCorrect={false}
          
         />
       </View>

@@ -7,6 +7,27 @@ export const getJob = createAsyncThunk(
     async (token, thunkAPI) => {
         try {
             const response = await JobService.getJobService(token);
+            
+            
+         console.log(response.data, 'response')
+            return response;
+        } catch (error) {
+            console.log(error, 'from getjob');
+            const { message } = error;
+            // console.log(error.response.data.error[0].msg, 'from getmmaterial');
+
+            // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+            return thunkAPI.rejectWithValue(error.response.data.error[0].msg || message);
+        }
+    },
+);
+
+
+export const mygetVendor = createAsyncThunk(
+    'vendor/getvendor',
+    async (token, thunkAPI) => {
+        try {
+            const response = await JobService.mygetVendorService(token);
             // console.log(response.data, 'response')
             return response.data;
         } catch (error) {
@@ -75,7 +96,8 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: '',
-    refresh:null
+    refresh:null,
+    vendor:[]
 };
 
 const materialSlice = createSlice({
@@ -97,6 +119,21 @@ const materialSlice = createSlice({
             state.message = action.payload;
 
         },
+
+        [mygetVendor.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [mygetVendor.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.vendor = action.payload;
+        },
+        [mygetVendor.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+
+        },
         [postJob.pending]: (state, action) => {
             state.isLoading = true;
         },
@@ -104,7 +141,9 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             console.log(action.payload.data, 'ressssssf');
-            state.job.push(action.payload.data);
+         
+            state.refresh = action.payload.msg
+
         },
         [postJob.rejected]: (state, action) => {
             state.isLoading = false;
@@ -120,8 +159,9 @@ const materialSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             // console.log(action.payload.data, 'ressssssf');
-            let job = state.job.filter((data) => data._id !== action.payload.data._id )  
-            state.job =[...job, action.payload.data]
+        
+            state.refresh = action.payload.msg
+
         },
         [ updateJob.rejected]: (state, action) => {
             state.isLoading = false;

@@ -3,7 +3,8 @@ import {
     SafeAreaView,
     ScrollView
 } from 'react-native'
-import React from 'react'
+import React, { useState, useLayoutEffect } from 'react'
+
 import Header from '../../../component/Header'
 import {  Text, Box,Flex } from "native-base";
 
@@ -14,20 +15,78 @@ import JobCreate from '../../../component/JobCreate';
 import AppBar from '../../../component/AppBar';
 import { COLOR } from '../../../Utils/theme';
 import InputSearch from '../../../component/InputSearch';
+import { useSelector, useDispatch } from 'react-redux';
+import { getJob } from '../../../Redux/Slice/JobSlice';
 
 
 const Job = ({navigation}) => {
    const [index, setIdex] = React.useState(true)
-    
+    const auth = useSelector((auth) => auth.auth.user)
+    const dispatch = useDispatch()
+
+    const {  refresh } = useSelector((job) => job.job)
+   
+
+    const [error, setError] = useState(false);
+    const token = auth?.token
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [masterDataSource, setMasterDataSource] = useState([]);
+
+    useLayoutEffect(() => {
+        dispatch(getJob(token))
+            .unwrap().then((res) => {
+                //  console.log(res, 'res');
+                setFilteredDataSource(res.data);
+                setMasterDataSource(res.data);
+            }).catch((err) => {
+
+                if (err) {
+                    setError(true)
+                }
+
+
+
+            })
+    }, [dispatch, refresh, ])
+
+    const searchFilterFunction = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+            // Inserted text is not blank
+            // Filter the masterDataSource
+            // Update FilteredDataSource
+            const newData = masterDataSource.filter(function (item) {
+                const itemData = item.name
+                    ? item.name.toUpperCase()
+                    : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setFilteredDataSource(newData);
+            setSearch(text);
+        } else {
+            // Inserted text is blank
+            // Update FilteredDataSource with masterDataSource
+            setFilteredDataSource(masterDataSource);
+            setSearch(text);
+        }
+    };
+
     return (
-        < SafeAreaView style={{ flex: 1, marginBottom:80 }}>
+        < SafeAreaView style={{ flex: 1, backgroundColor:'#fff'}}>
             <AppBar type="black" backgroundColor={COLOR.whiteColor} />
 
 
             <Header />
             <Box px="6">
                 <Box>
-           < InputSearch />
+           < InputSearch 
+                        onChangeText={(text) => searchFilterFunction(text)}
+                        onClear={(text) => searchFilterFunction('')}
+                        value={search}
+                        placeholder="search project name"
+           />
                 </Box>
 
                 <Flex direction="row" mt="4" justifyContent="space-between">
@@ -66,7 +125,11 @@ const Job = ({navigation}) => {
             </Box>
 
             {
-                index && <JobHistory navigation={navigation}/>
+                index && <JobHistory navigation={navigation}
+                    job={filteredDataSource}
+                    error={error}
+                    setError={setError}
+                />
             }
 
         </ SafeAreaView>

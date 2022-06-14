@@ -1,5 +1,6 @@
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState, useLayoutEffect, useEffect } from 'react'
+
 import {  Text, Box,Flex } from "native-base";
 import { COLOR } from '../../Utils/theme'
 import AppBar from '../../component/AppBar'
@@ -7,19 +8,99 @@ import Header from '../../component/Header';
 import InputSearch from '../../component/InputSearch';
 import ButtonH from '../../component/ButtonH';
 import { BgColor } from '../../Utils/Colors';
-import CreateMaterial from '../../component/CreateMaterial';
-import ViewMaterial from '../../component/ViewMaterial';
+import { getMaterial, getMoreMaterial } from '../../Redux/Slice/materialSlice';
 
+import ViewMaterial from '../../component/ViewMaterial';
+import { useSelector, useDispatch } from 'react-redux';
 const MaterialManagement = ({navigation}) => {
     const [index, setIdex] = React.useState(true)
 
+    const auth = useSelector((auth) => auth.auth.user)
+    const dispatch = useDispatch()
+    const { refresh } = useSelector((material) => material.material)
+
+    const [error, setError] = useState(false);
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [masterDataSource, setMasterDataSource] = useState([]);
+ 
+    const [page, setPage] = useState(1)
+ const [total, setTotal] = useState()
+ console.log(total, 'totall')
+
+    const token =auth?.token
+    const  tdata ={
+        token,
+        page
+    }
+    useEffect(() => {
+        dispatch(getMaterial(tdata))
+            .unwrap().then((res) => {
+
+
+                setFilteredDataSource([ ...res.data]);
+                setMasterDataSource([ ...res.data]);
+                setTotal(res.totalResult)
+            }).catch((err) => {
+
+                if (err) {
+                    setError(true)
+                }
+
+
+
+            })
+    }, [dispatch, refresh ,page])
+
+ const fetchMore=()=>{
+    if (page) {
+        if (page  !== Math.ceil(total/7)) {
+            setPage((prev)=> prev+1)
+        }
+        else{
+            console.log('do');
+            return
+        }
+    }
+     
+ }
+
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name
+          ? item.name.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
   return (
-    < SafeAreaView style={{ flex: 1, marginBottom:80 }}>
+    < SafeAreaView style={{ flex: 1,  backgroundColor:'#fff'}}>
           <AppBar type="black" backgroundColor={COLOR.whiteColor} />
           <Header />
           <Box px="6">
               <Box>
-                  < InputSearch />
+                  < InputSearch
+                      onChangeText={(text) => searchFilterFunction(text)}
+                      onClear={(text) => searchFilterFunction('')}
+                      value={search}
+                      placeholder="search catergory name"
+                    
+                  />
               </Box>
               <Flex direction="row" mt="4" justifyContent="space-between">
                   <ButtonH style={{
@@ -56,7 +137,12 @@ const MaterialManagement = ({navigation}) => {
           </Box>
 
           {
-              index && <ViewMaterial />
+              index && <ViewMaterial navigation={navigation} 
+                  material={filteredDataSource}
+                  error={error}
+                  setError={setError}
+                   fetchMore={ fetchMore}
+              />
           
           }
        

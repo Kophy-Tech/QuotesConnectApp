@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {WP} from './theme';
+
+
 export const ErrorDisplay = error => {
   if (Object.keys(error).length > 0) {
     return Object.keys(error).map((key, i) => {
@@ -24,3 +26,29 @@ export const ErrorDisplay = error => {
     return;
   }
 };
+
+
+export function acronym(words) {
+  if (!words) {
+    return '';
+  }
+
+  var first_letter = function (x) {
+    if (x) {
+      return x[0];
+    } else {
+      return '';
+    }
+  };
+
+  return words.split(' ').map(first_letter).join('');
+}
+
+
+
+
+
+export const Capitalize=(str)=>{
+  return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  

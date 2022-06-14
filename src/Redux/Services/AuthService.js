@@ -44,16 +44,32 @@ const getVendorApi = userData => {
 };
 
 const CreateVendorApi = vendorData => {
-  console.log(vendorData, 'vendor data omidiora');
   return instance.post('/vendor', vendorData).then(response => {
     getVendorApi();
     return response.data;
   });
 };
 
+const UpdateVendorApi = vendorData => {
+  const {id, ...rest}=vendorData;
+  console.log(vendorData?.id, 1234567890)
+  return instance.put(`/vendor/${vendorData?.id}`, vendorData).then(response => {
+  
+    return response.data;
+  });
+};
+
+const deleteVendorApi = vendorData => {
+   return instance.delete(`/vendor/${vendorData?.id}`).then(response => {
+     console.log(response, 'r1111111121')
+  
+    return response.data;
+  });
+};
+
 const GetUserInfoApi = vendorData => {
-  console.log(vendorData, 'vendor data omidiora');
   return instance.get('/client/info', vendorData).then(response => {
+   
     return response.data;
   });
 };
@@ -67,6 +83,15 @@ const otpApi = userData => {
     return response.data;
   });
 };
+
+
+const uploadUserDetailsApi = details => {
+  return instance.put('/client/info', details).then(response => {
+    console.log(response, 'response')
+    return response.data;
+  });
+};
+
 
 const logout = () => {
   AsyncStorage.removeItem('user');
@@ -82,6 +107,9 @@ const AuthService = {
   getVendorApi,
   GetUserInfoApi,
   otpApi,
+  uploadUserDetailsApi,
+  UpdateVendorApi,
+  deleteVendorApi
 };
 
 export default AuthService;

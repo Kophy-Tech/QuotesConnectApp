@@ -8,11 +8,11 @@ import ButtonH from '../../../component/ButtonH';
 import { bgColor2, bgColor3 } from '../../../Utils/Colors';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import { deleteJob, updateJob } from '../../../Redux/Slice/JobSlice';
 import { useNavigation } from '@react-navigation/native';
 
 import { Spinner } from "native-base";
+
 const EditJob = ({route}) => {
   const { itemParams } = route.params;
   const auth = useSelector((auth) => auth.auth.user)
@@ -105,113 +105,115 @@ name, state, street, city, zip_code
  
   return (
     <>
-      <Box px="6">
-        <KeyboardAwareScrollView
-          style={styles._mainContainer}
-          contentContainerStyle={{ paddingBottom: WP(15) }}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}>
-          <Box mb="4" mt="5">
-            <Text style={styles.heading}>Edit Job</Text>
-          </Box>
-          <Box mb="2">
-            <InputForm
-              title="Project Name"
-              name="name"
-              value={value?.name}
+    <View style={{flex:1, backgroundColor:'#fff'}}>
+        <Box px="6">
+          <KeyboardAwareScrollView
+            style={styles._mainContainer}
+            contentContainerStyle={{ paddingBottom: WP(15) }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}>
+            <Box mb="4" mt="5">
+              <Text style={styles.heading}>Edit Job</Text>
+            </Box>
+            <Box mb="2">
+              <InputForm
+                title="Project Name"
+                name="name"
+                value={value?.name}
 
-              onChangeText={value => handleInputChange('name', value)}
+                onChangeText={value => handleInputChange('name', value)}
 
-              borderColor={COLOR.BgColor}
-            />
-          </Box>
-
-
-          <Box mb="2">
-            <Text style={styles.address}>Address</Text>
-          </Box>
-          <Box mb="2">
-            <InputForm
-              title="State"
-              value={value?.state}
-              onChangeText={value => handleInputChange('state', value)}
-              name="state"
-              borderColor={COLOR.BgColor}
-            />
-          </Box>
-
-          <Box mb="2">
-            <InputForm
-              title="City"
-              value={value?.city}
-              onChangeText={value => handleInputChange('city', value)}
-              name="city"
-              borderColor={COLOR.BgColor}
-            />
-          </Box>
-
-          <Box mb="2">
-            <InputForm
-              title="Street"
-              name="street"
-
-              value={value?.street}
-              onChangeText={value => handleInputChange('street', value)}
-
-              borderColor={COLOR.BgColor}
-            />
-          </Box>
-
-          <Box mb="2">
-            <InputForm
-              title="Zip Code"
-              value={value?.zip_code.toString()}
-              onChangeText={value => handleInputChange('zip_code', value)}
-              name="zip_code"
-              borderColor={COLOR.BgColor}
-            />
-          </Box>
-          <Flex direction="row" mt="4" justifyContent="space-around">
-            <ButtonH
-              style={{
-
-                borderColor: bgColor2,
-                width: '40%',
-                backgroundColor: "transparent",
-                borderRadius: 5
+                borderColor={COLOR.BgColor}
+              />
+            </Box>
 
 
-              }}
-              onPress={() => setModalVisible(true)}
-            >
-              <Text
-                style={[styles.butttonText, { color: bgColor2 }]}
+            <Box mb="2">
+              <Text style={styles.address}>Address</Text>
+            </Box>
+            <Box mb="2">
+              <InputForm
+                title="State"
+                value={value?.state}
+                onChangeText={value => handleInputChange('state', value)}
+                name="state"
+                borderColor={COLOR.BgColor}
+              />
+            </Box>
 
-              >Delete</Text>
-            </ButtonH>
-            <ButtonH
-              style={{
+            <Box mb="2">
+              <InputForm
+                title="City"
+                value={value?.city}
+                onChangeText={value => handleInputChange('city', value)}
+                name="city"
+                borderColor={COLOR.BgColor}
+              />
+            </Box>
 
-                borderColor: bgColor3,
-                width: '40%',
-                backgroundColor: bgColor3,
-                borderRadius: 5
+            <Box mb="2">
+              <InputForm
+                title="Street"
+                name="street"
+
+                value={value?.street}
+                onChangeText={value => handleInputChange('street', value)}
+
+                borderColor={COLOR.BgColor}
+              />
+            </Box>
+
+            <Box mb="2">
+              <InputForm
+                title="Zip Code"
+                value={value?.zip_code.toString()}
+                onChangeText={value => handleInputChange('zip_code', value)}
+                name="zip_code"
+                borderColor={COLOR.BgColor}
+              />
+            </Box>
+            <Flex direction="row" mt="4" justifyContent="space-around">
+              <ButtonH
+                style={{
+
+                  borderColor: bgColor2,
+                  width: '40%',
+                  backgroundColor: "transparent",
+                  borderRadius: 5
 
 
-              }}
-              onPress={() => setModalVisible1(true)}
+                }}
+                onPress={() => setModalVisible(true)}
+              >
+                <Text
+                  style={[styles.butttonText, { color: bgColor2 }]}
 
-            >
-              <Text
-                style={[styles.butttonText, { color: "#fff" }]}
-              >Update</Text>
-            </ButtonH>
-          </Flex>
-        </KeyboardAwareScrollView>
+                >Delete</Text>
+              </ButtonH>
+              <ButtonH
+                style={{
+
+                  borderColor: bgColor3,
+                  width: '40%',
+                  backgroundColor: bgColor3,
+                  borderRadius: 5
 
 
-       
-      </Box>
+                }}
+                onPress={() => setModalVisible1(true)}
+
+              >
+                <Text
+                  style={[styles.butttonText, { color: "#fff" }]}
+                >Update</Text>
+              </ButtonH>
+            </Flex>
+          </KeyboardAwareScrollView>
+
+
+
+        </Box>
+    </View>
       <Modal
         animationType="slide"
         transparent={true}

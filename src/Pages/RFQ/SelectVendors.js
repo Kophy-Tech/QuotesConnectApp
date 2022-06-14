@@ -1,51 +1,119 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image, Flatlist } from 'react-native'
+import React, { useLayoutEffect, useState } from 'react';
+
 import { WP, HP, COLOR } from '../../Utils/theme'
-import { Box, } from "native-base";
+import { Box,  } from "native-base";
 import { BgColor, bgColor1, ColorText } from '../../Utils/Colors';
 import FormCustomButton from '../../component/FormCustomButton';
+import CheckBox from '@react-native-community/checkbox';
 
-const SelectVendors = () => {
+import Loading from '../../component/Loading';
+import { useSelector, useDispatch } from 'react-redux';
+import { mygetVendor } from '../../Redux/Slice/JobSlice';
+import CustomRfqVendorFlatlist from '../../component/CustomRfqVendorFlatlist';
+
+const SelectVendors = ({navigation}) => {
+    const auth = useSelector((auth) => auth.auth.user)
+
+    const { isLoading, message, refresh } = useSelector((job) => job.job)
+
+    const dispatch = useDispatch()
+
+const [allVendors, setVendors] = useState([])
+
+    const token = auth?.token
+
+    useLayoutEffect(() => {
+        dispatch(mygetVendor(token))
+            .unwrap().then((res) => {
+                // console.log(res, 'res');
+                setVendors(res)
+            }).catch((err) => {
+
+            
+
+
+            })
+    }, [dispatch])
+console.log(allVendors, 'allvendors');
+    if (isLoading) {
+        return <Loading />
+    }
+
+    else if (message && isLoading === false) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                    width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                    alignSelf: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.18,
+                    shadowRadius: 1.00,
+
+                    elevation: 1,
+                    backgroundColor: '#FFF'
+                }}>
+
+                    <Text style={{ fontSize: 20, color: 'black' }}> {message}</Text>
+
+                </View>
+            </View>
+        )
+    }
+
+
+    if (allVendors.length === 0) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                    width: '80%', justifyContent: 'center', alignItems: 'center', height: 200,
+                    alignSelf: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.18,
+                    shadowRadius: 1.00,
+
+                    elevation: 1,
+                    backgroundColor: '#FFF'
+                }}>
+
+                    <Text style={{ fontSize: 20, color: 'black' }}> No data</Text>
+                    <Text style={{ fontSize: 10, color: 'black' }}> Create at least create Vendors at Vendors Dashboard</Text>
+                    <Box my="4">
+                        <FormCustomButton
+                            placeholder="" 
+                            borderColor={COLOR.BgColor}
+                            borderWidth={WP(0.3)}
+                            btnTitle="Go Back To Main Screen"
+                            backgroundColor={COLOR.BgColor}
+                            textColor={COLOR.whiteColor}
+                            onPress={() => navigation.navigate('rfq')}
+                        />
+                    </Box>
+                </View>
+            </View>
+        )
+    }
   return (
-      <Box px="6">
-          <View>
-        
-              <Text style={styles.vendorSelectText}> Note that you  are not eligible to select  more than three (3) vendors</Text>
+   <>
+       <View style={{
+           flex:1,
+           backgroundColor:'#fff'
+       }}>
 
-              
-              < TouchableOpacity style={styles.tableRow}
-
-              >
-                  <View style={styles.tableColumnRegular}>
-                      <Image
-                          style={styles.imageStyle}
-                          source={{
-                              uri: 'https://reactnative.dev/img/tiny_logo.png',
-                          }}
-                      />
-                  </View>
-                  <View style={styles.tableColumnRegular2}>
-                      <Text style={styles.textLineItem1}>Bedlam  & sola company</Text>
-                  </View>
-
-
-              </ TouchableOpacity>
-
-              <Box my="5">
-                  <FormCustomButton
-                      placeholder=""
-                      borderColor={COLOR.BgColor}
-                      borderWidth={WP(0.3)}
-                      btnTitle="Create"
-                      backgroundColor={COLOR.BgColor}
-                      textColor={COLOR.whiteColor}
-                  />
-              </Box>
-          </View>
-
-      
-
-  </Box>
+              <CustomRfqVendorFlatlist
+                  itemData={allVendors}
+                  navigation={navigation}
+              />
+       </View>
+   </>
   )
 }
 
@@ -65,7 +133,7 @@ container:{
     },
    
     vendorSelectText:{
-        fontWeight: '500',
+        fontWeight: '400',
         color: ColorText,
         fontSize: 15,
         fontStyle: 'normal',
@@ -73,7 +141,17 @@ container:{
         paddingVertical: HP(4)
     },
     tableColumnRegular: {
-        flex: 1,
+        flex: 0.8,
+
+        justifyContent: 'center',
+
+        alignSelf: 'stretch',
+
+
+
+    },
+    tableColumnRegular1: {
+        flex: 0.3,
 
         justifyContent: 'center',
 
@@ -83,7 +161,7 @@ container:{
 
     },
     tableColumnRegular2: {
-        flex: 1.8,
+        flex: 2.5,
 
         justifyContent: 'center',
 

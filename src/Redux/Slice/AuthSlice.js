@@ -9,10 +9,10 @@ export const register = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await AuthService.register(userData);
-      console.log(response, 'response');
+      // console.log(response, 'response');
       return response.data;
     } catch (error) {
-      console.log(error, 'from register');
+      // console.log(error, 'from register');
       const {message} = error;
       // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
       return thunkAPI.rejectWithValue(error.response.data || message);
@@ -24,7 +24,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
     return await AuthService.login(user);
   } catch (error) {
-    console.log(error, 'error');
+    // console.log(error, 'error');
     const {message} = error;
     // console.log(error.response.data || message)
 
@@ -40,7 +40,7 @@ export const ResetPasswordAction = createAsyncThunk(
     try {
       return await AuthService.reset_password_api(user);
     } catch (error) {
-      console.log(error, 'error');
+      // console.log(error, 'error');
       const {message} = error;
       // console.log(error.response.data || message)
 
@@ -57,9 +57,9 @@ export const OtpResetPassword = createAsyncThunk(
     try {
       return await AuthService.reset_password_otp(user);
     } catch (error) {
-      console.log(error, 'error');
+      console.log(error.response.data.error[0].msg, 'error');
       const {message} = error;
-      return thunkAPI.rejectWithValue(error.response.data || message);
+      return thunkAPI.rejectWithValue(error.response.data.error[0].msg);
     }
   },
 );
@@ -90,6 +90,23 @@ export const confirmOtp = createAsyncThunk(
   },
 );
 
+
+export const UploadUserDetails = createAsyncThunk(
+  'auth/uploadimage',
+  async (photo, thunkAPI) => {
+    console.log(photo, '999999999999')
+    try {
+      return await AuthService.uploadUserDetailsApi(photo);
+    } catch (error) {
+      console.log(error, 'erroxxxr');
+      const {message} = error;
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
+    }
+  },
+);
+
+
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await AuthService.logout();
 });
@@ -101,7 +118,7 @@ const initialState = {
   isLoading: false,
   message: '',
   isLoadingOtp: false,
-  userInfo:{}
+  userInfo: {},
 };
 
 const authSlice = createSlice({
@@ -181,9 +198,25 @@ const authSlice = createSlice({
     [getUserInfoAction.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.userInfo= action.payload;
+      state.userInfo = action.payload;
     },
     [getUserInfoAction.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.user = null;
+    },
+
+
+    [UploadUserDetails.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [UploadUserDetails.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.userInfo = action.payload;
+    },
+    [UploadUserDetails.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;

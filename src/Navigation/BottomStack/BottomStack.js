@@ -18,12 +18,16 @@ import Profile from '../../Pages/Jobs/Profile';
 
 import JobCreate from '../../component/JobCreate';
 import CreateMaterial from '../../component/CreateMaterial';
-
 // SimpleLineIcons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import BottomStackNavigation from '../Tab/BottomStackNavigation';
 import CreateVendor from '../../Pages/Vendor/CreateVendor';
+import EditMaterial from '../../Pages/MaterialManagement/EditMaterial';
+import CreateRfq from '../../component/CreateRfq';
+import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
+import PurchasedVendorItem from '../../Pages/RFQ/PurchasedVendorItem';
+import UpdateVendor from '../../Pages/Vendor/UpdateVendor';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,11 +45,39 @@ function BottomStack() {
           headerShown: false,
         }}
       />
+       <Stack.Screen
+        name="SelectedVendorItem"
+        component={SelectedVendorItem}
+        options={{
+          headerShown: true,
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Edit Job
+            </Text>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="PurchasedVendorItem"
+        component={PurchasedVendorItem}
+        options={{
+          headerShown: true,
+          
+        }}
+      />
+
+      {/*  */}
+    
       <Stack.Screen
         name="editjob"
         component={EditJob}
         options={{
-          
           title: (
             <Text
               style={{
@@ -72,7 +104,25 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Select Vendors
+              Create RFQ For Vendors
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="selectitemvendors"
+        component={SelectedVendorItem}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Create RFQ For Vendors
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -90,7 +140,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-             Create Job
+              Create Job
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -116,6 +166,27 @@ function BottomStack() {
           headerTitleAlign: 'center',
         }}
       />
+
+          <Stack.Screen
+        name="UpdateVendor"
+        component={UpdateVendor}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Update Vendor
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+
       <Stack.Screen
         name="creatematerial"
         component={CreateMaterial}
@@ -134,6 +205,25 @@ function BottomStack() {
           headerTitleAlign: 'center',
         }}
       />
+
+      <Stack.Screen
+        name="editmaterial"
+        component={EditMaterial}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Edit Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
       <Stack.Screen
         name="requestforrfq"
         component={RequestForRfq}
@@ -145,7 +235,26 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Request For RFQ
+              Create RFQ For Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name="createrfq"
+        component={CreateRfq}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Create RFQ For Job
             </Text>
           ),
           headerLeft: () => <BackIcon />,

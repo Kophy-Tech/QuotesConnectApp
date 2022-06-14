@@ -60,46 +60,48 @@ const CreateMaterial = () => {
 
   // console.log(value)
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={{paddingBottom: WP(65)}}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}>
-      <Box px="6" pt="20">
-        <Box mb="2">
-          <InputForm
-            title="Primary Category Name"
-            value={value.name}
-            name="name"
-            borderColor={COLOR.BgColor}
-            onChangeText={value => handleInputChange('name', value)}
-          />
-          <Text style={styles.subText}>
-            name of the project you want to create
-          </Text>
-        </Box>
-        <Box mb="2">
-          <CustomTextArea
-            title="Sub Item Description"
-            value={value.description}
-            name="description"
-            borderColor={COLOR.BgColor}
-            onChangeText={value => handleInputChange('description', value)}
-          />
-        </Box>
+   <View style={{ flex:1, backgroundColor:'#fff'}}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ paddingBottom: WP(65) }}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
+        <Box px="6" pt="5">
+          <Box mb="2">
+            <InputForm
+              title="Primary Category Name"
+              value={value.name}
+              name="name"
+              borderColor={COLOR.BgColor}
+              onChangeText={value => handleInputChange('name', value)}
+            />
+            <Text style={styles.subText}>
+              name of the project you want to create
+            </Text>
+          </Box>
+          <Box mb="2">
+            <CustomTextArea
+              title="Sub Item Description"
+              value={value.description}
+              name="description"
+              borderColor={COLOR.BgColor}
+              onChangeText={value => handleInputChange('description', value)}
+            />
+          </Box>
 
-        <Box mb="2">
-          <FormCustomButton
-            placeholder=""
-            borderColor={COLOR.BgColor}
-            borderWidth={WP(0.3)}
-            btnTitle="Create"
-            backgroundColor={COLOR.BgColor}
-            textColor={COLOR.whiteColor}
-            onPress={subMaterials}
-          />
+          <Box mb="2">
+            <FormCustomButton
+              placeholder=""
+              borderColor={COLOR.BgColor}
+              borderWidth={WP(0.3)}
+              btnTitle="Create"
+              backgroundColor={COLOR.BgColor}
+              textColor={COLOR.whiteColor}
+              onPress={subMaterials}
+            />
+          </Box>
         </Box>
-      </Box>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+   </View>
   );
 };
 
