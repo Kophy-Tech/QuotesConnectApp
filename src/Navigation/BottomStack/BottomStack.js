@@ -25,13 +25,10 @@ import BottomStackNavigation from '../Tab/BottomStackNavigation';
 import CreateVendor from '../../Pages/Vendor/CreateVendor';
 import EditMaterial from '../../Pages/MaterialManagement/EditMaterial';
 import CreateRfq from '../../component/CreateRfq';
-import OpennRfq from '../../Pages/RFQ/OpenRfq';
-import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
+
 import PurchasedVendorItem from '../../Pages/RFQ/PurchasedVendorItem';
 import UpdateVendor from '../../Pages/Vendor/UpdateVendor';
 import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
-import PurchasedVendorItem from '../../Pages/RFQ/PurchasedVendorItem';
-import UpdateVendor from '../../Pages/Vendor/UpdateVendor';
 import OpennRfq from '../../Pages/RFQ/OpenRfq';
 
 const Stack = createStackNavigator();
