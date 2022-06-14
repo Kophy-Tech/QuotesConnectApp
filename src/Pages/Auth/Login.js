@@ -89,22 +89,69 @@ const Login = props => {
       <View style={styles._imageContainer}>
         <Image source={IMAGE.splash_icon} />
       </View>
-     
+      <View style={styles._loginTextContainer}>
+        <Text
+          style={{
+            fontWeight: '500',
+            color: COLOR.blackColor,
+            fontSize: WP(6),
+            marginVertical: HP(3),
+          }}>
+          W e l c o m e !
+        </Text>
+        <Text
+          style={{
+            fontWeight: '300',
+            color: COLOR.blackColor,
+            fontSize: WP(5),
+            marginVertical: WP(2),
+            bottom: WP(3),
+          }}>
+          Login to continue
+        </Text>
+      </View>
 
-     
-     <View style={{width:WP(3), bottom:Platform.OS=="ios"&&WP(8),}}>
-     <TouchableOpacity
-        onPress={() => navigation.navigate('ResetPassword')}
-        style={{top: HP(-10), width: WP(90), left: WP(7)}}>
-        <Text style={styles._forgot}>Forgot Password</Text>
-      </TouchableOpacity>
-     </View>
+      <View>
+        {/* Input Field For Login */}
+        <View style={styles._textInputContainer}>
+          <FormCustomInput
+            placeholder="Email"
+            inputBorderColor={COLOR.BgColor}
+            name="email"
+            onChangeText={value => handleInputChange('email', value)}
+          />
 
-      {/*  */}
+          <View style={{bottom: WP(8)}}>
+            <PasswordInput
+              placeholder="Password"
+              inputBorderColor={COLOR.BgColor}
+              name="password"
+              onChangeText={value => handleInputChange('password', value)}
+            />
+          </View>
+          <View style={styles.errorContainer}>
+            <Text style={styles.error}>{errors?.email}</Text>
+            <Text style={styles.error}>{errors?.password}</Text>
+          </View>
+
+         <View  style={{bottom:WP(10)}}>
+         <FormCustomButton
+            onPress={() => onSubmit()}
+            inputBorderColor={COLOR.BgColor}
+            btnTitle={
+              loading ? <ActivityIndicator small color="#fff" /> : 'Login'
+            }
+            backgroundColor={COLOR.BgColor}
+            textColor={COLOR.whiteColor}
+          />
+         </View>
+        </View>
+      </View>
+
 
       <Text style={[styles.error, {textAlign: 'center'}]}>{errors?.msg}</Text>
 
-      <View style={{top: WP(39), width: WP(90), left: WP(7)}}>
+      <View style={{top: WP(34), width: WP(90), left: WP(7)}}>
         <FormCustomButton
           placeholder="Password"
           borderColor={COLOR.BgColor}
@@ -115,6 +162,14 @@ const Login = props => {
           textColor={COLOR.BgColor}
         />
       </View>
+
+      <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(10):-56}}>
+     <TouchableOpacity
+        onPress={() => navigation.navigate('ResetPassword')}
+        style={{ width: WP(90), left: WP(7),height: HP(10)}}>
+        <Text style={styles._forgot}>Forgot Password</Text>
+      </TouchableOpacity>
+     </View>
     </KeyboardAwareScrollView>
   );
 };
@@ -150,6 +205,7 @@ const styles = StyleSheet.create({
   errorContainer: {
     top: HP(-6),
     alignSelf: 'center',
+ 
   },
   error: {
     color: 'red',

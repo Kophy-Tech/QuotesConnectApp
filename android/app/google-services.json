@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "908917907606",
+    "project_id": "testingqueueconnect",
+    "storage_bucket": "testingqueueconnect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908917907606:android:bc454313951934be7c22b7",
+        "android_client_info": {
+          "package_name": "com.quoteconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908917907606-f19gdvegtsaiusvg85otc42bk6pfgbm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9blUHdpdvdOsMm6AIcn79l2qXsz_Ny3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908917907606-f19gdvegtsaiusvg85otc42bk6pfgbm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
