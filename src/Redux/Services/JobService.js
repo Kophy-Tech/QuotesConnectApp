@@ -9,8 +9,6 @@ const getJobService = (token) => {
     // console.log(token, 'token')
     return axios.get(API_URL + `job/all-jobs`, { headers: { "Authorization": `${token}` } }).then((response) => {
         return response.data;
-<<<<<<< HEAD
-=======
     });
 };
 
@@ -20,7 +18,6 @@ const mygetVendorService = token => {
     .get(API_URL + 'vendor/all-vendors', {headers: {Authorization: `${token}`}})
     .then(response => {
       return response.data;
->>>>>>> f6e1c4f403deaf4ea72427ace91f35d5bc105077
     });
 };
 
