@@ -12,9 +12,9 @@ LogBox.ignoreLogs([
   "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types",
  
 ])
-LogBox.ignoreLogs([
-  'VirtualizedLists should never be nested', // TODO: Remove when fixed
-])
+// LogBox.ignoreLogs([
+//   'VirtualizedLists should never be nested', // TODO: Remove when fixed
+// ])
 
 
 const App = () => {

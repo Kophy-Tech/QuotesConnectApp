@@ -417,7 +417,7 @@ if(allMaterial.length===0){
                       >
                           <View style={[styles.tableColumnRegular2, { position: 'relative', top:0 }]}>
 
-                            <>
+                            {/* <>
                                   <View style={[styles.autocompleteContainer,{
                                       zIndex: val.show? 100:0,
                                       position: val.show ? 'absolute':'relative',
@@ -492,7 +492,7 @@ if(allMaterial.length===0){
 
                                   </View>
                                   
-                                  </>
+                                  </> */}
                           </View>
                           <View style={styles.tableColumnRegular2}>
                               <FormInput2
