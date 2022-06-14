@@ -29,6 +29,10 @@ import OpennRfq from '../../Pages/RFQ/OpenRfq';
 import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
 import PurchasedVendorItem from '../../Pages/RFQ/PurchasedVendorItem';
 import UpdateVendor from '../../Pages/Vendor/UpdateVendor';
+import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
+import PurchasedVendorItem from '../../Pages/RFQ/PurchasedVendorItem';
+import UpdateVendor from '../../Pages/Vendor/UpdateVendor';
+import OpennRfq from '../../Pages/RFQ/OpenRfq';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

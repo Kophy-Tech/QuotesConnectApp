@@ -139,86 +139,77 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
 
   const Item = ({item}) => {
     return (
-      <View style={styles.tableRow}>
-        <View style={styles.tableColumnRegular1}>
-          <CheckBox
-            tintColors={{true: COLOR.BgColor, false: 'black'}}
-            disabled={false}
-            value={item.check}
-            onValueChange={() => handleSingleCheck(item._id)}
-          />
-        </View>
-        <View style={styles.tableColumnRegular}>
-          <Image
-            style={styles.imageStyle}
-            source={{
-              uri: item.logo,
-            }}
-          />
-        </View>
-        <View style={styles.tableColumnRegular2}>
-          <Text style={styles.textLineItem1}>{item.name}</Text>
-        </View>
-      </View>
-    );
-  };
+        <>
+         
+                <View>
 
-  return (
-    <>
-      <View>
-        <Box px="3">
-          <Text style={styles.vendorSelectText}>
-            {' '}
-            Note that you are not eligible to select more than three (3) vendors
-          </Text>
-        </Box>
+                 <Box px="3">
+                    <Text style={styles.vendorSelectText}> Note that you  are not eligible to select  more than three (3) vendors</Text>
 
-        <FlatList
-          data={vendorData}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          ListFooterComponent={vendorData.length < 3 ? FooterComponent : null}
-          keyExtractor={item => `id${item?._id}`}
-          contentContainerStyle={{paddingHorizontal: 22, paddingVertical: 9}}
-        />
 
-        <Box my="5" px="3">
-          <TouchableOpacity
-            onPress={submitVendor}
-            style={{
-              backgroundColor: COLOR.BgColor,
-              padding: WP(4),
-              borderRadius: WP(3),
-              borderWidth: 1,
-              borderColor: COLOR.BgColor,
-              top: WP(4),
-            }}>
-            {LoadingRfq ? (
-              <Spinner
-                accessibilityLabel="Loading posts"
-                size="sm"
-                color="#fff"
-              />
-            ) : (
-              <Text
-                style={{
-                  fontSize: WP(4.5),
-                  color: COLOR.whiteColor,
-                  textAlign: 'center',
-                  fontWeight: '400',
-                }}>
-                Create
-              </Text>
-            )}
-          </TouchableOpacity>
-        </Box>
-      </View>
-    </>
-  );
-};
+                 </Box>
+                 
+                    <FlatList
+                    data={vendorData}
+                        renderItem={renderItem}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                    ListFooterComponent={vendorData.length <3 ? FooterComponent : null}
 
-export default CustomRfqVendorFlatlist;
+                        keyExtractor={(item) => `id${item?._id}`}
+                    contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9, paddingBottom: 60}}
+                    />
+
+
+                    <Box my="5" px="3">
+                    <TouchableOpacity
+                        onPress={submitVendor}
+                        style={{
+                            backgroundColor: COLOR.BgColor,
+                            padding: WP(4),
+                            borderRadius: WP(3),
+                            borderWidth: 1,
+                            borderColor: COLOR.BgColor,
+                            top: WP(4),
+
+
+                        }}
+                    >
+                        {
+
+                            LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
+                                style={{
+                                    fontSize: WP(4.5),
+                                    color: COLOR.whiteColor,
+                                    textAlign: 'center',
+                                    fontWeight: '400',
+
+
+
+
+                                }}>
+                              Create
+                            </Text>
+                        }
+
+
+                    </TouchableOpacity>
+                      
+                    </Box>
+                </View>
+
+
+
+         
+           
+
+        </>
+        )
+}
+}
+
+
+export default CustomRfqVendorFlatlist
 
 const styles = StyleSheet.create({
   container: {

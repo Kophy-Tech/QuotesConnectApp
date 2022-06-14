@@ -134,8 +134,13 @@ const Login = props => {
             <Text style={styles.error}>{errors?.password}</Text>
           </View>
 
+<<<<<<< HEAD
           <View style={{top: WP(-15)}}>
           <FormCustomButton
+=======
+         <View  style={{bottom:WP(10)}}>
+         <FormCustomButton
+>>>>>>> f6e1c4f403deaf4ea72427ace91f35d5bc105077
             onPress={() => onSubmit()}
             inputBorderColor={COLOR.BgColor}
             btnTitle={
@@ -144,6 +149,7 @@ const Login = props => {
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
           />
+<<<<<<< HEAD
           </View>
         </View>
       </View>
@@ -151,6 +157,16 @@ const Login = props => {
       <Text style={[styles.error, {textAlign: 'center'}]}>{errors?.msg}</Text>
 
     <View style={{top: WP(9), width: WP(90), left: WP(7)}}>
+=======
+         </View>
+        </View>
+      </View>
+
+
+      <Text style={[styles.error, {textAlign: 'center'}]}>{errors?.msg}</Text>
+
+      <View style={{top: WP(34), width: WP(90), left: WP(7)}}>
+>>>>>>> f6e1c4f403deaf4ea72427ace91f35d5bc105077
         <FormCustomButton
           placeholder="Password"
           borderColor={COLOR.BgColor}
@@ -161,10 +177,18 @@ const Login = props => {
           textColor={COLOR.BgColor}
         />
       </View>
+<<<<<<< HEAD
       <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(-15):0,}}>
      <TouchableOpacity
         onPress={() => navigation.navigate('ResetPassword')}
         style={{top: HP(-10), width: WP(90), left: WP(7)}}>
+=======
+
+      <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(10):-56}}>
+     <TouchableOpacity
+        onPress={() => navigation.navigate('ResetPassword')}
+        style={{ width: WP(90), left: WP(7),height: HP(10)}}>
+>>>>>>> f6e1c4f403deaf4ea72427ace91f35d5bc105077
         <Text style={styles._forgot}>Forgot Password</Text>
       </TouchableOpacity>
      </View>
@@ -203,6 +227,7 @@ const styles = StyleSheet.create({
   errorContainer: {
     top: HP(-6),
     alignSelf: 'center',
+ 
   },
   error: {
     color: 'red',

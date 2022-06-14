@@ -15,7 +15,7 @@ const InputSearch = ({ value,  onChangeText, rest, placeholder, onClear}) => {
             //   onClear={onClear}
 style={{
     color: 'black',
-   marginVertical:WP(3),
+   marginVertical:WP(1),
    borderRadius:WP(13)
 
 }}
