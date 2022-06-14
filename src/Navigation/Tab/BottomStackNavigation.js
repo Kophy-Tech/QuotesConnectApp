@@ -15,11 +15,10 @@ const Tab = createBottomTabNavigator();
 const BottomStackNavigation = () => {
   return (
     <Tab.Navigator
-    tabBarOptions={{
-      keyboardHidesTabBar: true,
-      }}
+  
       screenOptions={{
-        
+        keyboardHidesTabBar: true,
+
         tabBarShowLabel: false,
         tabBarStyle: {
           width: WP('100%'),
@@ -166,16 +165,16 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
-    elevation: 5,
+  
   },
 
   reHeight: {
     bottom: WP(2.5),
-    elevation: 300,
+  
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 2,
-    elevation: 2,
+  
   },
 });
