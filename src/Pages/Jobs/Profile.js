@@ -12,19 +12,38 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Loading from '../../component/Loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {HStack, Avatar, Flex} from 'native-base';
-import {UploadImage} from '../../Redux/Slice/AuthSlice';
+import {UploadUserDetails} from '../../Redux/Slice/AuthSlice';
+import Validator from 'validatorjs';
+import en from 'validatorjs/src/lang/en';
+import FormCustomButton from '../../component/FormCustomButton';
+
+
+
+
+Validator.setMessages('en', en);
 
 const Profile = props => {
-  console.log(props, 'props');
-  const {profile, loading} = props;
-  console.log(profile, 'profile')
+  const {profile} = props;
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(profile?.email);
-  const [photo, setPhoto] = useState({});
+  const [photo, setPhoto] = useState("");
+  console.log(photo?.path, 'pyoyyoyoy')
+  const dispatch = useDispatch();
+
+  const [errors, setError] = useState({});
+  const [value, setValues] = useState({
+    code: '',
+    telephone: '',
+    logo
+  });
+
+  const {code ,telephone, logo}=value
+
 
   const [fullname, setFullname] = useState(
     profile?.fullname !== undefined && profile?.fullname,
   );
-
+    
   // UploadImage
   const PickImage = () => {
     ImagePicker.openPicker({
@@ -33,33 +52,81 @@ const Profile = props => {
     })
       .then(image => {
         setPhoto(image);
-        dispatch(UploadImage(image?.path));
+        //  dispatch(UploadUserDetails(image?.path));
       })
       .catch(err => {
+        
         console.log(err.response);
       });
   };
-  console.log(loading, 'loading');
-  if (loading == true || fullname == undefined) {
-    return <Loading />;
-  }
+
+  const handleInputChange = (inputName, inputValue) => {
+    setValues({
+      ...value,
+      [inputName]: inputValue,
+    });
+  };
+
+
+  const onSubmit = async () => {
+    setLoading(true)
+    const telephoneRegex =/^\+(\d{1}\-)?(\d{1,3})$/;
+    
+    Validator.register(
+      'strict',
+      value => telephoneRegex.test(value), 'Invalid country code format',
+    );
+    let rules = {
+      code: 'required|strict',
+      telephone: 'required',
+    };
+
+    let validation = new Validator(value, rules, {
+      'required.code': 'The Country Code field is required.',
+      'required.telephone': 'The Telephone field is required.',
+    });
+
+    if (validation.fails()) {
+      setError(validation.errors.all());
+    } 
+    else {
+      dispatch(UploadUserDetails({code ,telephone, logo:photo?.path})).unwrap()
+      .then(() => {
+        // navigation.navigate('bottomStack', {
+        //   screen: 'rfq',
+        // });
+        setLoading(false);
+      })
+      .catch(rejectedValueOrSerializedError => {
+        console.log(rejectedValueOrSerializedError, 'rejecteddd');
+        if (typeof rejectedValueOrSerializedError == 'object') {
+          Object.keys(rejectedValueOrSerializedError).map(error => {
+            setError(...rejectedValueOrSerializedError[error]);
+          });
+        }
+        setError(rejectedValueOrSerializedError);
+        setLoading(false);
+        // handle error here
+      });
+     
+          }
+
+          // handle error here
+      
+    
+  };
+
+
+
   return (
     <View style={styles._mainContainer}>
       <TouchableOpacity
         onPress={() => PickImage()}
         style={{alignSelf: 'center', top: WP(12)}}>
-        {Object.keys(photo).length == 0 ? (
-          <Ionicons
-            name="ios-person-circle-outline"
-            size={WP(30)}
-            // color={focused ? '#FFFFFF' : '#bdb9b7'}
-          />
-        ) : (
-          <Image
-            source={{uri: photo.path}}
-            style={{width: WP(30), height: WP(30), borderRadius: WP(12)}}
-          />
-        )}
+         {photo?.path=="" || photo?.path==undefined? <Ionicons name="md-person-circle-sharp" size={154}/>:(
+           <Image source={{uri:photo?.path}} style={{width:WP(30), height:WP(12)}} />
+         )}
+        
       </TouchableOpacity>
       <View style={styles.container}>
         <TextInput
@@ -74,12 +141,12 @@ const Profile = props => {
           underlineColorAndroid="green"
           autoCapitalize="none"
           value={fullname}
-          onChangeText={newText => setFullname(newText)}
+          // onChangeText={newText => setFullname(newText)}
         />
       </View>
       <View style={styles.container}>
         <TextInput
-          label="Email"
+          label="Country  Code"
           mode="outlined"
           theme={{
             colors: styles.formStyle,
@@ -89,8 +156,40 @@ const Profile = props => {
           keyboardType="email-address"
           underlineColorAndroid="green"
           autoCapitalize="none"
-          value={email}
-          onChangeText={e => setEmail(e)}
+          placeholder='+234'
+          onChangeText={value => handleInputChange('code', value)}
+
+          // value={email}
+        
+        />
+
+        
+      </View>
+
+      <View style={styles.container}>
+        <TextInput
+          label="Telephone"
+          mode="outlined"
+          theme={{
+            colors: styles.formStyle,
+          }}
+          selectionColor="red"
+          underlineColor="red"
+          keyboardType="email-address"
+          underlineColorAndroid="green"
+          autoCapitalize="none"
+          // value={email}
+          onChangeText={value => handleInputChange('telephone', value)}
+
+        />
+
+        
+      </View>
+
+      <View style={{width:WP(70), alignSelf:'center', top:WP(10)}}>
+        <FormCustomButton btnTitle={"Update "} backgroundColor={COLOR.BgColor}
+        onPress={()=>onSubmit()}
+        textColor={"white"}
         />
       </View>
     </View>
@@ -120,5 +219,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: WP(6),
     top: WP(13),
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
   },
 });
