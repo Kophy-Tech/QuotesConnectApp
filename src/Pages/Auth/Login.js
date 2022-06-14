@@ -151,7 +151,7 @@ const Login = props => {
 
       <Text style={[styles.error, {textAlign: 'center'}]}>{errors?.msg}</Text>
 
-      <View style={{top: WP(34), width: WP(90), left: WP(7)}}>
+      <View style={{top: WP(14), width: WP(90), left: WP(7)}}>
         <FormCustomButton
           placeholder="Password"
           borderColor={COLOR.BgColor}
@@ -163,7 +163,7 @@ const Login = props => {
         />
       </View>
 
-      <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(10):-56}}>
+      <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(-4):-56}}>
      <TouchableOpacity
         onPress={() => navigation.navigate('ResetPassword')}
         style={{ width: WP(90), left: WP(7),height: HP(10)}}>
