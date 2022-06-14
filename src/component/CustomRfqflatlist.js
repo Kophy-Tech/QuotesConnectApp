@@ -78,7 +78,17 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
     ) {
       navigation.navigate('selectvendors');
       dispatch(dispatchRouteData(item));
-    } else if (
+    }
+    else if (
+      item.status === 'Open' &&
+      item.rfqArray.length > 0 &&
+      item.vendorArray.length > 0
+    ) {
+      navigation.navigate('openrfq');
+      dispatch(dispatchRouteData(item));
+    }
+
+    else if (
       item.status === 'Submitted' &&
       item.rfqArray.length > 0 &&
       item.vendorArray.length > 0
