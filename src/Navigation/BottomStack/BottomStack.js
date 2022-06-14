@@ -244,28 +244,6 @@ function BottomStack() {
         }}
       />
 
-<<<<<<< HEAD
-      <Stack.Screen
-        name="openrfq"
-        component={OpennRfq}
-        options={{
-          title: (
-            <Text
-              style={{
-                color: COLOR.BgColor,
-                fontSize: WP(6),
-                lineHeight: HP(5),
-              }}>
-            RFQ History
-            </Text>
-          ),
-          headerLeft: () => <BackIcon />,
-          headerTitleAlign: 'center',
-        }}
-      />
-
-=======
->>>>>>> af5dffdf6101308742db6200f2207c7f0b7978f1
       <Stack.Screen
         name="createrfq"
         component={CreateRfq}

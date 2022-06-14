@@ -55,40 +55,6 @@ const EmptyContainer = () => {
 };
 
 // { itemParams: item }
-const CustomRfqflatlist = ({ itemData, navigation }) => {
-    const dispatch = useDispatch()
-    // console.log({ itemData})
-    const renderItem = ({ item }) => <Item item={item}
-        onItemPress={NavigationPressPending}
-        NavigationPressOpen={NavigationPressOpen}
-
-    />
-    const NavigationPressPending = (item) => {
-        console.log({ item })
-        if (item.status === 'pending' && item.rfqArray.length === 0) {
-            console.log('ppp')
-
-            dispatch(dispatchRouteData(item))
-            navigation.navigate('requestforrfq')
-
-        }
-        else if (item.status === 'pending' && item.rfqArray.length > 0 &&item.vendorArray.length ===0) {
-            navigation.navigate('selectvendors')
-            dispatch(dispatchRouteData(item))
-
-        }
-        else{
-            Alert.alert('Waiting for Vendors to confirm the request')
-        }
-    }
-    const NavigationPressOpen=(item)=>{
-        dispatch(dispatchRouteData(item))
-
-        navigation.navigate('openrfq')
-       
-    }
-
-    const Item = ({ item, onItemPress }) => {
 const CustomRfqflatlist = ({itemData, navigation}) => {
   const dispatch = useDispatch();
 
