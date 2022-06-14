@@ -12,6 +12,7 @@ import {
 import {BgColor, bgColor1, ColorText} from '../../Utils/Colors';
 import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
 import {useSelector, useDispatch} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import {
   CreateVendorAction,
   getVendorAction,
@@ -19,66 +20,91 @@ import {
 import {COLOR, HP, WP} from '../../Utils/theme';
 
 import FormCustomButton from '../../component/FormCustomButton';
+import { Capitalize } from '../../Utils/util';
 
 const ListOfVendor = props => {
+  console.log(props, 'proprorporprorporpo')
   const dispatch = useDispatch();
+  const totalVendor  = useSelector(state=>state.vendor.data);
+  const navigation = useNavigation();
 
-  const listOfVendor = useSelector(
-    state =>
-      state?.vendor?.data?.map(data => {
-        return {
-          logo: (
-            <Image
-              source={{
-                uri:
-                  data?.logo ||
-                  'https://cdn-icons.flaticon.com/png/512/552/premium/552848.png?token=exp=1653588554~hmac=1e41d49a052d54034096fae003df35be',
-              }}
-              style={{
-                width: 33,
-                height: 33,
-                left: 3,
-                resizeMode: 'cover',
-                marginVertical: WP(3),
-              }}
-            />
-          ),
 
-          name: data.name,
-          phone: data.telephone,
-        };
-      }) || [],
-  );
-  console.log(listOfVendor, 'listofvorend');
+ 
 
-  const vendors = listOfVendor.map(o => Object.keys(o).map(k => o[k]));
-
-  console.log(listOfVendor, 'list');
   const TableHeader = ['Company Logo', 'Company Name', 'Phone Number'];
-  const WidthTable = [WP(40), WP(30), WP(25)];
-  const TableData = useState([]);
+  const WidthTable = [WP(30), WP(35), WP(40)];
 
   useEffect(() => {
     dispatch(getVendorAction());
-  }, []);
+  }, [dispatch]);
+
+  const searchFilterFunction = text => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
 
   return (
     <View style={styles.container}>
-     
-   
-      <View>
+      
         <Table borderStyle={{borderColor: 'black'}}>
-          <Row data={TableHeader} style={styles.head} widthArr={WidthTable} textStyle={styles.text} />
-
-          {vendors.map((rowData, index) => (
-            <TableWrapper key={index} style={styles.row}>
-              {rowData.map((cellData, cellIndex) => (
-                <Cell key={cellIndex} data={cellData} />
-              ))}
-            </TableWrapper>
-          ))}
+          <Row
+            data={TableHeader}
+            style={styles.head}
+            widthArr={WidthTable}
+            textStyle={styles.text}
+          />      
         </Table>
-      </View>
+        <FlatList 
+        showsHorizontalScrollIndicator={false}
+        data={totalVendor}
+        renderItem={({item})=>{
+          console.log(item, 'bbbbbrknrknbkanknd')
+          return (
+              
+        <TouchableOpacity style={{backgroundColor:"#F7FCFB" ,marginVertical:WP(1)}} 
+               onPress={()=>navigation.navigate('UpdateVendor',{item})}>
+                  <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+
+<View>
+  <Image source={{uri:item?.logo==""?undefined:item?.logo}} 
+  style={{width:WP(10), height:HP(5),marginVertical:WP(2), left:WP(3)}}  
+    />
+</View>
+
+<View style={{width:WP(40),left:WP(15), top:WP(5)}}>
+  <Text style={styles.textColor}>{Capitalize(item?.name)}</Text>
+</View>
+
+<View style={{width:WP(40),left:WP(15), top:WP(5)}}> 
+  <Text style={styles.textColor}>{item?.telephone}</Text>
+</View>
+
+
+
+</View>
+               </TouchableOpacity>
+
+          )
+        }}/>
+      
+        
+     
     </View>
   );
 };
@@ -86,10 +112,15 @@ const ListOfVendor = props => {
 export default ListOfVendor;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16, paddingTop: 30},
+  container: {
+    flex: 1,
+    padding: 16,
+    paddingTop: 30,
+    backgroundColor: COLOR.whiteColor,
+  },
   head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2)},
   text: {margin: 6, color: '#fff'},
-  row: {flexDirection: 'row', backgroundColor: '#F7FCFB'},
+  row: {flexDirection: 'row', backgroundColor: '#F7FCFB', marginVertical: 2},
   btn: {width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2},
   btnText: {textAlign: 'center', color: '#fff'},
   tableContainer: {
@@ -138,4 +169,7 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 2,
   },
+  textColor:{
+    color:COLOR.blackColor
+  }
 });

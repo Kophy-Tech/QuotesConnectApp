@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Platform
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
@@ -133,6 +134,7 @@ const Login = props => {
             <Text style={styles.error}>{errors?.password}</Text>
           </View>
 
+          <View style={{top: WP(-15)}}>
           <FormCustomButton
             onPress={() => onSubmit()}
             inputBorderColor={COLOR.BgColor}
@@ -142,20 +144,13 @@ const Login = props => {
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
           />
+          </View>
         </View>
       </View>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate('ResetPassword')}
-        style={{top: HP(-10), width: WP(90), left: WP(7)}}>
-        <Text style={styles._forgot}>Forgot Password</Text>
-      </TouchableOpacity>
-
-      {/*  */}
-
       <Text style={[styles.error, {textAlign: 'center'}]}>{errors?.msg}</Text>
 
-      <View style={{top: WP(39), width: WP(90), left: WP(7)}}>
+    <View style={{top: WP(9), width: WP(90), left: WP(7)}}>
         <FormCustomButton
           placeholder="Password"
           borderColor={COLOR.BgColor}
@@ -166,6 +161,13 @@ const Login = props => {
           textColor={COLOR.BgColor}
         />
       </View>
+      <View style={{width:WP(3), bottom:Platform.OS=="ios"?WP(-15):0,}}>
+     <TouchableOpacity
+        onPress={() => navigation.navigate('ResetPassword')}
+        style={{top: HP(-10), width: WP(90), left: WP(7)}}>
+        <Text style={styles._forgot}>Forgot Password</Text>
+      </TouchableOpacity>
+     </View>
     </KeyboardAwareScrollView>
   );
 };

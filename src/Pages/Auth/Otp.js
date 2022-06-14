@@ -63,6 +63,9 @@ const Otp = ({navigation}) => {
         navigation.navigate('bottomStack', {
           screen: 'rfq',
         });
+      })
+      .catch(error => {
+        setError(error)
       });
   };
 

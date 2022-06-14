@@ -76,7 +76,7 @@ const Rfq = ({navigation}) => {
                       onChangeText={(text) => searchFilterFunction(text)}
                       onClear={(text) => searchFilterFunction('')}
                       value={search}
-                      placeholder="search catergory name"
+                      placeholder="Search Category Name"
                   />
               </Box>
               <Flex direction="row" mt="4" justifyContent="space-between">

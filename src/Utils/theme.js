@@ -26,6 +26,7 @@ export const INPUT_HEIGHT = 6;
 export const SCREEN_ICON_SIZE = 6;
 export const HOME_TAB_ICON_SIZE = 6;
 export const TAB_ICON_SIZE = 6;
+export const NAIRA_SYSMBOL="$";
 
 export const COLOR = {
    BgColor :'#5080FA',

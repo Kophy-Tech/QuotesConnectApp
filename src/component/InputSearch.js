@@ -1,10 +1,8 @@
-
-import React from 'react'
-import {
- TouchableWithoutFeedback, Keyboard,
-} from 'react-native';
-import {   Input } from "native-base";
+import React from 'react';
+import {TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {Input} from 'native-base';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import { WP } from '../Utils/theme';
 
 const InputSearch = ({ value,  onChangeText, rest, placeholder, onClear}) => {
   return (
@@ -16,7 +14,9 @@ const InputSearch = ({ value,  onChangeText, rest, placeholder, onClear}) => {
  onChangeText={ onChangeText}
             //   onClear={onClear}
 style={{
-    color: 'black'
+    color: 'black',
+   marginVertical:WP(3),
+   borderRadius:WP(13)
 
 }}
       
@@ -34,5 +34,5 @@ style={{
   )
 }
 
-export default InputSearch
 
+export default InputSearch;

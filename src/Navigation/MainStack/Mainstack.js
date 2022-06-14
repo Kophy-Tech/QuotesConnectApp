@@ -14,6 +14,7 @@ function MainStack() {
       screenOptions={{
         headerShown: false,
       }}>
+        
    
    
      <Stack.Screen name="Splash" component={Splash} />
