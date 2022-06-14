@@ -222,7 +222,9 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                 backgroundColor: '#FD5757',
                 borderRadius: 4,
                 padding: 6,
-              }}>
+              }}
+              onPress={() => onItemPress(item)}
+              >
               <Text
                 style={[
                   styles.textLineItem1,
@@ -253,7 +255,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
 
                         </TouchableOpacity>
                     } */}
-          {item.status === 'purchased' && (
+          {/* {item.status === 'purchased' && (
             <TouchableOpacity
               style={{
                 backgroundColor: '#2EB66E',
@@ -271,7 +273,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                 {item.status}
               </Text>
             </TouchableOpacity>
-          )}
+          )} */}
         </View>
       </View>
     );
@@ -287,7 +289,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
         ListHeaderComponent={HeaderComponent}
         ListEmptyComponent={EmptyContainer}
         keyExtractor={item => `id${item?._id}`}
-        contentContainerStyle={{paddingHorizontal: 22, paddingVertical: 9}}
+        contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9, paddingBottom: 60 }}
       />
     </>
   );
