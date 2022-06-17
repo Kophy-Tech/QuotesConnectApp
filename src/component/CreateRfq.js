@@ -107,18 +107,16 @@ setAllJob(res.data)
     }, [dispatch, refresh])
 
     const NextScreen=()=>{
-        function match() {
+       
+        // console.log(allJob.find((a) => a.name === query), 'bbbb');
+        // console.log((allJob.find((a) => a.name === query))?true:false);
 
-            if (allJob.find((a) => a._id === jobId)) {
-                return true
-            }
-            return false
-        }
+
         if (!text) {
             Alert.alert('Please enter job informtation')
         }
-        else if (!match || !jobId) {
-            Alert.alert('Please Search For Correct Job Management')
+        else if (!(allJob.find((a) => a.name === query)) ? true : false) {
+            Alert.alert(` ${query} Is Not Present, Searcrh For Job `)
 
         }
        else{
@@ -133,22 +131,22 @@ setAllJob(res.data)
      token,
      value
  }
-            // dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
+            dispatch(postRfqJob(dataJob)).unwrap().then((res) => {
 
-            //     if (res.status === 'Created') {
-            //         Alert.alert(`${res.msg}`)
-            //         onChangeText('')
-            //         setQuery('')
-            // navigation.navigate('requestforrfq')
-
-            //     }
-            //     console.log(res.status);
-            // }).catch((err) => {
-            //     console.log(err, 'error from postrfqjob')
-            //     Alert.alert(`${err}`)
-            // })
-
+                if (res.status === 'Created') {
+                    Alert.alert(`${res.msg}`)
+                    onChangeText('')
+                    setQuery('')
             navigation.navigate('requestforrfq')
+
+                }
+                console.log(res.status);
+            }).catch((err) => {
+                console.log(err, 'error from postrfqjob')
+                Alert.alert(`${err}`)
+            })
+
+            // navigation.navigate('requestforrfq')
 
          
          
@@ -227,7 +225,7 @@ setAllJob(res.data)
   return (
       <>
       <View style={{flex:1, backgroundColor:'#fff'}}>
-              <Box px="4" pt="3">
+              <Box px="4" pt="3" pb="10">
 
                   <Box mb="2">
                       <DateInputForm

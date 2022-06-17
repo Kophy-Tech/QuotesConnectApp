@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Modal, Alert} from 'react-native'
 import React, { useState, useLayoutEffect, useCallback,useMemo } from 'react'
 import { ScrollView } from 'react-native-virtualized-view';
 import { Box, } from "native-base";
@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMaterial } from '../../Redux/Slice/materialSlice';
 import Loading from '../../component/Loading';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import uuid from 'react-native-uuid';
 
 import { Spinner } from "native-base";
 
@@ -35,31 +36,29 @@ const RequestForRfq = () => {
     const { isLoading, message, refresh } = useSelector((material) => material.material)
 
     const [allMaterial, setAllMaterial] = useState([])
-   const [data, setData] = useState([])
 
     // console.log(jobRfq?._id)
     const rfq_id = jobRfq?._id
     const [value, setValue] = useState([
+     
+    ]);
+    const [valueText, setValueText] = useState(
         {
+            
             query: '',
             description: '',
             quantity: '',
             unit: '',
             name: '',
-            show:false
+         
         }
-    ]);
-// console.log({value})
+    );
 
-    // const [valueText, setValueText] = useState([
-    //     {
-    //         query: '',
-    //         description: '',
-    //         quantity: '',
-    //         unit: '',
-    //         materialId: ''
-    //     }
-    // ]);
+    console.log(valueText);
+    console.log(value, 'valllllllll');
+
+    const [modalVisible, setModalVisible] = useState(false);
+
     const token = auth?.token
     const tdata = {
         token,
@@ -86,168 +85,142 @@ const RequestForRfq = () => {
 
   
    
-const memoizedCallback = useCallback(
-    (inputName, inputValue, index) => {
-        const list = [...value];
-        list[index][inputName] = inputValue;
-        setValue(list);
 
-    },
-    [],
-)
-    // const handle = (inputName, inputValue, index) => {
-    //     let v = valueText[index][inputName] = inputValue
-    //     setValueText([...valueText], {v} );
+    
 
+
+    // const handleAddClick = () => {
+    //     const _inputs = [...value];
+    //     _inputs.push({
+    //         query: '',
+    //         description: '',
+    //         quantity: '',
+    //         unit: '',
+    //         name: '',
+    //         show: null
+    //     });
+    //     setValue(_inputs);
     // }
+    const [name, setName] = React.useState('');
 
+    const [query, setQuery] = useState('');
 
-    const handleAddClick = () => {
-        const _inputs = [...value];
-        _inputs.push({
-            query: '',
-            description: '',
-            quantity: '',
-            unit: '',
-            name: '',
-            show: null
-        });
-        setValue(_inputs);
-    }
-
-
-    const handleRemoveClick = index => {
-        const list = [...value];
-        list.splice(index, 1);
-        setValue(list);
+    const handleRemoveClick = id => {
+     const newdata =  value.filter((val)=> val.id !==id)
+     setValue(newdata)
     };
 
 
-    const inputHandleQuery = (text, key) => {
-        console.log(key)
-        const list = [...value];
-        list[key].query = text;
-        setValue(list);
+    const filterData = (query) => {
 
-        const filterData = () => {
+       
+        function match(query) {
 
-
-            console.log(text)
-
-
-            if (text==='') {
-                return [];
+            if (allMaterial.find((a) => a.name.toLowerCase() === query.toLowerCase())) {
+                return true
             }
+            return false
+        }
 
+        // console.log(match(query), 'matchhh')
 
-            else {
-                return allMaterial.filter(x => x.name.toLowerCase().includes(text.toLowerCase()));
-            }
-
+        if (query === '') {
+            return [];
+        }
+        if (match(query)) {
+            return [];
 
         }
 
-
-        setData(filterData)
-    }
-    const inputHandleDescription = (text, key) => {
-        const list = [...value];
-        list[key].description = text;
-        setValue(list);
-
+        else {
+            return allMaterial.filter(x => x.name.toLowerCase().includes(query?.toLowerCase()));
+        }
     }
 
-    const inputHandleName = (text, key) => {
-        console.log(text)
-        const list = [...value];
-        list[key].name = text;
-        setValue(list);
-
-    }
-    // const inputHandleDescription = (text, key) => {
-    //     const _formNumberInputs = [...value]
-    //     _formNumberInputs[key].key = key;
-    //     console.log({
-    //         _formNumberInputs
-    //     })
-    //     _formNumberInputs[key].description = text;
-    //     setValue(_formNumberInputs);
-    // }
-
-    const inputHandleQuantity = (text, key) => {
-        const list = [...value];
-        list[key].quantity = text;
-        setValue(list);
-
-    }
-
-
-    const inputHandleShow = (text, key) => {
-        const list = [...value];
-        list[key].show = text;
-        setValue(list);
-
-    }
+    const data = filterData(query);
    
 
+    const handleInputChange = (inputName, inputValue) => {
+        setValueText({
+            ...valueText,
+            [inputName]: inputValue,
+        });
 
+    }
+
+   
+
+const addMaterial =()=>{
+   
+    
+    if (!(allMaterial.find((a) => a.name === query)) ? true : false) {
+        Alert.alert(`Please Search For Correct Job  Material ${query} Is Not Found `)
+
+    }
+
+    else  if (!valueText.description) {
+        Alert.alert('Please Enter Description')
+    }
+
+    else if (!valueText.quantity) {
+        Alert.alert('Please Enter Quantity ')
+
+    }
+    else if (!valueText.unit) {
+        Alert.alert('Please Enter Unit ')
+
+    }
+    else{
+        // setValue({
+        //     ...valueText,
+        //     id: uuid.v4()
+        // })
+        value.push(
+            {
+                query:query,
+                name:name,
+                ...valueText,
+         id: uuid.v4()
+            }
+        )
+        setValueText(
+            {
+                description: '',
+                quantity: '',
+                unit: '',
+             
+            }
+        )
+        setName('')
+        setQuery('')
+        setModalVisible(false)
+    }
+}
+
+  
    const submitButton =()=>{
        let send =[]
-       let error
-       const dataSend = value.map(({name, description, quantity, unit, query})=> {
-         
-function confirm() {
-    let found ;
-    let q
-    for (var i = 0; i < allMaterial.length; i++) {
-        // console.log(allMaterial[i]._id, 'aaaaa')
-        if (allMaterial[i]._id == name) {
-            found = true;
-           
+      
+   
+//  console.log(error, 'error')
 
-            break;
-        }
-        else{
-            found = false;
-        }
-    }
-    return found
-}
+       if (value.length===0) {
+     Alert.alert('Create Material')
+ }
+ else{
+
+        const dataSend = value.map(({name, description, quantity, unit, query})=> {
+         
 
 
 // console.log(confirm())
-           if (!confirm()) {
-             
-               Alert.alert(`Error', 'Please select correct material ${query}, is not in the list`)
-           }
-         else if ( quantity==='') {
-             error =true
-             Alert.alert('Error', 'Please fill all the fields')
-         }
-           else if (description === '') {
-               error=true
-               Alert.alert('Error', 'Please fill all the fields')
-           } 
-           else if ( unit === '') {
-               error = true
-
-               Alert.alert('Error', 'Please fill all the fields')
-           }
-         else {
-               send.push({
-                   name,
-                   description,
-                   quantity,
-                   unit
-               })
-         }
+           send.push({
+               name,
+               description,
+               quantity,
+               unit
+           })
        })
-//  console.log(error, 'error')
-
- if (error) {
-     console.log('error')
- }
- else{
      console.log(send, 'tttt')
 
      const datarfqmaterial ={
@@ -266,14 +239,7 @@ rfq_id
              Alert.alert(`${res.msg}`)
              setValue(
                  [
-                     {
-                         query: '',
-                         description: '',
-                         quantity: '',
-                         unit: '',
-                         name: '',
-                         show: false
-                     }
+                   
                  ]
              )
          navigation.navigate('selectvendors')
@@ -283,16 +249,10 @@ rfq_id
          console.log(err, 'error from postrfqjob')
          Alert.alert(`${err}`)
      })
-    //  navigation.navigate('selectvendors')
+     navigation.navigate('selectvendors')
  }
    }
 
-    const inputHandleUnit = (text, key) => {
-        const list = [...value];
-        list[key].unit = text;
-        setValue(list);
-
-    }
 
     if (isLoading) {
         return <Loading/>
@@ -359,79 +319,198 @@ if(allMaterial.length===0){
     )
 }
   return (
-      <KeyboardAwareScrollView
-   
-        horizontal={false} style={{width: '100%', height: '100%'}}
-          contentContainerStyle={{ paddingBottom: WP(50) }}
-        
+ <>
+          <KeyboardAwareScrollView
 
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}>
-
-      <Box px="4">
-          <View style={styles.addButtonContainer}>
-              <ButtonH style={{
-
-                  borderColor: BgColor,
-                  width: '100%',
-                  backgroundColor: BgColor,
-                  borderRadius: 5,
+              horizontal={false} style={{ width: '100%', height: '100%' }}
+              contentContainerStyle={{ paddingBottom: WP(50) }}
 
 
-              }}
-                  onPress={handleAddClick}
-              >
-                  <Text style={[styles.butttonText,
-                  { color: '#fff' }
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}>
 
-                  ]}>Add</Text>
-              </ButtonH>
+              <Box px="4">
+                  <View style={styles.addButtonContainer}>
+                      <ButtonH style={{
+
+                          borderColor: BgColor,
+                          width: '100%',
+                          backgroundColor: BgColor,
+                          borderRadius: 5,
 
 
-
-          </View>
-
-          <View style={styles.tableColumnHeader}>
-              <View style={styles.tableColumnRegular}>
-                  <Text style={styles.textLineItemH}>Item Name</Text>
-              </View>
-              <View style={styles.tableColumnRegular}>
-                  <Text style={styles.textLineItemH}>Description</Text>
-              </View>
-              <View style={styles.tableColumnRegular}>
-                  <Text style={styles.textLineItemH}>Quantity</Text>
-              </View>
-              <View style={styles.tableColumnRegular}>
-                  <Text style={[styles.textLineItemH, { textAlign: 'left' }]}>Unit</Text>
-              </View>
-
-          </View>
-
-          {
-              value.map((val, key) => {
-
-                  return (
-                      <View style={styles.tableRow}
-
-                          key={key}
+                      }}
+                          onPress={()=> setModalVisible(true)}
                       >
-                          <View style={[styles.tableColumnRegular2, { position: 'relative', top:0 }]}>
+                          <Text style={[styles.butttonText,
+                          { color: '#fff' }
 
-                            {/* <>
+                          ]}>Add</Text>
+                      </ButtonH>
+
+
+
+                  </View>
+
+                  <View style={styles.tableColumnHeader}>
+                      <View style={styles.tableColumnRegular}>
+                          <Text style={styles.textLineItemH}>Item Name</Text>
+                      </View>
+                      <View style={styles.tableColumnRegular}>
+                          <Text style={styles.textLineItemH}>Description</Text>
+                      </View>
+                      <View style={styles.tableColumnRegular}>
+                          <Text style={styles.textLineItemH}>Quantity</Text>
+                      </View>
+                      <View style={styles.tableColumnRegular}>
+                          <Text style={[styles.textLineItemH, { textAlign: 'left' }]}>Unit</Text>
+                      </View>
+
+                  </View>
+
+                  {
+                      value?.map((val, key) => {
+
+                          return (
+                              <View style={styles.tableRow}
+
+                                  key={val.id}
+                              >
+                                  <View style={[styles.tableColumnRegular2]}>
+                                      <Text style={styles.textLineItem1}>{val?.query}</Text>
+
+                                  </View>
+                                  <View style={styles.tableColumnRegular2}>
+                                      
+                                      <Text style={styles.textLineItem1}>{val?.description}</Text>
+
+                                  </View>
+                                  <View style={styles.tableColumnRegular}>
+
+                                      <Text style={styles.textLineItem1}>{val?.quantity}</Text>
+
+
+                                  </View>
+                                  <View style={[styles.tableColumnRegular3,{
+                                    flexDirection:'row',
+                                    justifyContent:'center',
+                                    alignItems:'center'
+                                  }]}>
+                                  <View
+                                  style={{
+                                    flex:3
+                                  }}
+                                  >
+                                          <Text style={styles.textLineItem1}>{val?.unit}</Text>
+                                  </View>
+
+                                      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                                     <TouchableOpacity onPress={() => {
+                                             
+                                          }}>
+                                              <Icon
+                                                  name="delete"
+                                                  size={25}
+                                                  color={COLOR.BgColor}
+
+                                                  onPress={() => handleRemoveClick(val.id)}
+                                              />
+                                          </TouchableOpacity>
+
+                                      </View>
+
+                                  </View>
+
+                              </View>
+                          )
+                      })
+                  }
+
+                  <Box mt="40">
+
+
+                      <TouchableOpacity
+                          onPress={submitButton}
+                          style={{
+                              backgroundColor: COLOR.BgColor,
+                              padding: WP(4),
+                              borderRadius: WP(3),
+                              borderWidth: 1,
+                              borderColor: COLOR.BgColor,
+                              top: WP(4),
+
+
+                          }}
+                      >
+                          {
+
+                              LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
+                                  style={{
+                                      fontSize: WP(4.5),
+                                      color: COLOR.whiteColor,
+                                      textAlign: 'center',
+                                      fontWeight: '400',
+
+
+
+
+                                  }}>
+                                  Next
+                              </Text>
+                          }
+
+
+                      </TouchableOpacity>
+
+                  </Box>
+              </Box>
+
+          </KeyboardAwareScrollView>
+          <View style={styles.centeredView}>
+              <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                    
+                      setModalVisible(!modalVisible);
+                  }}
+              >
+                  <View style={styles.centeredView}>
+                      <View style={styles.modalView}>
+                        <View style={styles.IconContainer}>
+                              <Icon
+                                  name="close-box"
+                                  size={35}
+                                  color={COLOR.BgColor}
+
+                                  onPress={() => setModalVisible(false)}
+                              />
+                        </View>
+                          <View style={[styles.tableRow,{
+                            marginTop:30
+                          }]}
+
+                            
+                          >
+                              <View style={[styles.tableColumnRegular2, { position: 'relative' }]}>
+
+                                  <>
                                   <View style={[styles.autocompleteContainer,{
-                                      zIndex: val.show? 100:0,
-                                      position: val.show ? 'absolute':'relative',
+                                      zIndex: 9,
+                                      position: 'absolute',
                                       top: 4
                                     
                                   }]}>
 
                                       <Autocomplete
-                                          value={val.query}
-                                          onChangeText={(text) => {
-                                              inputHandleQuery(text, key)
-                                              inputHandleName('', key)
-                                              inputHandleShow(true, key)
-                                          }}
+                                              value={query}
+                                              onChangeText={(text) => {
+
+
+                                                  setQuery(text)
+
+                                              }}
 
                                         //   horizontal={true}
                                           placeholder="Enter material name"
@@ -462,16 +541,16 @@ if(allMaterial.length===0){
                                               listKey: (item, index) => `_key${index.toString()}`,
                                               keyExtractor: (item, index) => `_key${index.toString()}`,
                                               renderItem: ({ item }) => {
-                                                  if (val.show) {
+                                                //   console.log(item?.name);
                                                       return (
                                                           <TouchableOpacity
                                                               key={item?._id}
 
                                                               onPress={() => {
-                                                                  inputHandleQuery(item?.name, key)
-                                                                  inputHandleName(item?._id, key)
-                                                                  inputHandleShow(false, key)
-                                                                  setData([])
+                                                                  setQuery(item.name)
+                                                                  setName(item._id)
+                                                                
+                                                                 
                                                               }}
 
 
@@ -486,140 +565,123 @@ if(allMaterial.length===0){
                                                   }
 
                                               }
-                                          }}
+                                          }
 
                                       />
 
                                   </View>
                                   
-                                  </> */}
-                          </View>
-                          <View style={styles.tableColumnRegular2}>
-                              <FormInput2
+                                  </> 
+                              </View>
+                              <View style={styles.tableColumnRegular2}>
+                                  <FormInput2
 
-                                  value={val.description}
-                                  onChangeText={(text) => inputHandleDescription(text, key)}
+                                      value={valueText.description}
+                                      onChangeText={(text) => handleInputChange('description',text )}
+                                      placeholder="description"
 
-                              />
-
-                          </View>
-                          <View style={styles.tableColumnRegular}>
-
-                              <FormInput
-
-                                  value={val.quantity}
-
-                                  onChangeText={(text) => inputHandleQuantity(text, key)}
-
-                              />
-
-                          </View>
-                          <View style={styles.tableColumnRegular3}>
-                              <View style={{ flex: key === 0 ? 5 : 4 }}>
-
-                                  <SelectDropdown
-                                      buttonStyle={{
-                                          width: key === 0 ? '97%' : '90%', height: '100%',
-                                          backgroundColor: 'transparent',
-                                          color: 'black'
-                                      }}
-
-                                      dropdownStyle={{
-
-                                          backgroundColor: '#fff'
-
-                                      }}
-                                      rowStyle={{
-                                          borderBottomColor: 'transparent',
-                                          height: 35
-                                      }}
-                                      rowTextStyle={{
-                                          color: 'black',
-                                          fontSize: 15
-                                      }}
-                                      data={countries}
-                                      defaultValue={val.unit}
-                                      onSelect={(selectedItem, ind) => inputHandleUnit(selectedItem, key)}
-
-                                      buttonTextAfterSelection={(selectedItem, index) => {
-                                          // inputHandleUnit(selectedItem, index)
-
-                                          // text represented after item is selected
-                                          // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                          return selectedItem
-                                      }}
-                                      rowTextForSelection={(item, i) => {
-                                          // inputHandleUnit(item, index)
-
-                                          // text represented for each item in dropdown
-                                          // if data array is an array of objects then return item.property to represent item in dropdown
-                                          return item
-                                      }}
                                   />
+
                               </View>
-                              <View style={{ justifyContent: 'center', alignItems: 'center', flex: key === 0 ? 0 : 1 }}>
-                                  {key !== 0 && <TouchableOpacity onPress={() => {
-                                      handleRemoveClick(key)
-                                  }}>
-                                      <Icon
-                                          name="delete"
-                                          size={25}
-                                          color={COLOR.BgColor}
+                              <View style={styles.tableColumnRegular}>
 
+                                  <FormInput
 
+                                      value={valueText.quantity}
+                                      placeholder="quantity"
+
+                                      onChangeText={(text) => handleInputChange('quantity',text)}
+
+                                  />
+
+                              </View>
+                              <View style={styles.tableColumnRegular3}>
+                                  <View style={{ flex:5 }}>
+
+                                      <SelectDropdown
+                                          buttonStyle={{
+                                              width:  '97%' , height: '100%',
+                                              backgroundColor: 'transparent',
+                                              color: 'black'
+                                          }}
+
+                                          dropdownStyle={{
+
+                                              backgroundColor: '#fff'
+
+                                          }}
+                                          rowStyle={{
+                                              borderBottomColor: 'transparent',
+                                              height: 35
+                                          }}
+                                          rowTextStyle={{
+                                              color: 'black',
+                                              fontSize: 15
+                                          }}
+                                          data={countries}
+                                          defaultValue={valueText.unit}
+                                          onSelect={(selectedItem, ind) => handleInputChange('unit',selectedItem)}
+
+                                          buttonTextAfterSelection={(selectedItem, index) => {
+                                              // inputHandleUnit(selectedItem, index)
+
+                                              // text represented after item is selected
+                                              // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                              return selectedItem
+                                          }}
+                                          rowTextForSelection={(item, i) => {
+                                              // inputHandleUnit(item, index)
+
+                                              // text represented for each item in dropdown
+                                              // if data array is an array of objects then return item.property to represent item in dropdown
+                                              return item
+                                          }}
                                       />
-                                  </TouchableOpacity>}
+                                  </View>
+                                
 
                               </View>
 
                           </View>
+                          <Box mt="40">
 
+
+                              <TouchableOpacity
+                                  onPress={addMaterial}
+                                  style={{
+                                      backgroundColor: COLOR.BgColor,
+                                      padding: WP(4),
+                                      borderRadius: WP(3),
+                                      borderWidth: 1,
+                                      borderColor: COLOR.BgColor,
+                                      top: WP(4),
+
+
+                                  }}
+                              >
+                                  <Text
+                                      style={{
+                                          fontSize: WP(4.5),
+                                          color: COLOR.whiteColor,
+                                          textAlign: 'center',
+                                          fontWeight: '400',
+
+
+
+
+                                      }}>
+                                      Add
+                                  </Text>
+
+                              </TouchableOpacity>
+
+                          </Box>
                       </View>
-                  )
-              })
-          }
-
-          <Box mt="40">
-
-
-                  <TouchableOpacity
-                      onPress={submitButton}
-                      style={{
-                          backgroundColor: COLOR.BgColor,
-                          padding: WP(4),
-                          borderRadius: WP(3),
-                          borderWidth: 1,
-                          borderColor: COLOR.BgColor,
-                          top: WP(4),
-
-
-                      }}
-                  >
-                      {
-
-                          LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
-                              style={{
-                                  fontSize: WP(4.5),
-                                  color: COLOR.whiteColor,
-                                  textAlign: 'center',
-                                  fontWeight: '400',
-
-
-
-
-                              }}>
-                              Next
-                          </Text>
-                      }
-
-
-                  </TouchableOpacity>
-              
-          </Box>
-      </Box>
-
-      </KeyboardAwareScrollView>
-
+                  </View>
+              </Modal>
+            
+          </View>
+ </>
      
   )
 }
@@ -707,7 +769,17 @@ flexDirection:'row'
 
     },
 
+    textLineItem1: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: ColorText,
+        textAlign: 'center',
 
+        lineHeight: 18,
+
+
+
+    },
     autocompleteContainer: {
         // Hack required to make the autocomplete
         // work on Andrdoid
@@ -724,7 +796,37 @@ flexDirection:'row'
     },
     autocompleteContainerStyle1: {
         backgroundColor: 'transparent'
+    },
+
+// Modal
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        // margin: 20,
+        backgroundColor: "white",
+        width: '95%',
+        height:'70%' ,
+
+        // borderRadius: 20,
+        // padding: 35,
+        // alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    IconContainer:{
+        margin: 5,
+        justifyContent:'flex-end',
+       alignItems:'flex-end'
     }
-
-
+    
 })
