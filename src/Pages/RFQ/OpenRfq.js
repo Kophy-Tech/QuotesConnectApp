@@ -20,7 +20,7 @@ const OpennRfq = () => {
     const materialJob=jobRfq.rfqArray
     const vendorArray = jobRfq.vendorArray
 
-    console.log(materialJob[0].name.name)
+    // console.log(materialJob[0].name.name)
     console.log( vendorArray[0] )
 
     const [value, setValue] = useState([
@@ -110,7 +110,7 @@ const OpennRfq = () => {
                         )
                     })
                 }
-
+{/* 
              <Box mt="10">
 <View style={styles.selectedVendors}>
                         <Text style={styles.selectedVendorsText}>Selected Vendors</Text>
@@ -141,7 +141,7 @@ const OpennRfq = () => {
                       
                     </View>
           
-             </Box>
+             </Box> */}
             </Box>
 
         </KeyboardAwareScrollView>

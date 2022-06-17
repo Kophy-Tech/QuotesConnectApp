@@ -42,16 +42,19 @@ const EditMaterial = ({route}) => {
     const updateMaterialPost = () => {
         const { _id, name, description } = value
         const updatedData = {
-            name, 
-            description
+            name
         }
         const dataMaterial = { _id, updatedData, token };
         // console.log(dataMaterial, 'dataMaterial');
         if (!value.name) {
             Alert.alert('Material name is required');
-        } else if (!value.description) {
-            Alert.alert('Material description is required');
-        } else {
+        } 
+        
+        // else if (!value.description) {
+        //     Alert.alert('Material description is required');
+        // } 
+        
+        else {
             dispatch(updateMaterial(dataMaterial))
                 .unwrap()
                 .then(res => {
@@ -99,7 +102,7 @@ const EditMaterial = ({route}) => {
                     contentContainerStyle={{ paddingBottom: WP(65) }}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}>
-                    <Box px="6" pt="5">
+                    <Box px="6" pt="20">
                         <Box mb="2">
                             <InputForm
                                 title="Primary Category Name"
@@ -112,7 +115,7 @@ const EditMaterial = ({route}) => {
                                 name of the project you want to create
                             </Text>
                         </Box>
-                        <Box mb="2">
+                        {/* <Box mb="2">
                             <CustomTextArea
                                 title="Sub Item Description"
                                 value={value.description}
@@ -120,7 +123,7 @@ const EditMaterial = ({route}) => {
                                 borderColor={COLOR.BgColor}
                                 onChangeText={value => handleInputChange('description', value)}
                             />
-                        </Box>
+                        </Box> */}
 
                         <Flex direction="row" mt="4" justifyContent="space-around">
                             <ButtonH

@@ -18,9 +18,7 @@ const CreateMaterial = () => {
 
   // console.log(auth, 'aaaaaaaa');
   const [value, setValues] = React.useState({
-    name: '',
-    description: '',
-  });
+    name: ''});
 
   const handleInputChange = (inputName, inputValue) => {
     setValues({
@@ -35,9 +33,7 @@ const CreateMaterial = () => {
     // console.log(dataMaterial, 'dataMaterial');
     if (!value.name) {
       Alert.alert('Material name is required');
-    } else if (!value.description) {
-      Alert.alert('Material description is required');
-    } else {
+    }  else {
       dispatch(postMaterial(dataMaterial))
         .unwrap()
         .then(res => {
@@ -65,7 +61,7 @@ const CreateMaterial = () => {
         contentContainerStyle={{ paddingBottom: WP(65) }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
-        <Box px="6" pt="5">
+        <Box px="6" pt="20">
           <Box mb="2">
             <InputForm
               title="Primary Category Name"
@@ -78,7 +74,7 @@ const CreateMaterial = () => {
               name of the project you want to create
             </Text>
           </Box>
-          <Box mb="2">
+          {/* <Box mb="2">
             <CustomTextArea
               title="Sub Item Description"
               value={value.description}
@@ -86,7 +82,7 @@ const CreateMaterial = () => {
               borderColor={COLOR.BgColor}
               onChangeText={value => handleInputChange('description', value)}
             />
-          </Box>
+          </Box> */}
 
           <Box mb="2">
             <FormCustomButton

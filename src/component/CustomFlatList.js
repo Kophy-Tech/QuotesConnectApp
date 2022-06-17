@@ -12,11 +12,11 @@ const HeaderComponent = () => {
                 <View style={styles.tableColumnRegular}>
                     <Text style={styles.textLineItem}>Category Name</Text>
                 </View>
-                <View style={styles.tableColumnRegular2}>
+                {/* <View style={styles.tableColumnRegular2}>
                     <Text style={[styles.textLineItem3, {
                         fontSize: 15
                     }]}>Sub Item Description</Text>
-                </View>
+                </View> */}
 
             </View>
         </>
@@ -55,10 +55,10 @@ const CustomFlatList = ({ itemData, navigation}) => {
                 <View style={styles.tableColumnRegular}>
                     <Text style={styles.textLineItem1}>{item?.name}</Text>
                 </View>
-                <View style={styles.tableColumnRegular2}>
+                {/* <View style={styles.tableColumnRegular2}>
                     <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>
 
-                </View>
+                </View> */}
             </TouchableOpacity>
         )
     }
@@ -131,10 +131,11 @@ paddingRight:10
 
     },
     textLineItem1: {
-        fontSize: 13,
+        fontSize: 20,
         fontWeight: '400',
         color: ColorText,
-        textAlign: 'left',
+        textAlign: 'center',
+
         lineHeight: 18,
        
        
