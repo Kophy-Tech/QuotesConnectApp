@@ -110,7 +110,7 @@ const OpennRfq = () => {
                         )
                     })
                 }
-{/* 
+
              <Box mt="10">
 <View style={styles.selectedVendors}>
                         <Text style={styles.selectedVendorsText}>Selected Vendors</Text>
@@ -141,7 +141,7 @@ const OpennRfq = () => {
                       
                     </View>
           
-             </Box> */}
+             </Box>
             </Box>
 
         </KeyboardAwareScrollView>
