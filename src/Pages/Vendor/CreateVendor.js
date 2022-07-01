@@ -298,7 +298,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
 
 
 
-          {/* {Object.keys(document).length == 0 ? (
+          {Object.keys(document).length == 0 ? (
             <TouchableOpacity onPress={() => pickFiles()}>
               <Image
                 source={IMAGE.FileInput}
@@ -317,7 +317,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
                 }}
               />
             </TouchableOpacity>
-          )} */}
+          )}
         </View>
 
         <View style={{top: WP(13)}}>
