@@ -6,19 +6,15 @@ import {NativeBaseProvider} from 'native-base';
 import {Provider} from 'react-redux';
 import {store} from './src/Redux/Store/Store';
 import {Provider as PaperProvider} from 'react-native-paper';
-import { LogBox} from "react-native";
+import {LogBox} from 'react-native';
 
-LogBox.ignoreLogs([
-  "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types",
- 
-])
+LogBox.ignoreLogs(["exported from 'deprecated-react-native-prop-types'."]);
+
 // LogBox.ignoreLogs([
 //   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 // ])
 
-
 const App = () => {
-  
   return (
     <>
       <Provider store={store}>
