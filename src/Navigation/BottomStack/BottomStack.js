@@ -47,7 +47,7 @@ function BottomStack() {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="SelectedVendorItem"
         component={SelectedVendorItem}
         options={{
@@ -70,12 +70,11 @@ function BottomStack() {
         component={PurchasedVendorItem}
         options={{
           headerShown: true,
-          
         }}
       />
 
       {/*  */}
-    
+
       <Stack.Screen
         name="editjob"
         component={EditJob}
@@ -169,7 +168,7 @@ function BottomStack() {
         }}
       />
 
-          <Stack.Screen
+      <Stack.Screen
         name="UpdateVendor"
         component={UpdateVendor}
         options={{
@@ -187,7 +186,6 @@ function BottomStack() {
           headerTitleAlign: 'center',
         }}
       />
-
 
       <Stack.Screen
         name="creatematerial"
@@ -256,7 +254,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-            RFQ History
+              RFQ History
             </Text>
           ),
           headerLeft: () => <BackIcon />,

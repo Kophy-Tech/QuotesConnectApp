@@ -78,38 +78,28 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
     ) {
       navigation.navigate('selectvendors');
       dispatch(dispatchRouteData(item));
-    }
-    else if (
+    } else if (
       item.status === 'Open' &&
       item.rfqArray.length > 0 &&
       item.vendorArray.length > 0
     ) {
       navigation.navigate('openrfq');
       dispatch(dispatchRouteData(item));
-    }
-
-    else if (
+    } else if (
       item.status === 'Submitted' &&
       item.rfqArray.length > 0 &&
       item.vendorArray.length > 0
     ) {
       navigation.navigate('SelectedVendorItem', {item});
       dispatch(dispatchRouteData(item));
-    }
-
-    else if (
+    } else if (
       item.status === 'Purchased' &&
       item.rfqArray.length > 0 &&
       item.vendorArray.length > 0
     ) {
       navigation.navigate('PurchasedVendorItem', {item});
       dispatch(dispatchRouteData(item));
-    }   
-    
-
-    
-    
-    else {
+    } else {
       Alert.alert('Waiting for Vendors to confirm the request');
     }
   };
@@ -167,8 +157,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             </TouchableOpacity>
           )}
 
-
-    {item.status === 'Ready' && (
+          {item.status === 'Ready' && (
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{
@@ -189,9 +178,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             </TouchableOpacity>
           )}
 
-
-
-      {item.status === 'Purchased' && (
+          {item.status === 'Purchased' && (
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{
@@ -212,9 +199,25 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             </TouchableOpacity>
           )}
 
-
-
-          
+          {item.status === 'Completed' && (
+            <TouchableOpacity
+              style={{
+                backgroundColor: 'green',
+                borderRadius: 4,
+                padding: 6,
+              }}>
+              <Text
+                style={[
+                  styles.textLineItem1,
+                  {
+                    color: '#fff',
+                    fontSize: 12,
+                  },
+                ]}>
+                {item.status}
+              </Text>
+            </TouchableOpacity>
+          )}
 
           {item.status === 'Open' && (
             <TouchableOpacity
@@ -223,8 +226,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                 borderRadius: 4,
                 padding: 6,
               }}
-              onPress={() => onItemPress(item)}
-              >
+              onPress={() => onItemPress(item)}>
               <Text
                 style={[
                   styles.textLineItem1,
@@ -289,7 +291,11 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
         ListHeaderComponent={HeaderComponent}
         ListEmptyComponent={EmptyContainer}
         keyExtractor={item => `id${item?._id}`}
-        contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9, paddingBottom: 60 }}
+        contentContainerStyle={{
+          paddingHorizontal: 22,
+          paddingTop: 9,
+          paddingBottom: 60,
+        }}
       />
     </>
   );
