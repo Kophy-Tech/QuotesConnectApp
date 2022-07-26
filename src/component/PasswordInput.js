@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import {COLOR, WP} from '../Utils/theme';
 import Icon from 'react-native-vector-icons/Entypo';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const PasswordInput = ({
   lablelText,
@@ -34,14 +35,13 @@ const PasswordInput = ({
           onChangeText={onChangeText}
           placeholder={placeholder}
           placeholderTextColor="#999"
-          
         />
         {/* _toggleIcon */}
         <TouchableOpacity style={styles._icon} onPress={() => _toggleIcon()}>
-          <Icon
-            name={showPassword ? 'eye-with-line' : 'eye'}
-            size={15}
-            color={COLOR.blackColor}
+          <FontAwesome5
+            name={showPassword ? 'eye' : 'eye-slash'}
+            size={WP(3.5)}
+            color={COLOR.BgColor}
           />
         </TouchableOpacity>
       </View>
@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
   },
   _icon: {
     position: 'absolute',
-    left: WP(75),
+    left: WP(82),
     top: WP(5),
     backgroundColor: COLOR.iconBlue,
     borderRadius: WP(5),
-    padding: WP(1),
+    padding: WP(-3),
   },
 });
