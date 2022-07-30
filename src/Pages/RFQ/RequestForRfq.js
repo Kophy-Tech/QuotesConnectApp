@@ -14,7 +14,7 @@ import {Box} from 'native-base';
 import ButtonH from '../../component/ButtonH';
 import {BgColor, bgColor1, ColorText} from '../../Utils/Colors';
 import FormCustomButton from '../../component/FormCustomButton';
-import {COLOR, WP} from '../../Utils/theme';
+import {COLOR, HP, WP} from '../../Utils/theme';
 import {useNavigation} from '@react-navigation/native';
 import {Input} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -31,25 +31,83 @@ import {Spinner} from 'native-base';
 import FormInput2 from './FormInput2';
 import FormInput from './FormInput';
 import {postRfqMaterial} from '../../Redux/Slice/RfqSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import DropDownPicker from 'react-native-dropdown-picker';
 
-const countries = [
-  'Bundle',
-  'Box',
-  'Bag',
-  'Pallet',
-  'Roll',
-  'Case',
-  'Gallon',
-  'Drum',
-  'Hour',
-  'Day',
-  'Week',
-  'Month',
-];
+// const countries = [
+//   'Bundle',
+//   'Box',
+//   'Bag',
+//   'Pallet',
+//   'Roll',
+//   'Case',
+//   'Gallon',
+//   'Drum',
+//   'Hour',
+//   'Day',
+//   'Week',
+//   'Month',
+// ];
+const countries = [];
 
-const RequestForRfq = () => {
+const RequestForRfq = props => {
+  console.log(props.route.params.params, 'props11');
   const navigation = useNavigation();
   const auth = useSelector(auth => auth.auth.user);
+
+  const [openDropdown, setOpenDropwdown] = useState(false);
+  const [values, setValues] = useState(null);
+  const [items, setItems] = useState([
+    {
+      label: 'Bundle',
+      value: 'Bundle',
+    },
+    {
+      label: 'Box',
+      value: 'Box',
+    },
+    {
+      label: 'Bag',
+      value: 'Bag',
+    },
+    {
+      label: 'Pallet',
+      value: 'Pallet',
+    },
+    {
+      label: 'Roll',
+      value: 'Roll',
+    },
+    {
+      label: 'Bundle',
+      value: 'Bundle',
+    },
+    {
+      label: 'Gallon',
+      value: 'Gallon',
+    },
+    {
+      label: 'Drum',
+      value: 'Drum',
+    },
+    {
+      label: 'Hour',
+      value: 'Hour',
+    },
+    {
+      label: 'Day',
+      value: 'Day',
+    },
+    {
+      label: 'Week',
+      value: 'Week',
+    },
+    {
+      label: 'Month',
+      value: 'Month',
+    },
+  ]);
+
   const {
     isLoading: LoadingRfq,
     message: messageRfq,
@@ -66,6 +124,7 @@ const RequestForRfq = () => {
   // console.log(jobRfq?._id)
   const rfq_id = jobRfq?._id;
   const [value, setValue] = useState([]);
+  console.log(value, 'value');
   const [valueText, setValueText] = useState({
     query: '',
     description: '',
@@ -74,27 +133,27 @@ const RequestForRfq = () => {
     name: '',
   });
 
-  console.log(valueText);
-  console.log(value, 'valllllllll');
+  console.log(valueText.name, '1111ss');
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const token = auth?.token;
-  const tdata = {
-    token,
-  };
-  useLayoutEffect(() => {
-    dispatch(getMaterial(tdata))
-      .unwrap()
-      .then(res => {
-        //  console.log(res, 'respppppppppppppp');
-
-        setAllMaterial(res.data);
-      })
-      .catch(err => {
-        if (err) {
-        }
-      });
+  React.useEffect(() => {
+    const getData = async () => {
+      const token = await AsyncStorage.getItem('user');
+      const tdata = {
+        token,
+      };
+      dispatch(getMaterial(tdata))
+        .unwrap()
+        .then(res => {
+          setAllMaterial(res.data);
+        })
+        .catch(err => {
+          if (err) {
+          }
+        });
+    };
+    getData();
   }, [dispatch, refresh]);
 
   // const handleAddClick = () => {
@@ -158,7 +217,7 @@ const RequestForRfq = () => {
       Alert.alert('Please Enter Description');
     } else if (!valueText.quantity) {
       Alert.alert('Please Enter Quantity ');
-    } else if (!valueText.unit) {
+    } else if (!values) {
       Alert.alert('Please Enter Unit ');
     } else {
       // setValue({
@@ -197,7 +256,7 @@ const RequestForRfq = () => {
             name,
             description,
             quantity,
-            unit,
+            values,
           });
         },
       );
@@ -435,133 +494,148 @@ const RequestForRfq = () => {
                   onPress={() => setModalVisible(false)}
                 />
               </View>
-              <View
-                style={[
-                  styles.tableRow,
-                  {
-                    marginTop: 30,
-                  },
-                ]}>
-                <View
-                  style={[styles.tableColumnRegular2, {position: 'relative'}]}>
-                  <>
-                    <View
-                      style={[
-                        styles.autocompleteContainer,
-                        {
-                          zIndex: 9,
-                          position: 'absolute',
-                          top: 4,
-                        },
-                      ]}>
-                      <Autocomplete
-                        value={query}
-                        onChangeText={text => {
-                          setQuery(text);
-                        }}
-                        //   horizontal={true}
-                        placeholder="Enter material name"
-                        data={data}
-                        style={{
-                          backgroundColor: 'transparent',
-                          color: 'black',
-                        }}
-                        inputContainerStyle={{
-                          borderColor: COLOR.BgColor,
-                          borderRadius: 1,
-                          borderWidth: 0.5,
-                        }}
-                        listContainerStyle={{
-                          backgroundColor: '#a9b4fc',
-                        }}
-                        flatListProps={{
-                          keyboardShouldPersistTaps: 'always',
 
-                          listKey: (item, index) => `_key${index.toString()}`,
-                          keyExtractor: (item, index) =>
-                            `_key${index.toString()}`,
-                          renderItem: ({item}) => {
-                            //   console.log(item?.name);
-                            return (
-                              <TouchableOpacity
-                                key={item?._id}
-                                onPress={() => {
-                                  setQuery(item.name);
-                                  setName(item._id);
-                                }}
-                                style={{
-                                  padding: 10,
-                                }}>
-                                <Text style={styles.itemText}>
-                                  {item?.name}
-                                </Text>
-                              </TouchableOpacity>
-                            );
-                          },
-                        }}
-                      />
-                    </View>
-                  </>
+              <View style={styles.tableContainer}>
+                <View>
+                  <Autocomplete
+                    value={query}
+                    onChangeText={text => {
+                      setQuery(text);
+                    }}
+                    //   horizontal={true}
+                    placeholder="Enter material name"
+                    data={data}
+                    style={{
+                      backgroundColor: 'transparent',
+                      color: 'black',
+                    }}
+                    inputContainerStyle={{
+                      borderColor: COLOR.BgColor,
+                      borderRadius: 1,
+                      borderWidth: 0.5,
+                      padding: WP(3),
+                      width: WP('90%'),
+                      alignSelf: 'center',
+                      top: WP(12),
+                    }}
+                    listContainerStyle={{
+                      backgroundColor: '#a9b4fc',
+                    }}
+                    flatListProps={{
+                      listKey: (item, index) => `_key${index.toString()}`,
+                      keyExtractor: (item, index) => `_key${index.toString()}`,
+                      renderItem: ({item}) => {
+                        //   console.log(item?.name);
+                        return (
+                          <TouchableOpacity
+                            key={item?._id}
+                            onPress={() => {
+                              setQuery(item.name);
+                              setName(item._id);
+                            }}
+                            style={{
+                              padding: 10,
+                            }}>
+                            <Text style={styles.itemText}>{item?.name}</Text>
+                          </TouchableOpacity>
+                        );
+                      },
+                    }}
+                  />
                 </View>
-                <View style={styles.tableColumnRegular2}>
+
+                <View style={[styles.formInput, {top: WP(18)}]}>
                   <FormInput2
                     value={valueText.description}
                     onChangeText={text =>
                       handleInputChange('description', text)
                     }
-                    placeholder="description"
+                    placeholder="Enter your description"
                   />
                 </View>
-                <View style={styles.tableColumnRegular}>
-                  <FormInput
+                <View
+                  style={{
+                    height: HP(6),
+                    marginTop: WP(25),
+                    width: WP('90%'),
+                    alignSelf: 'center',
+                  }}>
+                  <FormInput2
                     value={valueText.quantity}
+                    onChangeText={text => handleInputChange('quantity', text)}
+                    placeholder="Enter the number of quantity"
+                  />
+                  {/* <FormInput
+                    value={valu eText.quantity}
                     placeholder="quantity"
                     onChangeText={text => handleInputChange('quantity', text)}
-                  />
-                </View>
-                <View style={styles.tableColumnRegular3}>
-                  <View style={{flex: 5}}>
-                    <SelectDropdown
-                      buttonStyle={{
-                        width: '97%',
-                        height: '100%',
-                        backgroundColor: 'transparent',
-                        color: 'black',
-                      }}
-                      dropdownStyle={{
-                        backgroundColor: '#fff',
-                      }}
-                      rowStyle={{
-                        borderBottomColor: 'transparent',
-                        height: 35,
-                      }}
-                      rowTextStyle={{
-                        color: 'black',
-                        fontSize: 15,
-                      }}
-                      data={countries}
-                      defaultValue={valueText.unit}
-                      onSelect={(selectedItem, ind) =>
-                        handleInputChange('unit', selectedItem)
-                      }
-                      buttonTextAfterSelection={(selectedItem, index) => {
-                        // inputHandleUnit(selectedItem, index)
-
-                        // text represented after item is selected
-                        // if data array is an array of objects then return selectedItem.property to render after item is selected
-                        return selectedItem;
-                      }}
-                      rowTextForSelection={(item, i) => {
-                        // inputHandleUnit(item, index)
-
-                        // text represented for each item in dropdown
-                        // if data array is an array of objects then return item.property to represent item in dropdown
-                        return item;
-                      }}
-                    />
-                  </View>
+                    placeholder="Enter the number quantity"
+                  /> */}
                 </View>
               </View>
+              <View>
+                <DropDownPicker
+                  zIndexInverse={1111000}
+                  zIndex={1111000}
+                  style={{
+                    top: 27,
+                    width: '93%',
+                    alignSelf: 'center',
+                    borderRadius: 0,
+                    borderColor: 'grey',
+                  }}
+                  open={openDropdown}
+                  value={values}
+                  items={items}
+                  setOpen={setOpenDropwdown}
+                  setValue={setValues}
+                  setItems={setItems}
+                  multiple={false}
+                />
+                {/* <SelectDropdown
+                    buttonStyle={{
+                      width: '97%',
+                      height: '60%',
+                      backgroundColor: 'transparent',
+                      color: 'black',
+                      marginTop: 30,
+                      alignSelf: 'center',
+                    }}
+                    dropdownStyle={{
+                      backgroundColor: '#fff',
+                      alignSelf: 'center',
+                    }}
+                    rowStyle={{
+                      borderBottomColor: 'transparent',
+                      height: 35,
+                      alignSelf: 'center',
+                    }}
+                    rowTextStyle={{
+                      color: 'black',
+                      fontSize: 15,
+                    }}
+                    data={countries}
+                    defaultValue={valueText.unit}
+                    onSelect={(selectedItem, ind) =>
+                      handleInputChange('unit', selectedItem)
+                    }
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                      // inputHandleUnit(selectedItem, index)
+
+                      // text represented after item is selected
+                      // if data array is an array of objects then return selectedItem.property to render after item is selected
+                      return selectedItem;
+                    }}
+                    rowTextForSelection={(item, i) => {
+                      // inputHandleUnit(item, index)
+
+                      // text represented for each item in dropdown
+                      // if data array is an array of objects then return item.property to represent item in dropdown
+                      return item;
+                    }}
+                  /> */}
+              </View>
+
               <Box mt="40">
                 <TouchableOpacity
                   onPress={addMaterial}
@@ -708,5 +782,14 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+  },
+  tableContainer: {
+    flexDirection: 'column',
+  },
+  formInput: {
+    height: WP(13),
+    top: WP(15),
+    width: WP('90%'),
+    alignSelf: 'center',
   },
 });

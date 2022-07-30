@@ -106,6 +106,28 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
   const Item = ({item, onItemPress}) => {
     console.log(item?.status, 'status');
 
+    // useEffect(() => {
+    //   const refreshToken = async () => {
+    //     let tokens = await AsyncStorage.getItem('refreshToken');
+    //     axios({
+    //       url: 'https://demo-server-quotesconnect.herokuapp.com/api/v1.1/client/login',
+    //       method: 'get',
+    //       headers: {
+    //         refreshToken: tokens,
+    //         'Content-Type': 'application/json',
+    //       },
+    //     })
+    //       .then(response => {
+    //         AsyncStorage.setItem('user', response.data.token);
+    //       })
+    //       .catch(err => {
+    //         console.log(err, 'errorrr');
+    //       }); hj
+    //   };
+
+    //   refreshToken();
+    // }, [dispatch]);
+
     return (
       <View style={styles.tableRow}>
         <View style={styles.tableColumnRegular}>
@@ -119,7 +141,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{
-                backgroundColor: '#FFC4C4',
+                backgroundColor: 'red',
                 borderRadius: 4,
                 padding: 6,
               }}>
@@ -136,11 +158,11 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             </TouchableOpacity>
           )}
 
-          {item.status === 'Submitted' && (
+          {item.status === 'submitted' && (
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{
-                backgroundColor: '#FAAE3B',
+                backgroundColor: 'yellow',
                 borderRadius: 4,
                 padding: 6,
               }}>
@@ -148,7 +170,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                 style={[
                   styles.textLineItem1,
                   {
-                    color: '#fff',
+                    color: 'black',
                     fontSize: 12,
                   },
                 ]}>
@@ -161,7 +183,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{
-                backgroundColor: '#FAAE3B',
+                backgroundColor: 'blue',
                 borderRadius: 4,
                 padding: 6,
               }}>
@@ -182,7 +204,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{
-                backgroundColor: '#355E3B',
+                backgroundColor: 'green',
                 borderRadius: 4,
                 padding: 6,
               }}>
@@ -199,7 +221,7 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
             </TouchableOpacity>
           )}
 
-          {item.status === 'Completed' && (
+          {item.status === 'completed' && (
             <TouchableOpacity
               style={{
                 backgroundColor: 'green',

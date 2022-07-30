@@ -34,6 +34,29 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   }
 });
 
+export const RefreshTokenAction = createAsyncThunk(
+  'auth/refreshToken',
+  async (user, thunkAPI) => {
+    try {
+      console.log(
+        await AuthService.refreshTokenApi(),
+        ' await AuthService.refreshTokenApi(); await AuthService.refreshTokenApi();',
+      );
+      return await AuthService.refreshTokenApi();
+    } catch (error) {
+      console.log(error, 'eeeeeeeeee');
+      // console.log(error, 'error');
+      const {message} = error;
+
+      // console.log(error.response.data || message)
+
+      // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+      return thunkAPI.rejectWithValue(error.response.data || message);
+    }
+  },
+);
+
 export const ResetPasswordAction = createAsyncThunk(
   'auth/reset_password',
   async (user, thunkAPI) => {
@@ -90,11 +113,9 @@ export const confirmOtp = createAsyncThunk(
   },
 );
 
-
 export const UploadUserDetails = createAsyncThunk(
   'auth/uploadimage',
   async (photo, thunkAPI) => {
-    console.log(photo, '999999999999')
     try {
       return await AuthService.uploadUserDetailsApi(photo);
     } catch (error) {
@@ -104,8 +125,6 @@ export const UploadUserDetails = createAsyncThunk(
     }
   },
 );
-
-
 
 export const logout = createAsyncThunk('auth/logout', async () => {
   await AuthService.logout();
@@ -206,7 +225,6 @@ const authSlice = createSlice({
       state.message = action.payload;
       state.user = null;
     },
-
 
     [UploadUserDetails.pending]: (state, action) => {
       state.isLoading = true;

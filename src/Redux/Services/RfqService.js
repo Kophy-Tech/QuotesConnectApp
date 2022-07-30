@@ -6,11 +6,14 @@ import instance from './ApiServices';
 const API_URL = `${otherUrl}/`;
 
 const postRfQJobService = data => {
+  console.log(data, 'd999999909099999');
   // console.log(value, token, ' vaaaaaa')
   return axios
-    .post(API_URL + 'rfq', value, {headers: {Authorization: `${token}`}})
+    .post(API_URL + 'rfq', data?.values, {
+      headers: {Authorization: `${data?.token}`},
+    })
     .then(response => {
-      console.log(response, 'response');
+      return response;
     });
 };
 
@@ -59,11 +62,15 @@ const postRfQVendorService = data => {
 };
 
 const selectItemServices = vendorData => {
-  console.log(vendorData?.data,vendorData?.id, 'chosenOptionchosenOptionchosenOption')
+  console.log(
+    vendorData?.data,
+    vendorData?.id,
+    'chosenOptionchosenOptionchosenOption',
+  );
   return instance
     .post(`/rfq/select/${vendorData?.id}`, vendorData?.data)
     .then(response => {
-      console.log(response, 'selectItemServicesselectItemServices')
+      console.log(response, 'selectItemServicesselectItemServices');
       return response.data;
     });
 };

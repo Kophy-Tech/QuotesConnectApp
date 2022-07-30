@@ -9,11 +9,9 @@ import UserDetailsHoc from '../hoc/UserDetails';
 import { acronym } from '../Utils/util';
 const Header = props => {
   const {profile = {}} = props;
-  console.log(profile, 'props');
   const navigation = useNavigation();
 
   
-console.log(profile, 'prifle')
   return (
     <>
       {/* <Box safeAreaTop bg="#6200ee" /> */}
@@ -43,7 +41,7 @@ console.log(profile, 'prifle')
 
         <HStack>
           <TouchableOpacity onPress={() => navigation.navigate('notification')}>
-            <Icon name="bell-badge" size={35} color="#5080FA" />
+            {/* <Icon name="bell-badge" size={35} color="#5080FA" /> */}
           </TouchableOpacity>
         </HStack>
       </HStack>

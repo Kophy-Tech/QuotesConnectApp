@@ -12,24 +12,73 @@ const register = userData => {
 
 const login = userData => {
   return axios.post(API_URL + 'login', userData).then(response => {
-    console.log(response, 'response');
     if (response.data) {
-      console.log(JSON.stringify(response.data.token));
+      console.log(response.data?.refreshToken, '00000000000000');
       AsyncStorage.setItem('user', response.data.token);
+      AsyncStorage.setItem('refreshToken', response.data?.refreshToken);
     }
-
     return response.data;
   });
 };
 
+// const refreshTokenApi = async () => {
+//   let tokens = await AsyncStorage.getItem('refreshToken');
+
+//   return axios
+//     .get(API_URL + 'login', {
+//       headers: {
+//         refreshToken: tokens,
+//         mobile: true,
+//       },
+//     })
+//     .then(response => {
+//       console.log(
+//         response,
+//         'RefreshTokenActionRefreshTokenActionRefreshTokenAction',
+//       );
+
+//       return response.data;
+//     });
+// };
+
+const refreshTokenApi = async () => {
+  let tokens = await AsyncStorage.getItem('refreshToken');
+  return axios({
+    url: 'https://demo-server-quotesconnect.herokuapp.com/api/v1.1/client/login',
+    method: 'get',
+    headers: {
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTcwMWViMTZhYWUzNTJhYjZmOTVjYSIsImlhdCI6MTY1OTE5Mjc3OSwiZXhwIjoxNjYwNDAyMzc5fQ.PXMEIxpOeSeDIY9bBECD_goM9Q9wZPYZtsWd-bHjgQQ",
+      'Content-Type': 'application/json',
+    },
+  });
+
+  // return axios({
+  //   method: 'get',
+  //   url: 'https://demo-server-quotesconnect.herokuapp.com/api/v1.1/client/login',
+  //   headers: {
+  //     refreshToken:
+  //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTcwMWViMTZhYWUzNTJhYjZmOTVjYSIsImlhdCI6MTY1OTE5MTM0MywiZXhwIjoxNjYwNDAwOTQzfQ.a03ryPoJJHHzgkhIjigGr2Br3JNssnrtgVH9DdIVSXA',
+  //   },
+  // });
+  // return axios.get(
+  //   API_URL + 'login',
+  //   {},
+  //   {
+  //     headers: {
+  //       refreshToken: tokens,
+  //     },
+  //   },
+  // );
+};
+
 const reset_password_api = email => {
-  return axios.post(API_URL+'reset/mail', email).then(response => {
+  return axios.post(API_URL + 'reset/mail', email).then(response => {
     console.log(response, 'reset password');
   });
 };
 
 const reset_password_otp = email => {
-  return axios.post(API_URL+'confirmation/token', email).then(response => {
+  return axios.post(API_URL + 'confirmation/token', email).then(response => {
     console.log(response, 'reset password');
   });
 };
@@ -51,25 +100,25 @@ const CreateVendorApi = vendorData => {
 };
 
 const UpdateVendorApi = vendorData => {
-  const {id, ...rest}=vendorData;
-  console.log(vendorData?.id, 1234567890)
-  return instance.put(`/vendor/${vendorData?.id}`, vendorData).then(response => {
-  
-    return response.data;
-  });
+  const {id, ...rest} = vendorData;
+  console.log(vendorData?.id, 1234567890);
+  return instance
+    .put(`/vendor/${vendorData?.id}`, vendorData)
+    .then(response => {
+      return response.data;
+    });
 };
 
 const deleteVendorApi = vendorData => {
-   return instance.delete(`/vendor/${vendorData?.id}`).then(response => {
-     console.log(response, 'r1111111121')
-  
+  return instance.delete(`/vendor/${vendorData?.id}`).then(response => {
+    console.log(response, 'r1111111121');
+
     return response.data;
   });
 };
 
 const GetUserInfoApi = vendorData => {
   return instance.get('/client/info', vendorData).then(response => {
-   
     return response.data;
   });
 };
@@ -84,14 +133,11 @@ const otpApi = userData => {
   });
 };
 
-
 const uploadUserDetailsApi = details => {
   return instance.put('/client/info', details).then(response => {
-    console.log(response, 'response')
     return response.data;
   });
 };
-
 
 const logout = () => {
   AsyncStorage.removeItem('user');
@@ -109,7 +155,8 @@ const AuthService = {
   otpApi,
   uploadUserDetailsApi,
   UpdateVendorApi,
-  deleteVendorApi
+  deleteVendorApi,
+  refreshTokenApi,
 };
 
 export default AuthService;

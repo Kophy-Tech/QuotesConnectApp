@@ -62,7 +62,7 @@ const Splash = ({navigation}) => {
         }
       })
       .catch(error => {
-        alert(error);
+        console.log(error);
       });
   }, []);
 

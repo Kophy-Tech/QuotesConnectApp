@@ -13,11 +13,11 @@ function AuthStack() {
   return (
     <Stack.Navigator
      >
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Welcome"
         component={Welcome}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
 
       <Stack.Screen name="Otp" component={Otp} />
