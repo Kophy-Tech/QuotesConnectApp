@@ -35,12 +35,12 @@ const Rfq = ({navigation}) => {
   //       url: 'https://demo-server-quotesconnect.herokuapp.com/api/v1.1/client/login',
   //       method: 'get',
   //       headers: {
-  //         refreshToken:
-  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTcwMWViMTZhYWUzNTJhYjZmOTVjYSIsImlhdCI6MTY1OTE5NjAxOSwiZXhwIjoxNjYwNDA1NjE5fQ.cajWPmW7rTJ-qgVu-IeZ3JH98XTPfpAH3Tk_W_TlY7g',
+  //         refreshToken: tokens,
   //         'Content-Type': 'application/json',
   //       },
   //     })
   //       .then(response => {
+  //         console.log(response, 'response');
   //         AsyncStorage.setItem('user', response.data.token);
   //       })
   //       .catch(err => {
@@ -48,12 +48,11 @@ const Rfq = ({navigation}) => {
   //       });
   //   };
 
-  //   console.log(refreshToken());
+  //   // console.log(refreshToken());
 
-  //   // setTimeout(() => {
-  //   //   Alert.alert('ss');
-  //   //   refreshToken();
-  //   // }, 3000);
+  //   setTimeout(() => {
+  //     refreshToken();
+  //   }, 3000);
   // }, [dispatch]);
 
   useLayoutEffect(() => {

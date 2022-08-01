@@ -55,7 +55,7 @@ const postRfQVendorService = data => {
       headers: {Authorization: `${token}`},
     })
     .then(response => {
-      console.log(response, 'response');
+      console.log(response, 'response11111');
 
       return response.data;
     });

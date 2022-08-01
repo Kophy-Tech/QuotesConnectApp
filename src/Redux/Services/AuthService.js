@@ -47,7 +47,8 @@ const refreshTokenApi = async () => {
     url: 'https://demo-server-quotesconnect.herokuapp.com/api/v1.1/client/login',
     method: 'get',
     headers: {
-      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTcwMWViMTZhYWUzNTJhYjZmOTVjYSIsImlhdCI6MTY1OTE5Mjc3OSwiZXhwIjoxNjYwNDAyMzc5fQ.PXMEIxpOeSeDIY9bBECD_goM9Q9wZPYZtsWd-bHjgQQ",
+      refreshToken:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTcwMWViMTZhYWUzNTJhYjZmOTVjYSIsImlhdCI6MTY1OTE5Mjc3OSwiZXhwIjoxNjYwNDAyMzc5fQ.PXMEIxpOeSeDIY9bBECD_goM9Q9wZPYZtsWd-bHjgQQ',
       'Content-Type': 'application/json',
     },
   });

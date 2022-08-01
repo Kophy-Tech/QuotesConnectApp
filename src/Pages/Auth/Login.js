@@ -188,13 +188,13 @@ const Login = props => {
         />
       </View> */}
 
-      {/* <View>
+      <View>
         <TouchableOpacity
           onPress={() => navigation.navigate('ResetPassword')}
-          style={{width: WP(90), left: WP(7), height: HP(4), top: WP(13)}}>
+          style={{width: WP(90), left: WP(7), height: HP(2), top: WP(13)}}>
           <Text style={styles._forgot}>Forgot Password</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </KeyboardAwareScrollView>
   );
 };

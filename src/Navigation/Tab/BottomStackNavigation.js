@@ -151,6 +151,9 @@ const BottomStackNavigation = () => {
           },
         }}
       />
+
+
+      
     </Tab.Navigator>
   );
 };

@@ -100,7 +100,7 @@ const SelectedVendorItem = props => {
               <View>
                 <View style={{top: WP(19), left: WP(8)}}>
                   <Text>
-                    {item?.status == 'submitted' && details?.vendor?.name}
+                    {item?.status == 'Submitted' && details?.vendor?.name}
                   </Text>
                 </View>
               </View>

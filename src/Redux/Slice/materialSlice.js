@@ -60,11 +60,49 @@ export const updateMaterial = createAsyncThunk(
   },
 );
 
+export const subUpdateMaterialAction = createAsyncThunk(
+  'material/updatematerial',
+  async (data, thunkAPI) => {
+    try {
+      return await MaterialService.subUpdateMaterialService(data);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      // console.log(error.response.data || message)
+
+      // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+      return thunkAPI.rejectWithValue(
+        error.response.data.error[0].msg || message,
+      );
+    }
+  },
+);
+
 export const deleteMaterial = createAsyncThunk(
   'material/deletematerial',
   async (data, thunkAPI) => {
     try {
       return await MaterialService.deleteMaterialService(data);
+    } catch (error) {
+      // console.log(error, 'deletederror');
+      const {message} = error;
+      console.log(error.response.data, 'deletedresponse');
+
+      // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+      return thunkAPI.rejectWithValue(
+        error.response.data.error[0].msg || message,
+      );
+    }
+  },
+);
+
+export const subDeleteMaterial = createAsyncThunk(
+  'material/subdeletematerial',
+  async (data, thunkAPI) => {
+    try {
+      return await MaterialService.subDeleteMaterialService(data);
     } catch (error) {
       // console.log(error, 'deletederror');
       const {message} = error;

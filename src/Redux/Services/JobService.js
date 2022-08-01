@@ -5,20 +5,21 @@ import instance from './ApiServices';
 
 const API_URL = `${otherUrl}/`;
 
-const getJobService = (token) => {
-    // console.log(token, 'token')
-    return axios.get(API_URL + `job/all-jobs`, { headers: { "Authorization": `${token}` } }).then((response) => {
-        return response.data;
-    });
-};
-
-const mygetVendorService = token => {
+const getJobService = token => {
   // console.log(token, 'token')
   return axios
-    .get(API_URL + 'vendor/all-vendors', {headers: {Authorization: `${token}`}})
+    .get(API_URL + `job/all-jobs`, {headers: {Authorization: `${token}`}})
     .then(response => {
       return response.data;
     });
+};
+
+const mygetVendorService = () => {
+  // console.log(token, 'token')
+  return instance.get('vendor/all-vendors').then(response => {
+    console.log(response, 'respo1111111nse');
+    return response.data;
+  });
 };
 
 const postJobService = data => {

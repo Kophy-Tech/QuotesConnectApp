@@ -1,12 +1,10 @@
 import axios from 'axios';
-
+import instance from './ApiServices';
 import {otherUrl} from '../Constant/Constants';
 
 const API_URL = `${otherUrl}/`;
 
 const getMaterialService = data => {
-  console.log(data, 'data1111');
-
   const {token} = data;
 
   return axios
@@ -59,11 +57,57 @@ const updateMaterialService = data => {
     });
 };
 
+// https://demo-server-quotesconnect.herokuapp.com/api/v1.1/material/62ab3adcd19c463c76fead1c/description/62ab3e34bf56575be4d99f78
+
+// 2x4x8'
+
+const subUpdateMaterialService = data => {
+  const {_id, updatedData, token, primary_id} = data;
+  console.log(primary_id, '1111');
+
+  console.log(updatedData?.content, 'sss');
+  return axios
+    .put(
+      API_URL + `material/${primary_id}/description/${_id}`,
+      {content: updatedData?.content},
+      {
+        headers: {Authorization: `${token}`},
+      },
+    )
+    .then(response => {
+      // console.log(response, 'response')
+
+      return response.data;
+    });
+};
+
+const subDeleteMaterialService = data => {
+  const {_id, updatedData, token, primary_id} = data;
+  console.log(
+    _id,
+    updatedData,
+    token,
+    primary_id,
+    '_id, updatedData, token, primary_id',
+  );
+  return instance
+    .delete(`material/${primary_id}/description/${_id}`, {
+      content: updatedData?.content,
+    })
+    .then(response => {
+      console.log(response, 'response');
+
+      return response.data;
+    });
+};
+
 const materialService = {
   getMaterialService,
   postMaterialService,
   deleteMaterialService,
   updateMaterialService,
+  subUpdateMaterialService,
+  subDeleteMaterialService,
 };
 
 export default materialService;

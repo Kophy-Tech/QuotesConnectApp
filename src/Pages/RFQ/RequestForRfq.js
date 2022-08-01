@@ -33,6 +33,8 @@ import FormInput from './FormInput';
 import {postRfqMaterial} from '../../Redux/Slice/RfqSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {Dropdown} from 'react-native-element-dropdown';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 // const countries = [
 //   'Bundle',
@@ -51,7 +53,21 @@ import DropDownPicker from 'react-native-dropdown-picker';
 const countries = [];
 
 const RequestForRfq = props => {
-  console.log(props.route.params.params, 'props11');
+  const [valu, setValu] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const [isFocus2, setIsFocus2] = useState(false);
+
+  const renderLabel = () => {
+    if (valu || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && {color: 'blue'}]}>
+          Dropdown label
+        </Text>
+      );
+    }
+    return null;
+  };
+
   const navigation = useNavigation();
   const auth = useSelector(auth => auth.auth.user);
 
@@ -124,7 +140,6 @@ const RequestForRfq = props => {
   // console.log(jobRfq?._id)
   const rfq_id = jobRfq?._id;
   const [value, setValue] = useState([]);
-  console.log(value, 'value');
   const [valueText, setValueText] = useState({
     query: '',
     description: '',
@@ -132,8 +147,6 @@ const RequestForRfq = props => {
     unit: '',
     name: '',
   });
-
-  console.log(valueText.name, '1111ss');
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -146,7 +159,23 @@ const RequestForRfq = props => {
       dispatch(getMaterial(tdata))
         .unwrap()
         .then(res => {
-          setAllMaterial(res.data);
+          let dropDownItem = res.data.map(item => {
+            return {
+              label: item?.name,
+              value: item?.name,
+              id: item?._id,
+              description: item.description.map(details => {
+                return {
+                  name: details._id,
+                  content: details.content,
+                  secondary: details._id,
+                  value: details.content,
+                  label: details.content,
+                };
+              }),
+            };
+          });
+          setAllMaterial(dropDownItem);
         })
         .catch(err => {
           if (err) {
@@ -169,6 +198,9 @@ const RequestForRfq = props => {
   //     setValue(_inputs);
   // }
   const [name, setName] = React.useState('');
+  const [name2, setName2] = React.useState('');
+  const [subCategoryId, setSubCategoryId] = React.useState([]);
+  console.log(subCategoryId, 'sssss');
 
   const [query, setQuery] = useState('');
 
@@ -209,16 +241,14 @@ const RequestForRfq = props => {
   };
 
   const addMaterial = () => {
-    if (!allMaterial.find(a => a.name === query) ? true : false) {
-      Alert.alert(
-        `Please Search For Correct Job  Material ${query} Is Not Found `,
-      );
-    } else if (!valueText.description) {
+    if (!valueText.description) {
       Alert.alert('Please Enter Description');
     } else if (!valueText.quantity) {
       Alert.alert('Please Enter Quantity ');
     } else if (!values) {
       Alert.alert('Please Enter Unit ');
+    } else if (name2 == '') {
+      Alert.alert('Please Select a material ');
     } else {
       // setValue({
       //     ...valueText,
@@ -226,7 +256,7 @@ const RequestForRfq = props => {
       // })
       value.push({
         query: query,
-        name: name,
+        name: name2,
         ...valueText,
         id: uuid.v4(),
       });
@@ -264,7 +294,6 @@ const RequestForRfq = props => {
 
       const datarfqmaterial = {
         rfqArray: send,
-        token,
         rfq_id,
       };
       console.log(send);
@@ -357,6 +386,7 @@ const RequestForRfq = props => {
       </View>
     );
   }
+
   return (
     <>
       <KeyboardAwareScrollView
@@ -400,7 +430,7 @@ const RequestForRfq = props => {
             return (
               <View style={styles.tableRow} key={val.id}>
                 <View style={[styles.tableColumnRegular2]}>
-                  <Text style={styles.textLineItem1}>{val?.query}</Text>
+                  <Text style={styles.textLineItem1}>{val?.name}</Text>
                 </View>
                 <View style={styles.tableColumnRegular2}>
                   <Text style={styles.textLineItem1}>{val?.description}</Text>
@@ -497,13 +527,93 @@ const RequestForRfq = props => {
 
               <View style={styles.tableContainer}>
                 <View>
+                  <View style={styles.subContainer}>
+                    {renderLabel()}
+                    <Dropdown
+                      style={[
+                        styles.dropdown,
+                        isFocus && {borderColor: 'blue'},
+                      ]}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      iconStyle={styles.iconStyle}
+                      data={allMaterial}
+                      search
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder={!isFocus ? 'select a material' : '...'}
+                      searchPlaceholder="Search..."
+                      value={value}
+                      onFocus={() => setIsFocus(true)}
+                      onBlur={() => setIsFocus(false)}
+                      onChange={item => {
+                        console.log(item?.id);
+                        setName(item.id);
+                        setSubCategoryId(item?.description);
+                        // setIsFocus(false);e
+                      }}
+                      renderLeftIcon={() => (
+                        <AntDesign
+                          style={styles.icon}
+                          color={isFocus ? 'blue' : 'black'}
+                          name="Safety"
+                          size={20}
+                        />
+                      )}
+                    />
+                  </View>
+                </View>
+
+                {subCategoryId.length > 0 && (
+                  <View>
+                    <View style={styles.subContainer}>
+                      {renderLabel()}
+                      <Dropdown
+                        style={[
+                          styles.dropdown,
+                          isFocus && {borderColor: 'blue'},
+                        ]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={subCategoryId}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus ? 'Select item' : '...'}
+                        searchPlaceholder="Search..."
+                        value={value}
+                        onFocus={() => setIsFocus2(true)}
+                        onBlur={() => setIsFocus2(false)}
+                        onChange={item => {
+                          setName2(item?.id);
+
+                          // setIsFocus(false);e
+                        }}
+                        renderLeftIcon={() => (
+                          <AntDesign
+                            style={styles.icon}
+                            color={isFocus2 ? 'blue' : 'black'}
+                            name="Safety"
+                            size={20}
+                          />
+                        )}
+                      />
+                    </View>
+                  </View>
+                )}
+                {/* <View>
                   <Autocomplete
                     value={query}
                     onChangeText={text => {
                       setQuery(text);
                     }}
                     //   horizontal={true}
-                    placeholder="Enter material name"
+                    placeholder="Enter material names"
                     data={data}
                     style={{
                       backgroundColor: 'transparent',
@@ -542,9 +652,9 @@ const RequestForRfq = props => {
                       },
                     }}
                   />
-                </View>
+                </View> */}
 
-                <View style={[styles.formInput, {top: WP(18)}]}>
+                <View style={[styles.formInput, {top: WP(10)}]}>
                   <FormInput2
                     value={valueText.description}
                     onChangeText={text =>
@@ -555,9 +665,9 @@ const RequestForRfq = props => {
                 </View>
                 <View
                   style={{
-                    height: HP(6),
-                    marginTop: WP(25),
-                    width: WP('90%'),
+                    height: HP(8),
+                    marginTop: WP(15),
+                    width: WP('86%'),
                     alignSelf: 'center',
                   }}>
                   <FormInput2
@@ -578,11 +688,12 @@ const RequestForRfq = props => {
                   zIndexInverse={1111000}
                   zIndex={1111000}
                   style={{
-                    top: 27,
-                    width: '93%',
+                    top: WP(3),
+                    width: '90%',
                     alignSelf: 'center',
                     borderRadius: 0,
                     borderColor: 'grey',
+                    borderColor: BgColor,
                   }}
                   open={openDropdown}
                   value={values}
@@ -787,9 +898,48 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   formInput: {
-    height: WP(13),
+    height: WP(16),
     top: WP(15),
-    width: WP('90%'),
+    width: WP('84%'),
+    alignSelf: 'center',
+  },
+  dropdown: {
+    height: HP(6),
+    borderColor: BgColor,
+    borderWidth: 0.5,
+    borderRadius: 0,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  subContainer: {
+    width: WP(85),
+    height: WP(2),
+    marginVertical: WP(9),
     alignSelf: 'center',
   },
 });

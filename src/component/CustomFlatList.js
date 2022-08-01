@@ -53,19 +53,29 @@ const CustomFlatList = ({itemData, navigation}) => {
 
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity
-        // style={styles.tableRow}
-        onPress={() => navigation.navigate('editmaterial', {itemParams: item})}>
+      <View
+      // style={styles.tableRow}
+      //
+      >
         <View
+          // onPress={() =>
+          //   navigation.navigate('editmaterial', {itemParams: item})
+          // }
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             margin: 30,
           }}>
-          <View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('DetailMaterials', {itemParams: item})
+            }>
             <Text style={styles.textLineItem1}>{item?.name}</Text>
-          </View>
-          <View
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('editmaterial', {itemParams: item})
+            }
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -74,13 +84,13 @@ const CustomFlatList = ({itemData, navigation}) => {
             <View style={{left: WP(5)}}>
               <EvilIcons name="pencil" color={'grey'} size={26} />
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         {/* <View style={styles.tableColumnRegular2}>
                     <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>
 
                 </View> */}
-      </TouchableOpacity>
+      </View>
     );
   };
   return (

@@ -14,15 +14,20 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {Spinner} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {deleteMaterial, updateMaterial} from '../../Redux/Slice/materialSlice';
+import {
+  deleteMaterial,
+  subDeleteMaterial,
+  subUpdateMaterialAction,
+  updateMaterial,
+} from '../../Redux/Slice/materialSlice';
 
-const EditMaterial = ({route}) => {
+const EditSubMaterial = ({route}) => {
   const auth = useSelector(auth => auth.auth.user);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [modalVisible1, setModalVisible1] = React.useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {itemParams} = route.params;
+  const {itemParams, primary_id} = route.params;
   const loading = useSelector(material => material.material.isLoading);
 
   // console.log(auth, 'aaaaaaaa');
@@ -39,13 +44,13 @@ const EditMaterial = ({route}) => {
   const token = auth?.token;
 
   const updateMaterialPost = () => {
-    const {_id, name, description} = value;
+    const {_id, content, description} = value;
     const updatedData = {
-      name,
+      content,
     };
-    const dataMaterial = {_id, updatedData, token};
+    const dataMaterial = {_id, updatedData, token, primary_id};
     // console.log(dataMaterial, 'dataMaterial');
-    if (!value.name) {
+    if (!value.content) {
       Alert.alert('Material name is required');
     }
 
@@ -53,16 +58,17 @@ const EditMaterial = ({route}) => {
     //     Alert.alert('Material description is required');
     // }
     else {
-      dispatch(updateMaterial(dataMaterial))
+      dispatch(subUpdateMaterialAction(dataMaterial))
         .unwrap()
         .then(res => {
-          if (res.status === 'Updated') {
-            Alert.alert(`${res.msg}`);
+          console.log(res, 'res');
+          if (res.status === 'Added') {
+            Alert.alert('Successfully Updated');
             setValues({
               name: '',
               description: '',
             });
-            // navigation.goBack();
+            navigation.goBack();
           }
           console.log(res.status);
         })
@@ -74,18 +80,23 @@ const EditMaterial = ({route}) => {
   };
 
   const deleteMaterialPost = () => {
-    const {_id} = value;
-    const dataJob = {
-      _id,
-      token,
+    // const {_id} = value;
+    // const dataJob = {
+    //   _id,
+    //   token,
+    // };
+    const {_id, content, description} = value;
+    const updatedData = {
+      content,
     };
-    console.log({dataJob});
-    dispatch(deleteMaterial(dataJob))
+    const dataMaterial = {_id, updatedData, token, primary_id};
+    console.log({dataMaterial});
+    dispatch(subDeleteMaterial(dataMaterial))
       .unwrap()
       .then(res => {
         if (res.status === 'Deleted') {
           Alert.alert(`${res.msg}`);
-          navigation.goBack();
+          //   navigation.goBack();
         }
         console.log(res.status);
       })
@@ -94,6 +105,8 @@ const EditMaterial = ({route}) => {
         Alert.alert(`${err}`);
       });
   };
+
+  //   console.log(primary_id)
 
   return (
     <>
@@ -105,9 +118,9 @@ const EditMaterial = ({route}) => {
           <Box px="6" pt="20">
             <Box mb="2">
               <InputForm
-                title="Primary Category Name"
-                value={value.name}
-                name="name"
+                title="Sub Category Name"
+                value={value.content}
+                name="content"
                 borderColor={COLOR.BgColor}
                 onChangeText={value => handleInputChange('name', value)}
               />
@@ -267,7 +280,7 @@ const EditMaterial = ({route}) => {
   );
 };
 
-export default EditMaterial;
+export default EditSubMaterial;
 
 const styles = StyleSheet.create({
   heading: {
