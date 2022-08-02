@@ -43,43 +43,6 @@ function BottomStack() {
       }}
       initialRouteName="vendors">
       <Stack.Screen
-        name="selectvendors"
-        component={SelectVendors}
-        options={{
-          title: (
-            <Text
-              style={{
-                color: COLOR.BgColor,
-                fontSize: WP(6),
-                lineHeight: HP(5),
-              }}>
-              Create RFQ For Vendors
-            </Text>
-          ),
-          headerLeft: () => <BackIcon />,
-          headerTitleAlign: 'center',
-        }}
-      />
-      <Stack.Screen
-        name="requestforrfq"
-        component={RequestForRfq}
-        options={{
-          title: (
-            <Text
-              style={{
-                color: COLOR.BgColor,
-                fontSize: WP(6),
-                lineHeight: HP(5),
-              }}>
-              Create RFQ For Material
-            </Text>
-          ),
-          headerLeft: () => <BackIcon />,
-          headerTitleAlign: 'center',
-        }}
-      />
-
-      <Stack.Screen
         name="Bottom"
         component={BottomStackNavigation}
         options={{
@@ -133,7 +96,7 @@ function BottomStack() {
         }}
       />
 
-      {/* <Stack.Screen
+      <Stack.Screen
         name="selectvendors"
         component={SelectVendors}
         options={{
@@ -150,7 +113,7 @@ function BottomStack() {
           headerLeft: () => <BackIcon />,
           headerTitleAlign: 'center',
         }}
-      /> */}
+      />
       <Stack.Screen
         name="selectitemvendors"
         component={SelectedVendorItem}
@@ -302,7 +265,7 @@ function BottomStack() {
         }}
       />
 
-      {/* <Stack.Screen
+      <Stack.Screen
         name="requestforrfq"
         component={RequestForRfq}
         options={{
@@ -319,7 +282,7 @@ function BottomStack() {
           headerLeft: () => <BackIcon />,
           headerTitleAlign: 'center',
         }}
-      /> */}
+      />
 
       <Stack.Screen
         name="openrfq"
