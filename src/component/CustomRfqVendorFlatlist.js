@@ -88,18 +88,45 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
 
   const dispatch = useDispatch();
   const [vendorData, setvendorData] = useState(itemData);
-  const renderItem = ({item}) => <Item item={item} />;
-
   const handleSingleCheck = id => {
-    console.log(id);
+    // console.log(id);
     const nf = vendorData?.map(f => {
       if (id === f._id) {
-        return {...f, check: !f.check};
+        return { ...f, check: !f.check };
       }
       return f;
     });
+    // console.log(nf);
     setvendorData(nf);
   };
+  const renderItem = ({item}) => {
+    // console.log(item.check, 'item');
+    return(
+      <View style={styles.tableRow}>
+        <View style={styles.tableColumnRegular1}>
+          <CheckBox
+            value={item.check}
+            onValueChange={()=>handleSingleCheck(item._id)}
+            style={styles.checkboxStyle}
+            checkedColor="#fff"
+          />
+      </View>
+        <View style={styles.tableColumnRegular}>
+          <Image
+            style={styles.imageStyle}
+            source={{ uri: `${item.logo }`} }
+          />
+      </View>
+        <View style={styles.tableColumnRegular2}>
+          <Text style={
+            styles.textLineItem1
+          }>{item.name}</Text>
+        </View>
+      </View>
+    )
+  };
+
+ 
   const selectedVendor = vendorData?.filter(f => f.check);
   const submitVendor = () => {
     if (selectedVendor.length < 3) {
@@ -137,7 +164,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
     }
   };
 
-  const Item = ({item}) => {
+
     return (
         <>
          
@@ -206,7 +233,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
         </>
         )
 }
-}
+
 
 
 export default CustomRfqVendorFlatlist
@@ -232,7 +259,7 @@ const styles = StyleSheet.create({
     paddingVertical: HP(4),
   },
   tableColumnRegular: {
-    flex: 0.8,
+    flex: 1,
 
     justifyContent: 'center',
 
@@ -275,4 +302,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     borderRadius: 5,
   },
+  checkboxStyle:{
+    color:'blue'
+  }
 });
