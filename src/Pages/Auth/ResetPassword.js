@@ -116,7 +116,7 @@ const ResetPassword = ({navigation}) => {
               loading ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
-                'Send OTP'
+                'Send'
               )
             }
             backgroundColor={COLOR.BgColor}

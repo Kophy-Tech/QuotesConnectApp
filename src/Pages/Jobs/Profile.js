@@ -17,33 +17,29 @@ import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
 import FormCustomButton from '../../component/FormCustomButton';
 
-
-
-
 Validator.setMessages('en', en);
 
 const Profile = props => {
   const {profile} = props;
   const [loading, setLoading] = useState(false);
+  console.log(profile.logo, 'proro');
   const [email, setEmail] = useState(profile?.email);
-  const [photo, setPhoto] = useState("");
-  console.log(photo?.path, 'pyoyyoyoy')
+  const [photo, setPhoto] = useState('');
   const dispatch = useDispatch();
 
   const [errors, setError] = useState({});
   const [value, setValues] = useState({
     code: '',
     telephone: '',
-    logo
+    logo: '',
   });
 
-  const {code ,telephone, logo}=value
-
+  const {code, telephone, logo} = value;
 
   const [fullname, setFullname] = useState(
     profile?.fullname !== undefined && profile?.fullname,
   );
-    
+
   // UploadImage
   const PickImage = () => {
     ImagePicker.openPicker({
@@ -55,7 +51,6 @@ const Profile = props => {
         //  dispatch(UploadUserDetails(image?.path));
       })
       .catch(err => {
-        
         console.log(err.response);
       });
   };
@@ -67,14 +62,14 @@ const Profile = props => {
     });
   };
 
-
   const onSubmit = async () => {
-    setLoading(true)
-    const telephoneRegex =/^\+(\d{1}\-)?(\d{1,3})$/;
-    
+    setLoading(true);
+    const telephoneRegex = /^\+(\d{1}\-)?(\d{1,3})$/;
+
     Validator.register(
       'strict',
-      value => telephoneRegex.test(value), 'Invalid country code format',
+      value => telephoneRegex.test(value),
+      'Invalid country code format',
     );
     let rules = {
       code: 'required|strict',
@@ -88,45 +83,42 @@ const Profile = props => {
 
     if (validation.fails()) {
       setError(validation.errors.all());
-    } 
-    else {
-      dispatch(UploadUserDetails({code ,telephone, logo:photo?.path})).unwrap()
-      .then(() => {
-        // navigation.navigate('bottomStack', {
-        //   screen: 'rfq',
-        // });
-        setLoading(false);
-      })
-      .catch(rejectedValueOrSerializedError => {
-        console.log(rejectedValueOrSerializedError, 'rejecteddd');
-        if (typeof rejectedValueOrSerializedError == 'object') {
-          Object.keys(rejectedValueOrSerializedError).map(error => {
-            setError(...rejectedValueOrSerializedError[error]);
-          });
-        }
-        setError(rejectedValueOrSerializedError);
-        setLoading(false);
-        // handle error here
-      });
-     
+    } else {
+      dispatch(UploadUserDetails({code, telephone, logo: photo?.path}))
+        .unwrap()
+        .then(() => {
+          // navigation.navigate('bottomStack', {
+          //   screen: 'rfq',
+          // });
+          setLoading(false);
+        })
+        .catch(rejectedValueOrSerializedError => {
+          console.log(rejectedValueOrSerializedError, 'rejecteddd');
+          if (typeof rejectedValueOrSerializedError == 'object') {
+            Object.keys(rejectedValueOrSerializedError).map(error => {
+              setError(...rejectedValueOrSerializedError[error]);
+            });
           }
-
+          setError(rejectedValueOrSerializedError);
+          setLoading(false);
           // handle error here
-      
-    
+        });
+    }
+
+    // handle error here
   };
-
-
 
   return (
     <View style={styles._mainContainer}>
-      <TouchableOpacity
-        onPress={() => PickImage()}
-        style={{alignSelf: 'center', top: WP(12)}}>
-         {photo?.path=="" || photo?.path==undefined? <Ionicons name="md-person-circle-sharp" size={154}/>:(
-           <Image source={{uri:photo?.path}} style={{width:WP(30), height:WP(12)}} />
-         )}
-        
+      <TouchableOpacity style={{alignSelf: 'center', top: WP(12)}}>
+        {profile?.logo == '' || profile?.logo == undefined ? (
+          <Ionicons name="md-person-circle-sharp" size={154} />
+        ) : (
+          <Image
+            source={{uri: profile?.logo}}
+            style={{width: WP(39), height: WP(12), marginVertical: WP(3)}}
+          />
+        )}
       </TouchableOpacity>
       <View style={styles.container}>
         <TextInput
@@ -156,14 +148,11 @@ const Profile = props => {
           keyboardType="email-address"
           underlineColorAndroid="green"
           autoCapitalize="none"
-          placeholder='+234'
+          placeholder="+233"
           onChangeText={value => handleInputChange('code', value)}
 
           // value={email}
-        
         />
-
-        
       </View>
 
       <View style={styles.container}>
@@ -180,16 +169,32 @@ const Profile = props => {
           autoCapitalize="none"
           // value={email}
           onChangeText={value => handleInputChange('telephone', value)}
-
         />
-
-        
       </View>
 
-      <View style={{width:WP(70), alignSelf:'center', top:WP(10)}}>
-        <FormCustomButton btnTitle={"Update "} backgroundColor={COLOR.BgColor}
-        onPress={()=>onSubmit()}
-        textColor={"white"}
+      <View style={styles.container}>
+        <TextInput
+          label="Email"
+          mode="outlined"
+          theme={{
+            colors: styles.formStyle,
+            backgroundColor: 'grey',
+          }}
+          selectionColor="red"
+          underlineColor="red"
+          underlineColorAndroid="green"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={value => handleInputChange('email', value)}
+        />
+      </View>
+
+      <View style={{width: WP(70), alignSelf: 'center', top: WP(10)}}>
+        <FormCustomButton
+          btnTitle={'Update '}
+          backgroundColor={COLOR.BgColor}
+          onPress={() => onSubmit()}
+          textColor={'white'}
         />
       </View>
     </View>

@@ -13,7 +13,7 @@ import {IMAGE, HP, WP, COLOR} from '../../Utils/theme';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormCustomInput from '../../component/FormCustomInput';
 import FormCustomButton from '../../component/FormCustomButton';
-import {login} from '../../Redux/Slice/AuthSlice';
+import {login, RefreshTokenAction} from '../../Redux/Slice/AuthSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
@@ -21,6 +21,8 @@ import PasswordInput from '../../component/PasswordInput';
 import {CreateVendorAction} from '../../Redux/Slice/VendorSlice';
 import {useNavigation} from '@react-navigation/native';
 import UserDetailsHoc from '../../hoc/UserDetails';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Validator.setMessages('en', en);
 
@@ -34,6 +36,7 @@ const Login = props => {
   const [value, setValues] = useState({
     email: '',
     password: '',
+    mobile: true,
   });
 
   const handleInputChange = (inputName, inputValue) => {
@@ -79,6 +82,28 @@ const Login = props => {
         });
     }
   };
+
+  // useEffect(() => {
+  //   const refreshToken = async () => {
+  //     let tokens = await AsyncStorage.getItem('refreshToken');
+  //     axios({
+  //       url: 'https://demo-server-quotesconnect.herokuapp.com/api/v1.1/client/login',
+  //       method: 'get',
+  //       headers: {
+  //         refreshToken: tokens,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //       .then(response => {
+  //         AsyncStorage.setItem('user', response.data.token);
+  //       })
+  //       .catch(err => {
+  //         console.log(err, 'errorrr');
+  //       });
+  //   };
+
+  //   refreshToken();
+  // }, [dispatch]);
 
   return (
     <KeyboardAwareScrollView
@@ -151,7 +176,7 @@ const Login = props => {
         </View>
       </View>
 
-      <View style={{marginTop: WP(26), width: WP(90), alignSelf: 'center'}}>
+      {/* <View style={{marginTop: WP(26), width: WP(90), alignSelf: 'center'}}>
         <FormCustomButton
           placeholder="Password"
           borderColor={COLOR.BgColor}
@@ -161,12 +186,12 @@ const Login = props => {
           backgroundColor={COLOR.whiteColor}
           textColor={COLOR.BgColor}
         />
-      </View>
+      </View> */}
 
       <View>
         <TouchableOpacity
           onPress={() => navigation.navigate('ResetPassword')}
-          style={{width: WP(90), left: WP(7), height: HP(4), top: WP(-13)}}>
+          style={{width: WP(90), left: WP(7), height: HP(2), top: WP(13)}}>
           <Text style={styles._forgot}>Forgot Password</Text>
         </TouchableOpacity>
       </View>

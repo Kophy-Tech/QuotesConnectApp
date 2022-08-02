@@ -18,7 +18,8 @@ const CreateMaterial = () => {
 
   // console.log(auth, 'aaaaaaaa');
   const [value, setValues] = React.useState({
-    name: ''});
+    name: '',
+  });
 
   const handleInputChange = (inputName, inputValue) => {
     setValues({
@@ -33,7 +34,7 @@ const CreateMaterial = () => {
     // console.log(dataMaterial, 'dataMaterial');
     if (!value.name) {
       Alert.alert('Material name is required');
-    }  else {
+    } else {
       dispatch(postMaterial(dataMaterial))
         .unwrap()
         .then(res => {
@@ -56,9 +57,9 @@ const CreateMaterial = () => {
 
   // console.log(value)
   return (
-   <View style={{ flex:1, backgroundColor:'#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <KeyboardAwareScrollView
-        contentContainerStyle={{ paddingBottom: WP(65) }}
+        contentContainerStyle={{paddingBottom: WP(65)}}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
         <Box px="6" pt="20">
@@ -97,7 +98,7 @@ const CreateMaterial = () => {
           </Box>
         </Box>
       </KeyboardAwareScrollView>
-   </View>
+    </View>
   );
 };
 

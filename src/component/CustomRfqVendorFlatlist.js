@@ -113,7 +113,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
       selectedVendor.map(({_id}) => {
         dataVendor.push(_id.replace(/^"(.*)"$/, '$1'));
       });
-      refre
+
       const datarfqvendor = {
         token,
         rfq_id,

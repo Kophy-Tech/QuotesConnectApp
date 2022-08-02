@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, TextInput} from 'react-native';
 import React from 'react';
 import {COLOR, HP, WP} from '../Utils/theme';
 import Icon from 'react-native-vector-icons/Entypo';
+import {disabled} from 'deprecated-react-native-prop-types/DeprecatedTextPropTypes';
 
 const FormCustomInput = ({
   lablelText,
@@ -14,6 +15,8 @@ const FormCustomInput = ({
   fontWeight,
   inputBorderColor,
   labelText,
+  disabled,
+  labelTextColor,
 }) => {
   return (
     <View style={styles._mainContainer}>
@@ -23,7 +26,7 @@ const FormCustomInput = ({
           {
             top: labelTextTop,
             fontWeight: '400',
-            color: labelText ? labelText : COLOR.blackColor,
+            color: labelTextColor ? labelTextColor : COLOR.blackColor,
           },
         ]}>
         {lablelText}
@@ -35,14 +38,12 @@ const FormCustomInput = ({
             padding: WP(3),
             borderColor: inputBorderColor,
             borderRadius: WP(1),
-            marginVertical:HP(1),
-            color:COLOR.blackColor
-            
-            
+            marginVertical: HP(1),
+            color: COLOR.blackColor,
           }}
           autoCorrect={false}
-
-          placeholderTextColor="#999" 
+          disabled={disabled}
+          placeholderTextColor="#999"
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
@@ -50,7 +51,6 @@ const FormCustomInput = ({
           keyboardType={keyboardType}
           autoCapitalize="none"
           autoCorrect={false}
-         
         />
       </View>
     </View>

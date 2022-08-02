@@ -14,7 +14,7 @@ import {Box} from 'native-base';
 import ButtonH from '../../component/ButtonH';
 import {BgColor, bgColor1, ColorText} from '../../Utils/Colors';
 import FormCustomButton from '../../component/FormCustomButton';
-import {COLOR, WP} from '../../Utils/theme';
+import {COLOR, HP, WP} from '../../Utils/theme';
 import {useNavigation} from '@react-navigation/native';
 import {Input} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -31,25 +31,99 @@ import {Spinner} from 'native-base';
 import FormInput2 from './FormInput2';
 import FormInput from './FormInput';
 import {postRfqMaterial} from '../../Redux/Slice/RfqSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {Dropdown} from 'react-native-element-dropdown';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const countries = [
-  'Bundle',
-  'Box',
-  'Bag',
-  'Pallet',
-  'Roll',
-  'Case',
-  'Gallon',
-  'Drum',
-  'Hour',
-  'Day',
-  'Week',
-  'Month',
-];
+// const countries = [
+//   'Bundle',
+//   'Box',
+//   'Bag',
+//   'Pallet',
+//   'Roll',
+//   'Case',
+//   'Gallon',
+//   'Drum',
+//   'Hour',
+//   'Day',
+//   'Week',
+//   'Month',
+// ];
+const countries = [];
 
-const RequestForRfq = () => {
+const RequestForRfq = props => {
+  const [valu, setValu] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const [isFocus2, setIsFocus2] = useState(false);
+
+  const renderLabel = () => {
+    if (valu || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && {color: 'blue'}]}>
+          Dropdown label
+        </Text>
+      );
+    }
+    return null;
+  };
+
   const navigation = useNavigation();
   const auth = useSelector(auth => auth.auth.user);
+
+  const [openDropdown, setOpenDropwdown] = useState(false);
+  const [values, setValues] = useState(null);
+  const [items, setItems] = useState([
+    {
+      label: 'Bundle',
+      value: 'Bundle',
+    },
+    {
+      label: 'Box',
+      value: 'Box',
+    },
+    {
+      label: 'Bag',
+      value: 'Bag',
+    },
+    {
+      label: 'Pallet',
+      value: 'Pallet',
+    },
+    {
+      label: 'Roll',
+      value: 'Roll',
+    },
+    {
+      label: 'Bundle',
+      value: 'Bundle',
+    },
+    {
+      label: 'Gallon',
+      value: 'Gallon',
+    },
+    {
+      label: 'Drum',
+      value: 'Drum',
+    },
+    {
+      label: 'Hour',
+      value: 'Hour',
+    },
+    {
+      label: 'Day',
+      value: 'Day',
+    },
+    {
+      label: 'Week',
+      value: 'Week',
+    },
+    {
+      label: 'Month',
+      value: 'Month',
+    },
+  ]);
+
   const {
     isLoading: LoadingRfq,
     message: messageRfq,
@@ -74,27 +148,41 @@ const RequestForRfq = () => {
     name: '',
   });
 
-  console.log(valueText);
-  console.log(value, 'valllllllll');
-
   const [modalVisible, setModalVisible] = useState(false);
 
-  const token = auth?.token;
-  const tdata = {
-    token,
-  };
-  useLayoutEffect(() => {
-    dispatch(getMaterial(tdata))
-      .unwrap()
-      .then(res => {
-        //  console.log(res, 'respppppppppppppp');
-
-        setAllMaterial(res.data);
-      })
-      .catch(err => {
-        if (err) {
-        }
-      });
+  React.useEffect(() => {
+    const getData = async () => {
+      const token = await AsyncStorage.getItem('user');
+      const tdata = {
+        token,
+      };
+      dispatch(getMaterial(tdata))
+        .unwrap()
+        .then(res => {
+          let dropDownItem = res.data.map(item => {
+            return {
+              label: item?.name,
+              value: item?.name,
+              id: item?._id,
+              description: item.description.map(details => {
+                return {
+                  name: details._id,
+                  content: details.content,
+                  secondary: details._id,
+                  value: details.content,
+                  label: details.content,
+                };
+              }),
+            };
+          });
+          setAllMaterial(dropDownItem);
+        })
+        .catch(err => {
+          if (err) {
+          }
+        });
+    };
+    getData();
   }, [dispatch, refresh]);
 
   // const handleAddClick = () => {
@@ -110,6 +198,9 @@ const RequestForRfq = () => {
   //     setValue(_inputs);
   // }
   const [name, setName] = React.useState('');
+  const [name2, setName2] = React.useState('');
+  const [subCategoryId, setSubCategoryId] = React.useState([]);
+  console.log(subCategoryId, 'sssss');
 
   const [query, setQuery] = useState('');
 
@@ -150,16 +241,14 @@ const RequestForRfq = () => {
   };
 
   const addMaterial = () => {
-    if (!allMaterial.find(a => a.name === query) ? true : false) {
-      Alert.alert(
-        `Please Search For Correct Job  Material ${query} Is Not Found `,
-      );
-    } else if (!valueText.description) {
+    if (!valueText.description) {
       Alert.alert('Please Enter Description');
     } else if (!valueText.quantity) {
       Alert.alert('Please Enter Quantity ');
-    } else if (!valueText.unit) {
+    } else if (!values) {
       Alert.alert('Please Enter Unit ');
+    } else if (name2 == '') {
+      Alert.alert('Please Select a material ');
     } else {
       // setValue({
       //     ...valueText,
@@ -167,7 +256,7 @@ const RequestForRfq = () => {
       // })
       value.push({
         query: query,
-        name: name,
+        name: name2,
         ...valueText,
         id: uuid.v4(),
       });
@@ -197,7 +286,7 @@ const RequestForRfq = () => {
             name,
             description,
             quantity,
-            unit,
+            values,
           });
         },
       );
@@ -205,7 +294,6 @@ const RequestForRfq = () => {
 
       const datarfqmaterial = {
         rfqArray: send,
-        token,
         rfq_id,
       };
       console.log(send);
@@ -298,6 +386,7 @@ const RequestForRfq = () => {
       </View>
     );
   }
+
   return (
     <>
       <KeyboardAwareScrollView
@@ -341,7 +430,7 @@ const RequestForRfq = () => {
             return (
               <View style={styles.tableRow} key={val.id}>
                 <View style={[styles.tableColumnRegular2]}>
-                  <Text style={styles.textLineItem1}>{val?.query}</Text>
+                  <Text style={styles.textLineItem1}>{val?.name}</Text>
                 </View>
                 <View style={styles.tableColumnRegular2}>
                   <Text style={styles.textLineItem1}>{val?.description}</Text>
@@ -435,133 +524,229 @@ const RequestForRfq = () => {
                   onPress={() => setModalVisible(false)}
                 />
               </View>
-              <View
-                style={[
-                  styles.tableRow,
-                  {
-                    marginTop: 30,
-                  },
-                ]}>
-                <View
-                  style={[styles.tableColumnRegular2, {position: 'relative'}]}>
-                  <>
-                    <View
-                      style={[
-                        styles.autocompleteContainer,
-                        {
-                          zIndex: 9,
-                          position: 'absolute',
-                          top: 4,
-                        },
-                      ]}>
-                      <Autocomplete
-                        value={query}
-                        onChangeText={text => {
-                          setQuery(text);
-                        }}
-                        //   horizontal={true}
-                        placeholder="Enter material name"
-                        data={data}
-                        style={{
-                          backgroundColor: 'transparent',
-                          color: 'black',
-                        }}
-                        inputContainerStyle={{
-                          borderColor: COLOR.BgColor,
-                          borderRadius: 1,
-                          borderWidth: 0.5,
-                        }}
-                        listContainerStyle={{
-                          backgroundColor: '#a9b4fc',
-                        }}
-                        flatListProps={{
-                          keyboardShouldPersistTaps: 'always',
 
-                          listKey: (item, index) => `_key${index.toString()}`,
-                          keyExtractor: (item, index) =>
-                            `_key${index.toString()}`,
-                          renderItem: ({item}) => {
-                            //   console.log(item?.name);
-                            return (
-                              <TouchableOpacity
-                                key={item?._id}
-                                onPress={() => {
-                                  setQuery(item.name);
-                                  setName(item._id);
-                                }}
-                                style={{
-                                  padding: 10,
-                                }}>
-                                <Text style={styles.itemText}>
-                                  {item?.name}
-                                </Text>
-                              </TouchableOpacity>
-                            );
-                          },
+              <View style={styles.tableContainer}>
+                <View>
+                  <View style={styles.subContainer}>
+                    {renderLabel()}
+                    <Dropdown
+                      style={[
+                        styles.dropdown,
+                        isFocus && {borderColor: 'blue'},
+                      ]}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      iconStyle={styles.iconStyle}
+                      data={allMaterial}
+                      search
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder={!isFocus ? 'select a material' : '...'}
+                      searchPlaceholder="Search..."
+                      value={value}
+                      onFocus={() => setIsFocus(true)}
+                      onBlur={() => setIsFocus(false)}
+                      onChange={item => {
+                        console.log(item?.id);
+                        setName(item.id);
+                        setSubCategoryId(item?.description);
+                        // setIsFocus(false);e
+                      }}
+                      renderLeftIcon={() => (
+                        <AntDesign
+                          style={styles.icon}
+                          color={isFocus ? 'blue' : 'black'}
+                          name="Safety"
+                          size={20}
+                        />
+                      )}
+                    />
+                  </View>
+                </View>
+
+                {subCategoryId.length > 0 && (
+                  <View>
+                    <View style={styles.subContainer}>
+                      {renderLabel()}
+                      <Dropdown
+                        style={[
+                          styles.dropdown,
+                          isFocus && {borderColor: 'blue'},
+                        ]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={subCategoryId}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus ? 'Select item' : '...'}
+                        searchPlaceholder="Search..."
+                        value={value}
+                        onFocus={() => setIsFocus2(true)}
+                        onBlur={() => setIsFocus2(false)}
+                        onChange={item => {
+                          setName2(item?.id);
+
+                          // setIsFocus(false);e
                         }}
+                        renderLeftIcon={() => (
+                          <AntDesign
+                            style={styles.icon}
+                            color={isFocus2 ? 'blue' : 'black'}
+                            name="Safety"
+                            size={20}
+                          />
+                        )}
                       />
                     </View>
-                  </>
-                </View>
-                <View style={styles.tableColumnRegular2}>
+                  </View>
+                )}
+                {/* <View>
+                  <Autocomplete
+                    value={query}
+                    onChangeText={text => {
+                      setQuery(text);
+                    }}
+                    //   horizontal={true}
+                    placeholder="Enter material names"
+                    data={data}
+                    style={{
+                      backgroundColor: 'transparent',
+                      color: 'black',
+                    }}
+                    inputContainerStyle={{
+                      borderColor: COLOR.BgColor,
+                      borderRadius: 1,
+                      borderWidth: 0.5,
+                      padding: WP(3),
+                      width: WP('90%'),
+                      alignSelf: 'center',
+                      top: WP(12),
+                    }}
+                    listContainerStyle={{
+                      backgroundColor: '#a9b4fc',
+                    }}
+                    flatListProps={{
+                      listKey: (item, index) => `_key${index.toString()}`,
+                      keyExtractor: (item, index) => `_key${index.toString()}`,
+                      renderItem: ({item}) => {
+                        //   console.log(item?.name);
+                        return (
+                          <TouchableOpacity
+                            key={item?._id}
+                            onPress={() => {
+                              setQuery(item.name);
+                              setName(item._id);
+                            }}
+                            style={{
+                              padding: 10,
+                            }}>
+                            <Text style={styles.itemText}>{item?.name}</Text>
+                          </TouchableOpacity>
+                        );
+                      },
+                    }}
+                  />
+                </View> */}
+
+                <View style={[styles.formInput, {top: WP(10)}]}>
                   <FormInput2
                     value={valueText.description}
                     onChangeText={text =>
                       handleInputChange('description', text)
                     }
-                    placeholder="description"
+                    placeholder="Enter your description"
                   />
                 </View>
-                <View style={styles.tableColumnRegular}>
-                  <FormInput
+                <View
+                  style={{
+                    height: HP(8),
+                    marginTop: WP(15),
+                    width: WP('86%'),
+                    alignSelf: 'center',
+                  }}>
+                  <FormInput2
                     value={valueText.quantity}
+                    onChangeText={text => handleInputChange('quantity', text)}
+                    placeholder="Enter the number of quantity"
+                  />
+                  {/* <FormInput
+                    value={valu eText.quantity}
                     placeholder="quantity"
                     onChangeText={text => handleInputChange('quantity', text)}
-                  />
-                </View>
-                <View style={styles.tableColumnRegular3}>
-                  <View style={{flex: 5}}>
-                    <SelectDropdown
-                      buttonStyle={{
-                        width: '97%',
-                        height: '100%',
-                        backgroundColor: 'transparent',
-                        color: 'black',
-                      }}
-                      dropdownStyle={{
-                        backgroundColor: '#fff',
-                      }}
-                      rowStyle={{
-                        borderBottomColor: 'transparent',
-                        height: 35,
-                      }}
-                      rowTextStyle={{
-                        color: 'black',
-                        fontSize: 15,
-                      }}
-                      data={countries}
-                      defaultValue={valueText.unit}
-                      onSelect={(selectedItem, ind) =>
-                        handleInputChange('unit', selectedItem)
-                      }
-                      buttonTextAfterSelection={(selectedItem, index) => {
-                        // inputHandleUnit(selectedItem, index)
-
-                        // text represented after item is selected
-                        // if data array is an array of objects then return selectedItem.property to render after item is selected
-                        return selectedItem;
-                      }}
-                      rowTextForSelection={(item, i) => {
-                        // inputHandleUnit(item, index)
-
-                        // text represented for each item in dropdown
-                        // if data array is an array of objects then return item.property to represent item in dropdown
-                        return item;
-                      }}
-                    />
-                  </View>
+                    placeholder="Enter the number quantity"
+                  /> */}
                 </View>
               </View>
+              <View>
+                <DropDownPicker
+                  zIndexInverse={1111000}
+                  zIndex={1111000}
+                  style={{
+                    top: WP(3),
+                    width: '90%',
+                    alignSelf: 'center',
+                    borderRadius: 0,
+                    borderColor: 'grey',
+                    borderColor: BgColor,
+                  }}
+                  open={openDropdown}
+                  value={values}
+                  items={items}
+                  setOpen={setOpenDropwdown}
+                  setValue={setValues}
+                  setItems={setItems}
+                  multiple={false}
+                />
+                {/* <SelectDropdown
+                    buttonStyle={{
+                      width: '97%',
+                      height: '60%',
+                      backgroundColor: 'transparent',
+                      color: 'black',
+                      marginTop: 30,
+                      alignSelf: 'center',
+                    }}
+                    dropdownStyle={{
+                      backgroundColor: '#fff',
+                      alignSelf: 'center',
+                    }}
+                    rowStyle={{
+                      borderBottomColor: 'transparent',
+                      height: 35,
+                      alignSelf: 'center',
+                    }}
+                    rowTextStyle={{
+                      color: 'black',
+                      fontSize: 15,
+                    }}
+                    data={countries}
+                    defaultValue={valueText.unit}
+                    onSelect={(selectedItem, ind) =>
+                      handleInputChange('unit', selectedItem)
+                    }
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                      // inputHandleUnit(selectedItem, index)
+
+                      // text represented after item is selected
+                      // if data array is an array of objects then return selectedItem.property to render after item is selected
+                      return selectedItem;
+                    }}
+                    rowTextForSelection={(item, i) => {
+                      // inputHandleUnit(item, index)
+
+                      // text represented for each item in dropdown
+                      // if data array is an array of objects then return item.property to represent item in dropdown
+                      return item;
+                    }}
+                  /> */}
+              </View>
+
               <Box mt="40">
                 <TouchableOpacity
                   onPress={addMaterial}
@@ -708,5 +893,53 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+  },
+  tableContainer: {
+    flexDirection: 'column',
+  },
+  formInput: {
+    height: WP(16),
+    top: WP(15),
+    width: WP('84%'),
+    alignSelf: 'center',
+  },
+  dropdown: {
+    height: HP(6),
+    borderColor: BgColor,
+    borderWidth: 0.5,
+    borderRadius: 0,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  subContainer: {
+    width: WP(85),
+    height: WP(2),
+    marginVertical: WP(9),
+    alignSelf: 'center',
   },
 });

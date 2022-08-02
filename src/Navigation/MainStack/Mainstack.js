@@ -5,18 +5,22 @@ import BottomStack from '../BottomStack/BottomStack';
 
 import Splash from '../../Pages/Splash';
 import Onboarding from '../../Pages/Onboarding';
+import {useNavigation} from '@react-navigation/native';
+import {Alert} from 'react-native';
 
 const Stack = createStackNavigator();
 
 function MainStack() {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen name="Onboarding" component={Onboarding} />
-      <Stack.Screen name="Auth" component={AuthStack} />
+      {/* <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="Onboarding" component={Onboarding} /> */}
+      {/* <Stack.Screen name="Auth" component={AuthStack} /> */}
       <Stack.Screen name="bottomStack" component={BottomStack} />
 
       {/*

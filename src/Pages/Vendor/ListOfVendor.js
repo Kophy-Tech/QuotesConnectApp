@@ -12,7 +12,7 @@ import {
 import {BgColor, bgColor1, ColorText} from '../../Utils/Colors';
 import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
 import {useSelector, useDispatch} from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   CreateVendorAction,
   getVendorAction,
@@ -20,19 +20,16 @@ import {
 import {COLOR, HP, WP} from '../../Utils/theme';
 
 import FormCustomButton from '../../component/FormCustomButton';
-import { Capitalize } from '../../Utils/util';
+import {Capitalize} from '../../Utils/util';
 
 const ListOfVendor = props => {
-  console.log(props, 'proprorporprorporpo')
+  console.log(props, 'proprorporprorporpo');
   const dispatch = useDispatch();
-  const totalVendor  = useSelector(state=>state.vendor.data);
+  const totalVendor = useSelector(state => state.vendor.data);
   const navigation = useNavigation();
 
-
- 
-
-  const TableHeader = ['Company Logo', 'Company Name', 'Phone Number'];
-  const WidthTable = [WP(30), WP(35), WP(40)];
+  const TableHeader = ['     Vendor', 'Phone Number'];
+  const WidthTable = [WP(55), WP(40)];
 
   useEffect(() => {
     dispatch(getVendorAction());
@@ -61,50 +58,41 @@ const ListOfVendor = props => {
 
   return (
     <View style={styles.container}>
-      
-        <Table borderStyle={{borderColor: 'black'}}>
-          <Row
-            data={TableHeader}
-            style={styles.head}
-            widthArr={WidthTable}
-            textStyle={styles.text}
-          />      
-        </Table>
-        <FlatList 
+      <Table borderStyle={{borderColor: 'black'}}>
+        <Row
+          data={TableHeader}
+          style={styles.head}
+          widthArr={WidthTable}
+          textStyle={styles.text}
+        />
+      </Table>
+      <FlatList
         showsHorizontalScrollIndicator={false}
         data={totalVendor}
-        renderItem={({item})=>{
-          console.log(item, 'bbbbbrknrknbkanknd')
+        renderItem={({item}) => {
+          console.log(item, 'bbbbbrknrknbkanknd');
           return (
-              
-        <TouchableOpacity style={{backgroundColor:"#F7FCFB" ,marginVertical:WP(1)}} 
-               onPress={()=>navigation.navigate('UpdateVendor',{item})}>
-                  <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+            <TouchableOpacity
+              style={{backgroundColor: '#F7FCFB', marginVertical: WP(1)}}
+              onPress={() => navigation.navigate('UpdateVendor', {item})}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View
+                  style={{
+                    width: WP(45),
+                    padding: WP(7),
+                  }}>
+                  <Text style={styles.textColor}>{Capitalize(item?.name)}</Text>
+                </View>
 
-<View>
-  <Image source={{uri:item?.logo==""?undefined:item?.logo}} 
-  style={{width:WP(10), height:HP(5),marginVertical:WP(2), left:WP(3)}}  
-    />
-</View>
-
-<View style={{width:WP(40),left:WP(15), top:WP(5)}}>
-  <Text style={styles.textColor}>{Capitalize(item?.name)}</Text>
-</View>
-
-<View style={{width:WP(40),left:WP(15), top:WP(5)}}> 
-  <Text style={styles.textColor}>{item?.telephone}</Text>
-</View>
-
-
-
-</View>
-               </TouchableOpacity>
-
-          )
-        }}/>
-      
-        
-     
+                <View style={{width: WP(40), left: WP(10), top: WP(5)}}>
+                  <Text style={styles.textColor}>{item?.telephone}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+      />
     </View>
   );
 };
@@ -169,7 +157,7 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 2,
   },
-  textColor:{
-    color:COLOR.blackColor
-  }
+  textColor: {
+    color: COLOR.blackColor,
+  },
 });

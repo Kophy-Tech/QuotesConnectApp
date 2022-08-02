@@ -47,7 +47,6 @@ const Vendors = () => {
       .then(res => {
         setFilteredDataSource([...res.data]);
         setMasterDataSource([...res.data]);
-       
       })
       .catch(err => {
         console.log(err, 'errrrrr');
@@ -55,7 +54,7 @@ const Vendors = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, marginBottom: 80}}>
+    <SafeAreaView style={{flex: 1, marginBottom: 80, backgroundColor: 'white'}}>
       <AppBar type="black" backgroundColor={COLOR.whiteColor} />
       <Header />
       <Box px="6">
@@ -71,27 +70,14 @@ const Vendors = () => {
           <ButtonH
             style={{
               borderColor: BgColor,
-              width: '48%',
-              backgroundColor: index ? BgColor : 'transparent',
-              borderRadius: 5,
-            }}
-            onPress={() => setIdex(!index)}>
-            <Text
-              style={[styles.butttonText, {color: index ? '#fff' : BgColor}]}>
-              View History
-            </Text>
-          </ButtonH>
-          <ButtonH
-            style={{
-              borderColor: BgColor,
-              width: '48%',
+              width: '100%',
               backgroundColor: !index ? BgColor : 'transparent',
               borderRadius: 5,
             }}
             onPress={() => navigation.navigate('createvendor')}>
             <Text
               style={[styles.butttonText, {color: !index ? '#fff' : BgColor}]}>
-              Create New
+              Create New Vendor
             </Text>
           </ButtonH>
         </Flex>
@@ -107,4 +93,8 @@ const Vendors = () => {
 
 export default Vendors;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+  },
+});

@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/Redux/Store/Store';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {LogBox} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 LogBox.ignoreLogs(["exported from 'deprecated-react-native-prop-types'."]);
 
@@ -15,6 +16,8 @@ LogBox.ignoreLogs(["exported from 'deprecated-react-native-prop-types'."]);
 // ])
 
 const App = () => {
+
+
   return (
     <>
       <Provider store={store}>
