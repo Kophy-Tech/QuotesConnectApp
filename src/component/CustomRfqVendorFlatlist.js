@@ -88,18 +88,39 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
 
   const dispatch = useDispatch();
   const [vendorData, setvendorData] = useState(itemData);
-  const renderItem = ({item}) => <Item item={item} />;
-
   const handleSingleCheck = id => {
-    console.log(id);
+    // console.log(id);
     const nf = vendorData?.map(f => {
       if (id === f._id) {
         return {...f, check: !f.check};
       }
       return f;
     });
+    // console.log(nf);
     setvendorData(nf);
   };
+  const renderItem = ({item}) => {
+    // console.log(item.check, 'item');
+    return (
+      <View style={styles.tableRow}>
+        <View style={styles.tableColumnRegular1}>
+          <CheckBox
+            value={item.check}
+            onValueChange={() => handleSingleCheck(item._id)}
+            style={styles.checkboxStyle}
+            checkedColor="#fff"
+          />
+        </View>
+        <View style={styles.tableColumnRegular}>
+          <Image style={styles.imageStyle} source={{uri: `${item.logo}`}} />
+        </View>
+        <View style={styles.tableColumnRegular2}>
+          <Text style={styles.textLineItem1}>{item.name}</Text>
+        </View>
+      </View>
+    );
+  };
+
   const selectedVendor = vendorData?.filter(f => f.check);
   const submitVendor = () => {
     if (selectedVendor.length < 3) {
@@ -137,79 +158,66 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
     }
   };
 
-  const Item = ({item}) => {
-    return (
-        <>
-         
-                <View>
+  return (
+    <>
+      <View>
+        <Box px="3">
+          <Text style={styles.vendorSelectText}>
+            {' '}
+            Note that you are not eligible to select more than three (3) vendors
+          </Text>
+        </Box>
 
-                 <Box px="3">
-                    <Text style={styles.vendorSelectText}> Note that you  are not eligible to select  more than three (3) vendors</Text>
+        <FlatList
+          data={vendorData}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          ListFooterComponent={vendorData.length < 3 ? FooterComponent : null}
+          keyExtractor={item => `id${item?._id}`}
+          contentContainerStyle={{
+            paddingHorizontal: 22,
+            paddingTop: 9,
+            paddingBottom: 60,
+          }}
+        />
 
+        <Box my="5" px="3">
+          <TouchableOpacity
+            onPress={submitVendor}
+            style={{
+              backgroundColor: COLOR.BgColor,
+              padding: WP(4),
+              borderRadius: WP(3),
+              borderWidth: 1,
+              borderColor: COLOR.BgColor,
+              top: WP(4),
+            }}>
+            {LoadingRfq ? (
+              <Spinner
+                accessibilityLabel="Loading posts"
+                size="sm"
+                color="#fff"
+              />
+            ) : (
+              <Text
+                style={{
+                  fontSize: WP(4.5),
+                  color: COLOR.whiteColor,
+                  textAlign: 'center',
+                  fontWeight: '400',
+                }}>
+                Create
+              </Text>
+            )}
+          </TouchableOpacity>
+        </Box>
+      </View>
+    </>
+  );
+};
 
-                 </Box>
-                 
-                    <FlatList
-                    data={vendorData}
-                        renderItem={renderItem}
-                        showsVerticalScrollIndicator={false}
-                        showsHorizontalScrollIndicator={false}
-                    ListFooterComponent={vendorData.length <3 ? FooterComponent : null}
-
-                        keyExtractor={(item) => `id${item?._id}`}
-                    contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 9, paddingBottom: 60}}
-                    />
-
-
-                    <Box my="5" px="3">
-                    <TouchableOpacity
-                        onPress={submitVendor}
-                        style={{
-                            backgroundColor: COLOR.BgColor,
-                            padding: WP(4),
-                            borderRadius: WP(3),
-                            borderWidth: 1,
-                            borderColor: COLOR.BgColor,
-                            top: WP(4),
-
-
-                        }}
-                    >
-                        {
-
-                            LoadingRfq ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
-                                style={{
-                                    fontSize: WP(4.5),
-                                    color: COLOR.whiteColor,
-                                    textAlign: 'center',
-                                    fontWeight: '400',
-
-
-
-
-                                }}>
-                              Create
-                            </Text>
-                        }
-
-
-                    </TouchableOpacity>
-                      
-                    </Box>
-                </View>
-
-
-
-         
-           
-
-        </>
-        )
-}
-}
-
-
-export default CustomRfqVendorFlatlist
+export default CustomRfqVendorFlatlist;
 
 const styles = StyleSheet.create({
   container: {
@@ -232,7 +240,7 @@ const styles = StyleSheet.create({
     paddingVertical: HP(4),
   },
   tableColumnRegular: {
-    flex: 0.8,
+    flex: 1,
 
     justifyContent: 'center',
 
@@ -274,5 +282,8 @@ const styles = StyleSheet.create({
     height: 60,
     marginBottom: 2,
     borderRadius: 5,
+  },
+  checkboxStyle: {
+    color: 'blue',
   },
 });

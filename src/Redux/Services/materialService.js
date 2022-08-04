@@ -7,13 +7,10 @@ const API_URL = `${otherUrl}/`;
 const getMaterialService = data => {
   const {token} = data;
 
-  return axios
-    .get(API_URL + `material/all-materials`, {
-      headers: {Authorization: `${token}`},
-    })
-    .then(response => {
-      return response.data;
-    });
+  return instance.get(`material/all-materials`).then(response => {
+
+    return response.data;
+  });
 };
 
 const postMaterialService = data => {

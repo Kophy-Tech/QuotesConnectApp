@@ -39,7 +39,6 @@ const SelectVendors = ({navigation}) => {
       })
       .catch(err => {});
   }, [dispatch]);
-  console.log(allVendors, 'allvendors');
   if (isLoading) {
     return <Loading />;
   } else if (message && isLoading === false) {

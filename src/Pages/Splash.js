@@ -13,7 +13,7 @@ const Splash = ({navigation}) => {
       .then(value => {
         if (value == '1') {
           preferences
-            .getAuthSession()
+            ._getItem('user')
             .then(async session => {
               console.log({session});
               if (session) {
@@ -22,11 +22,11 @@ const Splash = ({navigation}) => {
                     index: 0,
                     routes: [
                       {
-                        name: 'Auth',
+                        name: 'bottomStack',
                         state: {
                           routes: [
                             {
-                              name: 'Welcome',
+                              name: 'Bottom',
                             },
                           ],
                         },

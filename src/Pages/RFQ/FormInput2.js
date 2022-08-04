@@ -21,6 +21,7 @@ const FormInput2 = ({value, onChangeText, placeholder}) => {
           borderColor: COLOR.BgColor,
           borderRadius: WP(0),
           color: 'black',
+          fontSize: WP(3.5),
         }}
         placeholderTextColor={COLOR.blackColor}
         placeholderStyle={{fontSize: 'bold'}}

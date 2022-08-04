@@ -23,7 +23,7 @@ function MainStack() {
       <Stack.Screen name="Auth" component={AuthStack} />
       <Stack.Screen name="bottomStack" component={BottomStack} />
 
-      {/*
+      {/*  
 
       <Stack.Screen name="Auth" component={AuthStack} />
       <Stack.Screen name="bottomStack" component={BottomStack} /> */}

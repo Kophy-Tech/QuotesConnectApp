@@ -60,9 +60,7 @@ const RequestForRfq = props => {
   const renderLabel = () => {
     if (valu || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && {color: 'blue'}]}>
-          Dropdown label
-        </Text>
+        <Text style={[styles.label, isFocus && {color: 'blue'}]}>Select</Text>
       );
     }
     return null;
@@ -138,7 +136,7 @@ const RequestForRfq = props => {
   const [allMaterial, setAllMaterial] = useState([]);
 
   // console.log(jobRfq?._id)
-  const rfq_id = jobRfq?._id;
+  const rfq_id = jobRfq?.data?._id;
   const [value, setValue] = useState([]);
   const [valueText, setValueText] = useState({
     query: '',
@@ -257,6 +255,7 @@ const RequestForRfq = props => {
       value.push({
         query: query,
         name: name2,
+        unit: values,
         ...valueText,
         id: uuid.v4(),
       });
@@ -283,8 +282,9 @@ const RequestForRfq = props => {
         ({name, description, quantity, unit, query}) => {
           // console.log(confirm())
           send.push({
-            name,
+            name: name2,
             description,
+            unit: values,
             quantity,
             values,
           });
@@ -302,7 +302,6 @@ const RequestForRfq = props => {
         .unwrap()
         .then(res => {
           if (res.status === 'Updated') {
-            Alert.alert(`${res.msg}`);
             setValue([]);
             navigation.navigate('selectvendors');
           }
@@ -451,7 +450,7 @@ const RequestForRfq = props => {
                     style={{
                       flex: 3,
                     }}>
-                    <Text style={styles.textLineItem1}>{val?.unit}</Text>
+                    <Text style={styles.textLineItem1}>{values}</Text>
                   </View>
 
                   <View
@@ -550,7 +549,7 @@ const RequestForRfq = props => {
                       onBlur={() => setIsFocus(false)}
                       onChange={item => {
                         console.log(item?.id);
-                        setName(item.id);
+                        setName2(item.id);
                         setSubCategoryId(item?.description);
                         // setIsFocus(false);e
                       }}
@@ -590,7 +589,7 @@ const RequestForRfq = props => {
                         onFocus={() => setIsFocus2(true)}
                         onBlur={() => setIsFocus2(false)}
                         onChange={item => {
-                          setName2(item?.id);
+                          setName(item?.id);
 
                           // setIsFocus(false);e
                         }}

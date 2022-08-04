@@ -16,6 +16,7 @@ const login = userData => {
       console.log(response.data?.refreshToken, '00000000000000');
       AsyncStorage.setItem('user', response.data.token);
       AsyncStorage.setItem('refreshToken', response.data?.refreshToken);
+      return response.data;
     }
     return response.data;
   });

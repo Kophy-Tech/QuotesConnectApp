@@ -19,39 +19,33 @@ const postRfQJobService = data => {
 
 const getRfQJobService = token => {
   // console.log(token, 'token')
-  return axios
-    .get(API_URL + `rfq?page=${1}&limit=${10}`, {
-      headers: {Authorization: `${token}`},
-    })
-    .then(response => {
-      return response.data;
-    });
+  return instance.get(`rfq/all-rfqs`).then(response => {
+    
+    return response.data;
+  });
 };
 
 const postRfQMaterialService = data => {
   const {rfqArray, token, rfq_id} = data;
+  console.log(rfq_id, 'sss.dkankdnkankndkjan');
   const obj = {
     rfqArray: rfqArray,
   };
-  return axios
-    .post(API_URL + `rfq/${rfq_id}/material`, obj, {
-      headers: {Authorization: `${token}`},
-    })
-    .then(response => {
-      console.log(response, 'response');
+  return instance.post(`rfq/${rfq_id}/material`, obj).then(response => {
+    console.log(response, 'response');
 
-      return response.data;
-    });
+    return response.data;
+  });
 };
 
 const postRfQVendorService = data => {
   const {dataVendor, token, rfq_id} = data;
-  console.log(dataVendor, 'from backend');
+  console.log(rfq_id, 'from 1111111 backend');
   const obj = {
     vendorArray: dataVendor,
   };
-  return axios
-    .post(API_URL + `rfq/${rfq_id}/vendor`, obj, {
+  return instance
+    .post(`rfq/${rfq_id}/vendor`, obj, {
       headers: {Authorization: `${token}`},
     })
     .then(response => {
