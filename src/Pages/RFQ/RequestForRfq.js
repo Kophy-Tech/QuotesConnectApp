@@ -136,9 +136,9 @@ const RequestForRfq = props => {
   const [allMaterial, setAllMaterial] = useState([]);
 
   // console.log(jobRfq?._id)
-  const rfq_id = jobRfq?.data?._id;
+  const rfq_id = jobRfq?._id;
   const [value, setValue] = useState([]);
-  console.log(value, 'valllllll')
+  // console.log(value, 'valllllll')
   const [valueText, setValueText] = useState({
     query: '',
     description: '',
@@ -199,7 +199,7 @@ const RequestForRfq = props => {
   const [name, setName] = React.useState('');
   const [name2, setName2] = React.useState('');
   const [subCategoryId, setSubCategoryId] = React.useState([]);
-  console.log(subCategoryId, 'sssss');
+  // console.log(subCategoryId, 'sssss');
 
   const [query, setQuery] = useState('');
 
@@ -282,11 +282,11 @@ const RequestForRfq = props => {
         ({name, description, quantity, unit, query}) => {
           // console.log(confirm())
           send.push({
-            name: name2,
+            name: name,
             description,
-            unit: values,
+            unit: unit,
             quantity,
-            values,
+           
           });
         },
       );
@@ -297,13 +297,16 @@ const RequestForRfq = props => {
         rfq_id,
       };
       console.log(send);
-      console.log({datarfqmaterial});
+      console.log(datarfqmaterial);
+      console.log(rfq_id, 'rfq_id')
       dispatch(postRfqMaterial(datarfqmaterial))
         .unwrap()
         .then(res => {
           if (res.status === 'Updated') {
             setValue([]);
             navigation.navigate('selectvendors');
+            Alert.alert(`${res.msg}`);
+
           }
           console.log(res.status);
         })
@@ -311,7 +314,7 @@ const RequestForRfq = props => {
           console.log(err, 'error from postrfqjob');
           Alert.alert(`${err}`);
         });
-      navigation.navigate('selectvendors');
+    
     }
   };
 

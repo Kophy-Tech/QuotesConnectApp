@@ -26,8 +26,9 @@ const getRfQJobService = token => {
 };
 
 const postRfQMaterialService = data => {
-  const {rfqArray, token, rfq_id} = data;
+  const {rfqArray, rfq_id} = data;
   console.log(rfq_id, 'sss.dkankdnkankndkjan');
+  console.log(data, 'data from rfq material')
   const obj = {
     rfqArray: rfqArray,
   };
