@@ -57,7 +57,7 @@ const EmptyContainer = () => {
 // { itemParams: item }
 const CustomRfqflatlist = ({itemData, navigation}) => {
   const dispatch = useDispatch();
-
+console.log(itemData , 'itemdata from customrfqflatlist');
   const renderItem = ({item}) => (
     <Item item={item} onItemPress={NavigationPressPending} />
   );
@@ -86,12 +86,14 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
       navigation.navigate('openrfq');
       dispatch(dispatchRouteData(item));
     } else if (
-      item.status === 'Submitted' &&
+      item.status === 'submitted' &&
       item.rfqArray.length > 0 &&
       item.vendorArray.length > 0
     ) {
       navigation.navigate('SelectedVendorItem', {item});
       dispatch(dispatchRouteData(item));
+      // console.log(itemData, 'itemdata from customrfqflatlist');
+
     } else if (
       item.status === 'Purchased' &&
       item.rfqArray.length > 0 &&
