@@ -69,16 +69,16 @@ const Job = ({navigation}) => {
 
       <Header />
       <Box px="6">
-        <Box>
+        {/* <Box>
           <InputSearch
             onChangeText={text => searchFilterFunction(text)}
             onClear={text => searchFilterFunction('')}
             value={search}
             placeholder="search project name"
           />
-        </Box>
+        </Box> */}
 
-        <Flex direction="row" mt="4" justifyContent="space-between">
+        <Flex direction="row" mt="6" justifyContent="space-between" mb="4">
           <ButtonH
             style={{
               borderColor: BgColor,

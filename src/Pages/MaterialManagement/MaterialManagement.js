@@ -70,15 +70,15 @@ const MaterialManagement = ({navigation}) => {
       <AppBar type="black" backgroundColor={COLOR.whiteColor} />
       <Header />
       <Box px="6">
-        <Box>
+        {/* <Box>
           <InputSearch
             onChangeText={text => searchFilterFunction(text)}
             onClear={text => searchFilterFunction('')}
             value={search}
             placeholder="search catergory name"
           />
-        </Box>
-        <View style={{marginVertical: 25}}>
+        </Box> */}
+        <View style={{marginBottom: 25}}>
           <FormCustomButton
             btnTitle="Create New"
             backgroundColor={'white'}

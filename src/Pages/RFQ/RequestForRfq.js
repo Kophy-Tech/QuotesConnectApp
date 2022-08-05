@@ -138,6 +138,7 @@ const RequestForRfq = props => {
   // console.log(jobRfq?._id)
   const rfq_id = jobRfq?.data?._id;
   const [value, setValue] = useState([]);
+  console.log(value, 'valllllll')
   const [valueText, setValueText] = useState({
     query: '',
     description: '',
@@ -239,36 +240,35 @@ const RequestForRfq = props => {
   };
 
   const addMaterial = () => {
-    if (!valueText.description) {
-      Alert.alert('Please Enter Description');
-    } else if (!valueText.quantity) {
+   if (!valueText.quantity) {
       Alert.alert('Please Enter Quantity ');
     } else if (!values) {
       Alert.alert('Please Enter Unit ');
     } else if (name2 == '') {
       Alert.alert('Please Select a material ');
     } else {
-      // setValue({
-      //     ...valueText,
-      //     id: uuid.v4()
-      // })
+   
       value.push({
-        query: query,
+        query: valueText.query,
         name: name2,
         unit: values,
-        ...valueText,
+        description:valueText.description,
         id: uuid.v4(),
+        quantity: valueText.quantity,
       });
       setValueText({
+        query: '',
         description: '',
         quantity: '',
         unit: '',
+        name: '',
       });
       setName('');
       setQuery('');
       setModalVisible(false);
     }
   };
+
 
   const submitButton = () => {
     let send = [];
@@ -429,7 +429,7 @@ const RequestForRfq = props => {
             return (
               <View style={styles.tableRow} key={val.id}>
                 <View style={[styles.tableColumnRegular2]}>
-                  <Text style={styles.textLineItem1}>{val?.name}</Text>
+                  <Text style={styles.textLineItem1}>{val?.query}</Text>
                 </View>
                 <View style={styles.tableColumnRegular2}>
                   <Text style={styles.textLineItem1}>{val?.description}</Text>
@@ -450,7 +450,7 @@ const RequestForRfq = props => {
                     style={{
                       flex: 3,
                     }}>
-                    <Text style={styles.textLineItem1}>{values}</Text>
+                    <Text style={styles.textLineItem1}>{val?.unit}</Text>
                   </View>
 
                   <View
@@ -548,9 +548,10 @@ const RequestForRfq = props => {
                       onFocus={() => setIsFocus(true)}
                       onBlur={() => setIsFocus(false)}
                       onChange={item => {
-                        console.log(item?.id);
+                        console.log(item, 'itemmmmm');
                         setName2(item.id);
                         setSubCategoryId(item?.description);
+                        handleInputChange('query', item?.value)
                         // setIsFocus(false);e
                       }}
                       renderLeftIcon={() => (
@@ -590,7 +591,7 @@ const RequestForRfq = props => {
                         onBlur={() => setIsFocus2(false)}
                         onChange={item => {
                           setName(item?.id);
-
+                          handleInputChange('description', item?.value)
                           // setIsFocus(false);e
                         }}
                         renderLeftIcon={() => (
@@ -653,7 +654,7 @@ const RequestForRfq = props => {
                   />
                 </View> */}
 
-                <View style={[styles.formInput, {top: WP(10)}]}>
+                {/* <View style={[styles.formInput, {top: WP(10)}]}>
                   <FormInput2
                     value={valueText.description}
                     onChangeText={text =>
@@ -661,11 +662,11 @@ const RequestForRfq = props => {
                     }
                     placeholder="Enter your description"
                   />
-                </View>
+                </View> */}
                 <View
                   style={{
                     height: HP(8),
-                    marginTop: WP(15),
+                    marginTop: WP(10),
                     width: WP('86%'),
                     alignSelf: 'center',
                   }}>
@@ -701,6 +702,10 @@ const RequestForRfq = props => {
                   setValue={setValues}
                   setItems={setItems}
                   multiple={false}
+                  itemKey={value}
+                  flatListProps={{
+                    listKey: (items, index) => `_key${index.toString()}`,
+                    keyExtractor: (items, index) => `_key${index.toString()}`,}}
                 />
                 {/* <SelectDropdown
                     buttonStyle={{
