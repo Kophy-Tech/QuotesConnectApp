@@ -60,6 +60,25 @@ export const updateMaterial = createAsyncThunk(
   },
 );
 
+export const subAddMaterialAction = createAsyncThunk(
+  'material/Addmaterial',
+  async (data, thunkAPI) => {
+    try {
+      return await MaterialService.addSubMaterialService(data);
+    } catch (error) {
+      console.log(error, 'error');
+      const {message} = error;
+      // console.log(error.response.data || message)
+
+      // const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() || error.response.data
+
+      return thunkAPI.rejectWithValue(
+        error.response.data.error[0].msg || message,
+      );
+    }
+  },
+);
+
 export const subUpdateMaterialAction = createAsyncThunk(
   'material/updatematerial',
   async (data, thunkAPI) => {

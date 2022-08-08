@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import { Spinner } from "native-base";
-import { useSelector, useDispatch } from 'react-redux';
+import {Spinner} from 'native-base';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {
   COLOR,
@@ -18,9 +18,7 @@ import {
   FONT,
 } from '../Utils/theme';
 const FormCustomButton = ({
-
-
-  textColor ,
+  textColor,
   backgroundColor,
   fontWeight,
   btnTitle,
@@ -29,13 +27,12 @@ const FormCustomButton = ({
   fontSize,
   borderWidth,
   borderColor,
-borderRadius
+  borderRadius,
 }) => {
+  const loading = useSelector(material => material.material.isLoading);
+  const loadingJob = useSelector(job => job.job.isLoading);
 
-  const loading = useSelector((material) => material.material.isLoading)
-  const loadingJob = useSelector((job) => job.job.isLoading)
-
-// console.log(loading);
+  // console.log(loading);
   return (
     <React.Fragment>
       <TouchableOpacity
@@ -43,28 +40,26 @@ borderRadius
         style={{
           backgroundColor: backgroundColor,
           padding: WP(4),
-          borderRadius: WP(borderRadius ?borderRadius: 3),
+          // borderRadius: WP(borderRadius ? borderRadius : 3),
+          borderRadius: borderRadius ? 3 : borderRadius,
           borderWidth: borderWidth,
-          borderColor:borderColor,
-          top:WP(4),
-       
-         
+          borderColor: borderColor,
+          top: WP(4),
         }}
         disabled={disabled}>
-        {loading || loadingJob ? <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" /> : <Text
-          style={{
-            fontSize: WP(4.5),
-            color: textColor,
-            textAlign: 'center',
-            fontWeight: fontWeight,
-
-
-
-
-          }}>
-          {btnTitle}
-        </Text>}
-      
+        {loading || loadingJob ? (
+          <Spinner accessibilityLabel="Loading posts" size="sm" color="#fff" />
+        ) : (
+          <Text
+            style={{
+              fontSize: WP(4.5),
+              color: textColor,
+              textAlign: 'center',
+              fontWeight: fontWeight,
+            }}>
+            {btnTitle}
+          </Text>
+        )}
       </TouchableOpacity>
     </React.Fragment>
   );

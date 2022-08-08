@@ -8,7 +8,6 @@ const getMaterialService = data => {
   const {token} = data;
 
   return instance.get(`material/all-materials`).then(response => {
-
     return response.data;
   });
 };
@@ -16,13 +15,11 @@ const getMaterialService = data => {
 const postMaterialService = data => {
   const {value, token} = data;
   console.log(value, token, ' vaaaaaa');
-  return axios
-    .post(API_URL + 'material', value, {headers: {Authorization: `${token}`}})
-    .then(response => {
-      console.log(response, 'response');
+  return instance.post('material', value).then(response => {
+    console.log(response, 'response');
 
-      return response.data;
-    });
+    return response.data;
+  });
 };
 
 const deleteMaterialService = data => {
@@ -53,6 +50,19 @@ const updateMaterialService = data => {
       return response.data;
     });
 };
+// https://demo-server-quotesconnect.herokuapp.com/api/v1.1/material/62ab3adcd19c463c76fead1c/description
+
+const addSubMaterialService = data => {
+  return instance
+    .post(`material/${data?.id}/description`, {
+      content: data.content,
+    })
+    .then(response => {
+      console.log(response, 'response');
+
+      return response.data;
+    });
+};
 
 // https://demo-server-quotesconnect.herokuapp.com/api/v1.1/material/62ab3adcd19c463c76fead1c/description/62ab3e34bf56575be4d99f78
 
@@ -63,14 +73,10 @@ const subUpdateMaterialService = data => {
   console.log(primary_id, '1111');
 
   console.log(updatedData?.content, 'sss');
-  return axios
-    .put(
-      API_URL + `material/${primary_id}/description/${_id}`,
-      {content: updatedData?.content},
-      {
-        headers: {Authorization: `${token}`},
-      },
-    )
+  return instance
+    .put(`material/${primary_id}/description/${_id}`, {
+      content: updatedData?.content,
+    })
     .then(response => {
       // console.log(response, 'response')
 
@@ -105,6 +111,7 @@ const materialService = {
   updateMaterialService,
   subUpdateMaterialService,
   subDeleteMaterialService,
+  addSubMaterialService,
 };
 
 export default materialService;
