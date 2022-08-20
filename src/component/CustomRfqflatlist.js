@@ -9,8 +9,9 @@ import {
 import React from 'react';
 
 import {BgColor, bgColor1, ColorText} from '../Utils/Colors';
-import {dispatchRouteData} from '../Redux/Slice/RfqSlice';
+import {dispatchRouteData, getRfqJob} from '../Redux/Slice/RfqSlice';
 import {useSelector, useDispatch} from 'react-redux';
+import {store} from '../Redux/Store/Store';
 
 const HeaderComponent = () => {
   return (
@@ -57,15 +58,19 @@ const EmptyContainer = () => {
 // { itemParams: item }
 const CustomRfqflatlist = ({itemData, navigation}) => {
   const dispatch = useDispatch();
-console.log(itemData , 'itemdata from customrfqflatlist');
+
+  // React.useEffect(() => {
+  //   dispatch(getRfqJob());
+  // }, []);
+
+  const totalRfq = useSelector(() => store.getState()).rfq?.allrfq?.data;
+
+  console.log(totalRfq, 'aaa');
+  console.log(itemData, 'itemdata from customrfqflatlist');
   const renderItem = ({item}) => (
     <Item item={item} onItemPress={NavigationPressPending} />
   );
   const NavigationPressPending = item => {
-    console.log(
-      item.rfqArray.length,
-      'item.rfqArray.length item.rfqArray.length ',
-    );
     if (item.status === 'pending' && item.rfqArray.length === 0) {
       // console.log('ppp')
       // navigation.navigate('selectvendors')
@@ -90,10 +95,25 @@ console.log(itemData , 'itemdata from customrfqflatlist');
       item.rfqArray.length > 0 &&
       item.vendorArray.length > 0
     ) {
+      navigation.navigate('SubmittedStatus', {item});
+      dispatch(dispatchRouteData(item));
+      // console.log(itemData, 'itemdata from customrfqflatlist');
+    } else if (
+      item.status === 'completed' &&
+      item.rfqArray.length > 0 &&
+      item.vendorArray.length > 0
+    ) {
+      navigation.navigate('CompletedStatus', {item});
+      dispatch(dispatchRouteData(item));
+      // console.log(itemData, 'itemdata from customrfqflatlist');
+    } else if (
+      item.status === 'ready' &&
+      item.rfqArray.length > 0 &&
+      item.vendorArray.length > 0
+    ) {
       navigation.navigate('SelectedVendorItem', {item});
       dispatch(dispatchRouteData(item));
       // console.log(itemData, 'itemdata from customrfqflatlist');
-
     } else if (
       item.status === 'Purchased' &&
       item.rfqArray.length > 0 &&
@@ -181,7 +201,7 @@ console.log(itemData , 'itemdata from customrfqflatlist');
             </TouchableOpacity>
           )}
 
-          {item.status === 'Ready' && (
+          {item.status === 'ready' && (
             <TouchableOpacity
               onPress={() => onItemPress(item)}
               style={{
@@ -225,6 +245,7 @@ console.log(itemData , 'itemdata from customrfqflatlist');
 
           {item.status === 'completed' && (
             <TouchableOpacity
+              onPress={() => onItemPress(item)}
               style={{
                 backgroundColor: 'green',
                 borderRadius: 4,
@@ -308,7 +329,7 @@ console.log(itemData , 'itemdata from customrfqflatlist');
   return (
     <>
       <FlatList
-        data={itemData}
+        data={totalRfq}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}

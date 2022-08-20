@@ -15,6 +15,7 @@ import {
   Box,
 } from 'native-base';
 
+
 const ViewMaterial = ({navigation, error, setError, material}) => {
   const {isLoading, message} = useSelector(material => material.material);
 

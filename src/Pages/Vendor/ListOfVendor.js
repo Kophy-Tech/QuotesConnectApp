@@ -28,8 +28,8 @@ const ListOfVendor = props => {
   const totalVendor = useSelector(state => state.vendor.data);
   const navigation = useNavigation();
 
-  const TableHeader = ['     Vendor', 'Phone Number'];
-  const WidthTable = [WP(55), WP(40)];
+  const TableHeader = ['     Vendor', 'Vendor Name'];
+  const WidthTable = [WP(65), WP(40)];
 
   useEffect(() => {
     dispatch(getVendorAction());
@@ -77,17 +77,29 @@ const ListOfVendor = props => {
               onPress={() => navigation.navigate('UpdateVendor', {item})}>
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View>
+                  <Image
+                    source={{uri: item?.logo}}
+                    style={{
+                      width: WP(15),
+                      height: HP(4),
+                      top: HP(3),
+                      left: WP(3),
+                    }}
+                  />
+                </View>
                 <View
                   style={{
                     width: WP(45),
                     padding: WP(7),
+                    left: WP(12),
                   }}>
                   <Text style={styles.textColor}>{Capitalize(item?.name)}</Text>
                 </View>
 
-                <View style={{width: WP(40), left: WP(10), top: WP(5)}}>
+                {/* <View style={{width: WP(40), left: WP(10), top: WP(5)}}>
                   <Text style={styles.textColor}>{item?.telephone}</Text>
-                </View>
+                </View> */}
               </View>
             </TouchableOpacity>
           );

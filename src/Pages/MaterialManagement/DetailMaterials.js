@@ -1,9 +1,18 @@
-import {StyleSheet, Text, View, FlatList, TextInput, Alert} from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TextInput,
+  Alert,
+  DevSettings,
+  RefreshControl,
+} from 'react-native';
+import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {HP, WP} from '../../Utils/theme';
+import {COLOR, HP, WP} from '../../Utils/theme';
 import FormCustomButton from '../../component/FormCustomButton';
 import {BgColor} from '../../Utils/Colors';
 import Modal from 'react-native-modal';
@@ -12,19 +21,25 @@ import {
   subAddMaterialAction,
 } from '../../Redux/Slice/materialSlice';
 import {useDispatch, useSelector} from 'react-redux';
+import RNRestart from 'react-native-restart';
+import {Capitalize} from '../../Utils/util';
 
 const DetailMaterials = props => {
-  console.log(props?.route?.params?.itemParams?._id, '123423');
+  console.log(props?.route?.params?.itemParams?.name, '123423');
 
   const dispatch = useDispatch();
   const [content, setContent] = React.useState('');
   const [isModal, isSetModal] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const data = {
     content,
     id: props?.route?.params?.itemParams?._id,
   };
+
   const AddSubCategoryMaterial = () => {
+    setLoading(true);
     if (content == '') {
       Alert.alert('Sub Description is required');
     } else {
@@ -33,7 +48,11 @@ const DetailMaterials = props => {
         .then(() => {
           dispatch(getMaterial());
           isSetModal(false);
+          setRefreshing(true);
           Alert.alert('Material Description Added');
+          props.navigation.goBack();
+          setLoading(false);
+
           // navigation.navigate('bottomStack', {
           //   screen: 'rfq',
           // });
@@ -41,6 +60,8 @@ const DetailMaterials = props => {
         })
         .catch(rejectedValueOrSerializedError => {
           // handle error here
+          setLoading(false);
+
           console.log(
             rejectedValueOrSerializedError,
             'rejectedValueOrSerializedError',
@@ -49,6 +70,17 @@ const DetailMaterials = props => {
         });
     }
   };
+
+  React.useEffect(() => {
+    props.navigation.setOptions({
+      title: (
+        <Text style={{color: COLOR.BgColor}}>
+          {Capitalize(props?.route?.params?.itemParams?.name)}
+        </Text>
+      ),
+    });
+  }, []);
+
   return (
     <View>
       <View style={styles.buttonContainer}>
@@ -110,7 +142,9 @@ const DetailMaterials = props => {
       <FlatList
         data={props?.route?.params?.itemParams?.description}
         keyExtractor={item => item.id}
+        refreshing={true}
         extraData={props?.route?.params?.itemParams?.description}
+        contentContainerStyle={{paddingBottom: WP(65)}}
         renderItem={({item}) => (
           <>
             <View style={styles._subContainer}>

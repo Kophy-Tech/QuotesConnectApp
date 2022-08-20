@@ -56,6 +56,7 @@ const RequestForRfq = props => {
   const [valu, setValu] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [isFocus2, setIsFocus2] = useState(false);
+  const [isFocus3, setIsFocus3] = useState(false);
 
   const renderLabel = () => {
     if (valu || isFocus) {
@@ -120,6 +121,10 @@ const RequestForRfq = props => {
       label: 'Month',
       value: 'Month',
     },
+    {
+      label: 'Each',
+      value: 'Each',
+    },
   ]);
 
   const {
@@ -136,7 +141,8 @@ const RequestForRfq = props => {
   const [allMaterial, setAllMaterial] = useState([]);
 
   // console.log(jobRfq?._id)
-  const rfq_id = jobRfq?._id;
+  const rfq_id = jobRfq?.data?._id;
+  console.log(rfq_id, 'ojdldlldaknklsnnkdn');
   const [value, setValue] = useState([]);
   // console.log(value, 'valllllll')
   const [valueText, setValueText] = useState({
@@ -240,19 +246,18 @@ const RequestForRfq = props => {
   };
 
   const addMaterial = () => {
-   if (!valueText.quantity) {
+    if (!valueText.quantity) {
       Alert.alert('Please Enter Quantity ');
     } else if (!values) {
       Alert.alert('Please Enter Unit ');
     } else if (name2 == '') {
       Alert.alert('Please Select a material ');
     } else {
-   
       value.push({
         query: valueText.query,
         name: name2,
         unit: values,
-        description:valueText.description,
+        description: valueText.description,
         id: uuid.v4(),
         quantity: valueText.quantity,
       });
@@ -268,7 +273,6 @@ const RequestForRfq = props => {
       setModalVisible(false);
     }
   };
-
 
   const submitButton = () => {
     let send = [];
@@ -286,7 +290,6 @@ const RequestForRfq = props => {
             description,
             unit: unit,
             quantity,
-           
           });
         },
       );
@@ -298,15 +301,14 @@ const RequestForRfq = props => {
       };
       console.log(send);
       console.log(datarfqmaterial);
-      console.log(rfq_id, 'rfq_id')
+      console.log(rfq_id, 'rfq_id');
       dispatch(postRfqMaterial(datarfqmaterial))
         .unwrap()
         .then(res => {
           if (res.status === 'Updated') {
             setValue([]);
             navigation.navigate('selectvendors');
-            Alert.alert(`${res.msg}`);
-
+            // Alert.alert(`${res.msg}`);
           }
           console.log(res.status);
         })
@@ -314,7 +316,6 @@ const RequestForRfq = props => {
           console.log(err, 'error from postrfqjob');
           Alert.alert(`${err}`);
         });
-    
     }
   };
 
@@ -407,7 +408,9 @@ const RequestForRfq = props => {
                 borderRadius: 5,
               }}
               onPress={() => setModalVisible(true)}>
-              <Text style={[styles.butttonText, {color: '#fff'}]}>Add</Text>
+              <Text style={[styles.butttonText, {color: '#fff'}]}>
+                Add Material
+              </Text>
             </ButtonH>
           </View>
 
@@ -554,7 +557,7 @@ const RequestForRfq = props => {
                         console.log(item, 'itemmmmm');
                         setName2(item.id);
                         setSubCategoryId(item?.description);
-                        handleInputChange('query', item?.value)
+                        handleInputChange('query', item?.value);
                         // setIsFocus(false);e
                       }}
                       renderLeftIcon={() => (
@@ -594,7 +597,7 @@ const RequestForRfq = props => {
                         onBlur={() => setIsFocus2(false)}
                         onChange={item => {
                           setName(item?.id);
-                          handleInputChange('description', item?.value)
+                          handleInputChange('description', item?.value);
                           // setIsFocus(false);e
                         }}
                         renderLeftIcon={() => (
@@ -686,8 +689,38 @@ const RequestForRfq = props => {
                   /> */}
                 </View>
               </View>
-              <View>
-                <DropDownPicker
+              <View style={{width: WP('86%'), alignSelf: 'center'}}>
+                <Dropdown
+                  style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  iconStyle={styles.iconStyle}
+                  data={items}
+                  search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocus ? 'Select item' : '...'}
+                  searchPlaceholder="Search..."
+                  value={value}
+                  onFocus={() => setIsFocus3(true)}
+                  onBlur={() => setIsFocus3(false)}
+                  onChange={item => {
+                    setName(item?.id);
+                    setValues(item?.value);
+                    // setIsFocus(false);e
+                  }}
+                  renderLeftIcon={() => (
+                    <AntDesign
+                      style={styles.icon}
+                      color={isFocus2 ? 'blue' : 'black'}
+                      name="Safety"
+                      size={20}
+                    />
+                  )}
+                />
+                {/* <DropDownPicker
                   zIndexInverse={1111000}
                   zIndex={1111000}
                   style={{
@@ -708,8 +741,9 @@ const RequestForRfq = props => {
                   itemKey={value}
                   flatListProps={{
                     listKey: (items, index) => `_key${index.toString()}`,
-                    keyExtractor: (items, index) => `_key${index.toString()}`,}}
-                />
+                    keyExtractor: (items, index) => `_key${index.toString()}`,
+                  }}
+                /> */}
                 {/* <SelectDropdown
                     buttonStyle={{
                       width: '97%',

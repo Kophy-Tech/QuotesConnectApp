@@ -10,7 +10,7 @@ const HeaderComponent = () => {
     <>
       <View style={styles.tableColumnHeader}>
         <View style={styles.tableColumnRegular}>
-          <Text style={styles.textLineItem}>Category Name</Text>
+          <Text style={styles.textLineItem}>Primary Category Name</Text>
         </View>
         {/* <View style={styles.tableColumnRegular2}>
                     <Text style={[styles.textLineItem3, {
@@ -139,11 +139,11 @@ const styles = StyleSheet.create({
     height: 62,
   },
   textLineItem: {
-    fontSize: 15,
-    fontWeight: '400',
+    fontSize: 20,
+    fontWeight: '500',
     color: '#fff',
     textAlign: 'center',
-    lineHeight: 48,
+    lineHeight: 58,
   },
   textLineItem3: {
     fontWeight: '400',

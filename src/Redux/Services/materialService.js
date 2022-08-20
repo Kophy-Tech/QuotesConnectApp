@@ -5,7 +5,7 @@ import {otherUrl} from '../Constant/Constants';
 const API_URL = `${otherUrl}/`;
 
 const getMaterialService = data => {
-  const {token} = data;
+
 
   return instance.get(`material/all-materials`).then(response => {
     return response.data;

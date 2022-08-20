@@ -13,12 +13,16 @@ import {getMaterial, getMoreMaterial} from '../../Redux/Slice/materialSlice';
 import ViewMaterial from '../../component/ViewMaterial';
 import {useSelector, useDispatch} from 'react-redux';
 import FormCustomButton from '../../component/FormCustomButton';
+import {store} from '../../Redux/Store/Store';
+
 const MaterialManagement = ({navigation}) => {
   const [index, setIdex] = React.useState(true);
 
   const auth = useSelector(auth => auth.auth.user);
   const dispatch = useDispatch();
-  const {refresh} = useSelector(material => material.material);
+  // const {refresh} = useSelector(material => material.material);
+  const refresh = useSelector(() => store.getState().material?.material?.data);
+  console.log(refresh, 'a1232');
 
   const [error, setError] = useState(false);
   const [search, setSearch] = useState('');
@@ -33,7 +37,6 @@ const MaterialManagement = ({navigation}) => {
     dispatch(getMaterial(tdata))
       .unwrap()
       .then(res => {
-
         setFilteredDataSource([...res.data]);
         setMasterDataSource([...res.data]);
       })
@@ -42,7 +45,7 @@ const MaterialManagement = ({navigation}) => {
           setError(true);
         }
       });
-  }, [dispatch, refresh]);
+  }, [dispatch]);
 
   const searchFilterFunction = text => {
     // Check if searched text is not blank

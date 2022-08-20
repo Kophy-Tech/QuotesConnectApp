@@ -32,6 +32,8 @@ import SelectedVendorItem from '../../Pages/RFQ/SelectedVendorItem';
 import OpennRfq from '../../Pages/RFQ/OpenRfq';
 import DetailMaterials from '../../Pages/MaterialManagement/DetailMaterials';
 import EditSubMaterial from '../../Pages/MaterialManagement/EditSubMaterial';
+import SubmittedStatus from '../../Pages/RFQ/SubmittedStatus';
+import CompletedStatus from '../../Pages/RFQ/CompletedStatus';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,6 +51,7 @@ function BottomStack() {
           headerShown: false,
         }}
       />
+
       <Stack.Screen
         name="SelectedVendorItem"
         component={SelectedVendorItem}
@@ -107,7 +110,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Create RFQ For Vendors
+              Select Vendors
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -125,7 +128,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Create RFQ For Vendors
+              Select Vendors
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -238,7 +241,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Edit Material
+              Primary Category
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -276,7 +279,45 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Create RFQ For Material
+              Select Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name="SubmittedStatus"
+        component={SubmittedStatus}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name="CompletedStatus"
+        component={CompletedStatus}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Material
             </Text>
           ),
           headerLeft: () => <BackIcon />,

@@ -20,7 +20,6 @@ const postRfQJobService = data => {
 const getRfQJobService = token => {
   // console.log(token, 'token')
   return instance.get(`rfq/all-rfqs`).then(response => {
-    
     return response.data;
   });
 };
@@ -28,7 +27,7 @@ const getRfQJobService = token => {
 const postRfQMaterialService = data => {
   const {rfqArray, rfq_id} = data;
   console.log(rfq_id, 'sss.dkankdnkankndkjan');
-  console.log(data, 'data from rfq material')
+  console.log(data, 'data from rfq material');
   const obj = {
     rfqArray: rfqArray,
   };
@@ -57,13 +56,9 @@ const postRfQVendorService = data => {
 };
 
 const selectItemServices = vendorData => {
-  console.log(
-    vendorData?.data,
-    vendorData?.id,
-    'chosenOptionchosenOptionchosenOption',
-  );
+  console.log(vendorData, 'adlnaknksnknkankdnkndkanknkdnk');
   return instance
-    .post(`/rfq/select/${vendorData?.id}`, vendorData?.data)
+    .post(`/rfq/select/${vendorData?.id}`, vendorData?.vendor)
     .then(response => {
       console.log(response, 'selectItemServicesselectItemServices');
       return response.data;

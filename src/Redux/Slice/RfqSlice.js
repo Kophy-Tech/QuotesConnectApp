@@ -104,7 +104,7 @@ export const clientSelectItems = createAsyncThunk(
         'error selectIjjjjjtemServicesselectItemServices',
       );
       const {message} = error;
-      return thunkAPI.rejectWithValue(error.response.data || message);
+      return thunkAPI.rejectWithValue(error.response.data.error || message);
     }
   },
 );

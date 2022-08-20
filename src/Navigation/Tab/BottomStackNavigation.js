@@ -15,11 +15,8 @@ const Tab = createBottomTabNavigator();
 const BottomStackNavigation = () => {
   return (
     <Tab.Navigator
-  
       screenOptions={{
         keyboardHidesTabBar: true,
-
-        tabBarShowLabel: false,
         tabBarStyle: {
           width: WP('100%'),
           position: 'absolute',
@@ -27,16 +24,19 @@ const BottomStackNavigation = () => {
           elevation: 0,
           backgroundColor: '#5080FA',
           // height: WP(15),
-          height: Platform.OS === 'ios' ? WP(22) : WP(15),
+          height: Platform.OS === 'ios' ? WP(24.4) : WP(15),
           ...styles.shadow,
         },
-        tabBarHideOnKeyboard:true
+        tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
         name="rfq"
         component={Rfq}
         // component={SelectedVendorItem}
         options={{
+          tabBarLabel: ({focused, color, size}) => (
+            <Text style={{color: focused ? 'yellow' : 'white'}}>RFQ</Text>
+          ),
           // tabBarStyle: { display: "none" },
           headerShown: false,
           tabBarIcon: ({focused}) => {
@@ -71,6 +71,10 @@ const BottomStackNavigation = () => {
         name="job"
         component={Job}
         options={{
+          tabBarLabel: ({focused, color, size}) => (
+            <Text style={{color: focused ? 'yellow' : 'white'}}>JOB</Text>
+          ),
+
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return (
@@ -103,7 +107,9 @@ const BottomStackNavigation = () => {
         name="vendors"
         component={Vendors}
         options={{
-          
+          tabBarLabel: ({focused, color, size}) => (
+            <Text style={{color: focused ? 'yellow' : 'white'}}>VENDOR</Text>
+          ),
           // tabBarStyle: { display: "none" },
           headerShown: false,
           tabBarIcon: ({focused, color}) => {
@@ -129,6 +135,9 @@ const BottomStackNavigation = () => {
         name="material"
         component={MaterialManagement}
         options={{
+          tabBarLabel: ({focused, color, size}) => (
+            <Text style={{color: focused ? 'yellow' : 'white'}}>MATERIAL</Text>
+          ),
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return (
@@ -151,9 +160,6 @@ const BottomStackNavigation = () => {
           },
         }}
       />
-
-
-      
     </Tab.Navigator>
   );
 };
@@ -168,16 +174,14 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
-  
   },
 
   reHeight: {
     bottom: WP(2.5),
-  
+
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 2,
-  
   },
 });

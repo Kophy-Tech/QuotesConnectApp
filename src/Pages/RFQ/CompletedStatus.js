@@ -13,14 +13,13 @@ import {ListItem, Container, Content, Header, Radio} from 'native-base';
 import RadioForm from 'react-native-simple-radio-button';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import FormCustomButton from '../../component/FormCustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {clientSelectItems, getRfqJob} from '../../Redux/Slice/RfqSlice';
-import Orientation from 'react-native-orientation';
 
 const SelectedVendorItem = props => {
+  console.log(props?.route?.params?.item, 'oajodkadkmksks');
   const [totalPrice, setTotalPrice] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [priceId, setPriceId] = useState(null);
@@ -138,16 +137,12 @@ const SelectedVendorItem = props => {
         });
     }
   };
-  console.log(
-    props?.route?.params?.item?.vendorArray,
-    'props?.route?.params?.itemprops?.route?.params?.item',
-  );
   return (
     <ScrollView
       contentContainerStyle={{paddingBottom: WP(65)}}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
-      {/* <View>
+      <View>
         <View
           style={{
             flexDirection: 'row',
@@ -162,92 +157,45 @@ const SelectedVendorItem = props => {
           <Text style={styles.textColor}>Price</Text>
           <Text style={styles.textColor}></Text>
         </View>
-      </View> */}
-
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <View
-          style={{
-            flexDirection: 'column',
-          }}>
-          {props?.route?.params?.item?.rfqArray.map(item => (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-evenly',
-
-                width: WP(90),
-                padding: WP(6),
-                left: WP(-12),
-              }}>
-              <Image
-                style={styles.Logo}
-                source={{
-                  uri: item?.vendor?.logo,
-                }}
-              />
-              <Text style={{left: WP(3), textTransform: 'capitalize'}}>
-                {item?.name?.name}
-              </Text>
-
-              <Text style={{left: WP(3), textTransform: 'capitalize'}}>
-                {item?.unit}
-              </Text>
-              <Text style={{left: WP(3), textTransform: 'capitalize'}}>
-                {item?.quantity}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        <View
-          style={{
-            right: WP(60),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          {props?.route?.params?.item?.vendorArray.map(item => (
-            <View>
-              {item?.priceList?.priceArray.map(values => {
-                return (
+      </View>
+      <View>
+        {props?.route?.params?.item?.vendorArray.length <= 3 && (
+          <View>
+            {props?.route?.params?.item?.vendorArray.map(
+              item => (
+                console.log(item?.priceList?.priceArray, 'alkndla'),
+                (
                   <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                      padding: 28,
+                      width: WP(90),
+                      padding: WP(6),
                     }}>
-                    <Text>${values.totalPrice}</Text>
-                    <TouchableOpacity
-                      onPress={() => setSelectedId(values?._id)}>
-                      <FontAwesome
-                        name={
-                          values?._id == selectedId ? 'circle' : 'circle-thin'
-                        }
-                        size={24}
-                      />
-                    </TouchableOpacity>
+                    <Image
+                      style={styles.Logo}
+                      source={{
+                        uri: item?.vendor?.logo,
+                      }}
+                    />
+                    <Text style={{left: WP(3), textTransform: 'capitalize'}}>
+                      {item?.priceList?.priceArray[0]?.request?.name?.name}
+                    </Text>
+                    <Text>{item?.priceList?.priceArray[0]?.request?.unit}</Text>
+
+                    <Text>
+                      {item?.priceList?.priceArray[0]?.request?.quantity}
+                    </Text>
+                    <Text>${item?.priceList?.priceArray[0]?.totalPrice}</Text>
                   </View>
-                );
-              })}
-            </View>
-          ))}
-          {/* {props?.route?.params?.item?.vendorArray.map((item, i) => (
-            <View>
-              {item?.priceList?.priceArray.map(
-                (values, j) => (
-                  console.log(item?.priceList?.priceArray, ',,,1121212'),
-                  (<Text>{item?.priceList?.priceArray[j][0]?.price}</Text>)
-                ),
-              )}
-            </View>
-          ))} */}
-        </View>
+                )
+              ),
+            )}
+          </View>
+        )}
       </View>
 
-      {/* <View>
+      <View>
         <View>
           <View style={{marginVertical: 10, left: 5}}>
             <Text>Item 2</Text>
@@ -278,28 +226,6 @@ const SelectedVendorItem = props => {
                       {item?.priceList?.priceArray[1]?.request?.quantity}
                     </Text>
                     <Text>${item?.priceList?.priceArray[1]?.totalPrice}</Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setId2(item?._id);
-                        setSelectedId2(item?._id);
-                        setTotalPrice2(
-                          item?.priceList?.priceArray[1]?.totalPrice,
-                        );
-                        setRequestId2(
-                          item?.priceList?.priceArray[1]?.request?._id,
-                        );
-                        setPriceId2(item?.priceList?._id);
-                      }}>
-                      {selectedId2 == item?._id ? (
-                        <MaterialCommunityIcons
-                          name="circle"
-                          size={24}
-                          color="#5080FA"
-                        />
-                      ) : (
-                        <Entypo name="circle" size={24} />
-                      )}
-                    </TouchableOpacity>
                   </View>
                 </>
               )}
@@ -337,53 +263,24 @@ const SelectedVendorItem = props => {
                       {item?.priceList?.priceArray[2]?.request?.quantity}
                     </Text>
                     <Text>${item?.priceList?.priceArray[2]?.totalPrice}</Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setId3(item?._id);
-                        setSelectedId3(item?._id);
-                        setTotalPrice3(
-                          item?.priceList?.priceArray[2]?.totalPrice,
-                        );
-                        setRequestId3(
-                          item?.priceList?.priceArray[2]?.request?._id,
-                        );
-                        setPriceId3(item?.priceList?._id);
-                      }}>
-                      {selectedId3 == item?._id ? (
-                        <MaterialCommunityIcons
-                          name="circle"
-                          size={24}
-                          color="#5080FA"
-                        />
-                      ) : (
-                        <Entypo name="circle" size={24} />
-                      )}
-                    </TouchableOpacity>
                   </View>
                 </>
               )}
             </>
           ))}
         </View>
-      </View> */}
+      </View>
 
-      <View style={{left: WP(10)}}>
-        <View style={styles.totalDetailContainer}>
-          <Text style={styles.totaltax2}>Selected Sub Total : </Text>
-          <Text style={styles.totaltax1}>${vendorTotalPrice} </Text>
-        </View>
-
-        <View style={styles.totalDetailContainer}>
-          <Text style={styles.totaltax2}> Total Tax Rate :</Text>
-          <Text style={styles.totaltax1}> ${TotalTaxPrice} </Text>
-        </View>
-
+      <View style={{left: WP(10), width: WP(20), alignSelf: 'center'}}>
         <View style={styles.totalDetailContainer}>
           <Text style={styles.totaltax2}>Total :</Text>
-          <Text style={styles.totaltax1}> ${totalEverthing}</Text>
+          <Text style={styles.totaltax1}>
+            {' '}
+            ${props?.route?.params?.item?.grandTotal}
+          </Text>
         </View>
       </View>
-      <View style={{width: WP(50), alignSelf: 'center'}}>
+      {/* <View style={{width: WP(50), alignSelf: 'center'}}>
         <FormCustomButton
           btnTitle={
             loading ? <ActivityIndicator color="white" /> : 'Place Order'
@@ -392,7 +289,7 @@ const SelectedVendorItem = props => {
           textColor={COLOR.whiteColor}
           onPress={() => onSubmit()}
         />
-      </View>
+      </View> */}
     </ScrollView>
   );
 };

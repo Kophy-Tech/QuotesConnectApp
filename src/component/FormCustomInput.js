@@ -50,7 +50,7 @@ const FormCustomInput = ({
           onFocus={onFocus}
           keyboardType={keyboardType}
           autoCapitalize="none"
-          autoCorrect={false}
+          
         />
       </View>
     </View>

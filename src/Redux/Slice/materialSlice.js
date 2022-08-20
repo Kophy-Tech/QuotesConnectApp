@@ -6,7 +6,7 @@ export const getMaterial = createAsyncThunk(
   'material/getmaterial',
   async (token, thunkAPI) => {
     try {
-      const response = await MaterialService.getMaterialService(token);
+      const response = await MaterialService.getMaterialService();
       // console.log(response.data, 'response')
       return response;
     } catch (error) {

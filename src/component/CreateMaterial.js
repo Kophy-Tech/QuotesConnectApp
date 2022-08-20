@@ -4,6 +4,7 @@ import {HP, WP, COLOR} from '../Utils/theme';
 import InputForm from './Input';
 import {Box} from 'native-base';
 import FormCustomButton from './FormCustomButton';
+import FormCustomInput from './FormCustomInput';
 import CustomTextArea from './TextArea';
 import {ColorText} from '../Utils/Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -64,15 +65,23 @@ const CreateMaterial = () => {
         showsHorizontalScrollIndicator={false}>
         <Box px="6" pt="20">
           <Box mb="2">
-            <InputForm
+            <FormCustomInput
+              value={value.name}
+              lablelText="Primary Category Name"
+              labelTextTop={WP(5)}
+              labelTextColor={COLOR.BgColor}
+              onChangeText={value => handleInputChange('name', value)}
+              inputBorderColor={COLOR.BgColor}
+            />
+            {/* <InputForm
               title="Primary Category Name"
               value={value.name}
               name="name"
               borderColor={COLOR.BgColor}
               onChangeText={value => handleInputChange('name', value)}
-            />
+            /> */}
             <Text style={styles.subText}>
-              name of the project you want to create
+              Name of the project you want to create
             </Text>
           </Box>
           {/* <Box mb="2">
@@ -119,5 +128,6 @@ const styles = StyleSheet.create({
     fontSize: WP(3),
     paddingTop: HP(0),
     color: ColorText,
+    bottom:5
   },
 });
