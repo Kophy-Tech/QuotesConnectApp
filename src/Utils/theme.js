@@ -26,11 +26,11 @@ export const INPUT_HEIGHT = 6;
 export const SCREEN_ICON_SIZE = 6;
 export const HOME_TAB_ICON_SIZE = 6;
 export const TAB_ICON_SIZE = 6;
-export const NAIRA_SYSMBOL="$";
+export const NAIRA_SYSMBOL = '$';
 
 export const COLOR = {
-   BgColor :'#5080FA',
-   green:"#2EB66E",
+  BgColor: '#5080FA',
+  green: '#2EB66E',
   whiteColor: '#ffffff',
   primary: '#F88255',
   primaryOrange: '#E3562A',
@@ -49,7 +49,6 @@ export const COLOR = {
   brown: '#50555C',
   line: '#E1E4E8',
   secondaryWhite: '#f4f4f4',
-  
 };
 
 export const IMAGE = {
@@ -59,8 +58,8 @@ export const IMAGE = {
   intro_3: require('../Assets/Images/intro_3.png'),
   intro_4: require('../Assets/Images/intro_4.png'),
   company_logo: require('../Assets/Images/company_logo.png'),
-  FileInput:require('../Assets/Images/FileInput.png'),
-  plus:require('../Assets/Images/plus.png'),
+  FileInput: require('../Assets/Images/FileInput.png'),
+  plus: require('../Assets/Images/plus.png'),
 };
 
 //FONT SIZES USED IN APP
@@ -87,21 +86,21 @@ export const ONBOARD_DATA = [
   {
     intro_image: IMAGE.intro_1,
     title: `Customizable Approvals`,
-    subTitle: `Build and deploy customized approval flows with our ${'\n'} intuitive interface and gain full visibility into actual spend,${'\n'} not just forecasted spend.`,
+    subTitle: `Build and deploy customized approval flows with our ${'\n'} intuitive interface and gain full visibility into actual spend, not just forecasted spend.`,
     nextBtn: 'Next',
     skipbtn: 'Skip',
   },
   {
     intro_image: IMAGE.intro_2,
     title: 'Vendor and catalog management',
-    subTitle: `Work smarter with your vendors. Conduct vendor  ${'\n'} performance analysis and manage preferred items in a ${'\n'} catalog for easier purchasing.`,
+    subTitle: `Work smarter with your vendors. Conduct vendor  ${'\n'} performance analysis and manage preferred items in a  catalog for easier purchasing.`,
     nextBtn: 'Next',
     skipbtn: 'Skip',
   },
   {
     intro_image: IMAGE.intro_3,
     title: `Easy- to - use mobile app`,
-    subTitle: `Working on the go? Speed up purchasing requests and ${'\n'} approvals with our user-friendly, full-function Procuring ${'\n'} Mobile App for iOS and Android.`,
+    subTitle: `Working on the go? Speed up purchasing requests and approvals with our user-friendly, full-function Procuring Mobile App for iOS and Android.`,
     nextBtn: 'Next',
     skipbtn: 'Skip',
   },
@@ -112,5 +111,3 @@ export const ONBOARD_DATA = [
     nextBtn: 'Let’s Explore',
   },
 ];
-
-

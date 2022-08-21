@@ -42,6 +42,7 @@ function BottomStack() {
     <Stack.Navigator
       screenOptions={{
         headerShown: true,
+        headerBackTitleVisible: false,
       }}
       initialRouteName="vendors">
       <Stack.Screen
@@ -64,7 +65,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Edit Job
+             Place Order
             </Text>
           ),
         }}

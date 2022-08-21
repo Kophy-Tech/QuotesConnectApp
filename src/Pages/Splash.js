@@ -22,11 +22,11 @@ const Splash = ({navigation}) => {
                     index: 0,
                     routes: [
                       {
-                        name: 'bottomStack',
+                        name: 'Auth',
                         state: {
                           routes: [
                             {
-                              name: 'Bottom',
+                              name: 'Welcome',
                             },
                           ],
                         },

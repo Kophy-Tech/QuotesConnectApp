@@ -108,7 +108,7 @@ const Login = props => {
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
-      contentContainerStyle={{paddingBottom: WP(50)}}
+      contentContainerStyle={{paddingBottom: WP(90)}}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
       <View style={styles._imageContainer}>
@@ -162,7 +162,10 @@ const Login = props => {
             </Text>
           </View>
 
-          <View style={{bottom: WP(4)}}>
+          <View
+            style={{
+              marginTop: Object.keys(errors).length ? WP(-4) : WP(-14),
+            }}>
             <FormCustomButton
               onPress={() => onSubmit()}
               inputBorderColor={COLOR.BgColor}
@@ -176,6 +179,17 @@ const Login = props => {
         </View>
       </View>
 
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ResetPassword')}
+        style={{
+          position: 'absolute',
+          textAlign: 'center',
+          bottom: WP(40),
+          alignSelf: 'center',
+        }}>
+        <Text>Forgot Password</Text>
+      </TouchableOpacity>
+
       {/* <View style={{marginTop: WP(26), width: WP(90), alignSelf: 'center'}}>
         <FormCustomButton
           placeholder="Password"
@@ -187,14 +201,13 @@ const Login = props => {
           textColor={COLOR.BgColor}
         />
       </View> */}
-
-      <View>
+      {/* <View>
         <TouchableOpacity
           onPress={() => navigation.navigate('ResetPassword')}
-          style={{width: WP(90), left: WP(7), height: HP(2), top: WP(13)}}>
+          style={{width: WP(90), left: WP(7), marginTop: WP(13)}}>
           <Text style={styles._forgot}>Forgot Password</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </KeyboardAwareScrollView>
   );
 };
@@ -228,7 +241,7 @@ const styles = StyleSheet.create({
     color: COLOR.blackColor,
   },
   errorContainer: {
-    top: HP(-6),
+    top: HP(-2),
     alignSelf: 'center',
   },
   error: {
