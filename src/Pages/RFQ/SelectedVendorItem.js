@@ -625,7 +625,7 @@ const SelectedVendorItem = props => {
       dispatch(clientSelectItems(data))
         .unwrap()
         .then(() => {
-          Alert.alert('Order Placed successfully');
+          Alert.alert('Order Placed Successfully');
           props.navigation.goBack();
           setLoading(false);
           dispatch(getRfqJob());
@@ -640,6 +640,10 @@ const SelectedVendorItem = props => {
     }
   };
 
+  console.log(
+    props?.route?.params?.item?.vendorArray[1]?.vendor?.logo,
+    '{props?.route?.params?.item',
+  );
   return (
     <ScrollView>
       <Text
@@ -669,18 +673,55 @@ const SelectedVendorItem = props => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 backgroundColor: '#5080FA',
-                padding: HP(3),
+                padding: HP(5),
               }}>
-              <Text style={styles.textColor}>Item</Text>
+              <Text style={[styles.textColor, {left: WP(18)}]}>Material</Text>
 
-              <Text style={[styles.textColor, {marginLeft: WP(-20)}]}>
-                Unit
+              <Text style={[styles.textColor, {marginLeft: WP(-18)}]}>
+                Item
               </Text>
-              <Text style={[styles.textColor, {left: WP(-29)}]}>Qty</Text>
-              <Text style={[styles.textColor, {left: WP(-58)}]}>
-                Description
-              </Text>
-              <Text style={[styles.textColor, {left: WP(-66)}]}>Price</Text>
+              <Text style={[styles.textColor, {left: WP(29)}]}>Quantity</Text>
+              <Text style={[styles.textColor, {left: WP(36)}]}>Unit</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingLeft: WP(10),
+                  marginHorizontal: WP(52),
+                  width: WP(20),
+                }}>
+                {props?.route?.params?.item?.vendorArray.map(item => (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginHorizontal: 60,
+                      right: WP(40),
+                    }}>
+                    <View>
+                      <Image
+                        style={{
+                          width: WP(12),
+                          height: HP(5),
+                          left: 28,
+
+                          marginHorizontal: WP(5),
+                        }}
+                        source={{
+                          uri: item?.vendor?.logo,
+                        }}
+                      />
+                    </View>
+                  </View>
+                ))}
+                <Text
+                  style={[
+                    styles.textColor,
+                    {left: WP(-75), top: HP(6), fontWeight: 'bold'},
+                  ]}>
+                  Price
+                </Text>
+              </View>
             </View>
           </View>
           <View
@@ -713,51 +754,53 @@ const SelectedVendorItem = props => {
                       left: WP(15),
                       textTransform: 'capitalize',
                       width: 90,
-                      fontWeight: 'bold',
+                      // fontWeight: 'bold',
                       backgroundColor: bgColor1,
                       padding: 4,
                       paddingTop: 12,
                       textAlign: 'center',
+                      marginVertical: 12,
                     }}>
                     {item?.name?.name}
+                  </Text>
+                  <Text
+                    style={{
+                      left: WP(14),
+                      textTransform: 'capitalize',
+                      width: 90,
+                      // fontWeight: 'bold',
+                      backgroundColor: bgColor1,
+                      padding: WP(4),
+                      bottom: 5,
+                      marginVertical: 9,
+                    }}>
+                    {item?.description}
+                  </Text>
+                  <Text
+                    style={{
+                      left: WP(20),
+                      textTransform: 'capitalize',
+                      marginVertical: WP(6.4),
+                    }}>
+                    {item?.quantity}
                   </Text>
 
                   <Text
                     style={{
-                      left: WP(15),
+                      left: WP(32),
                       textTransform: 'capitalize',
                       top: 2,
                       backgroundColor: bgColor1,
                       height: WP(9),
                       padding: 4,
-                      marginVertical: WP(2.6),
+                      marginVertical: WP(5.6),
                     }}>
                     {item?.unit}
-                  </Text>
-
-                  <Text
-                    style={{
-                      left: WP(19),
-                      textTransform: 'capitalize',
-                      marginVertical: WP(3.4),
-                    }}>
-                    {item?.quantity}
-                  </Text>
-                  <Text
-                    style={{
-                      left: WP(22),
-                      textTransform: 'capitalize',
-                      width: 90,
-                      fontWeight: 'bold',
-                      backgroundColor: bgColor1,
-                      padding: WP(4),
-                      bottom: 5,
-                    }}>
-                    {item?.description}
                   </Text>
                 </View>
               ))}
             </View>
+
             <View
               style={{
                 right: WP(10),
@@ -767,20 +810,27 @@ const SelectedVendorItem = props => {
                 left: 5,
               }}>
               {props?.route?.params?.item?.vendorArray.map(item => (
-                <View>
+                <View style={{borderBottomWidth: 1}}>
                   {item?.priceList?.priceArray.map((values, i) => {
                     return (
                       <View
                         style={{
                           flexDirection: 'row',
                           marginVertical: -1,
-                          paddingBottom: 4,
+                          paddingBottom: 12,
+                          // borderWidth: 1,
+                          borderRightWidth: 1,
+                          borderColor: 'black',
+                          borderLeftWidth: 1,
+                          height: 180,
+
+                          // borderBottomWidth: 1,
                         }}>
                         <Text
                           style={{
                             marginVertical:
                               item?.priceList?.priceArray.length > 3
-                                ? WP(15.6)
+                                ? WP(10)
                                 : WP(12.6),
                             paddingLeft: 3,
                             width: WP(24),
@@ -792,10 +842,10 @@ const SelectedVendorItem = props => {
                           style={{
                             top:
                               item?.priceList?.priceArray.length > 3
-                                ? WP(15)
+                                ? WP(10)
                                 : WP(13),
                             paddingLeft: WP(2),
-                            left: WP(-10),
+                            left: WP(-5),
                           }}>
                           {/* radio button for row 1 */}
                           {item?.priceList?.priceArray[i]?.request?._id ==

@@ -7,6 +7,7 @@ import {
   Alert,
   DevSettings,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -85,7 +86,7 @@ const DetailMaterials = props => {
     <View>
       <View style={styles.buttonContainer}>
         <FormCustomButton
-          btnTitle="Add Sub Category"
+          btnTitle="Add Material"
           backgroundColor={BgColor}
           textColor="white"
           borderRadius={0}
@@ -110,7 +111,7 @@ const DetailMaterials = props => {
               {props?.route?.params?.itemParams?.name}
             </Text>
             <View style={{alignSelf: 'center', top: HP(7)}}>
-              <Text style={{color: 'black'}}>Add Sub Description</Text>
+              <Text style={{color: 'black'}}>Add  Description</Text>
               <TextInput
                 multiline={true}
                 numberOfLines={10}
@@ -129,7 +130,7 @@ const DetailMaterials = props => {
             </View>
             <View style={{width: WP(50), alignSelf: 'center', top: HP(7)}}>
               <FormCustomButton
-                btnTitle="Add Sub Category"
+                btnTitle={loading ? <ActivityIndicator color={"white"} /> : 'Add Sub Category'}
                 backgroundColor={BgColor}
                 textColor="white"
                 borderRadius={0}
@@ -160,13 +161,20 @@ const DetailMaterials = props => {
                   })
                 }
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  marginLeft: WP(55),
+                  width: WP(10),
                 }}>
                 <AntDesign name="delete" color={'red'} size={22} />
-                <View style={{left: WP(5)}}>
-                  <EvilIcons name="pencil" color={'grey'} size={26} />
-                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{left: WP(2)}}
+                onPress={() =>
+                  props.navigation.navigate('EditSubMaterial', {
+                    itemParams: item,
+                    primary_id: props.route.params.itemParams._id,
+                  })
+                }>
+                <EvilIcons name="pencil" color={'grey'} size={26} />
               </TouchableOpacity>
             </View>
           </>

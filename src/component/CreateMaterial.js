@@ -8,7 +8,7 @@ import FormCustomInput from './FormCustomInput';
 import CustomTextArea from './TextArea';
 import {ColorText} from '../Utils/Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {postMaterial} from '../Redux/Slice/materialSlice';
+import {getMaterial, postMaterial} from '../Redux/Slice/materialSlice';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -40,6 +40,7 @@ const CreateMaterial = () => {
         .unwrap()
         .then(res => {
           if (res.status === 'Created') {
+            dispatch(getMaterial());
             Alert.alert(`${res.msg}`);
             setValues({
               name: '',
@@ -128,6 +129,6 @@ const styles = StyleSheet.create({
     fontSize: WP(3),
     paddingTop: HP(0),
     color: ColorText,
-    bottom:5
+    bottom: 5,
   },
 });

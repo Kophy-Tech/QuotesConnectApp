@@ -172,8 +172,8 @@ const CreateRfq = () => {
       <View>
         <Text
           style={{
-            top: HP(3),
-            marginLeft: WP(4),
+            top: HP(2),
+            marginLeft: WP(5),
             color: 'blue',
 
             fontSize: WP(4.5),
@@ -234,7 +234,7 @@ const CreateRfq = () => {
         /> */}
       </View>
 
-      <Box mb="2" mt="12" style={{top: 25, width: '90%', alignSelf: 'center'}}>
+      <Box mb="2" mt="12" style={{top: -5, width: '90%', alignSelf: 'center'}}>
         <CustomTextArea
           title="Job Information"
           value={text}
@@ -285,11 +285,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   subContainer: {
-    width: WP(85),
+    width: WP(90),
     height: WP(2),
-    marginVertical: WP(9),
+    marginVertical: WP(5),
     alignSelf: 'center',
-    right: WP(2),
+    right: WP(-1),
   },
   dropdown: {
     height: HP(6),

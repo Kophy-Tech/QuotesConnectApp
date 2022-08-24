@@ -72,6 +72,7 @@ const CustomFlatList = ({itemData, navigation}) => {
             }>
             <Text style={styles.textLineItem1}>{item?.name}</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('editmaterial', {itemParams: item})
@@ -106,7 +107,7 @@ const CustomFlatList = ({itemData, navigation}) => {
         contentContainerStyle={{
           paddingHorizontal: 22,
           paddingTop: 9,
-          paddingBottom: 60,
+          paddingBottom: WP(100),
         }}
       />
     </>

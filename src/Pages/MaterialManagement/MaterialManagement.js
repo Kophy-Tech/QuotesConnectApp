@@ -27,6 +27,7 @@ const MaterialManagement = ({navigation}) => {
   const [error, setError] = useState(false);
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
+  console.log(filteredDataSource, 'filterDatas');
   const [masterDataSource, setMasterDataSource] = useState([]);
 
   const token = auth?.token;
@@ -113,7 +114,7 @@ const MaterialManagement = ({navigation}) => {
         <View>
           <ViewMaterial
             navigation={navigation}
-            material={filteredDataSource}
+            material={refresh}
             error={error}
             setError={setError}
           />

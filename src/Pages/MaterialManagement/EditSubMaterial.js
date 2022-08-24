@@ -16,10 +16,12 @@ import {Spinner} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   deleteMaterial,
+  getMaterial,
   subDeleteMaterial,
   subUpdateMaterialAction,
   updateMaterial,
 } from '../../Redux/Slice/materialSlice';
+import FormCustomInput from '../../component/FormCustomInput';
 
 const EditSubMaterial = ({route}) => {
   const auth = useSelector(auth => auth.auth.user);
@@ -94,14 +96,18 @@ const EditSubMaterial = ({route}) => {
     dispatch(subDeleteMaterial(dataMaterial))
       .unwrap()
       .then(res => {
+        dispatch(getMaterial());
         if (res.status === 'Deleted') {
-          Alert.alert(`${res.msg}`);
-          //   navigation.goBack();
+          setModalVisible(false);
+          Alert.alert('Deleted Succesfully');
+          dispatch(getMaterial());
+          navigation.navigate('material');
         }
-        console.log(res.status);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
+        setModalVisible(false);
+        dispatch(getMaterial());
         Alert.alert(`${err}`);
       });
   };
@@ -117,8 +123,11 @@ const EditSubMaterial = ({route}) => {
           showsHorizontalScrollIndicator={false}>
           <Box px="6" pt="20">
             <Box mb="2">
-              <InputForm
-                title="Sub Category Name"
+              <FormCustomInput
+                lablelText="Sub Category Name"
+                labelTextColor={COLOR.BgColor}
+                labelTextTop={WP(6)}
+                inputBorderColor={COLOR.BgColor}
                 value={value.content}
                 name="content"
                 borderColor={COLOR.BgColor}

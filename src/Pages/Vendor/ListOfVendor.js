@@ -28,8 +28,8 @@ const ListOfVendor = props => {
   const totalVendor = useSelector(state => state.vendor.data);
   const navigation = useNavigation();
 
-  const TableHeader = ['     Vendor', 'Vendor Name'];
-  const WidthTable = [WP(65), WP(40)];
+  const TableHeader = ['Vendor', 'Vendor Name'];
+  const WidthTable = [WP(35), WP(79)];
 
   useEffect(() => {
     dispatch(getVendorAction());
@@ -81,8 +81,8 @@ const ListOfVendor = props => {
                   <Image
                     source={{uri: item?.logo}}
                     style={{
-                      width: WP(15),
-                      height: HP(4),
+                      width: WP(18),
+                      height: HP(5),
                       top: HP(3),
                       left: WP(3),
                     }}
@@ -92,7 +92,7 @@ const ListOfVendor = props => {
                   style={{
                     width: WP(45),
                     padding: WP(7),
-                    left: WP(12),
+                    left: WP(-15),
                   }}>
                   <Text style={styles.textColor}>{Capitalize(item?.name)}</Text>
                 </View>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.whiteColor,
   },
   head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2)},
-  text: {margin: 6, color: '#fff'},
+  text: {margin: 15, color: '#fff'},
   row: {flexDirection: 'row', backgroundColor: '#F7FCFB', marginVertical: 2},
   btn: {width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2},
   btnText: {textAlign: 'center', color: '#fff'},

@@ -74,6 +74,10 @@ const RequestForRfq = props => {
   const [values, setValues] = useState(null);
   const [items, setItems] = useState([
     {
+      label: 'Each',
+      value: 'Each',
+    },
+    {
       label: 'Bundle',
       value: 'Bundle',
     },
@@ -120,10 +124,6 @@ const RequestForRfq = props => {
     {
       label: 'Month',
       value: 'Month',
-    },
-    {
-      label: 'Each',
-      value: 'Each',
     },
   ]);
 
@@ -287,7 +287,7 @@ const RequestForRfq = props => {
           // console.log(confirm())
           send.push({
             name: name,
-            description,
+            description: ' ',
             unit: unit,
             quantity,
           });

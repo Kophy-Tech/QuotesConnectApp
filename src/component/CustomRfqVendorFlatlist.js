@@ -145,7 +145,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
         .unwrap()
         .then(res => {
           if (res.status === 'Updated') {
-            Alert.alert(`${res.msg}`);
+            Alert.alert(`Request Sent to Vendors`);
 
             navigation.navigate('rfq');
           }

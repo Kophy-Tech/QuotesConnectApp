@@ -21,10 +21,10 @@ const CustomTextArea = ({
                     h={40}
                     placeholder=""
                     style={{
-                        borderWidth: WP(0.2),
+                        borderWidth: WP(0.3),
                         padding: WP(3),
                         borderColor: borderColor,
-                        borderRadius: WP(2),
+                        // borderRadius: WP(0.8),
                         color:'black'
 
                     }}

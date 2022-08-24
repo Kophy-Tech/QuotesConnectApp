@@ -18,10 +18,10 @@ const HeaderComponent = () => {
     <>
       <View style={styles.tableColumnHeader}>
         <View style={styles.tableColumnRegular}>
-          <Text style={styles.textLineItem}>Name</Text>
+          <Text style={styles.textLineItem}>Item</Text>
         </View>
         <View style={styles.tableColumnRegular}>
-          <Text style={styles.textLineItem}>Description</Text>
+          <Text style={styles.textLineItem}>Material</Text>
         </View>
         <View style={styles.tableColumnRegular}>
           <Text style={styles.textLineItem}>Quantity</Text>
@@ -118,7 +118,7 @@ const SubmittedStatus = props => {
     }
   };
   const Item = ({item, onItemPress}) => {
-    console.log(item?.status, 'status');
+    console.log(item, 'status');
 
     // useEffect(() => {
     //   const refreshToken = async () => {
