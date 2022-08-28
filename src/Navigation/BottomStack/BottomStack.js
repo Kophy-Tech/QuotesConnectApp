@@ -34,6 +34,7 @@ import DetailMaterials from '../../Pages/MaterialManagement/DetailMaterials';
 import EditSubMaterial from '../../Pages/MaterialManagement/EditSubMaterial';
 import SubmittedStatus from '../../Pages/RFQ/SubmittedStatus';
 import CompletedStatus from '../../Pages/RFQ/CompletedStatus';
+import DeleteMaterial from '../../Pages/MaterialManagement/DeleteMaterial';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -65,7 +66,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-             Place Order
+              Place Order
             </Text>
           ),
         }}
@@ -224,6 +225,25 @@ function BottomStack() {
                 lineHeight: HP(5),
               }}>
               Edit Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name="deletematerial"
+        component={DeleteMaterial}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Delete Material
             </Text>
           ),
           headerLeft: () => <BackIcon />,

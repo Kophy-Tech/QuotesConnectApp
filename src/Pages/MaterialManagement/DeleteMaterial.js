@@ -16,7 +16,7 @@ import {Spinner} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {deleteMaterial, updateMaterial} from '../../Redux/Slice/materialSlice';
 
-const EditMaterial = ({route}) => {
+const DeleteMaterial = ({route}) => {
   const auth = useSelector(auth => auth.auth.user);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [modalVisible1, setModalVisible1] = React.useState(false);
@@ -108,6 +108,7 @@ const EditMaterial = ({route}) => {
                 title="Primary Category"
                 value={value.name}
                 name="name"
+                disabled={true}
                 borderColor={COLOR.BgColor}
                 onChangeText={value => handleInputChange('name', value)}
               />
@@ -128,15 +129,15 @@ const EditMaterial = ({route}) => {
             <Flex direction="row" mt="4" justifyContent="space-around">
               <ButtonH
                 style={{
-                  borderColor: bgColor3,
+                  borderColor: bgColor2,
                   width: '100%',
-                  backgroundColor: bgColor3,
+                  backgroundColor: 'transparent',
                   borderRadius: 5,
-                  top: 15
+                  top: 23,
                 }}
-                onPress={() => setModalVisible1(true)}>
-                <Text style={[styles.butttonText, {color: '#fff'}]}>
-                  Update
+                onPress={() => setModalVisible(true)}>
+                <Text style={[styles.butttonText, {color: bgColor2}]}>
+                  Delete
                 </Text>
               </ButtonH>
             </Flex>
@@ -256,7 +257,7 @@ const EditMaterial = ({route}) => {
   );
 };
 
-export default EditMaterial;
+export default DeleteMaterial;
 
 const styles = StyleSheet.create({
   heading: {

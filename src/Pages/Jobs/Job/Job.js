@@ -89,7 +89,7 @@ const Job = ({navigation}) => {
             onPress={() => navigation.navigate('jobcreate')}>
             <Text
               style={[styles.butttonText, {color: !index ? '#fff' : BgColor}]}>
-              Create New
+              Create New Job
             </Text>
           </ButtonH>
         </Flex>

@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Autocomplete from 'react-native-autocomplete-input';
 import SelectDropdown from 'react-native-select-dropdown';
 import {useSelector, useDispatch} from 'react-redux';
-import {getMaterial} from '../../Redux/Slice/materialSlice';
+import {deleteMaterial, getMaterial} from '../../Redux/Slice/materialSlice';
 import Loading from '../../component/Loading';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import uuid from 'react-native-uuid';
@@ -50,7 +50,17 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 //   'Week',
 //   'Month',
 // ];
-const countries = [];
+function titleCase(str) {
+  var splitStr = str.toLowerCase().split(' ');
+  for (var i = 0; i < splitStr.length; i++) {
+    // You do not need to check if i is larger than splitStr length, as your for does that for you
+    // Assign it back to the array
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  // Directly return the joined string
+  return splitStr.join(' ');
+}
 
 const RequestForRfq = props => {
   const [valu, setValu] = useState(null);
@@ -141,7 +151,7 @@ const RequestForRfq = props => {
   const [allMaterial, setAllMaterial] = useState([]);
 
   // console.log(jobRfq?._id)
-  const rfq_id = jobRfq?.data?._id;
+  const rfq_id = jobRfq?.data?._id || jobRfq?._id;
   console.log(rfq_id, 'ojdldlldaknklsnnkdn');
   const [value, setValue] = useState([]);
   // console.log(value, 'valllllll')
@@ -166,7 +176,7 @@ const RequestForRfq = props => {
         .then(res => {
           let dropDownItem = res.data.map(item => {
             return {
-              label: item?.name,
+              label: titleCase(item?.name),
               value: item?.name,
               id: item?._id,
               description: item.description.map(details => {
@@ -204,6 +214,7 @@ const RequestForRfq = props => {
   // }
   const [name, setName] = React.useState('');
   const [name2, setName2] = React.useState('');
+  const [name3, setName3] = React.useState('  ');
   const [subCategoryId, setSubCategoryId] = React.useState([]);
   // console.log(subCategoryId, 'sssss');
 
@@ -273,7 +284,7 @@ const RequestForRfq = props => {
       setModalVisible(false);
     }
   };
-
+  console.log(name3, '333333333333333333');
   const submitButton = () => {
     let send = [];
 
@@ -287,7 +298,7 @@ const RequestForRfq = props => {
           // console.log(confirm())
           send.push({
             name: name,
-            description: ' ',
+            description: name3,
             unit: unit,
             quantity,
           });
@@ -390,6 +401,26 @@ const RequestForRfq = props => {
     );
   }
 
+  const deleteMaterialPost = () => {
+    const {_id} = value;
+    const dataJob = {
+      _id,
+    };
+    console.log({dataJob});
+    dispatch(deleteMaterial(dataJob))
+      .unwrap()
+      .then(res => {
+        if (res.status === 'Deleted') {
+          Alert.alert(`${res.msg}`);
+          navigation.goBack();
+        }
+        console.log(res.status);
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert(`${err}`);
+      });
+  };
   return (
     <>
       <KeyboardAwareScrollView
@@ -425,9 +456,7 @@ const RequestForRfq = props => {
               <Text style={styles.textLineItemH}>Quantity</Text>
             </View>
             <View style={styles.tableColumnRegular}>
-              <Text style={[styles.textLineItemH, {textAlign: 'left'}]}>
-                Unit
-              </Text>
+              <Text style={[styles.textLineItemH, {left: WP(-7)}]}>Unit</Text>
             </View>
           </View>
 
@@ -509,6 +538,28 @@ const RequestForRfq = props => {
               )}
             </TouchableOpacity>
           </Box>
+
+          {/* <Box mt="10">
+            <TouchableOpacity
+              onPress={submitButton}
+              style={{
+                backgroundColor: 'red',
+                padding: WP(4),
+                borderRadius: WP(3),
+
+                top: WP(4),
+              }}>
+              <Text
+                style={{
+                  fontSize: WP(4.5),
+                  color: COLOR.whiteColor,
+                  textAlign: 'center',
+                  fontWeight: '400',
+                }}>
+                Delete Request
+              </Text>
+            </TouchableOpacity>
+          </Box> */}
         </Box>
       </KeyboardAwareScrollView>
       <View style={styles.centeredView}>
@@ -540,7 +591,7 @@ const RequestForRfq = props => {
                         isFocus && {borderColor: 'blue'},
                       ]}
                       placeholderStyle={styles.placeholderStyle}
-                      selectedTextStyle={styles.selectedTextStyle}
+                      selectedTextStyle={[styles.selectedTextStyle]}
                       inputSearchStyle={styles.inputSearchStyle}
                       iconStyle={styles.iconStyle}
                       data={allMaterial}
@@ -548,7 +599,7 @@ const RequestForRfq = props => {
                       maxHeight={300}
                       labelField="label"
                       valueField="value"
-                      placeholder={!isFocus ? 'select a material' : '...'}
+                      placeholder={!isFocus ? 'Select a material' : '...'}
                       searchPlaceholder="Search..."
                       value={value}
                       onFocus={() => setIsFocus(true)}
@@ -590,13 +641,13 @@ const RequestForRfq = props => {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder={!isFocus ? 'Select item' : '...'}
+                        placeholder={!isFocus ? 'Select Material Description' : '...'}
                         searchPlaceholder="Search..."
                         value={value}
                         onFocus={() => setIsFocus2(true)}
                         onBlur={() => setIsFocus2(false)}
                         onChange={item => {
-                          setName(item?.id);
+                          setName3(item?.value);
                           handleInputChange('description', item?.value);
                           // setIsFocus(false);e
                         }}
@@ -672,9 +723,10 @@ const RequestForRfq = props => {
                 <View
                   style={{
                     height: HP(8),
-                    marginTop: WP(10),
+                    marginTop: WP(7),
                     width: WP('86%'),
                     alignSelf: 'center',
+                    
                   }}>
                   <FormInput2
                     value={valueText.quantity}

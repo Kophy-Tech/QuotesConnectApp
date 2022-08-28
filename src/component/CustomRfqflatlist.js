@@ -173,6 +173,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                   {
                     color: '#fff',
                     fontSize: 12,
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
                   },
                 ]}>
                 {item.status}
@@ -194,6 +196,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                   {
                     color: 'black',
                     fontSize: 12,
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
                   },
                 ]}>
                 {item.status}
@@ -215,6 +219,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                   {
                     color: '#fff',
                     fontSize: 12,
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
                   },
                 ]}>
                 {item.status}
@@ -236,6 +242,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                   {
                     color: '#fff',
                     fontSize: 12,
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
                   },
                 ]}>
                 {item.status}
@@ -257,6 +265,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                   {
                     color: '#fff',
                     fontSize: 12,
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
                   },
                 ]}>
                 {item.status}
@@ -278,6 +288,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
                   {
                     color: '#fff',
                     fontSize: 12,
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
                   },
                 ]}>
                 {item.status}

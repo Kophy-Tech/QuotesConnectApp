@@ -25,6 +25,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import RNRestart from 'react-native-restart';
 import {Capitalize} from '../../Utils/util';
 
+const EmptyContainer = () => {
+  return (
+    <View>
+      <Text style={{textAlign: 'center', top: WP(23)}}>
+        No Material Available.
+      </Text>
+    </View>
+  );
+};
+
 const DetailMaterials = props => {
   console.log(props?.route?.params?.itemParams?.name, '123423');
 
@@ -111,7 +121,7 @@ const DetailMaterials = props => {
               {props?.route?.params?.itemParams?.name}
             </Text>
             <View style={{alignSelf: 'center', top: HP(7)}}>
-              <Text style={{color: 'black'}}>Add  Description</Text>
+              <Text style={{color: 'black'}}>Add Description</Text>
               <TextInput
                 multiline={true}
                 numberOfLines={10}
@@ -130,7 +140,13 @@ const DetailMaterials = props => {
             </View>
             <View style={{width: WP(50), alignSelf: 'center', top: HP(7)}}>
               <FormCustomButton
-                btnTitle={loading ? <ActivityIndicator color={"white"} /> : 'Add Sub Category'}
+                btnTitle={
+                  loading ? (
+                    <ActivityIndicator color={'white'} />
+                  ) : (
+                    'Add Sub Category'
+                  )
+                }
                 backgroundColor={BgColor}
                 textColor="white"
                 borderRadius={0}
@@ -141,6 +157,7 @@ const DetailMaterials = props => {
         </Modal>
       </View>
       <FlatList
+        ListEmptyComponent={<EmptyContainer />}
         data={props?.route?.params?.itemParams?.description}
         keyExtractor={item => item.id}
         refreshing={true}
@@ -153,29 +170,28 @@ const DetailMaterials = props => {
                 <Text style={{color: 'black'}}>{item?.content}</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate('EditSubMaterial', {
-                    itemParams: item,
-                    primary_id: props.route.params.itemParams._id,
-                  })
-                }
-                style={{
-                  marginLeft: WP(55),
-                  width: WP(10),
-                }}>
-                <AntDesign name="delete" color={'red'} size={22} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{left: WP(2)}}
-                onPress={() =>
-                  props.navigation.navigate('EditSubMaterial', {
-                    itemParams: item,
-                    primary_id: props.route.params.itemParams._id,
-                  })
-                }>
-                <EvilIcons name="pencil" color={'grey'} size={26} />
-              </TouchableOpacity>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate('EditSubMaterial', {
+                      itemParams: item,
+                      primary_id: props.route.params.itemParams._id,
+                    })
+                  }>
+                  <AntDesign name="delete" color={'red'} size={22} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{left: WP(4)}}
+                  onPress={() =>
+                    props.navigation.navigate('EditSubMaterial', {
+                      itemParams: item,
+                      primary_id: props.route.params.itemParams._id,
+                    })
+                  }>
+                  <EvilIcons name="pencil" color={'grey'} size={26} />
+                </TouchableOpacity>
+              </View>
             </View>
           </>
         )}

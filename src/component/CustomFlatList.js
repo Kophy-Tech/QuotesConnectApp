@@ -10,7 +10,7 @@ const HeaderComponent = () => {
     <>
       <View style={styles.tableColumnHeader}>
         <View style={styles.tableColumnRegular}>
-          <Text style={styles.textLineItem}>Primary Category Name</Text>
+          <Text style={styles.textLineItem}>Primary Category</Text>
         </View>
         {/* <View style={styles.tableColumnRegular2}>
                     <Text style={[styles.textLineItem3, {
@@ -72,8 +72,29 @@ const CustomFlatList = ({itemData, navigation}) => {
             }>
             <Text style={styles.textLineItem1}>{item?.name}</Text>
           </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              width: WP(15),
+            }}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('deletematerial', {itemParams: item})
+              }>
+              <AntDesign name="delete" color={'red'} size={22} />
+            </TouchableOpacity>
 
-          <TouchableOpacity
+            <TouchableOpacity
+              style={{left: WP(5)}}
+              onPress={() =>
+                navigation.navigate('editmaterial', {itemParams: item})
+              }>
+              <EvilIcons name="pencil" color={'grey'} size={26} />
+            </TouchableOpacity>
+          </View>
+
+          {/* <TouchableOpacity
             onPress={() =>
               navigation.navigate('editmaterial', {itemParams: item})
             }
@@ -85,7 +106,7 @@ const CustomFlatList = ({itemData, navigation}) => {
             <View style={{left: WP(5)}}>
               <EvilIcons name="pencil" color={'grey'} size={26} />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         {/* <View style={styles.tableColumnRegular2}>
                     <Text style={styles.textLineItem2}>{item?.description.slice(0, 40)} </Text>

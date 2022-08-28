@@ -68,7 +68,7 @@ const CreateMaterial = () => {
           <Box mb="2">
             <FormCustomInput
               value={value.name}
-              lablelText="Primary Category Name"
+              lablelText="Primary Category"
               labelTextTop={WP(5)}
               labelTextColor={COLOR.BgColor}
               onChangeText={value => handleInputChange('name', value)}

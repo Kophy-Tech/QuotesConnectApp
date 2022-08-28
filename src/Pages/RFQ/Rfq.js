@@ -115,7 +115,7 @@ const Rfq = ({navigation}) => {
             onPress={() => navigation.navigate('createrfq')}>
             <Text
               style={[styles.butttonText, {color: !index ? '#fff' : BgColor}]}>
-              Create New Requests
+              Create New Request
             </Text>
           </ButtonH>
         </Flex>

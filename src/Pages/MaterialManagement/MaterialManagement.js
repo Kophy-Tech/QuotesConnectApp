@@ -84,7 +84,7 @@ const MaterialManagement = ({navigation}) => {
         </Box> */}
         <View style={{marginBottom: 25}}>
           <FormCustomButton
-            btnTitle="Create New"
+            btnTitle="Create New Category"
             backgroundColor={'white'}
             borderWidth={1}
             borderColor={BgColor}

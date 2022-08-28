@@ -12,6 +12,7 @@ const InputForm = ({
   borderColor,
   onFocus,
   rest,
+  disabled,
 }) => {
   return (
     <>
@@ -38,6 +39,7 @@ const InputForm = ({
             color: 'black',
             marginVertical: 5,
           }}
+          isDisabled={true}
           value={value}
           onChangeText={onChangeText}
           name={name}
