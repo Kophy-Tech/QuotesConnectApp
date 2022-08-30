@@ -58,14 +58,6 @@ const Vendors = () => {
       <AppBar type="black" backgroundColor={COLOR.whiteColor} />
       <Header />
       <Box px="6">
-        {/* <Box>
-          <InputSearch
-            onChangeText={text => searchFilterFunction(text)}
-            onClear={text => searchFilterFunction('')}
-            value={search}
-            placeholder="Search For Vendor"
-          />
-        </Box> */}
         <Flex direction="row" mt="4" justifyContent="space-between">
           <ButtonH
             style={{
