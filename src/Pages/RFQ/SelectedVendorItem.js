@@ -18,7 +18,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import FormCustomButton from '../../component/FormCustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {clientSelectItems, getRfqJob} from '../../Redux/Slice/RfqSlice';
-import Orientation from 'react-native-orientation';
 import {bgColor1} from '../../Utils/Colors';
 
 const SelectedVendorItem = props => {
