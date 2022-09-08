@@ -240,10 +240,10 @@ function BottomStack() {
             <Text
               style={{
                 color: COLOR.BgColor,
-                fontSize: WP(6),
+                fontSize: WP(4),
                 lineHeight: HP(5),
               }}>
-              Delete Material
+              Delete Primary Category
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -373,10 +373,10 @@ function BottomStack() {
             <Text
               style={{
                 color: COLOR.BgColor,
-                fontSize: WP(6),
+                fontSize: WP(4),
                 lineHeight: HP(5),
               }}>
-              Create RFQ For Job
+              Create New Request
             </Text>
           ),
           headerLeft: () => <BackIcon />,

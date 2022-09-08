@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     },
     textLineItem1: {
         fontSize: 15,
-        fontWeight: '400',
+        fontWeight: '500',
         color: ColorText,
         textAlign: 'center',
         lineHeight: 18,
@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
 
     },
     textLineItem3: {
-        fontSize: 15,
-        fontWeight: '400',
+        fontSize: 12,
+        fontWeight: '500',
         color: ColorText,
         textAlign: 'center',
         lineHeight: 18,
-        textTransform:'capitalize'
+       textTransform:'uppercase'
 
 
     },

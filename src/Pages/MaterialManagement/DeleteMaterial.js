@@ -112,9 +112,9 @@ const DeleteMaterial = ({route}) => {
                 borderColor={COLOR.BgColor}
                 onChangeText={value => handleInputChange('name', value)}
               />
-              <Text style={styles.subText}>
+              {/* <Text style={styles.subText}>
                 name of the project you want to create
-              </Text>
+              </Text> */}
             </Box>
             {/* <Box mb="2">
                             <CustomTextArea
@@ -131,12 +131,12 @@ const DeleteMaterial = ({route}) => {
                 style={{
                   borderColor: bgColor2,
                   width: '100%',
-                  backgroundColor: 'transparent',
+                  backgroundColor: bgColor2,
                   borderRadius: 5,
                   top: 23,
                 }}
                 onPress={() => setModalVisible(true)}>
-                <Text style={[styles.butttonText, {color: bgColor2}]}>
+                <Text style={[styles.butttonText, {color: "#fff"}]}>
                   Delete
                 </Text>
               </ButtonH>

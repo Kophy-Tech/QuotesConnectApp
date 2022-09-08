@@ -58,7 +58,7 @@ const Vendors = () => {
       <AppBar type="black" backgroundColor={COLOR.whiteColor} />
       <Header />
       <Box px="6">
-        <Flex direction="row" mt="4" justifyContent="space-between">
+      <Flex direction="row" mt="6" justifyContent="space-between" >
           <ButtonH
             style={{
               borderColor: BgColor,
@@ -73,6 +73,7 @@ const Vendors = () => {
             </Text>
           </ButtonH>
         </Flex>
+       
       </Box>
       <ListOfVendor
         totalVendor={filteredDataSource}

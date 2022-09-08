@@ -82,15 +82,23 @@ const MaterialManagement = ({navigation}) => {
             placeholder="search catergory name"
           />
         </Box> */}
-        <View style={{marginBottom: 25}}>
-          <FormCustomButton
-            btnTitle="Create New Category"
-            backgroundColor={'white'}
-            borderWidth={1}
-            borderColor={BgColor}
-            textColor={BgColor}
-            onPress={() => navigation.navigate('creatematerial')}
-          />
+        <View style={{marginBottom: 5}}>
+        <Flex direction="row" mt="6" justifyContent="space-between" mb="4">
+          <ButtonH
+            style={{
+              borderColor: BgColor,
+              width: '100%',
+              backgroundColor: !index ? BgColor : 'transparent',
+              borderRadius: 5,
+            }}
+            onPress={() => navigation.navigate('creatematerial')}>
+            <Text
+              style={[styles.butttonText, {color: !index ? '#fff' : BgColor}]}>
+              Create New catergory
+            </Text>
+          </ButtonH>
+        </Flex>
+         
         </View>
         {/* <Flex direction="row" mt="4" justifyContent="space-between">
           <ButtonH

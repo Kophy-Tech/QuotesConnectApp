@@ -21,6 +21,8 @@ import {COLOR, HP, WP} from '../../Utils/theme';
 
 import FormCustomButton from '../../component/FormCustomButton';
 import {Capitalize} from '../../Utils/util';
+import { Box, } from 'native-base';
+
 
 const ListOfVendor = props => {
   console.log(props, 'proprorporprorporpo');
@@ -29,7 +31,7 @@ const ListOfVendor = props => {
   const navigation = useNavigation();
 
   const TableHeader = ['Vendor', 'Vendor Name'];
-  const WidthTable = [WP(35), WP(79)];
+  const WidthTable = [WP(35), WP(59)];
 
   useEffect(() => {
     dispatch(getVendorAction());
@@ -58,7 +60,7 @@ const ListOfVendor = props => {
 
   return (
     <View style={styles.container}>
-      <Table borderStyle={{borderColor: 'black'}}>
+   <Table borderStyle={{borderColor: 'black'}}>
         <Row
           data={TableHeader}
           style={styles.head}
@@ -69,22 +71,29 @@ const ListOfVendor = props => {
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={totalVendor}
+        contentContainerStyle={{
+          paddingHorizontal:5
+        }}
         renderItem={({item}) => {
           console.log(item, 'bbbbbrknrknbkanknd');
           return (
             <TouchableOpacity
-              style={{backgroundColor: '#F7FCFB', marginVertical: WP(1)}}
+              style={{backgroundColor: '#F7FCFB'}}
               onPress={() => navigation.navigate('UpdateVendor', {item})}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <View>
+                style={{flexDirection: 'row', justifyContent: 'space-between', alignItems:'center'}}>
+                <View style={{
+                    width: WP(20),
+                    height: HP(5),
+                }}>
                   <Image
                     source={{uri: item?.logo}}
+                    resizeMode="contain"
                     style={{
-                      width: WP(18),
-                      height: HP(5),
-                      top: HP(3),
-                      left: WP(3),
+                      width: "100%",
+                      height:"100%",
+                      // top: HP(3),
+                      // left: WP(3),
                     }}
                   />
                 </View>
@@ -118,7 +127,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: COLOR.whiteColor,
   },
-  head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2)},
+  head: {height: HP(8), backgroundColor: COLOR.BgColor, borderRadius: WP(2), marginRight:30},
   text: {margin: 15, color: '#fff'},
   row: {flexDirection: 'row', backgroundColor: '#F7FCFB', marginVertical: 2},
   btn: {width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2},

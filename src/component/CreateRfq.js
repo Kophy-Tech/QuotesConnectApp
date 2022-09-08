@@ -247,11 +247,11 @@ const CreateRfq = () => {
         <TouchableOpacity
           onPress={NextScreen}
           style={{
-            backgroundColor: COLOR.BgColor,
+            backgroundColor: "green",
             padding: WP(4),
             borderRadius: WP(3),
             borderWidth: 1,
-            borderColor: COLOR.BgColor,
+            borderColor:"green",
             top: WP(4),
           }}>
           {LoadingRfq ? (
