@@ -809,7 +809,7 @@ const SelectedVendorItem = props => {
                 left: 5,
               }}>
               {props?.route?.params?.item?.vendorArray.map(item => (
-                <View style={{borderBottomWidth: 1}}>
+                <View style={{borderBottomWidth: 0.4}}>
                   {item?.priceList?.priceArray.map((values, i) => {
                     return (
                       <View
@@ -818,9 +818,9 @@ const SelectedVendorItem = props => {
                           marginVertical: -1,
                           paddingBottom: 4,
                           // borderWidth: 1,
-                          borderRightWidth: 1,
+                          borderRightWidth: 0.4,
                           borderColor: 'black',
-                          borderLeftWidth: 1,
+                          borderLeftWidth: 0.4,
 
                           // borderBottomWidth: 1,
                         }}>

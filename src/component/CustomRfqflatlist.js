@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
     color: ColorText,
     textAlign: 'center',
     lineHeight: 18,
-    textTransform:'uppercase'
+    // textTransform:'uppercase'
   },
   tableRow: {
     flexDirection: 'row',

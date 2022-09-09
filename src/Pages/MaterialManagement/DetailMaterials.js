@@ -144,7 +144,7 @@ const DetailMaterials = props => {
                   loading ? (
                     <ActivityIndicator color={'white'} />
                   ) : (
-                    'Add Sub Category'
+                    'Add Material'
                   )
                 }
                 backgroundColor={BgColor}

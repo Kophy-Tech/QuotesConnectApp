@@ -49,6 +49,7 @@ export const COLOR = {
   brown: '#50555C',
   line: '#E1E4E8',
   secondaryWhite: '#f4f4f4',
+  purple: '#763568',
 };
 
 export const IMAGE = {

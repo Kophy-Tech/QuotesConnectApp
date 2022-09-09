@@ -92,7 +92,7 @@ const SelectVendors = ({navigation}) => {
           <Text style={{fontSize: 20, color: 'black'}}> No data</Text>
           <Text style={{fontSize: 10, color: 'black'}}>
             {' '}
-            Create at least create Vendors at Vendors Dashboard
+              at least create Vendors at Vendors Dashboard
           </Text>
           <Box my="4">
             <FormCustomButton
