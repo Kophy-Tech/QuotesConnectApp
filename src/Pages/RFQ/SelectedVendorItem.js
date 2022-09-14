@@ -653,8 +653,8 @@ const SelectedVendorItem = props => {
           paddingLeft: WP(3),
           textAlign: 'center',
         }}>
-        Kindly Scroll to the right to see more detail to select your Items.
-        Also,after selecting your items , scroll to bottom to place your order.
+        Scroll to the right to view vendors pricing. After selecting your items,
+        scroll down to complete your order.
       </Text>
       <ScrollView
         horizontal
@@ -700,15 +700,17 @@ const SelectedVendorItem = props => {
                     <View>
                       <Image
                         style={{
-                          width: WP(10.5),
-                          height: HP(5),
+                          width: WP(13),
+                          height: HP(6),
                           left: 28,
 
                           marginHorizontal: WP(5),
+                          bottom: 12,
                         }}
                         source={{
                           uri: item?.vendor?.logo,
                         }}
+                        resizeMode="contain"
                       />
                     </View>
                   </View>
@@ -716,7 +718,12 @@ const SelectedVendorItem = props => {
                 <Text
                   style={[
                     styles.textColor,
-                    {left: WP(-75), top: HP(6), fontWeight: 'bold'},
+                    {
+                      left: WP(-75),
+                      top: HP(7),
+                      fontWeight: 'bold',
+                      color: 'white',
+                    },
                   ]}>
                   Price
                 </Text>
@@ -764,9 +771,9 @@ const SelectedVendorItem = props => {
                   </Text>
                   <Text
                     style={{
-                      left: WP(14),
+                      left: WP(17),
                       textTransform: 'capitalize',
-                      width: 90,
+                      width: 120,
                       // fontWeight: 'bold',
                       backgroundColor: bgColor1,
                       padding: WP(4),
@@ -825,7 +832,6 @@ const SelectedVendorItem = props => {
                           borderColor: 'black',
                           borderLeftWidth: 0.2,
                           height: 180,
-                        
 
                           // borderBottomWidth: 1,
                         }}>
@@ -1904,6 +1910,7 @@ const styles = StyleSheet.create({
   textColor: {
     color: 'white',
     fontWeight: 'bold',
+    top: WP(5),
   },
   Logo: {
     width: WP(10),

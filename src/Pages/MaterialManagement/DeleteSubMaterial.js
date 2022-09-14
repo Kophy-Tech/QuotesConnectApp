@@ -23,7 +23,7 @@ import {
 } from '../../Redux/Slice/materialSlice';
 import FormCustomInput from '../../component/FormCustomInput';
 
-const EditSubMaterial = ({route}) => {
+const DeleteSubMaterial = ({route}) => {
   const auth = useSelector(auth => auth.auth.user);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [modalVisible1, setModalVisible1] = React.useState(false);
@@ -131,7 +131,7 @@ const EditSubMaterial = ({route}) => {
                 value={value.content}
                 name="content"
                 borderColor={COLOR.BgColor}
-                onChangeText={value => handleInputChange('content', value)}
+                onChangeText={value => handleInputChange('name', value)}
               />
               <Text style={styles.subText}>
                 name of the project you want to create
@@ -148,19 +148,19 @@ const EditSubMaterial = ({route}) => {
                         </Box> */}
 
             <Flex direction="row" mt="4" justifyContent="space-around">
-             
               <ButtonH
                 style={{
-                  borderColor: bgColor3,
+                  borderColor: bgColor2,
                   width: '90%',
-                  backgroundColor: bgColor3,
+                  backgroundColor: 'red',
                   borderRadius: 5,
                 }}
-                onPress={() => setModalVisible1(true)}>
-                <Text style={[styles.butttonText, {color: '#fff'}]}>
-                  Update
+                onPress={() => setModalVisible(true)}>
+                <Text style={[styles.butttonText, {color: 'white'}]}>
+                  Delete
                 </Text>
               </ButtonH>
+             
             </Flex>
           </Box>
         </KeyboardAwareScrollView>
@@ -278,7 +278,7 @@ const EditSubMaterial = ({route}) => {
   );
 };
 
-export default EditSubMaterial;
+export default DeleteSubMaterial;
 
 const styles = StyleSheet.create({
   heading: {

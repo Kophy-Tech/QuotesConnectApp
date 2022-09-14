@@ -467,7 +467,7 @@ const RequestForRfq = props => {
                   <Text style={styles.textLineItem1}>{val?.query}</Text>
                 </View>
                 <View style={styles.tableColumnRegular2}>
-                  <Text style={styles.textLineItem1}>{val?.description}</Text>
+                  <Text style={styles.textLineItem2}>{val?.description}</Text>
                 </View>
                 <View style={styles.tableColumnRegular}>
                   <Text style={styles.textLineItem1}>{val?.quantity}</Text>
@@ -845,12 +845,12 @@ const RequestForRfq = props => {
                 <TouchableOpacity
                   onPress={addMaterial}
                   style={{
-                    backgroundColor: COLOR.BgColor,
+                    backgroundColor: 'green',
                     padding: WP(4),
                     borderRadius: WP(3),
                     borderWidth: 1,
-                    borderColor: COLOR.BgColor,
-                    top: WP(4),
+                    borderColor: 'green',
+                    top: WP(-20),
                     width: WP(80),
                     alignSelf: 'center',
                   }}>
@@ -948,6 +948,16 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textTransform: 'capitalize',
   },
+  textLineItem2: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: ColorText,
+    textAlign: 'center',
+
+    lineHeight: 18,
+    // textTransform: 'capitalize',
+  },
+
   autocompleteContainer: {
     // Hack required to make the autocomplete
     // work on Andrdoid
