@@ -71,7 +71,7 @@ const Login = props => {
           setLoading(false);
         })
         .catch(rejectedValueOrSerializedError => {
-          console.log(rejectedValueOrSerializedError, 'rejecteddd');
+          // console.log(rejectedValueOrSerializedError, 'rejecteddd');
           if (typeof rejectedValueOrSerializedError == 'object') {
             Object.keys(rejectedValueOrSerializedError).map(error => {
               setError(...rejectedValueOrSerializedError[error]);

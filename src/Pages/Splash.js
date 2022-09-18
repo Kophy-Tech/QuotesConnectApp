@@ -15,7 +15,7 @@ const Splash = ({navigation}) => {
           preferences
             ._getItem('user')
             .then(async session => {
-              console.log({session});
+              // console.log({session});
               if (session) {
                 navigation.dispatch({
                   ...CommonActions.reset({
@@ -62,7 +62,7 @@ const Splash = ({navigation}) => {
         }
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
       });
   }, []);
 

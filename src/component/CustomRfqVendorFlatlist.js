@@ -108,7 +108,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
             value={item.check}
             onValueChange={() => handleSingleCheck(item._id)}
             style={styles.checkboxStyle}
-            checkedColor="#fff"
+           
           />
         </View>
         <View style={styles.tableColumnRegular}>
@@ -128,7 +128,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
     } else if (selectedVendor.length > 3) {
       Alert.alert('Please select only 3 vendors');
     } else {
-      console.log(selectedVendor, 'selectedVendor');
+      // console.log(selectedVendor, 'selectedVendor');
       let dataVendor = [];
 
       selectedVendor.map(({_id}) => {
@@ -149,7 +149,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
 
             navigation.navigate('rfq');
           }
-          console.log(res.status);
+          // console.log(res.status);s
         })
         .catch(err => {
           console.log(err, 'error from postrfqjob');
@@ -285,5 +285,6 @@ const styles = StyleSheet.create({
   },
   checkboxStyle: {
     color: 'blue',
+    // backgroundColor:'grey'
   },
 });

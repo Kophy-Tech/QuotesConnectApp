@@ -22,7 +22,7 @@ Validator.setMessages('en', en);
 const ResetPassword = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   // const loading = useSelector(state => state?.auth?.isLoading);
-  console.log(loading, 'loading');
+  // console.log(loading, 'loading');
   const dispatch = useDispatch();
   const [document, setDocument] = useState({});
   const [errors, setError] = useState({});
@@ -52,7 +52,7 @@ const ResetPassword = ({navigation}) => {
     if (validation.fails()) {
       setError(validation.errors.all());
     } else {
-      console.log(value?.email, 'vvvvvvvvvlaue');
+      // console.log(value?.email, 'vvvvvvvvvlaue');
       setLoading(true);
       dispatch(ResetPasswordAction(value))
         .unwrap()

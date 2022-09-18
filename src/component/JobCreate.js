@@ -59,7 +59,7 @@ const JobCreate = () => {
             });
             navigation.goBack();
           }
-          console.log(res.status);
+          // console.log(res.status);
         })
         .catch(err => {
           console.log(err);

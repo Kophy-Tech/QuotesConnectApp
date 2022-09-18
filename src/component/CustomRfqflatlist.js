@@ -65,8 +65,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
 
   const totalRfq = useSelector(() => store.getState()).rfq?.allrfq?.data;
 
-  console.log(totalRfq, 'aaa');
-  console.log(itemData, 'itemdata from customrfqflatlist');
+  // console.log(totalRfq, 'aaa');
+  // console.log(itemData, 'itemdata from customrfqflatlist');
   const renderItem = ({item}) => (
     <Item item={item} onItemPress={NavigationPressPending} />
   );

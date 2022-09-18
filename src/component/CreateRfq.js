@@ -1,12 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, View, Button, Alert} from 'react-native';
+import {StyleSheet, Text, View, Button, Alert, Platform} from 'react-native';
 import React, {useState, useLayoutEffect} from 'react';
 import FormCustomInput from './FormCustomInput';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {COLOR, HP, WP} from '../Utils/theme';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {DatePickerModal} from 'react-native-paper-dates';
+import {TouchableOpacity, TouchableWithoutFeedback} from 'react-native-gesture-handler';
+
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getJob} from '../Redux/Slice/JobSlice';
@@ -19,14 +19,18 @@ import {postRfqJob} from '../Redux/Slice/RfqSlice';
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {BgColor} from '../Utils/Colors';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CreateRfq = () => {
-  const [date1, setDate1] = useState(moment().format('L'));
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [show, setShow] = useState(false);
+  const [date1, setDate1] = useState(new Date(1598051730000));
+  const [show1, setShow1] = useState(false);
   const {isLoading: LoadingRfq, message: messageRfq} = useSelector(
     rfq => rfq.rfq,
   );
-  const [open, setOpen] = React.useState(false);
-  const [date2, setDate2] = useState(new Date());
+
+ 
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [text, onChangeText] = React.useState('');
@@ -39,17 +43,19 @@ const CreateRfq = () => {
 
   const auth = useSelector(auth => auth.auth.user);
 
-  const onDismissSingle = React.useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+  const onChange1 = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow1(false);
+    setDate1(currentDate);
+  };
 
-  const onConfirmSingle = React.useCallback(
-    params => {
-      setOpen(false);
-      setDate2(params.date);
-    },
-    [setOpen, setDate2],
-  );
+
+
   React.useEffect(() => {
     const getData = async () => {
       const token = await AsyncStorage.getItem('user');
@@ -81,12 +87,12 @@ const CreateRfq = () => {
     // console.log(allJob.find((a) => a.name === query), 'bbbb');
     // console.log((allJob.find((a) => a.name === query))?true:false);
     const token = await AsyncStorage.getItem('user');
-    if (value == null || value == '' || date2 == '') {
+    if (value == null || value == '') {
       Alert.alert('Kindly fill the neccessary details');
     } else {
       const values = {
-        start_date: date1,
-        due_date: moment(date2).format('YYYY/MM/DD'),
+        start_date: moment(date1).format('YYYY/MM/DD'),
+        due_date: moment(date).format('YYYY/MM/DD'),
         rfq_information: text,
         job: value,
       };
@@ -98,7 +104,7 @@ const CreateRfq = () => {
       dispatch(postRfqJob(dataJob))
         .unwrap()
         .then(res => {
-          console.log(res.status, '8585858588');
+          // console.log(res.status, '8585858588');
           if (res.status === 201) {
             navigation.navigate('requestforrfq', {params: token});
           }
@@ -118,17 +124,56 @@ const CreateRfq = () => {
     <KeyboardAwareScrollView
       style={styles.__container}
       contentContainerStyle={{paddingBottom: WP(40)}}>
-      <View style={{top: 23, width: '90%', alignSelf: 'center'}}>
-        <FormCustomInput
-          labelTextTop={23}
-          inputBorderColor="blue"
-          lablelText={'Creation Date'}
-          value={date1}
-          disabled={true}
-          labelTextColor={'blue'}
-        />
-      </View>
+     <>
+     <View>
+          <Text
+            style={{
+              top: HP(4),
+              marginLeft: WP(4),
+              color: 'blue',
 
+              fontSize: WP(4.5),
+            }}>
+            Create Date*
+          </Text>
+          <TouchableWithoutFeedback
+         onPress={()=>setShow1(true)}
+            style={{
+              width: WP('90%'),
+              height: HP(5),
+              borderWidth: 1,
+              borderColor: 'blue',
+              alignSelf: 'center',
+              marginTop: WP(10),
+              justifyContent:'space-between',
+              paddingHorizontal:10,
+              flexDirection:'row',
+              alignItems:'center'
+            
+            }}>
+
+              <Text style={{fontSize:16, color:'black'}}>
+                {moment(date1).format('DD-MM-YYYY')}
+              </Text>
+              <Icon
+                name="date-range"
+                size={35}
+                color={COLOR.BgColor}
+              
+                
+            />
+             {show1 && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date1}
+         
+                  onChange={onChange1}
+        />
+      )}
+          </TouchableWithoutFeedback>
+         
+        </View>
+     </>
       <>
         <View>
           <Text
@@ -141,8 +186,8 @@ const CreateRfq = () => {
             }}>
             Due Date*
           </Text>
-          <TouchableOpacity
-            onPress={() => setOpen(true)}
+          <TouchableWithoutFeedback
+         onPress={()=>setShow(true)}
             style={{
               width: WP('90%'),
               height: HP(5),
@@ -150,25 +195,36 @@ const CreateRfq = () => {
               borderColor: 'blue',
               alignSelf: 'center',
               marginTop: WP(10),
+              justifyContent:'space-between',
+              paddingHorizontal:10,
+              flexDirection:'row',
+              alignItems:'center'
+            
             }}>
-            <DatePickerModal
-              locale="en"
-              mode="single"
-              label="Select date"
-              visible={open}
-              onDismiss={onDismissSingle}
-              date={date2}
-              onConfirm={onConfirmSingle}
+
+              <Text style={{fontSize:16, color:'black'}}>
+                {moment(date).format('DD-MM-YYYY')}
+              </Text>
+              <Icon
+                name="date-range"
+                size={35}
+                color={COLOR.BgColor}
+              
+                
             />
-          </TouchableOpacity>
-          <Text
-            style={{bottom: WP(8), left: WP(10)}}
-            onPress={() => setOpen(true)}>
-            {moment(date2).format('L')}
-          </Text>
+             {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+         
+                  onChange={onChange}
+        />
+      )}
+          </TouchableWithoutFeedback>
+         
         </View>
       </>
-
+    
       <View>
         <Text
           style={{
@@ -182,7 +238,7 @@ const CreateRfq = () => {
         </Text>
         <View style={styles.subContainer}>
           <Dropdown
-            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+            style={[styles.dropdown, isFocus && {borderColor: 'blue', color:'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -297,6 +353,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 0,
     paddingHorizontal: 8,
+    color:'blue'
   },
   icon: {
     marginRight: 5,
@@ -309,12 +366,17 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
+    color:'blue'
+
   },
   placeholderStyle: {
     fontSize: 16,
+    color:'black'
+
   },
   selectedTextStyle: {
     fontSize: 16,
+    color:'black'
   },
   iconStyle: {
     width: 20,
@@ -323,5 +385,6 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+    color:'blue'
   },
 });
