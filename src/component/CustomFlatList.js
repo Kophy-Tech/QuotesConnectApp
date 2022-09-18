@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 import {BgColor, bgColor1, ColorText} from '../Utils/Colors';
-import {WP} from '../Utils/theme';
+import {COLOR, WP} from '../Utils/theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
@@ -90,7 +90,7 @@ const CustomFlatList = ({itemData, navigation}) => {
               onPress={() =>
                 navigation.navigate('editmaterial', {itemParams: item})
               }>
-              <EvilIcons name="pencil" color={'grey'} size={26} />
+              <EvilIcons name="pencil" color={COLOR.purple} size={26} />
             </TouchableOpacity>
           </View>
 

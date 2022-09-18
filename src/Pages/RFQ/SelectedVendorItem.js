@@ -653,8 +653,8 @@ const SelectedVendorItem = props => {
           paddingLeft: WP(3),
           textAlign: 'center',
         }}>
-        Kindly Scroll to the right to see more detail to select your Items.
-        Also,after selecting your items , scroll to bottom to place your order.
+        Scroll to the right to view vendors pricing. After selecting your items,
+        scroll down to complete your order.
       </Text>
       <ScrollView
         horizontal
@@ -700,15 +700,17 @@ const SelectedVendorItem = props => {
                     <View>
                       <Image
                         style={{
-                          width: WP(12),
-                          height: HP(5),
+                          width: WP(13),
+                          height: HP(6),
                           left: 28,
 
                           marginHorizontal: WP(5),
+                          bottom: 12,
                         }}
                         source={{
                           uri: item?.vendor?.logo,
                         }}
+                        resizeMode="contain"
                       />
                     </View>
                   </View>
@@ -716,7 +718,12 @@ const SelectedVendorItem = props => {
                 <Text
                   style={[
                     styles.textColor,
-                    {left: WP(-75), top: HP(6), fontWeight: 'bold'},
+                    {
+                      left: WP(-75),
+                      top: HP(7),
+                      fontWeight: 'bold',
+                      color: 'white',
+                    },
                   ]}>
                   Price
                 </Text>
@@ -764,9 +771,9 @@ const SelectedVendorItem = props => {
                   </Text>
                   <Text
                     style={{
-                      left: WP(14),
+                      left: WP(17),
                       textTransform: 'capitalize',
-                      width: 90,
+                      width: 120,
                       // fontWeight: 'bold',
                       backgroundColor: bgColor1,
                       padding: WP(4),
@@ -809,7 +816,10 @@ const SelectedVendorItem = props => {
                 left: 5,
               }}>
               {props?.route?.params?.item?.vendorArray.map(item => (
-                <View style={{borderBottomWidth: 1}}>
+                <View
+                  style={{
+                    borderBottomWidth: 0.3,
+                  }}>
                   {item?.priceList?.priceArray.map((values, i) => {
                     return (
                       <View
@@ -818,9 +828,9 @@ const SelectedVendorItem = props => {
                           marginVertical: -1,
                           paddingBottom: 12,
                           // borderWidth: 1,
-                          borderRightWidth: 1,
+                          borderRightWidth: 0.1,
                           borderColor: 'black',
-                          borderLeftWidth: 1,
+                          borderLeftWidth: 0.2,
                           height: 180,
 
                           // borderBottomWidth: 1,
@@ -864,6 +874,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -873,7 +888,7 @@ const SelectedVendorItem = props => {
                           {item?.priceList?.priceArray[i]?.request?._id ==
                             props?.route?.params?.item?.vendorArray[0]
                               ?.priceList?.priceArray[1]?.request?._id && (
-                            <>
+                            <View>
                               <TouchableOpacity
                                 onPress={() => {
                                   setSelectedId2(values?._id),
@@ -886,10 +901,15 @@ const SelectedVendorItem = props => {
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
+                                  color={
+                                    values?._id == selectedId2
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                   size={24}
                                 />
                               </TouchableOpacity>
-                            </>
+                            </View>
                           )}
                           {/* radio button for row 3 */}
                           {item?.priceList?.priceArray[i]?.request?._id ==
@@ -907,6 +927,11 @@ const SelectedVendorItem = props => {
                                     values?._id == selectedId3
                                       ? 'circle'
                                       : 'circle-thin'
+                                  }
+                                  color={
+                                    values?._id == selectedId3
+                                      ? COLOR.BgColor
+                                      : 'black'
                                   }
                                   size={24}
                                 />
@@ -931,6 +956,11 @@ const SelectedVendorItem = props => {
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
+                                  color={
+                                    values?._id == selectedId4
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                   size={24}
                                 />
                               </TouchableOpacity>
@@ -954,6 +984,11 @@ const SelectedVendorItem = props => {
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
+                                  color={
+                                    values?._id == selectedId5
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                   size={24}
                                 />
                               </TouchableOpacity>
@@ -976,6 +1011,11 @@ const SelectedVendorItem = props => {
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
+                                  color={
+                                    values?._id == selectedId6
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                   size={24}
                                 />
                               </TouchableOpacity>
@@ -997,6 +1037,11 @@ const SelectedVendorItem = props => {
                                     values?._id == selectedId7
                                       ? 'circle'
                                       : 'circle-thin'
+                                  }
+                                  color={
+                                    values?._id == selectedId7
+                                      ? COLOR.BgColor
+                                      : 'black'
                                   }
                                   size={24}
                                 />
@@ -1021,6 +1066,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId8
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </View>
@@ -1043,6 +1093,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId9
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1065,6 +1120,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId10
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1087,6 +1147,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId11
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1109,6 +1174,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId12
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1131,6 +1201,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId13
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1153,6 +1228,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId14
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1175,6 +1255,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId15
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1197,6 +1282,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId16
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1219,6 +1309,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId17
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1241,6 +1336,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId18
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1263,6 +1363,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId19
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1285,6 +1390,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId20
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1307,6 +1417,11 @@ const SelectedVendorItem = props => {
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId21
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1324,11 +1439,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId22
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId22
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1345,9 +1465,14 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId23
                                       ? 'circle'
                                       : 'circle-thin'
+                                  }
+                                  color={
+                                    values?._id == selectedId23
+                                      ? COLOR.BgColor
+                                      : 'black'
                                   }
                                   size={24}
                                 />
@@ -1367,11 +1492,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId24
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId24
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1389,11 +1519,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId25
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId25
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1411,11 +1546,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId26
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId26
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1433,11 +1573,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId27
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId27
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1455,11 +1600,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId28
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId28
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1476,11 +1626,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId29
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId29
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1498,11 +1653,16 @@ const SelectedVendorItem = props => {
                                 }}>
                                 <FontAwesome
                                   name={
-                                    values?._id == selectedId21
+                                    values?._id == selectedId30
                                       ? 'circle'
                                       : 'circle-thin'
                                   }
                                   size={24}
+                                  color={
+                                    values?._id == selectedId30
+                                      ? COLOR.BgColor
+                                      : 'black'
+                                  }
                                 />
                               </TouchableOpacity>
                             </>
@@ -1639,7 +1799,7 @@ const SelectedVendorItem = props => {
               btnTitle={
                 loading ? <ActivityIndicator color="white" /> : 'Place Order'
               }
-              backgroundColor={COLOR.BgColor}
+              backgroundColor={'green'}
               textColor={COLOR.whiteColor}
               onPress={() => onSubmit()}
             />
@@ -1750,6 +1910,7 @@ const styles = StyleSheet.create({
   textColor: {
     color: 'white',
     fontWeight: 'bold',
+    top: WP(5),
   },
   Logo: {
     width: WP(10),
