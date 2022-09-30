@@ -5,8 +5,6 @@ import {otherUrl} from '../Constant/Constants';
 const API_URL = `${otherUrl}/`;
 
 const getMaterialService = data => {
-
-
   return instance.get(`material/all-materials`).then(response => {
     return response.data;
   });
@@ -40,15 +38,11 @@ const updateMaterialService = data => {
   // console.log(_id,updatedData, token, ' updatedJobService')
   // console.log(API_URL + `material/${_id}`);
 
-  return axios
-    .put(API_URL + `material/${_id}`, updatedData, {
-      headers: {Authorization: `${token}`},
-    })
-    .then(response => {
-      // console.log(response, 'response')
+  return instance.put(`material/${_id}`, updatedData).then(response => {
+    // console.log(response, 'response')
 
-      return response.data;
-    });
+    return response.data;
+  });
 };
 // https://demo-server-quotesconnect.herokuapp.com/api/v1.1/material/62ab3adcd19c463c76fead1c/description
 

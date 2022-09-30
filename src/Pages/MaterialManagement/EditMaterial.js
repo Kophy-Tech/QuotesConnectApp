@@ -14,7 +14,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {Spinner} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {deleteMaterial, updateMaterial} from '../../Redux/Slice/materialSlice';
+import {
+  deleteMaterial,
+  getMaterial,
+  updateMaterial,
+} from '../../Redux/Slice/materialSlice';
 
 const EditMaterial = ({route}) => {
   const auth = useSelector(auth => auth.auth.user);
@@ -57,12 +61,11 @@ const EditMaterial = ({route}) => {
         .unwrap()
         .then(res => {
           if (res.status === 'Updated') {
+            setModalVisible(false);
+            setModalVisible1(false);
             Alert.alert(`${res.msg}`);
-            setValues({
-              name: '',
-              description: '',
-            });
-            // navigation.goBack();
+            dispatch(getMaterial());
+            navigation.goBack();
           }
           console.log(res.status);
         })
@@ -132,7 +135,7 @@ const EditMaterial = ({route}) => {
                   width: '100%',
                   backgroundColor: bgColor3,
                   borderRadius: 5,
-                  top: 15
+                  top: 15,
                 }}
                 onPress={() => setModalVisible1(true)}>
                 <Text style={[styles.butttonText, {color: '#fff'}]}>
