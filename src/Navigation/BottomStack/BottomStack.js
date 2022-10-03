@@ -225,7 +225,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Edit Material
+              Edit Primary Category
             </Text>
           ),
           headerLeft: () => <BackIcon />,
