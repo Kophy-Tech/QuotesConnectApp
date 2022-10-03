@@ -24,7 +24,7 @@ const BottomStackNavigation = () => {
           elevation: 0,
           backgroundColor: '#5080FA',
           // height: WP(15),
-          height: Platform.OS === 'ios' ? WP(24.4) : WP(15),
+          height: Platform.OS === 'ios' ? WP(24.4) : WP(17),
           ...styles.shadow,
         },
         tabBarHideOnKeyboard: true,
@@ -35,7 +35,9 @@ const BottomStackNavigation = () => {
         // component={SelectedVendorItem}
         options={{
           tabBarLabel: ({focused, color, size}) => (
-            <Text style={{color: focused ? 'yellow' : 'white'}}>RFQ</Text>
+            <Text style={{color: focused ? 'yellow' : 'white',
+          fontWeight:focused?'bold':'500'
+          }}>RFQ</Text>
           ),
           // tabBarStyle: { display: "none" },
           headerShown: false,
@@ -45,14 +47,14 @@ const BottomStackNavigation = () => {
                 style={{
                   alignItems: 'center',
                   justifyContent: 'center',
-                  top: 1,
+                  top: 2,
                   elevation: 30,
                 }}>
                 <Ionicons
                   name="reader-outline"
                   size={28}
                   color={focused ? '#FFFFFF' : '#ffff'}
-                  style={focused ? styles.reHeight : null}
+                  // style={focused ? styles.reHeight : null}
                 />
                 {/* <Image source={require('../../Assets/Images/Vector.png')}
                     resizeMode='contain'
@@ -72,7 +74,10 @@ const BottomStackNavigation = () => {
         component={Job}
         options={{
           tabBarLabel: ({focused, color, size}) => (
-            <Text style={{color: focused ? 'yellow' : 'white'}}>JOB</Text>
+            <Text style={{color: focused ? 'yellow' : 'white',
+            fontWeight:focused?'bold':'500'
+          
+          }}>JOB</Text>
           ),
 
           headerShown: false,
@@ -88,7 +93,7 @@ const BottomStackNavigation = () => {
                   source={require('../../Assets/Images/Group2.png')}
                   resizeMode="contain"
                   style={[
-                    focused ? styles.reHeight : null,
+                    // focused ? styles.reHeight : null,
                     {width: 30, height: 30},
                   ]}
                   // style={{
@@ -108,7 +113,10 @@ const BottomStackNavigation = () => {
         component={Vendors}
         options={{
           tabBarLabel: ({focused, color, size}) => (
-            <Text style={{color: focused ? 'yellow' : 'white'}}>VENDOR</Text>
+            <Text style={{color: focused ? 'yellow' : 'white',
+            fontWeight:focused?'bold':'500'
+          
+          }}>VENDOR</Text>
           ),
           // tabBarStyle: { display: "none" },
           headerShown: false,
@@ -124,7 +132,7 @@ const BottomStackNavigation = () => {
                   name={focused ? 'ios-people-sharp' : 'ios-people-outline'}
                   size={30}
                   color={focused ? '#fff' : '#ffff'}
-                  style={focused ? styles.reHeight : null}
+                  // style={focused ? styles.reHeight : null}
                 />
               </View>
             );
@@ -136,23 +144,26 @@ const BottomStackNavigation = () => {
         component={MaterialManagement}
         options={{
           tabBarLabel: ({focused, color, size}) => (
-            <Text style={{color: focused ? 'yellow' : 'white'}}>MATERIAL</Text>
+            <Text style={{color: focused ? 'yellow' : 'white',
+            fontWeight:focused?'bold':'500'
+          
+          }}>MATERIAL</Text>
           ),
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return (
               <View
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  // alignItems: 'center',
+                  // justifyContent: 'center',
                   top: 1,
                 }}>
                 <Image
                   source={require('../../Assets/Images/Group.png')}
                   resizeMode="contain"
                   style={[
-                    focused ? styles.reHeight : null,
-                    {width: 30, height: 30},
+               
+                    {width: 30, height: 25},
                   ]}
                 />
               </View>
@@ -177,7 +188,7 @@ const styles = StyleSheet.create({
   },
 
   reHeight: {
-    bottom: WP(2.5),
+    bottom: WP(1.5),
 
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},

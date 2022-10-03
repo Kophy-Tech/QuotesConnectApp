@@ -108,7 +108,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
             value={item.check}
             onValueChange={() => handleSingleCheck(item._id)}
             style={styles.checkboxStyle}
-            checkedColor="#fff"
+           
           />
         </View>
         <View style={styles.tableColumnRegular}>
@@ -128,7 +128,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
     } else if (selectedVendor.length > 3) {
       Alert.alert('Please select only 3 vendors');
     } else {
-      console.log(selectedVendor, 'selectedVendor');
+      // console.log(selectedVendor, 'selectedVendor');
       let dataVendor = [];
 
       selectedVendor.map(({_id}) => {
@@ -149,7 +149,7 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
 
             navigation.navigate('rfq');
           }
-          console.log(res.status);
+          // console.log(res.status);s
         })
         .catch(err => {
           console.log(err, 'error from postrfqjob');
@@ -186,11 +186,11 @@ const CustomRfqVendorFlatlist = ({itemData, navigation}) => {
           <TouchableOpacity
             onPress={submitVendor}
             style={{
-              backgroundColor: COLOR.BgColor,
+              backgroundColor: 'green',
               padding: WP(4),
               borderRadius: WP(3),
               borderWidth: 1,
-              borderColor: COLOR.BgColor,
+              borderColor: 'green',
               top: WP(4),
             }}>
             {LoadingRfq ? (
@@ -224,11 +224,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imageStyle: {
-    width: '50%',
-    height: 40,
-    resizeMode: 'cover',
+    width: '90%',
+    height: 50,
+    resizeMode: 'contain',
     alignSelf: 'center',
     borderRadius: 5,
+    left: WP(3),
   },
 
   vendorSelectText: {
@@ -274,6 +275,8 @@ const styles = StyleSheet.create({
     color: ColorText,
     textAlign: 'left',
     lineHeight: 18,
+    left: WP(4),
+    textTransform: 'capitalize',
   },
   tableRow: {
     flexDirection: 'row',
@@ -285,5 +288,6 @@ const styles = StyleSheet.create({
   },
   checkboxStyle: {
     color: 'blue',
+    // backgroundColor:'grey'
   },
 });

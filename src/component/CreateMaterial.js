@@ -41,6 +41,8 @@ const CreateMaterial = () => {
         .then(res => {
           if (res.status === 'Created') {
             dispatch(getMaterial());
+          // console.log(res, 'reponse from create material')
+
             Alert.alert(`${res.msg}`);
             setValues({
               name: '',
@@ -48,10 +50,10 @@ const CreateMaterial = () => {
             });
             navigation.goBack();
           }
-          console.log(res.status);
+          // console.log(res.status);
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err ,'from error create material');
           Alert.alert(`${err}`);
         });
     }

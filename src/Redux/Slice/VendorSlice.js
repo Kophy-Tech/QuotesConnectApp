@@ -19,7 +19,7 @@ export const CreateVendorAction = createAsyncThunk('vendor/CreateVendorAction', 
 	try {
 		return await AuthService.CreateVendorApi(user);
 	} catch (error) {
-		console.log(error, 'error');
+		// console.log(error, 'error');
 		const { message } = error;
 		return thunkAPI.rejectWithValue(error.response.data || message);
 	}
@@ -27,10 +27,10 @@ export const CreateVendorAction = createAsyncThunk('vendor/CreateVendorAction', 
 
 export const UpdateVendorAction = createAsyncThunk('vendor/updatevendorAction', async (user, thunkAPI) => {
 	try {
-		console.log(user, 'Update123');
+		// console.log(user, 'Update123');
 		return await AuthService.UpdateVendorApi(user);
 	} catch (error) {
-		console.log(error, 'error');
+		// console.log(error, 'error');
 		const { message } = error;
 		return thunkAPI.rejectWithValue(error.response.data || message);
 	}
@@ -38,10 +38,10 @@ export const UpdateVendorAction = createAsyncThunk('vendor/updatevendorAction', 
 
 export const DeleteVendorAction = createAsyncThunk('vendor/DeleteVendzorAction', async (user, thunkAPI) => {
 	try {
-		console.log(user, 'Update123');
+		// console.log(user, 'Update123');
 		return await AuthService.deleteVendorApi(user);
 	} catch (error) {
-		console.log(error, 'error');
+		// console.log(error, 'error');
 		const { message } = error;
 		return thunkAPI.rejectWithValue(error.response.data || message);
 	}

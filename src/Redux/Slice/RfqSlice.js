@@ -99,10 +99,10 @@ export const clientSelectItems = createAsyncThunk(
     try {
       return await RfqService.selectItemServices(user);
     } catch (error) {
-      console.log(
-        error.response.data,
-        'error selectIjjjjjtemServicesselectItemServices',
-      );
+      // console.log(
+      //   error.response.data,
+      //   'error selectIjjjjjtemServicesselectItemServices',
+      // );
       const {message} = error;
       return thunkAPI.rejectWithValue(error.response.data.error || message);
     }

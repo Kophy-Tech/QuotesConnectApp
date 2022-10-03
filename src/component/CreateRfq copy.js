@@ -43,7 +43,7 @@ const CreateRfq = () => {
   const [showDate1, setShowDate1] = React.useState(false);
   const [showDate2, setShowDate2] = React.useState(false);
   const [allJob, setAllJob] = useState([]);
-  console.log({allJob});
+  // console.log({allJob});
   const [text, onChangeText] = React.useState('');
   const [jobId, setJobId] = React.useState('');
 
@@ -134,7 +134,7 @@ const CreateRfq = () => {
             setQuery('');
             navigation.navigate('requestforrfq');
           }
-          console.log(res.status);
+          // console.log(res.status);
         })
         .catch(err => {
           console.log(err, 'error from postrfqjob');
@@ -316,7 +316,7 @@ const CreateRfq = () => {
                     keyboardShouldPersistTaps: 'always',
                     keyExtractor: job => job._id,
                     renderItem: ({item}) => {
-                      console.log({item});
+                      // console.log({item});
                       return (
                         <TouchableOpacity
                           onPress={() => {

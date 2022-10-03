@@ -80,7 +80,7 @@ export const OtpResetPassword = createAsyncThunk(
     try {
       return await AuthService.reset_password_otp(user);
     } catch (error) {
-      console.log(error.response.data.error[0].msg, 'error');
+      // console.log(error.response.data.error[0].msg, 'error');
       const {message} = error;
       return thunkAPI.rejectWithValue(error.response.data.error[0].msg);
     }

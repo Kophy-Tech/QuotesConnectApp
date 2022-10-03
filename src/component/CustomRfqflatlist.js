@@ -18,7 +18,7 @@ const HeaderComponent = () => {
     <>
       <View style={styles.tableColumnHeader}>
         <View style={styles.tableColumnRegular}>
-          <Text style={styles.textLineItem}>Job ID</Text>
+          <Text style={styles.textLineItem}>Request ID</Text>
         </View>
         <View style={styles.tableColumnRegular}>
           <Text style={styles.textLineItem}>Job Name</Text>
@@ -65,8 +65,8 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
 
   const totalRfq = useSelector(() => store.getState()).rfq?.allrfq?.data;
 
-  console.log(totalRfq, 'aaa');
-  console.log(itemData, 'itemdata from customrfqflatlist');
+  // console.log(totalRfq, 'aaa');
+  // console.log(itemData, 'itemdata from customrfqflatlist');
   const renderItem = ({item}) => (
     <Item item={item} onItemPress={NavigationPressPending} />
   );
@@ -385,18 +385,18 @@ const styles = StyleSheet.create({
   },
   textLineItem1: {
     fontSize: 15,
-    fontWeight: '400',
+    fontWeight: '500',
     color: ColorText,
     textAlign: 'center',
     lineHeight: 18,
   },
   textLineItem3: {
-    fontSize: 15,
-    fontWeight: '400',
+    fontSize: 12,
+    fontWeight: '500',
     color: ColorText,
     textAlign: 'center',
     lineHeight: 18,
-    textTransform: 'capitalize',
+    // textTransform:'uppercase'
   },
   tableRow: {
     flexDirection: 'row',

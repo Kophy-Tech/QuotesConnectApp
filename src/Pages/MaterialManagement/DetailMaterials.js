@@ -144,7 +144,7 @@ const DetailMaterials = props => {
                   loading ? (
                     <ActivityIndicator color={'white'} />
                   ) : (
-                    'Add Sub Category'
+                    'Add Material'
                   )
                 }
                 backgroundColor={BgColor}
@@ -174,7 +174,7 @@ const DetailMaterials = props => {
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableOpacity
                   onPress={() =>
-                    props.navigation.navigate('EditSubMaterial', {
+                    props.navigation.navigate('DeleteSubMaterial', {
                       itemParams: item,
                       primary_id: props.route.params.itemParams._id,
                     })
@@ -189,7 +189,7 @@ const DetailMaterials = props => {
                       primary_id: props.route.params.itemParams._id,
                     })
                   }>
-                  <EvilIcons name="pencil" color={'grey'} size={26} />
+                  <EvilIcons name="pencil" color={COLOR.purple} size={26} />
                 </TouchableOpacity>
               </View>
             </View>

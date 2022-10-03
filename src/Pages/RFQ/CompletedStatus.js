@@ -18,7 +18,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import FormCustomButton from '../../component/FormCustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {clientSelectItems, getRfqJob} from '../../Redux/Slice/RfqSlice';
-import Orientation from 'react-native-orientation';
 import {bgColor1} from '../../Utils/Colors';
 
 const SelectedVendorItem = props => {
@@ -653,9 +652,9 @@ const SelectedVendorItem = props => {
           marginVertical: WP(3),
           paddingLeft: WP(3),
           textAlign: 'center',
+          right: WP(9),
         }}>
-        Kindly Scroll to the right to see more detail to select your Items.
-        Also,after selecting your items , scroll to bottom to place your order.
+        Scroll to the right to view vendors pricing.
       </Text>
       <ScrollView
         horizontal
@@ -680,8 +679,8 @@ const SelectedVendorItem = props => {
               <Text style={[styles.textColor, {marginLeft: WP(-18)}]}>
                 Item
               </Text>
-              <Text style={[styles.textColor, {left: WP(32)}]}>Quantity</Text>
-              <Text style={[styles.textColor, {left: WP(40)}]}>Unit</Text>
+              <Text style={[styles.textColor, {left: WP(37)}]}>Quantity</Text>
+              <Text style={[styles.textColor, {left: WP(44)}]}>Unit</Text>
               <View
                 style={{
                   flexDirection: 'row',
@@ -706,6 +705,7 @@ const SelectedVendorItem = props => {
                           left: 65,
 
                           marginHorizontal: WP(5),
+                          bottom: WP(2),
                         }}
                         source={{
                           uri: item?.vendor?.logo,
@@ -717,7 +717,7 @@ const SelectedVendorItem = props => {
                 <Text
                   style={[
                     styles.textColor,
-                    {left: WP(-64), top: HP(6), fontWeight: 'bold'},
+                    {left: WP(-64), top: HP(7.8), fontWeight: 'bold'},
                   ]}>
                   Price
                 </Text>
@@ -751,7 +751,7 @@ const SelectedVendorItem = props => {
                   />
                   <Text
                     style={{
-                      left: WP(15),
+                      left: WP(17.7),
                       textTransform: 'capitalize',
                       width: 90,
                       // fontWeight: 'bold',
@@ -765,14 +765,14 @@ const SelectedVendorItem = props => {
 
                   <Text
                     style={{
-                      left: WP(17),
+                      left: WP(21),
                       textTransform: 'capitalize',
                       top: 2,
                       backgroundColor: bgColor1,
-                      height: WP(9),
+                      height: WP(14),
                       padding: 4,
                       marginVertical: WP(2.6),
-                      width: 90,
+                      width: 120,
                     }}>
                     {item?.description}
                   </Text>
@@ -782,6 +782,7 @@ const SelectedVendorItem = props => {
                       left: WP(26),
                       textTransform: 'capitalize',
                       marginVertical: WP(3.4),
+                      top:7
                     }}>
                     {item?.quantity}
                   </Text>
@@ -793,7 +794,8 @@ const SelectedVendorItem = props => {
                       // fontWeight: 'bold',
                       backgroundColor: bgColor1,
                       padding: WP(4),
-                      bottom: 5,
+                      top:WP(2)
+                      
                     }}>
                     {item?.unit}
                   </Text>
@@ -810,7 +812,7 @@ const SelectedVendorItem = props => {
                 left: 5,
               }}>
               {props?.route?.params?.item?.vendorArray.map(item => (
-                <View style={{borderBottomWidth: 1}}>
+                <View style={{borderBottomWidth: 0.4}}>
                   {item?.priceList?.priceArray.map((values, i) => {
                     return (
                       <View
@@ -819,9 +821,9 @@ const SelectedVendorItem = props => {
                           marginVertical: -1,
                           paddingBottom: 4,
                           // borderWidth: 1,
-                          borderRightWidth: 1,
+                          borderRightWidth: 0.4,
                           borderColor: 'black',
-                          borderLeftWidth: 1,
+                          borderLeftWidth: 0.4,
 
                           // borderBottomWidth: 1,
                         }}>
@@ -991,6 +993,7 @@ const styles = StyleSheet.create({
   textColor: {
     color: 'white',
     fontWeight: 'bold',
+    top:WP(4)
   },
   Logo: {
     width: WP(10),

@@ -35,6 +35,7 @@ import EditSubMaterial from '../../Pages/MaterialManagement/EditSubMaterial';
 import SubmittedStatus from '../../Pages/RFQ/SubmittedStatus';
 import CompletedStatus from '../../Pages/RFQ/CompletedStatus';
 import DeleteMaterial from '../../Pages/MaterialManagement/DeleteMaterial';
+import DeleteSubMaterial from '../../Pages/MaterialManagement/DeleteSubMaterial';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -224,7 +225,7 @@ function BottomStack() {
                 fontSize: WP(6),
                 lineHeight: HP(5),
               }}>
-              Edit Material
+              Edit Primary Category
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -240,10 +241,10 @@ function BottomStack() {
             <Text
               style={{
                 color: COLOR.BgColor,
-                fontSize: WP(6),
+                fontSize: WP(4),
                 lineHeight: HP(5),
               }}>
-              Delete Material
+              Delete Primary Category
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -282,6 +283,25 @@ function BottomStack() {
                 lineHeight: HP(5),
               }}>
               Edit Material
+            </Text>
+          ),
+          headerLeft: () => <BackIcon />,
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name="DeleteSubMaterial"
+        component={DeleteSubMaterial}
+        options={{
+          title: (
+            <Text
+              style={{
+                color: COLOR.BgColor,
+                fontSize: WP(6),
+                lineHeight: HP(5),
+              }}>
+              Delete Material
             </Text>
           ),
           headerLeft: () => <BackIcon />,
@@ -373,10 +393,10 @@ function BottomStack() {
             <Text
               style={{
                 color: COLOR.BgColor,
-                fontSize: WP(6),
+                fontSize: WP(4),
                 lineHeight: HP(5),
               }}>
-              Create RFQ For Job
+              Create New Request
             </Text>
           ),
           headerLeft: () => <BackIcon />,

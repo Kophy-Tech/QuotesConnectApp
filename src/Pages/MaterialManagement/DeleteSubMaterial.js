@@ -14,15 +14,22 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {Spinner} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {deleteMaterial, updateMaterial} from '../../Redux/Slice/materialSlice';
+import {
+  deleteMaterial,
+  getMaterial,
+  subDeleteMaterial,
+  subUpdateMaterialAction,
+  updateMaterial,
+} from '../../Redux/Slice/materialSlice';
+import FormCustomInput from '../../component/FormCustomInput';
 
-const DeleteMaterial = ({route}) => {
+const DeleteSubMaterial = ({route}) => {
   const auth = useSelector(auth => auth.auth.user);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [modalVisible1, setModalVisible1] = React.useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {itemParams} = route.params;
+  const {itemParams, primary_id} = route.params;
   const loading = useSelector(material => material.material.isLoading);
 
   // console.log(auth, 'aaaaaaaa');
@@ -39,13 +46,13 @@ const DeleteMaterial = ({route}) => {
   const token = auth?.token;
 
   const updateMaterialPost = () => {
-    const {_id, name, description} = value;
+    const {_id, content, description} = value;
     const updatedData = {
-      name,
+      content,
     };
-    const dataMaterial = {_id, updatedData, token};
+    const dataMaterial = {_id, updatedData, token, primary_id};
     // console.log(dataMaterial, 'dataMaterial');
-    if (!value.name) {
+    if (!value.content) {
       Alert.alert('Material name is required');
     }
 
@@ -53,16 +60,17 @@ const DeleteMaterial = ({route}) => {
     //     Alert.alert('Material description is required');
     // }
     else {
-      dispatch(updateMaterial(dataMaterial))
+      dispatch(subUpdateMaterialAction(dataMaterial))
         .unwrap()
         .then(res => {
-          if (res.status === 'Updated') {
-            Alert.alert(`${res.msg}`);
+          console.log(res, 'res');
+          if (res.status === 'Added') {
+            Alert.alert('Successfully Updated');
             setValues({
               name: '',
               description: '',
             });
-            // navigation.goBack();
+            navigation.goBack();
           }
           console.log(res.status);
         })
@@ -74,26 +82,37 @@ const DeleteMaterial = ({route}) => {
   };
 
   const deleteMaterialPost = () => {
-    const {_id} = value;
-    const dataJob = {
-      _id,
-      token,
+    // const {_id} = value;
+    // const dataJob = {
+    //   _id,
+    //   token,
+    // };
+    const {_id, content, description} = value;
+    const updatedData = {
+      content,
     };
-    console.log({dataJob});
-    dispatch(deleteMaterial(dataJob))
+    const dataMaterial = {_id, updatedData, token, primary_id};
+    console.log({dataMaterial});
+    dispatch(subDeleteMaterial(dataMaterial))
       .unwrap()
       .then(res => {
+        dispatch(getMaterial());
         if (res.status === 'Deleted') {
-          Alert.alert(`${res.msg}`);
-          navigation.goBack();
+          setModalVisible(false);
+          Alert.alert('Deleted Succesfully');
+          dispatch(getMaterial());
+          navigation.navigate('material');
         }
-        console.log(res.status);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
+        setModalVisible(false);
+        dispatch(getMaterial());
         Alert.alert(`${err}`);
       });
   };
+
+  //   console.log(primary_id)
 
   return (
     <>
@@ -104,17 +123,19 @@ const DeleteMaterial = ({route}) => {
           showsHorizontalScrollIndicator={false}>
           <Box px="6" pt="20">
             <Box mb="2">
-              <InputForm
-                title="Primary Category"
-                value={value.name}
-                name="name"
-                disabled={true}
+              <FormCustomInput
+                lablelText="Sub Category Name"
+                labelTextColor={COLOR.BgColor}
+                labelTextTop={WP(6)}
+                inputBorderColor={COLOR.BgColor}
+                value={value.content}
+                name="content"
                 borderColor={COLOR.BgColor}
                 onChangeText={value => handleInputChange('name', value)}
               />
-              {/* <Text style={styles.subText}>
+              <Text style={styles.subText}>
                 name of the project you want to create
-              </Text> */}
+              </Text>
             </Box>
             {/* <Box mb="2">
                             <CustomTextArea
@@ -130,16 +151,16 @@ const DeleteMaterial = ({route}) => {
               <ButtonH
                 style={{
                   borderColor: bgColor2,
-                  width: '100%',
-                  backgroundColor: bgColor2,
+                  width: '90%',
+                  backgroundColor: 'red',
                   borderRadius: 5,
-                  top: 23,
                 }}
                 onPress={() => setModalVisible(true)}>
-                <Text style={[styles.butttonText, {color: "#fff"}]}>
+                <Text style={[styles.butttonText, {color: 'white'}]}>
                   Delete
                 </Text>
               </ButtonH>
+             
             </Flex>
           </Box>
         </KeyboardAwareScrollView>
@@ -257,7 +278,7 @@ const DeleteMaterial = ({route}) => {
   );
 };
 
-export default DeleteMaterial;
+export default DeleteSubMaterial;
 
 const styles = StyleSheet.create({
   heading: {

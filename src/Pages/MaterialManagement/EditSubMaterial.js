@@ -63,7 +63,7 @@ const EditSubMaterial = ({route}) => {
       dispatch(subUpdateMaterialAction(dataMaterial))
         .unwrap()
         .then(res => {
-          console.log(res, 'res');
+          // console.log(res, 'res');
           if (res.status === 'Added') {
             Alert.alert('Successfully Updated');
             setValues({
@@ -131,7 +131,7 @@ const EditSubMaterial = ({route}) => {
                 value={value.content}
                 name="content"
                 borderColor={COLOR.BgColor}
-                onChangeText={value => handleInputChange('name', value)}
+                onChangeText={value => handleInputChange('content', value)}
               />
               <Text style={styles.subText}>
                 name of the project you want to create
@@ -148,22 +148,11 @@ const EditSubMaterial = ({route}) => {
                         </Box> */}
 
             <Flex direction="row" mt="4" justifyContent="space-around">
-              <ButtonH
-                style={{
-                  borderColor: bgColor2,
-                  width: '40%',
-                  backgroundColor: 'transparent',
-                  borderRadius: 5,
-                }}
-                onPress={() => setModalVisible(true)}>
-                <Text style={[styles.butttonText, {color: bgColor2}]}>
-                  Delete
-                </Text>
-              </ButtonH>
+             
               <ButtonH
                 style={{
                   borderColor: bgColor3,
-                  width: '40%',
+                  width: '90%',
                   backgroundColor: bgColor3,
                   borderRadius: 5,
                 }}
