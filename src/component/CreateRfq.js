@@ -136,8 +136,8 @@ const CreateRfq = () => {
             }}>
             Create Date*
           </Text>
-          <TouchableWithoutFeedback
-         onPress={()=>setShow1(true)}
+          <View
+        
             style={{
               width: WP('90%'),
               height: HP(5),
@@ -151,18 +151,32 @@ const CreateRfq = () => {
               alignItems:'center'
             
             }}>
-
-              <Text style={{fontSize:16, color:'black'}}>
+<View>
+  
+<Text style={{fontSize:16, color:'black'}}>
                 {moment(date1).format('DD-MM-YYYY')}
               </Text>
-              <Icon
+</View>
+         <TouchableWithoutFeedback
+          onPress={()=>setShow1(true)}
+          style={{
+            justifyContent:'flex-end'
+          }}
+         >
+         <Icon
                 name="date-range"
                 size={35}
                 color={COLOR.BgColor}
               
                 
             />
-             {show1 && (
+         </TouchableWithoutFeedback>
+         
+          </View>
+         
+        </View>
+     </>
+     {show1 && (
         <DateTimePicker
           testID="dateTimePicker"
           value={date1}
@@ -170,10 +184,6 @@ const CreateRfq = () => {
                   onChange={onChange1}
         />
       )}
-          </TouchableWithoutFeedback>
-         
-        </View>
-     </>
       <>
         <View>
           <Text
@@ -186,8 +196,8 @@ const CreateRfq = () => {
             }}>
             Due Date*
           </Text>
-          <TouchableWithoutFeedback
-         onPress={()=>setShow(true)}
+          <View
+      
             style={{
               width: WP('90%'),
               height: HP(5),
@@ -202,17 +212,31 @@ const CreateRfq = () => {
             
             }}>
 
-              <Text style={{fontSize:16, color:'black'}}>
+             <View>
+             <Text style={{fontSize:16, color:'black'}}>
                 {moment(date).format('DD-MM-YYYY')}
               </Text>
-              <Icon
+             </View>
+           <TouchableOpacity
+              onPress={()=>setShow(true)}
+              style={{
+                justifyContent:'flex-end'
+              }}
+           >
+           <Icon
                 name="date-range"
                 size={35}
                 color={COLOR.BgColor}
               
                 
             />
-             {show && (
+           </TouchableOpacity>
+        
+          </View>
+         
+        </View>
+      </>
+      {show && (
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
@@ -220,11 +244,6 @@ const CreateRfq = () => {
                   onChange={onChange}
         />
       )}
-          </TouchableWithoutFeedback>
-         
-        </View>
-      </>
-    
       <View>
         <Text
           style={{
