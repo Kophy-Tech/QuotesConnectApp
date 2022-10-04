@@ -5,7 +5,10 @@ import FormCustomInput from './FormCustomInput';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {COLOR, HP, WP} from '../Utils/theme';
-import {TouchableOpacity, TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -30,7 +33,6 @@ const CreateRfq = () => {
     rfq => rfq.rfq,
   );
 
- 
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [text, onChangeText] = React.useState('');
@@ -53,8 +55,6 @@ const CreateRfq = () => {
     setShow1(false);
     setDate1(currentDate);
   };
-
-
 
   React.useEffect(() => {
     const getData = async () => {
@@ -118,14 +118,13 @@ const CreateRfq = () => {
     }
   };
   const [isFocus, setIsFocus] = useState(false);
-  
 
   return (
     <KeyboardAwareScrollView
       style={styles.__container}
       contentContainerStyle={{paddingBottom: WP(40)}}>
-     <>
-     <View>
+      <>
+        <View>
           <Text
             style={{
               top: HP(4),
@@ -137,7 +136,7 @@ const CreateRfq = () => {
             Create Date*
           </Text>
           <TouchableWithoutFeedback
-         onPress={()=>setShow1(true)}
+            onPress={() => setShow1(true)}
             style={{
               width: WP('90%'),
               height: HP(5),
@@ -145,35 +144,25 @@ const CreateRfq = () => {
               borderColor: 'blue',
               alignSelf: 'center',
               marginTop: WP(10),
-              justifyContent:'space-between',
-              paddingHorizontal:10,
-              flexDirection:'row',
-              alignItems:'center'
-            
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
-
-              <Text style={{fontSize:16, color:'black'}}>
-                {moment(date1).format('DD-MM-YYYY')}
-              </Text>
-              <Icon
-                name="date-range"
-                size={35}
-                color={COLOR.BgColor}
-              
-                
-            />
-             {show1 && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date1}
-         
-                  onChange={onChange1}
-        />
-      )}
+            <Text style={{fontSize: 16, color: 'black'}}>
+              {moment(date1).format('DD-MM-YYYY')}
+            </Text>
+            <Icon name="date-range" size={35} color={COLOR.BgColor} />
+            {show1 && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date1}
+                onChange={onChange1}
+              />
+            )}
           </TouchableWithoutFeedback>
-         
         </View>
-     </>
+      </>
       <>
         <View>
           <Text
@@ -187,7 +176,7 @@ const CreateRfq = () => {
             Due Date*
           </Text>
           <TouchableWithoutFeedback
-         onPress={()=>setShow(true)}
+            onPress={() => setShow(true)}
             style={{
               width: WP('90%'),
               height: HP(5),
@@ -195,36 +184,26 @@ const CreateRfq = () => {
               borderColor: 'blue',
               alignSelf: 'center',
               marginTop: WP(10),
-              justifyContent:'space-between',
-              paddingHorizontal:10,
-              flexDirection:'row',
-              alignItems:'center'
-            
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
-
-              <Text style={{fontSize:16, color:'black'}}>
-                {moment(date).format('DD-MM-YYYY')}
-              </Text>
-              <Icon
-                name="date-range"
-                size={35}
-                color={COLOR.BgColor}
-              
-                
-            />
-             {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-         
-                  onChange={onChange}
-        />
-      )}
+            <Text style={{fontSize: 16, color: 'black'}}>
+              {moment(date).format('DD-MM-YYYY')}
+            </Text>
+            <Icon name="date-range" size={35} color={COLOR.BgColor} />
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                onChange={onChange}
+              />
+            )}
           </TouchableWithoutFeedback>
-         
         </View>
       </>
-    
+
       <View>
         <Text
           style={{
@@ -238,7 +217,10 @@ const CreateRfq = () => {
         </Text>
         <View style={styles.subContainer}>
           <Dropdown
-            style={[styles.dropdown, isFocus && {borderColor: 'blue', color:'blue'}]}
+            style={[
+              styles.dropdown,
+              isFocus && {borderColor: 'blue', color: 'blue'},
+            ]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -303,11 +285,11 @@ const CreateRfq = () => {
         <TouchableOpacity
           onPress={NextScreen}
           style={{
-            backgroundColor: "green",
+            backgroundColor: 'green',
             padding: WP(4),
             borderRadius: WP(3),
             borderWidth: 1,
-            borderColor:"green",
+            borderColor: 'green',
             top: WP(4),
           }}>
           {LoadingRfq ? (
@@ -353,7 +335,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 0,
     paddingHorizontal: 8,
-    color:'blue'
+    color: 'blue',
   },
   icon: {
     marginRight: 5,
@@ -366,17 +348,15 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
-    color:'blue'
-
+    color: 'blue',
   },
   placeholderStyle: {
     fontSize: 16,
-    color:'black'
-
+    color: 'black',
   },
   selectedTextStyle: {
     fontSize: 16,
-    color:'black'
+    color: 'black',
   },
   iconStyle: {
     width: 20,
@@ -385,6 +365,6 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
-    color:'blue'
+    color: 'blue',
   },
 });

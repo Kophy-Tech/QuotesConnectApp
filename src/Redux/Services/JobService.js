@@ -22,26 +22,21 @@ const mygetVendorService = () => {
 const postJobService = data => {
   const {value, token} = data;
   // console.log(value, token, ' vaaaaaa')
-  return axios
-    .post(API_URL + 'job', value, {headers: {Authorization: `${token}`}})
-    .then(response => {
-      console.log(response, 'response');
+  return instance.post('/job', value).then(response => {
+    console.log(response, 'response');
 
-      return response.data;
-    });
+    return response.data;
+  });
 };
 
 const deleteJobService = data => {
   const {_id, token} = data;
   // console.log(_id, token, ' vaaaaaa')
   // console.log(API_URL + `job/${_id}`);
-  return axios
-    .delete(API_URL + `job/${_id}`, {headers: {Authorization: `${token}`}})
-    .then(response => {
-      // console.log(response, 'response')
-
-      return response.data;
-    });
+  return instance.delete(`/job/${_id}`).then(response => {
+    
+    return response.data;
+  });
 };
 
 const updateJobService = data => {
@@ -49,15 +44,11 @@ const updateJobService = data => {
   // console.log(_id,updatedData, token, ' updatedJobService')
   // console.log(API_URL + `job/${_id}`);
 
-  return axios
-    .put(API_URL + `job/${_id}`, updatedData, {
-      headers: {Authorization: `${token}`},
-    })
-    .then(response => {
-      // console.log(response, 'response')
+  return instance.put(`job/${_id}`, updatedData).then(response => {
+    // console.log(response, 'response')
 
-      return response.data;
-    });
+    return response.data;
+  });
 };
 
 const JobService = {

@@ -838,8 +838,8 @@ const SelectedVendorItem = props => {
                         <Text
                           style={{
                             marginVertical:
-                              item?.priceList?.priceArray.length > 3
-                                ? WP(10)
+                              item?.priceList?.priceArray.length >= 3
+                                ? WP(5.5)
                                 : WP(12.6),
                             paddingLeft: 3,
                             width: WP(24),
@@ -850,8 +850,8 @@ const SelectedVendorItem = props => {
                         <View
                           style={{
                             top:
-                              item?.priceList?.priceArray.length > 3
-                                ? WP(10)
+                              item?.priceList?.priceArray.length >= 3
+                                ? WP(5.5)
                                 : WP(13),
                             paddingLeft: WP(2),
                             left: WP(-5),
