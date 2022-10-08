@@ -184,8 +184,9 @@ const Login = props => {
         style={{
           position: 'absolute',
           textAlign: 'center',
-          bottom: WP(40),
+          bottom: WP(55),
           alignSelf: 'center',
+          marginVertical: Object.keys(errors).length > 0 ? -WP(10) : 0,
         }}>
         <Text>Forgot Password</Text>
       </TouchableOpacity>

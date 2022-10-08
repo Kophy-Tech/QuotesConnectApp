@@ -89,9 +89,11 @@ const CreateRfq = () => {
     const token = await AsyncStorage.getItem('user');
     if (value == null || value == '') {
       Alert.alert('Kindly fill the neccessary details');
+    } else if (moment(date).isBefore(moment(date1))) {
+      Alert.alert('The Due date must be above today');
     } else {
       const values = {
-        start_date: moment(date1).format('YYYY/MM/DD'),
+        // start_date: moment(date1).format('YYYY/MM/DD'),
         due_date: moment(date).format('YYYY/MM/DD'),
         rfq_information: text,
         job: value,
@@ -148,6 +150,7 @@ const CreateRfq = () => {
               paddingHorizontal: 10,
               flexDirection: 'row',
               alignItems: 'center',
+              // backgroundColor: 'lightgrey',
             }}>
             <View>
               <Text style={{fontSize: 16, color: 'black'}}>
@@ -155,7 +158,7 @@ const CreateRfq = () => {
               </Text>
             </View>
             <TouchableWithoutFeedback
-              onPress={() => setShow1(true)}
+              // onPress={() => setShow1(true)}
               style={{
                 justifyContent: 'flex-end',
               }}>
@@ -184,9 +187,8 @@ const CreateRfq = () => {
             Due Date*
           </Text>
 
-          <View>
-            style=
-            {{
+          <View
+            style={{
               width: WP('90%'),
               height: HP(5),
               borderWidth: 1,
@@ -197,8 +199,7 @@ const CreateRfq = () => {
               paddingHorizontal: 10,
               flexDirection: 'row',
               alignItems: 'center',
-            }}
-            >
+            }}>
             <View>
               <Text style={{fontSize: 16, color: 'black'}}>
                 {moment(date).format('DD-MM-YYYY')}

@@ -126,7 +126,6 @@ const CustomRfqflatlist = ({itemData, navigation}) => {
     }
   };
   const Item = ({item, onItemPress}) => {
-    console.log(item?.status, 'status');
 
     // useEffect(() => {
     //   const refreshToken = async () => {

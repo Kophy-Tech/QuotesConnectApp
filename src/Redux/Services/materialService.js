@@ -24,13 +24,11 @@ const deleteMaterialService = data => {
   const {_id, token} = data;
   // console.log(_id, token,data, ' vaaaaaa')
   // console.log(API_URL + `material/${_id}`);
-  return axios
-    .delete(API_URL + `material/${_id}`, {headers: {Authorization: `${token}`}})
-    .then(response => {
-      // console.log(response, 'response')
+  return instance.delete(`/material/${_id}`).then(response => {
+    // console.log(response, 'response')
 
-      return response.data;
-    });
+    return response.data;
+  });
 };
 
 const updateMaterialService = data => {

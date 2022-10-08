@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
-  Pressable
+  Pressable,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../component/Header';
@@ -71,7 +72,6 @@ const CreateVendor = props => {
     }).then(image => {
       setDocument(image);
     });
-
   };
   const [email, setemail] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -80,26 +80,24 @@ const CreateVendor = props => {
   // all our input fields are tracked with this array
   const refInputs = React.useRef([email]);
 
-  console.log(email, ' onChangeText={value => setInputValue(i, value)}')
+  console.log(email, ' onChangeText={value => setInputValue(i, value)}');
 
-  function validateEmailList(email){
-    var emails = email.split(',')
-
+  function validateEmailList(email) {
+    var emails = email.split(',');
 
     var valid = true;
-    var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regex =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     for (var i = 0; i < emails.length; i++) {
-        if( emails[i] === "" || !regex.test(emails[i].replace(/\s/g, ""))){
-            valid = false;
+      if (emails[i] === '' || !regex.test(emails[i].replace(/\s/g, ''))) {
+        valid = false;
 
-            return false
-
-            
-        }
+        return false;
+      }
     }
     return email;
-}
+  }
 
   const onSubmit = async () => {
     let rules = {
@@ -109,7 +107,7 @@ const CreateVendor = props => {
       zip_code: 'required|numeric',
       sales_rep: 'required|string',
       telephone: 'required|numeric',
-     
+
       state: 'required|string',
     };
 
@@ -123,9 +121,12 @@ const CreateVendor = props => {
       'required.state': 'The state field is required.',
       // 'required.image': 'The image field is required.',
     });
-    if (validation.fails()|| validateEmailList(...refInputs.current)==false) {
+    if (
+      validation.fails() ||
+      validateEmailList(...refInputs.current) == false
+    ) {
       setError(validation.errors.all());
-      setEmailError(true)
+      setEmailError(true);
     } else {
       dispatch(
         CreateVendorAction({
@@ -139,12 +140,13 @@ const CreateVendor = props => {
           street: street,
           city: city,
           zip_code: zip_code,
-          email:refInputs.current
+          email: refInputs.current,
         }),
       )
         .unwrap()
         .then(res => {
           props.navigation.goBack();
+          Alert.alert('Vendor Created Successfully');
           dispatch(getVendorAction());
         })
         .catch(err => {
@@ -154,78 +156,71 @@ const CreateVendor = props => {
     }
   };
 
- 
-
-console.log(validateEmailList(...refInputs.current), 'validatorjs')
+  console.log(validateEmailList(...refInputs.current), 'validatorjs');
 
   const addInput = () => {
     // add a new element in our refInputs array
-		refInputs.current.push('');
-    
-    // increase the number of inputs
-		setNumInputs(value => value + 1);
-	}
+    refInputs.current.push('');
 
-  const removeInput = (i) => {
+    // increase the number of inputs
+    setNumInputs(value => value + 1);
+  };
+
+  const removeInput = i => {
     // remove from the array by index value
-		refInputs.current.splice(i, 1)[0];
+    refInputs.current.splice(i, 1)[0];
     // decrease the number of inputs
-		setNumInputs(value => value - 1);
-	}
+    setNumInputs(value => value - 1);
+  };
 
   const setInputValue = (index, value) => {
     // first, we are storing input value to refInputs array to track them
-		const inputs = refInputs.current;
-		inputs[index] = value;
+    const inputs = refInputs.current;
+    inputs[index] = value;
     // we are also setting the text value to the input field onChangeText
-		setemail(value)
-	}
+    setemail(value);
+  };
 
   const inputs = [];
-	for (let i = 0; i < numInputs; i ++)
-	{
-		inputs.push(
-			<View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
-      <View style={{width:WP(60)}}>
-      <FormCustomInput
-                lablelText="Email*"
-                inputBorderColor={COLOR.BgColor}
-                labelTextTop={WP(3)}
-                labelText={COLOR.BgColor}
-                onChangeText={value => setInputValue(i, value)}
-                // onChangeText={value => handleInputChange('email', value)}
-              />
-      </View>
-          <View style={{width:WP(30), height:HP(13),top:HP(3), left:WP(2)}}>
-         {i==0 ? ( <FormCustomButton
-            btnTitle={'Add More'}
-            backgroundColor={COLOR.BgColor}
-            textColor={COLOR.whiteColor}
-            onPress={() => addInput(i)}
-            
-           
-           
-          />) :(
-            <FormCustomButton
-            btnTitle={'Remove'}
-            backgroundColor={'red'}
-            textColor={COLOR.whiteColor}
-            onPress={() =>removeInput(i)}
-           
-           
+  for (let i = 0; i < numInputs; i++) {
+    inputs.push(
+      <View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{width: WP(60)}}>
+          <FormCustomInput
+            lablelText="Email*"
+            inputBorderColor={COLOR.BgColor}
+            labelTextTop={WP(3)}
+            labelText={COLOR.BgColor}
+            onChangeText={value => setInputValue(i, value)}
+            // onChangeText={value => handleInputChange('email', value)}
           />
+        </View>
+        <View style={{width: WP(30), height: HP(13), top: HP(3), left: WP(2)}}>
+          {i == 0 ? (
+            <FormCustomButton
+              btnTitle={'Add More'}
+              backgroundColor={COLOR.BgColor}
+              textColor={COLOR.whiteColor}
+              onPress={() => addInput(i)}
+            />
+          ) : (
+            <FormCustomButton
+              btnTitle={'Remove'}
+              backgroundColor={'red'}
+              textColor={COLOR.whiteColor}
+              onPress={() => removeInput(i)}
+            />
           )}
-          </View>
+        </View>
         {/* To remove the input */}
-				{/* <Pressable onPress={() => removeInput(i)} style={{marginLeft: 5}}>
+        {/* <Pressable onPress={() => removeInput(i)} style={{marginLeft: 5}}>
 					<AntDesign name="minuscircleo" size={20} color="red" />
 				</Pressable> */}
-			</View>
-		);
-	}
+      </View>,
+    );
+  }
 
-
-  console.log(refInputs.current, 'refInputs.current.maprefInputs.current.map')
+  console.log(refInputs.current, 'refInputs.current.maprefInputs.current.map');
   return (
     <KeyboardAwareScrollView
       style={styles._mainContainer}
@@ -234,10 +229,8 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
       showsHorizontalScrollIndicator={false}>
       <View style={styles.vendorInputContainer}>
         <View style={{top: HP(3)}}>
-        <ScrollView style={{flex:1}} >
-            
-        </ScrollView>
-       
+          <ScrollView style={{flex: 1}}></ScrollView>
+
           <FormCustomInput
             lablelText="Company Name*"
             inputBorderColor={COLOR.BgColor}
@@ -284,8 +277,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             inputBorderColor={COLOR.BgColor}
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
-             onChangeText={value => handleInputChange('sales_rep', value)}
-            
+            onChangeText={value => handleInputChange('sales_rep', value)}
           />
           <FormCustomInput
             lablelText="Telephone Number*"
@@ -294,9 +286,7 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
             labelText={COLOR.BgColor}
             onChangeText={value => handleInputChange('telephone', value)}
           />
-           {inputs}
-
-
+          {inputs}
 
           {Object.keys(document).length == 0 ? (
             <TouchableOpacity onPress={() => pickFiles()}>
@@ -338,13 +328,14 @@ console.log(validateEmailList(...refInputs.current), 'validatorjs')
         <Text style={styles.error}>{errors.telephone}</Text>
         <Text style={styles.error}>{errors.zip_code}</Text>
         <Text style={styles.error}>{errors.sales_rep}</Text>
-        <Text style={styles.error}>{emailError&& 'Also check if the email in the email box are correct and also not empty'}</Text>
+        <Text style={styles.error}>
+          {emailError &&
+            'Also check if the email in the email box are correct and also not empty'}
+        </Text>
         {backendError.map(item => (
-          <Text  style={styles.error}>{item?.msg}</Text>
+          <Text style={styles.error}>{item?.msg}</Text>
         ))}
       </View>
-
-    
     </KeyboardAwareScrollView>
   );
 };
