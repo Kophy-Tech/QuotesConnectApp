@@ -6,7 +6,7 @@ import instance from './ApiServices';
 const API_URL = `${otherUrl}/`;
 
 const postRfQJobService = data => {
-  console.log(data, 'd999999909099999');
+  // console.log(data, 'd999999909099999');
   // console.log(value, token, ' vaaaaaa')
   return axios
     .post(API_URL + 'rfq', data?.values, {

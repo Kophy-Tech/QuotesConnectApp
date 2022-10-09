@@ -65,7 +65,7 @@ export const postRfqVendor = createAsyncThunk(
     try {
       return await RfqService.postRfQVendorService(data);
     } catch (error) {
-      console.log(error, 'error');
+      console.log(error, 'error rfq ');
       const {message} = error;
       // console.log(error.response.data || message)
 

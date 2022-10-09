@@ -99,19 +99,20 @@ const CreateRfq = () => {
       const dataJob = {
         token,
         values,
-        navigation,
+    
       };
       dispatch(postRfqJob(dataJob))
         .unwrap()
         .then(res => {
-          // console.log(res.status, '8585858588');
+          console.log(res, '8585858588');
           if (res.status === 201) {
             navigation.navigate('requestforrfq', {params: token});
           }
         })
         .catch(err => {
+          console.log(err, 'error from submit')
           // console.log(err.message, 'error from postrfqjob');
-          // Alert.alert(`${err.message}`);
+          Alert.alert(`${err}`);
         });
 
       // navigation.navigate('requestforrfq')
