@@ -144,7 +144,7 @@ const CreateRfq = () => {
               height: HP(5),
               borderWidth: 1,
               borderColor: 'blue',
-              alignSelf: 'center',
+              alibgnSelf: 'center',
               marginTop: WP(10),
               justifyContent: 'space-between',
               paddingHorizontal: 10,
