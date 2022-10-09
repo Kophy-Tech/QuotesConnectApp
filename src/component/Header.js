@@ -6,12 +6,30 @@ import {useNavigation} from '@react-navigation/native';
 import {HStack, Text, Box, Avatar, Flex} from 'native-base';
 
 import UserDetailsHoc from '../hoc/UserDetails';
-import { acronym } from '../Utils/util';
+import {acronym} from '../Utils/util';
+import {WP} from '../Utils/theme';
+import {useDispatch} from 'react-redux';
+import {logout} from '../Redux/Slice/AuthSlice';
 const Header = props => {
   const {profile = {}} = props;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  
+  const Logouts = () => {
+    // dispatch(logout());
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        navigation.navigate('Auth', {
+          screen: 'Login',
+        });
+      })
+      .catch(rejectedValueOrSerializedError => {
+        console.log(rejectedValueOrSerializedError, 'Auth');
+        // console.log(rejectedValueOrSerializedError, 'rejecteddd');
+      });
+  };
+
   return (
     <>
       {/* <Box safeAreaTop bg="#6200ee" /> */}
@@ -40,8 +58,10 @@ const Header = props => {
         </TouchableOpacity>
 
         <HStack>
-          <TouchableOpacity onPress={() => navigation.navigate('notification')}>
-            {/* <Icon name="bell-badge" size={35} color="#5080FA" /> */}
+          <TouchableOpacity
+            onPress={() => Logouts()}
+            style={{backgroundColor: '#5080FA', padding: 5, marginLeft: WP(3)}}>
+            <Text style={{color: 'white'}}>{'Logout'}</Text>
           </TouchableOpacity>
         </HStack>
       </HStack>

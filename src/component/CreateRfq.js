@@ -101,7 +101,6 @@ const CreateRfq = () => {
       const dataJob = {
         token,
         values,
-    
       };
       dispatch(postRfqJob(dataJob))
         .unwrap()
@@ -112,7 +111,7 @@ const CreateRfq = () => {
           }
         })
         .catch(err => {
-          console.log(err, 'error from submit')
+          console.log(err, 'error from submit');
           // console.log(err.message, 'error from postrfqjob');
           Alert.alert(`${err}`);
         });
@@ -151,6 +150,7 @@ const CreateRfq = () => {
               paddingHorizontal: 10,
               flexDirection: 'row',
               alignItems: 'center',
+              marginLeft: WP(4),
               // backgroundColor: 'lightgrey',
             }}>
             <View>

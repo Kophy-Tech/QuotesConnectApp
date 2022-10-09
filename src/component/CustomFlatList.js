@@ -175,7 +175,6 @@ const styles = StyleSheet.create({
   },
   textLineItem1: {
     fontSize: 16,
-    fontWeight: 'bold',
     color: ColorText,
     textAlign: 'center',
     left: WP(4),
