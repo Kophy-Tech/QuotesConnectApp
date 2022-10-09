@@ -27,6 +27,8 @@ export const postRfqJob = createAsyncThunk(
     try {
       return await RfqService.postRfQJobService(data);
     } catch (error) {
+      console.log(error.response.status, 'status');
+
       console.log(error.response.data, 'error');
       const {message} = error;
       // console.log(error.response.data || message)

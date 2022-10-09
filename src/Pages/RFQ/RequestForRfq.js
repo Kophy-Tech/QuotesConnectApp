@@ -291,7 +291,7 @@ const RequestForRfq = props => {
     //  console.log(error, 'error')
 
     if (value.length === 0) {
-      Alert.alert('Create Material');
+      Alert.alert('Kindly select a material');
     } else {
       const dataSend = value.map(
         ({name, description, quantity, unit, query}) => {

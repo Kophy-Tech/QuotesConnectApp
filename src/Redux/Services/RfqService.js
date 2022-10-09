@@ -6,15 +6,14 @@ import instance from './ApiServices';
 const API_URL = `${otherUrl}/`;
 
 const postRfQJobService = data => {
+<<<<<<< HEAD
   // console.log(data, 'd999999909099999');
+=======
+>>>>>>> 7baf30625a9f1aa61346b073555ac9500709185c
   // console.log(value, token, ' vaaaaaa')
-  return axios
-    .post(API_URL + 'rfq', data?.values, {
-      headers: {Authorization: `${data?.token}`},
-    })
-    .then(response => {
-      return response;
-    });
+  return instance.post('/rfq', data?.values).then(response => {
+    return response;
+  });
 };
 
 const getRfQJobService = token => {

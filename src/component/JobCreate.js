@@ -149,7 +149,7 @@ const JobCreate = () => {
             lablelText="Zip Code"
             labelTextColor={COLOR.BgColor}
             onChangeText={value => handleInputChange('zip_code', value)}
-            value={value.street}
+            value={value.zip_code}
           />
           {/* <InputForm
             title="Zip Code"
@@ -166,7 +166,7 @@ const JobCreate = () => {
             borderColor={COLOR.BgColor}
             borderWidth={WP(0.3)}
             btnTitle="Create"
-            backgroundColor={COLOR.BgColor}
+            backgroundColor={'green'}
             textColor={COLOR.whiteColor}
             onPress={subJob}
           />

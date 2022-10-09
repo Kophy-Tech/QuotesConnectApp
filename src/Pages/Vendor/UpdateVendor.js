@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
-  Pressable
+  Pressable,
+  Alert
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../component/Header';
@@ -29,7 +30,11 @@ import {ErrorDisplay} from '../../Utils/util';
 
 Validator.setMessages('en', en);
 const UpdateVendor = props => {
-  const {route:{params:{item}}}=props;
+  const {
+    route: {
+      params: {item},
+    },
+  } = props;
   const [errors, setError] = useState({});
   const [backendError, setBackendError] = useState([]);
   const {navigation} = props;
@@ -42,7 +47,7 @@ const UpdateVendor = props => {
   }, [navigation]);
 
   const [value, setValues] = useState({
-    id:item?._id,
+    id: item?._id,
     name: item?.name,
     street: item?.street,
     city: item?.city,
@@ -77,35 +82,30 @@ const UpdateVendor = props => {
     }).then(image => {
       setDocument(image);
     });
-
   };
-  const [email, setemail] = useState("omidio@gmail.com");
+  const [email, setemail] = useState('omidio@gmail.com');
   const [emailError, setEmailError] = useState(false);
   // our number of inputs, we can add the length or decrease the length
   const [numInputs, setNumInputs] = useState(1);
   // all our input fields are tracked with this array
   const refInputs = React.useRef([email]);
 
-
-
-  function validateEmailList(email){
-    var emails = email.split(',')
-
+  function validateEmailList(email) {
+    var emails = email.split(',');
 
     var valid = true;
-    var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regex =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     for (var i = 0; i < emails.length; i++) {
-        if( emails[i] === "" || !regex.test(emails[i].replace(/\s/g, ""))){
-            valid = false;
+      if (emails[i] === '' || !regex.test(emails[i].replace(/\s/g, ''))) {
+        valid = false;
 
-            return false
-
-            
-        }
+        return false;
+      }
     }
     return email;
-}
+  }
 
   const onUpdate = async () => {
     let rules = {
@@ -115,7 +115,7 @@ const UpdateVendor = props => {
       zip_code: 'required|numeric',
       sales_rep: 'required|string',
       telephone: 'required|numeric',
-     
+
       state: 'required|string',
     };
 
@@ -131,11 +131,11 @@ const UpdateVendor = props => {
     });
     if (validation.fails()) {
       setError(validation.errors.all());
-      setEmailError(true)
+      setEmailError(true);
     } else {
       dispatch(
         UpdateVendorAction({
-          id:id,
+          id: id,
           logo: document.path,
           name: name,
           description: city,
@@ -145,11 +145,12 @@ const UpdateVendor = props => {
           street: street,
           city: city,
           zip_code: zip_code,
-          emails:refInputs.current
+          emails: refInputs.current,
         }),
       )
         .unwrap()
         .then(res => {
+          Alert.alert('Successfully Updated');
           props.navigation.goBack();
           dispatch(getVendorAction());
         })
@@ -160,10 +161,10 @@ const UpdateVendor = props => {
     }
   };
 
- 
-  const onDelete=()=>{
-    dispatch( DeleteVendorAction({
-        id:id,
+  const onDelete = () => {
+    dispatch(
+      DeleteVendorAction({
+        id: id,
         logo: document.path,
         name: name,
         description: city,
@@ -173,92 +174,82 @@ const UpdateVendor = props => {
         street: street,
         city: city,
         zip_code: zip_code,
-        emails:refInputs.current
-      }) 
-    ).unwrap()
-    .then(res => {
-      dispatch(getVendorAction());
-      props.navigation.goBack();
-      
-    })
-    .catch(err => {
-      console.log(err?.error);
-      // setBackendError(err?.error);
-    })
-    
-
-  }
-
+        emails: refInputs.current,
+      }),
+    )
+      .unwrap()
+      .then(res => {
+        dispatch(getVendorAction());
+        props.navigation.goBack();
+      })
+      .catch(err => {
+        console.log(err?.error);
+        // setBackendError(err?.error);
+      });
+  };
 
   const addInput = () => {
     // add a new element in our refInputs array
-		refInputs.current.push('');
-    
-    // increase the number of inputs
-		setNumInputs(value => value + 1);
-	}
+    refInputs.current.push('');
 
-  const removeInput = (i) => {
+    // increase the number of inputs
+    setNumInputs(value => value + 1);
+  };
+
+  const removeInput = i => {
     // remove from the array by index value
-		refInputs.current.splice(i, 1)[0];
+    refInputs.current.splice(i, 1)[0];
     // decrease the number of inputs
-		setNumInputs(value => value - 1);
-	}
+    setNumInputs(value => value - 1);
+  };
 
   const setInputValue = (index, value) => {
     // first, we are storing input value to refInputs array to track them
-		const inputs = refInputs.current;
-		inputs[index] = value;
+    const inputs = refInputs.current;
+    inputs[index] = value;
     // we are also setting the text value to the input field onChangeText
-		setemail(value)
-	}
+    setemail(value);
+  };
 
   const inputs = [];
-	for (let i = 0; i < numInputs; i ++)
-	{
-		inputs.push(
-			<View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
-      <View style={{width:WP(60)}}>
-      <FormCustomInput
-                lablelText="Email*"
-                inputBorderColor={COLOR.BgColor}
-                labelTextTop={WP(3)}
-                labelText={COLOR.BgColor}
-                onChangeText={value => setInputValue(i, value)}
-                value={refInputs.current[i]}
-                // onChangeText={value => handleInputChange('email', value)}
-              />
-      </View>
-          <View style={{width:WP(30), height:HP(13),top:HP(3), left:WP(2)}}>
-         {i==0 ? ( <FormCustomButton
-            btnTitle={'Add More'}
-            backgroundColor={COLOR.BgColor}
-            textColor={COLOR.whiteColor}
-            onPress={() => addInput(i)}
-           
-            
-           
-           
-          />) :(
-            <FormCustomButton
-            btnTitle={'Remove'}
-            backgroundColor={'red'}
-            textColor={COLOR.whiteColor}
-            onPress={() =>removeInput(i)}
-            
-           
-           
+  for (let i = 0; i < numInputs; i++) {
+    inputs.push(
+      <View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{width: WP(60)}}>
+          <FormCustomInput
+            lablelText="Email*"
+            inputBorderColor={COLOR.BgColor}
+            labelTextTop={WP(3)}
+            labelText={COLOR.BgColor}
+            onChangeText={value => setInputValue(i, value)}
+            value={refInputs.current[i]}
+            // onChangeText={value => handleInputChange('email', value)}
           />
+        </View>
+        <View style={{width: WP(30), height: HP(13), top: HP(3), left: WP(2)}}>
+          {i == 0 ? (
+            <FormCustomButton
+              btnTitle={'Add More'}
+              backgroundColor={COLOR.BgColor}
+              textColor={COLOR.whiteColor}
+              onPress={() => addInput(i)}
+            />
+          ) : (
+            <FormCustomButton
+              btnTitle={'Remove'}
+              backgroundColor={'red'}
+              textColor={COLOR.whiteColor}
+              onPress={() => removeInput(i)}
+            />
           )}
-          </View>
+        </View>
         {/* To remove the input */}
-				{/* <Pressable onPress={() => removeInput(i)} style={{marginLeft: 5}}>
+        {/* <Pressable onPress={() => removeInput(i)} style={{marginLeft: 5}}>
 					<AntDesign name="minuscircleo" size={20} color="red" />
 				</Pressable> */}
-			</View>
-		);
-	}
-
+      </View>,
+    );
+  }
 
   return (
     <KeyboardAwareScrollView
@@ -268,10 +259,8 @@ const UpdateVendor = props => {
       showsHorizontalScrollIndicator={false}>
       <View style={styles.vendorInputContainer}>
         <View style={{top: HP(3)}}>
-        <ScrollView style={{flex:1}} >
-            
-        </ScrollView>
-       
+          <ScrollView style={{flex: 1}}></ScrollView>
+
           <FormCustomInput
             lablelText="Company Name*"
             inputBorderColor={COLOR.BgColor}
@@ -323,9 +312,8 @@ const UpdateVendor = props => {
             inputBorderColor={COLOR.BgColor}
             labelTextTop={WP(3)}
             labelText={COLOR.BgColor}
-             onChangeText={value => handleInputChange('sales_rep', value)}
-             value={value?.sales_rep}
-            
+            onChangeText={value => handleInputChange('sales_rep', value)}
+            value={value?.sales_rep}
           />
           <FormCustomInput
             lablelText="Telephone Number*"
@@ -335,9 +323,7 @@ const UpdateVendor = props => {
             onChangeText={value => handleInputChange('telephone', value)}
             value={value?.telephone}
           />
-           {inputs}
-
-
+          {inputs}
 
           {Object.keys(document).length == 0 ? (
             <TouchableOpacity onPress={() => pickFiles()}>
@@ -361,16 +347,19 @@ const UpdateVendor = props => {
           )}
         </View>
 
-        <View style={{top: WP(13) ,flexDirection:'row',justifyContent:'space-between'}}>
-        <FormCustomButton
+        <View
+          style={{
+            top: WP(13),
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <FormCustomButton
             btnTitle={'Delete'}
-            textColor={"#FD5757"}
-            
+            textColor={'#FD5757'}
             borderWidth={WP(0.1)}
             borderColor={'red'}
-            onPress={()=>onDelete()}
+            onPress={() => onDelete()}
           />
-
 
           <FormCustomButton
             btnTitle={isLoading ? <ActivityIndicator color="#fff" /> : 'Update'}
@@ -378,8 +367,6 @@ const UpdateVendor = props => {
             textColor={COLOR.whiteColor}
             onPress={() => onUpdate()}
           />
-
-         
         </View>
       </View>
 
@@ -391,13 +378,14 @@ const UpdateVendor = props => {
         <Text style={styles.error}>{errors.telephone}</Text>
         <Text style={styles.error}>{errors.zip_code}</Text>
         <Text style={styles.error}>{errors.sales_rep}</Text>
-        <Text style={styles.error}>{emailError&& 'Also check if the email in the email box are correct and also not empty'}</Text>
+        <Text style={styles.error}>
+          {emailError &&
+            'Also check if the email in the email box are correct and also not empty'}
+        </Text>
         {backendError.map(item => (
-          <Text  style={styles.error}>{item?.msg}</Text>
+          <Text style={styles.error}>{item?.msg}</Text>
         ))}
       </View>
-
-    
     </KeyboardAwareScrollView>
   );
 };
