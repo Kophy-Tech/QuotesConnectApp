@@ -135,7 +135,7 @@ const CreateRfq = () => {
 
               fontSize: WP(4.5),
             }}>
-            Create Date*
+            Start Date*
           </Text>
 
           <View
@@ -155,7 +155,7 @@ const CreateRfq = () => {
             }}>
             <View>
               <Text style={{fontSize: 16, color: 'black'}}>
-                {moment(date1).format('DD-MM-YYYY')}
+                {moment().format('DD-MM-YYYY')}
               </Text>
             </View>
             <TouchableWithoutFeedback
@@ -163,18 +163,18 @@ const CreateRfq = () => {
               style={{
                 justifyContent: 'flex-end',
               }}>
-              <Icon name="date-range" size={35} color={COLOR.BgColor} />
+              {/* <Icon name="date-range" size={35} color={COLOR.BgColor} /> */}
             </TouchableWithoutFeedback>
           </View>
         </View>
       </>
-      {show1 && (
+      {/* {show1 && (
         <DateTimePicker
           testID="dateTimePicker"
           value={date1}
           onChange={onChange1}
         />
-      )}
+      )} */}
       <>
         <View>
           <Text
