@@ -40,6 +40,9 @@ const UpdateVendor = props => {
   const {navigation} = props;
   const [document, setDocument] = useState({});
   const {isLoading} = useSelector(state => state.vendor);
+  const [updateLoading, setupdateLoading] = useState(false)
+  const [deleteLoading, setdeleteLoading] = useState(false)
+
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -133,6 +136,7 @@ const UpdateVendor = props => {
       setError(validation.errors.all());
       setEmailError(true);
     } else {
+      setupdateLoading(true)
       dispatch(
         UpdateVendorAction({
           id: id,
@@ -151,17 +155,21 @@ const UpdateVendor = props => {
         .unwrap()
         .then(res => {
           Alert.alert('Successfully Updated');
+          setupdateLoading(false)
           props.navigation.goBack();
           dispatch(getVendorAction());
         })
         .catch(err => {
           console.log(err?.error);
+          setupdateLoading(false)
+
           // setBackendError(err?.error);
         });
     }
   };
 
   const onDelete = () => {
+    setdeleteLoading(true)
     dispatch(
       DeleteVendorAction({
         id: id,
@@ -179,11 +187,14 @@ const UpdateVendor = props => {
     )
       .unwrap()
       .then(res => {
+        setdeleteLoading(false)
         dispatch(getVendorAction());
         props.navigation.goBack();
       })
       .catch(err => {
         console.log(err?.error);
+        setdeleteLoading(false)
+
         // setBackendError(err?.error);
       });
   };
@@ -354,7 +365,7 @@ const UpdateVendor = props => {
             justifyContent: 'space-between',
           }}>
           <FormCustomButton
-            btnTitle={'Delete'}
+            btnTitle={deleteLoading? <ActivityIndicator color="red" /> :'Delete'}
             textColor={'#FD5757'}
             borderWidth={WP(0.1)}
             borderColor={'red'}
@@ -362,7 +373,7 @@ const UpdateVendor = props => {
           />
 
           <FormCustomButton
-            btnTitle={isLoading ? <ActivityIndicator color="#fff" /> : 'Update'}
+            btnTitle={updateLoading? <ActivityIndicator color="#fff" /> : 'Update'}
             backgroundColor={COLOR.BgColor}
             textColor={COLOR.whiteColor}
             onPress={() => onUpdate()}

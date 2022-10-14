@@ -161,7 +161,7 @@ const EditMaterial = ({route}) => {
               }}>
               <Icon name="delete-forever" size={50} color={COLOR.BgColor} />
               <Text style={styles.modalText}>
-                Are you sure you want to Delete
+                Are you sure you want to delete the Material?
               </Text>
             </View>
 
@@ -216,7 +216,7 @@ const EditMaterial = ({route}) => {
               }}>
               <Icon name="update" size={50} color={COLOR.BgColor} />
               <Text style={styles.modalText}>
-                Are you sure you want to update job
+                Are you sure you want to update the Material?
               </Text>
             </View>
 

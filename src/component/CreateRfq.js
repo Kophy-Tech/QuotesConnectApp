@@ -25,9 +25,9 @@ import {BgColor} from '../Utils/Colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CreateRfq = () => {
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [date1, setDate1] = useState(new Date(1598051730000));
+  const [date1, setDate1] = useState(new Date());
   const [show1, setShow1] = useState(false);
   const {isLoading: LoadingRfq, message: messageRfq} = useSelector(
     rfq => rfq.rfq,
@@ -159,7 +159,7 @@ const CreateRfq = () => {
               </Text>
             </View>
             <TouchableWithoutFeedback
-              // onPress={() => setShow1(true)}
+              onPress={() => setShow1(true)}
               style={{
                 justifyContent: 'flex-end',
               }}>

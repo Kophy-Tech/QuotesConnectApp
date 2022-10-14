@@ -159,7 +159,7 @@ const DetailMaterials = props => {
       <FlatList
         ListEmptyComponent={<EmptyContainer />}
         data={props?.route?.params?.itemParams?.description}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item?.id}
         refreshing={true}
         extraData={props?.route?.params?.itemParams?.description}
         contentContainerStyle={{paddingBottom: WP(65)}}

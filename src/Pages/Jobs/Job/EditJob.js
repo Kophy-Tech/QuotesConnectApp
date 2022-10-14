@@ -109,10 +109,10 @@ const EditJob = ({route}) => {
             contentContainerStyle={{paddingBottom: WP(15)}}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}>
-            <Box mb="4" mt="5">
+            {/* <Box mb="4" mt="5">
               <Text style={styles.heading}>Edit Job</Text>
-            </Box>
-            <Box mb="2">
+            </Box> */}
+            <Box mb="2" mt="4">
               <InputForm
                 title="Project Name"
                 name="name"
@@ -208,7 +208,7 @@ const EditJob = ({route}) => {
               }}>
               <Icon name="delete-forever" size={50} color={COLOR.BgColor} />
               <Text style={styles.modalText}>
-                Are you sure you want to Delete
+                Are you sure you want to delete the Primary Category?
               </Text>
             </View>
 
@@ -263,7 +263,7 @@ const EditJob = ({route}) => {
               }}>
               <Icon name="update" size={50} color={COLOR.BgColor} />
               <Text style={styles.modalText}>
-                Are you sure you want to update job
+                Are you sure you want to update the Primary Category?
               </Text>
             </View>
 
