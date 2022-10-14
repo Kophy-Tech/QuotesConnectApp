@@ -380,7 +380,7 @@ function BottomStack() {
               RFQ History
             </Text>
           ),
-          headerLeft: () => <BackIcon />,
+          headerLeft: () =>null,
           headerTitleAlign: 'center',
         }}
       />
