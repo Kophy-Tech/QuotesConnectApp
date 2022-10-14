@@ -101,7 +101,6 @@ const CreateRfq = () => {
       const dataJob = {
         token,
         values,
-    
       };
       dispatch(postRfqJob(dataJob))
         .unwrap()
@@ -112,7 +111,7 @@ const CreateRfq = () => {
           }
         })
         .catch(err => {
-          console.log(err, 'error from submit')
+          console.log(err, 'error from submit');
           // console.log(err.message, 'error from postrfqjob');
           Alert.alert(`${err}`);
         });
@@ -136,7 +135,7 @@ const CreateRfq = () => {
 
               fontSize: WP(4.5),
             }}>
-            Create Date*
+            Start Date*
           </Text>
 
           <View
@@ -145,17 +144,18 @@ const CreateRfq = () => {
               height: HP(5),
               borderWidth: 1,
               borderColor: 'blue',
-              alignSelf: 'center',
+              alibgnSelf: 'center',
               marginTop: WP(10),
               justifyContent: 'space-between',
               paddingHorizontal: 10,
               flexDirection: 'row',
               alignItems: 'center',
+              marginLeft: WP(4),
               // backgroundColor: 'lightgrey',
             }}>
             <View>
               <Text style={{fontSize: 16, color: 'black'}}>
-                {moment(date1).format('DD-MM-YYYY')}
+                {moment().format('DD-MM-YYYY')}
               </Text>
             </View>
             <TouchableWithoutFeedback
@@ -163,18 +163,18 @@ const CreateRfq = () => {
               style={{
                 justifyContent: 'flex-end',
               }}>
-              <Icon name="date-range" size={35} color={COLOR.BgColor} />
+              {/* <Icon name="date-range" size={35} color={COLOR.BgColor} /> */}
             </TouchableWithoutFeedback>
           </View>
         </View>
       </>
-      {show1 && (
+      {/* {show1 && (
         <DateTimePicker
           testID="dateTimePicker"
           value={date1}
           onChange={onChange1}
         />
-      )}
+      )} */}
       <>
         <View>
           <Text

@@ -170,7 +170,17 @@ const Login = props => {
               onPress={() => onSubmit()}
               inputBorderColor={COLOR.BgColor}
               btnTitle={
-                loading ? <ActivityIndicator small color="#fff" /> : 'Login'
+                loading ? (
+                  <View>
+                    <ActivityIndicator
+                      small
+                      color="#fff"
+                      style={{left: WP(35)}}
+                    />
+                  </View>
+                ) : (
+                  'Login'
+                )
               }
               backgroundColor={COLOR.BgColor}
               textColor={COLOR.whiteColor}

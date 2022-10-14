@@ -179,6 +179,6 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   textColor: {
-    color: COLOR.blackColor,
+    color: ColorText,
   },
 });
